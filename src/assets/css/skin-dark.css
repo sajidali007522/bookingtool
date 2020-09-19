@@ -1,0 +1,58 @@
+/* SearchResult start */
+body.theme-dark .reservation-sidebar{
+  color:#fff;
+  background: #09425d;
+  box-shadow: 0 1px 20px 0 rgba(174, 195, 204, 0.22);
+}
+body.theme-dark .reservation-sidebar .accordon-heading a,
+body.theme-dark .reservation-sidebar .accordon-heading a:before,
+body.theme-dark .reservation-sidebar .accordon-heading a.icon-contain,
+body.theme-dark .label-num{
+  color: #fff !important;
+}
+body.theme-dark .icon-price:after{background: url(../images/reservation/icon-tag-white.png) no-repeat;}
+body.theme-dark .icon-departure:after{background: url(../images/reservation/icon-departure-white.png) no-repeat;}
+body.theme-dark .icon-arrival:after{background: url(../images/reservation/icon-arrival-white.png) no-repeat;}
+body.theme-dark .icon-time:after{background: url(../images/reservation/icon-time-white.png) no-repeat;}
+body.theme-dark .ng5-slider .ng5-slider-bubble{
+  color: #ccc;
+}
+body.theme-dark .reservation-content-area .box,
+body.theme-dark .article-content-booking{
+  background: #09425d;
+  color: #fff;
+}
+body.theme-dark .selection-table.table th, 
+body.theme-dark .selection-table.table td,
+body.theme-dark .content-booking-left,
+body.theme-dark .content-booking-left h3,
+body.theme-dark .display-detail{
+  color:#fff;
+}
+body.theme-dark .table-price-tickets.table a,
+body.theme-dark .selection-table.table th h4,
+body.theme-dark .selection-table.table td h4{
+  color:#fff !important;
+}
+body.theme-dark .booking-time ul li{
+  background: url(../images/reservation/arrow-right-white.svg) right center no-repeat  !important;
+}
+/* SearchResult end */
+
+
+/* house keeping */
+.theme-dark .filter-section,
+.theme-dark .filter-transparent .form-control{
+    background: #2589b9 !important;
+    border-color: #2589b9 !important;
+}
+.theme-dark .filter-section label,
+.theme-dark .filter-transparent .form-control{
+    color: #fff !important;
+}
+.theme-dark .filters-outer{
+  border-color: #373737 !important;
+}
+.theme-dark .filters-view-sm a{
+  background: #373737 !important;
+}

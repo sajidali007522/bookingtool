@@ -1,0 +1,110 @@
+.theme-light .btn-success{
+  background: #5bc0ed;
+  border-color: #5bc0ed;
+}
+.theme-light .logo{
+    background: #ededed;
+    -moz-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+    -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+}
+.theme-light .row-custom:before{
+  background: #fff;
+  -moz-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+  -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+  box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+}
+.theme-light .header-wrap{
+  background: #fff;
+}
+.theme-light .logo a{
+  color: #222;
+}
+.theme-light .header-right > ul > li{
+  color: #222;
+}
+.theme-light .header-right > ul > li > a{
+  color: #222;
+}
+.theme-light .menu-icon,
+.theme-light .menu-icon:hover{
+  color: #222;
+}
+.theme-light .sidebar ul a{
+  color: #222;
+}
+.theme-light .sidebar ul a:hover{
+  background: #e7f8ff;
+  color: #000;
+}
+.theme-light .sidebar::-webkit-scrollbar-track {background: #ededed;}
+.theme-light .sidebar::-webkit-scrollbar-thumb {background: #ddd; }
+.theme-light{
+}
+
+.theme-light .navbar-light .navbar-nav .nav-link{
+  color: #222 !important;
+}
+.theme-light .navbar-expand-lg .navbar-nav .dropdown-menu{
+  background: #fff !important;
+  box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.12);
+}
+.theme-light .navbar-expand-lg .navbar-nav .dropdown-item{
+  color: #222 !important;
+}
+.theme-light .navbar-expand-lg .navbar-nav .dropdown-item:hover{
+  background: #e7f8ff !important;
+  color:#000;
+  font-weight: 600;
+} 
+/* end header */
+
+.theme-dark-blue .bs-datepicker-body table td span.selected, 
+.theme-dark-blue .bs-datepicker-body table td.selected span, 
+.theme-dark-blue .bs-datepicker-body table td span[class*="select-"]:after, 
+.theme-dark-blue .bs-datepicker-body table td[class*="select-"] span:after,
+.theme-green .bs-datepicker-body table td span.selected, 
+.theme-green .bs-datepicker-body table td.selected span, 
+.theme-green .bs-datepicker-body table td span[class*="select-"]:after, 
+.theme-green .bs-datepicker-body table td[class*="select-"] span:after{
+  background: #09425d;
+  background-image: linear-gradient(#09425d, #3f7892);
+}
+
+
+.theme-light .custom-accordion .accordion-link{
+    background: #5bc0ed;
+}
+.theme-light .custom-accordion > h3 a{
+  background: #e7f8ff;
+  color: #212529;
+}
+.theme-light .custom-control-input:checked~.custom-control-label::before{
+    background: #5bc0ed;
+    border-color: #5bc0ed;
+}
+.theme-light .fileUpload{
+  background: #5bc0ed;
+}
+.theme-light .fileUpload:hover{
+  background: #09425d;
+}
+.theme-light .table-home th{
+  background: #fff !important;
+  color: #222 !important;
+}
+
+
+/* for background's */
+.theme-light .filters-view-sm a{
+  background: #5bc0ed !important;
+}
+
+@media(max-width:991px){
+  .theme-light .nav-wrap{
+    background:#fff !important;
+  }
+  .theme-light .navbar-light .navbar-toggler{
+    color: #222 !important;
+  }
+}

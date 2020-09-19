@@ -1,0 +1,20 @@
+<app-header></app-header>
+
+<div class="container-fluid dashboard-wrap">
+  <div class="wrapper">
+    <div class="row row-custom">
+      <div class="col-sm-3">
+        <app-side-nav></app-side-nav>
+      </div>
+      <div class="col-sm-9 main-content-area">
+        <div hidden="{{loading}}" class="loadingDiv">
+          Loading Content....................
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<app-footer></app-footer>

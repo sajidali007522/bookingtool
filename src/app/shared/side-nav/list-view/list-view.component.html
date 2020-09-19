@@ -1,0 +1,21 @@
+<ul *ngIf="nodes" >
+  <li *ngFor="let node of nodes">
+    <a *ngIf="node.hasChildren" href="#" (click)="node.open= !node.open; myCallback(node, $event)">
+      <span *ngIf="node.hasChildren && !node.isLoading"
+            [ngClass]="{'fa-caret-right' : !node.open, 'fa-caret-down' : node.open }"
+            class="fa">
+      </span> {{ node.name}}
+      <span class="fa fa-spin fa-spinner" *ngIf="node.isLoading && node.hasChildren"></span>
+    </a>
+    <a *ngIf="!node.hasChildren" routerLink="{{'/products/'+node.id}}" (click)="node.open= !node.open; myCallback(node, $event)">
+      {{ node.name}}
+    </a>
+      <app-list-view *ngIf="node.children.length && node.open"
+                     [nodes]="node.children"
+                     [myCallback] = "myCallback.bind(this)">
+      </app-list-view>
+  </li>
+</ul>
+<ul *ngIf="!nodes">
+  <li><a href="#">LoadingCategories... <span class="fa fa-spin fa-spinner"></span></a></li>
+</ul>

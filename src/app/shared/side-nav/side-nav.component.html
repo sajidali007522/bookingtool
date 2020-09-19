@@ -1,0 +1,3 @@
+<div class="sidebar" [ngStyle]="{background: (custom_configs.sidebar_bg ? custom_configs.sidebar_bg : '')}">
+<app-list-view [nodes]="categories" [myCallback]="loadSubCategories.bind(this)"></app-list-view>
+</div>

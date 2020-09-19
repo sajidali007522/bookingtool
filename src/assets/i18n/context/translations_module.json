@@ -1,0 +1,19 @@
+{
+  "title": "box header title",
+  "filters": {
+    "filter_1": "filter label one",
+    "filter_2": "filter label two",
+    "filter_3": "filter label three",
+    "filter_4": "filter label four"
+  },
+  "forms": {
+    "field_1": "field label one",
+    "field_2": "field label two",
+    "field_3": "field label three",
+    "field_4": "field label four",
+    "field_5": "field label five",
+    "field_6": "field label six",
+    "field_7": "field label seven",
+    "field_8": "field label 8"
+  }
+}

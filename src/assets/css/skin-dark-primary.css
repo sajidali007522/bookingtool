@@ -1,0 +1,198 @@
+.theme-dark-primary{
+  background: #1f2227;
+}
+.theme-dark-primary .btn-success{
+  background: #15191c;
+  border-color: #15191c;
+}
+.theme-dark-primary .logo{
+    background: #15191c;
+    -moz-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+    -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+}
+.theme-dark-primary .row-custom:before{
+  background: #15191c;
+  -moz-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+  -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+  box-shadow: 0 1px 20px 0 rgba(174, 195, 204, 0.22);
+}
+.theme-dark-primary .header-wrap{
+  background: #1f2227;
+  border-bottom: 1px solid #474a4f;
+}
+.theme-dark-primary .logo a{
+  color: #fff;
+}
+.theme-dark-primary .header-right > ul > li{
+  color: #fff;
+}
+.theme-dark-primary .header-right > ul > li > a{
+  color: #fff;
+}
+.theme-dark-primary .menu-icon,
+.theme-dark-primary .menu-icon:hover{
+  color: #fff;
+}
+.theme-dark-primary .sidebar ul a{
+  color: #fff;
+}
+.theme-dark-primary .sidebar ul a:hover{
+  background: #e7f8ff;
+  color: #000;
+}
+.theme-dark-primary .sidebar::-webkit-scrollbar-track {background: #ededed;}
+.theme-dark-primary .sidebar::-webkit-scrollbar-thumb {background: #ddd; }
+.theme-dark-primary .header-right .has-dropdown > .dropdown-menu-wrap{
+  background: #292e32;
+}
+.theme-dark-primary .header-right .dropdown-menu-wrap li a{
+  color: #fff;
+}
+.theme-dark-primary .header-right .dropdown-menu-wrap li a:hover{
+  background: #000;
+  color: #fff;
+}
+.theme-dark-primary .header-right .has-dropdown > ul:before{
+  border-top-color: #292e32;
+  border-left-color: #292e32;
+}
+
+.theme-dark-primary .navbar-light .navbar-nav .nav-link{
+  color: #fff !important;
+}
+.theme-dark-primary .navbar-expand-lg .navbar-nav .dropdown-menu{
+  background: #292e32 !important;
+  box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.12);
+}
+.theme-dark-primary .navbar-expand-lg .navbar-nav .dropdown-item{
+  color: #fff !important;
+}
+.theme-dark-primary .navbar-expand-lg .navbar-nav .dropdown-item:hover{
+  background: #000 !important;
+  color:#fff !important;
+  font-weight: 600;
+} 
+/* end header */
+
+.theme-dark-blue .bs-datepicker-body table td span.selected, 
+.theme-dark-blue .bs-datepicker-body table td.selected span, 
+.theme-dark-blue .bs-datepicker-body table td span[class*="select-"]:after, 
+.theme-dark-blue .bs-datepicker-body table td[class*="select-"] span:after,
+.theme-green .bs-datepicker-body table td span.selected, 
+.theme-green .bs-datepicker-body table td.selected span, 
+.theme-green .bs-datepicker-body table td span[class*="select-"]:after, 
+.theme-green .bs-datepicker-body table td[class*="select-"] span:after{
+  background: #09425d;
+  background-image: linear-gradient(#09425d, #3f7892);
+}
+
+
+.theme-dark-primary .custom-accordion .accordion-link{
+    background: #292e32;
+}
+.theme-dark-primary .custom-accordion > h3 a{
+  background: #61beea;
+  color: #fff;
+}
+.theme-dark-primary .custom-control-input:checked~.custom-control-label::before{
+    background: #15191c;
+    border-color: #15191c;
+}
+.theme-dark-primary .fileUpload{
+  background: #15191c;
+}
+.theme-dark-primary .fileUpload:hover{
+  background: #15191c;
+}
+.theme-dark-primary .feature-box-wrap .box-title{
+  color: #fff;
+}
+.theme-dark-primary .table-home th{
+  background: #3f3f3f !important;
+  color: #fff !important;
+}
+
+/* house keeping */
+.theme-dark-primary .filter-section,
+.theme-dark-primary .filter-transparent .form-control{
+    background: #373737 !important;
+    border-color: #373737 !important;
+}
+.theme-dark-primary .filter-section label,
+.theme-dark-primary .filter-transparent .form-control{
+    color: #fff !important;
+}
+.theme-dark-primary .filters-outer{
+  border-color: #373737 !important;
+}
+.theme-dark-primary .filters-view-sm a{
+  background: #373737 !important;
+}
+.theme-dark-primary .filter-transparent option{
+  color:#000;
+}
+.theme-dark-primary .table-striped tbody tr:nth-of-type(odd){
+    background-color: #373737 !important;
+}
+.theme-dark-primary .box-skin{
+  background:none;
+  color:#fff;
+}
+.theme-dark-primary .table-skin{
+  color:#fff;
+}
+.theme-dark-primary .table-skin select{
+  color:#fff;
+}
+.theme-dark-primary .table-skin option{
+  color:#000;
+}
+
+/* background's */
+
+/* SearchResult start */
+body.theme-dark-primary .reservation-sidebar{
+  color:#fff;
+  background: #15191c;
+  box-shadow: 0 1px 20px 0 rgba(174, 195, 204, 0.22);
+}
+body.theme-dark-primary .reservation-sidebar .accordon-heading a,
+body.theme-dark-primary .reservation-sidebar .accordon-heading a:before,
+body.theme-dark-primary .reservation-sidebar .accordon-heading a.icon-contain,
+body.theme-dark-primary .label-num{
+  color: #fff !important;
+}
+body.theme-dark-primary .icon-price:after{background: url(../images/reservation/icon-tag-white.png) no-repeat;}
+body.theme-dark-primary .icon-departure:after{background: url(../images/reservation/icon-departure-white.png) no-repeat;}
+body.theme-dark-primary .icon-arrival:after{background: url(../images/reservation/icon-arrival-white.png) no-repeat;}
+body.theme-dark-primary .icon-time:after{background: url(../images/reservation/icon-time-white.png) no-repeat;}
+body.theme-dark-primary .ng5-slider .ng5-slider-bubble{
+  color: #ccc;
+}
+body.theme-dark-primary .reservation-content-area .box,
+body.theme-dark-primary .article-content-booking{
+  background: #15191c;
+  color: #fff;
+}
+body.theme-dark-primary .selection-table.table th,
+body.theme-dark-primary .selection-table.table td,
+body.theme-dark-primary .content-booking-left,
+body.theme-dark-primary .content-booking-left h3,
+body.theme-dark-primary .display-detail{
+  color:#fff;
+}
+body.theme-dark-primary .table-price-tickets.table a,
+body.theme-dark-primary .selection-table.table th h4{
+  color:#fff !important;
+}
+body.theme-dark-primary .booking-time ul li{
+  background: url(../images/reservation/arrow-right-white.svg) right center no-repeat !important;
+}
+/* SearchResult end */
+
+@media(max-width:991px){
+  .theme-dark-primary .nav-wrap{
+    background:#000 !important;
+  }
+}

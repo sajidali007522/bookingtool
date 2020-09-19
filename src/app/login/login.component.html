@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!-->
+<html>
+<!--<![endif]-->
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <title>Index</title>
+
+  <link type="text/css" rel="stylesheet" href="/assets/fonts/fonts.css" />
+  <!-- This css file need to include only -->
+  <link type="text/css" rel="stylesheet" href="/assets/css/login.css" />
+
+</head>
+
+<body>
+
+
+<!-- Login Component Start -->
+
+<div class="overlay-bg"></div>
+<div class="login-wrap">
+  <h1>Your Home to Home Solution for Journey Management</h1>
+  <div class="login-section">
+    <div class="login-sidebar">
+      <div class="login-nav" id="tabsCustom">
+        <ul>
+          <li class="active">
+            <a href="#content-1"><em class="fa fa-user-circle"></em> <span>Login</span></a>
+          </li>
+          <li>
+            <a href="#content-2"><em class="fa fa-lock"></em> <span>Forget Password?</span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="customer-logo">
+        <img src="/assets/images/login/customer-logo.png" alt="">
+      </div>
+    </div>
+    <div class="login-main">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="login-content tabs-content" id="content-1" style="display: block;">
+        <div class="login-title">
+          <h2><span>Login</span></h2>
+        </div>
+        <div class="field-wrap">
+          <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div *ngIf="f.username.errors.required">Username is required</div>
+          </div>
+          <span class="fa fa-envelope-o"></span>
+        </div>
+        <div class="field-wrap">
+          <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+          </div>
+          <span class="fa fa-key"></span>
+        </div>
+        <button [disabled]="loading" type="submit" class="btn btn-success btn-block">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Login
+        </button>
+        <div class="forget-wrap">
+          <a href="/register">Register?</a>
+        </div>
+      </div>
+      </form>
+      <div class="forget-content tabs-content" id="content-2">
+        <div class="login-title">
+          <h2><span>Reset Password</span></h2>
+        </div>
+        <p>
+          Enter your email address below and we'll send you an email with instructions.
+        </p>
+        <br>
+        <div class="field-wrap">
+          <input type="text" class="form-control" placeholder="Email">
+          <span class="fa fa-envelope-o"></span>
+        </div>
+        <input type="submit" class="btn btn-success btn-block" value="Reset">
+      </div>
+    </div>
+  </div>
+</div><!-- login-wrap -->
+
+<div class="login-footer">&copy; 2020 Innfinity</div>
+
+<script src="/assets/js/login.js" defer></script>
+<!-- Login Component End -->
+</body>
+</html>

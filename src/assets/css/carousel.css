@@ -1,0 +1,44 @@
+/*body{
+    background: #09425d;
+    display: none;
+}*/
+img{
+    max-width: 100%;
+    height: auto;
+}
+*{
+    outline: none;
+}
+.carousel-wrap{
+    max-width: 60%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+.carousel-wrap .slick-slide{
+	z-index: 1 !important;
+}
+.carousel-wrap .slick-slider{
+    position: static;
+}
+    .main-photo img{
+        display: block;
+        width: 100%;
+    }
+    .carousel-thumbnail{
+        margin: 10px 5px 0;
+        cursor: pointer;
+        padding: 0 0 7px;
+    }
+    .carousel-wrap .slick-current .carousel-thumbnail{
+        border-bottom: 5px solid #000;
+    }
+@media(max-width:767px){
+	.carousel-wrap{
+	    max-width: 95%;
+	}
+	.carousel-thumbnail{
+		margin: 10px 2px 0;
+		padding: 0 0 4px;
+	}
+}

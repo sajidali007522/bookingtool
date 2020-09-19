@@ -1,0 +1,292 @@
+body body{
+    background: none !important;
+}
+body{
+    background: url(../images/login/banner-1.jpg) center top no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'open_sansregular';
+}
+    .variation-2{
+        background: url(../images/login/banner-2.jpg) center top no-repeat;
+        background-size: cover;
+    }
+    .variation-3{
+        background: url(../images/login/banner-3.jpeg) center top no-repeat;
+        background-size: cover;
+    }
+    .variation-4{
+        background: url(../images/login/banner-4.jpg) center top no-repeat;
+        background-size: cover;
+    }
+    .variation-5{
+        background: url(../images/login/banner-5.jpg) center top no-repeat;
+        background-size: cover;
+    }
+.overlay-bg{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0, 0.30);
+}
+img{
+    max-width: 100%;
+}
+.login-wrap{
+    text-align: center;
+    padding: 50px 0 100px;
+    position: relative;
+    width: 900px;
+    margin: 0 auto;
+}
+    .login-wrap h1{
+        color: #fff;
+        background: rgba(9,66,93, 0.5);
+        padding: 15px 10px 17px;
+        font-size: 28px;
+        margin: 0 0 10px;
+    }
+.login-section{
+    background: #fff;
+    display: flex;
+    flex-wrap: wrap;
+}
+.login-sidebar{
+    width: 230px;
+    border-right: 1px solid #e7e7e7;
+}
+    .login-nav ul,
+    .login-nav li{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .login-nav a{
+        display: block;
+        font-size: 17px;
+        padding: 33px 20px;
+        color: #111;
+        text-decoration: none;
+    }
+    .login-nav a em{
+        font-style: normal;
+        font-size: 30px;
+        margin-bottom: 7px;
+        display: inline-block;
+    }
+    .login-nav a span{
+        display: block;
+    }
+    .login-nav li.active a{
+        color: #fff;
+        background: #09425d;
+        background-image: linear-gradient(#09425d, #3f7892);
+    }
+.login-main{
+    width: calc(100% - 230px);
+    margin-left: auto;
+    padding: 35px;
+    min-height: 376px;
+}
+    .login-title h2{
+        font-weight: 600;
+        margin: 0 0 25px;
+    }
+    .login-title h2 span{
+        display: inline-block;
+        background: url(../images/logo.png) no-repeat;
+        background-size: 45px auto;
+        padding-left: 60px;
+        line-height: 48px;
+    }
+    .field-wrap{
+        position: relative;
+        margin: 0 0 20px;
+    }
+    .field-wrap .form-control{
+        margin: 0;
+        border:1px solid #eee;
+        background: #eeeeee;
+        font-size: 16px;
+        padding: 12px 15px 12px 45px;
+        height: auto;
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+    }
+    .field-wrap .control-noicon{
+        padding-left: 15px;
+    }
+    .field-wrap .form-control:focus{
+        -moz-box-shadow: 0 0 0 0.2rem rgba(9,66,93,.25);
+        -webkit-box-shadow: 0 0 0 0.2rem rgba(9,66,93,.25);
+        box-shadow: 0 0 0 0.2rem rgba(9,66,93,.25);
+    }
+    .login-main .btn{
+        font-size: 18px;
+        padding: 12px 15px;
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+    }
+    .field-wrap .fa{
+        position: absolute;
+        left: 17px;
+        top: 17px;
+    }
+    .forget-wrap{
+        padding: 15px 0 0;
+    }
+    .forget-wrap a{
+        color: #09425d;
+        font-weight: 600;
+    }
+.tabs-content{
+    display: none;
+}
+.customer-logo{
+    background: #fff;
+    padding: 25px 45px;
+}
+.login-footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    text-shadow: 0 0 2px #000;
+}
+
+.login-secondary .login-main{
+    width: 100%;
+    min-height: initial;
+}
+.login-secondary-options{
+    text-align: left;
+    margin: 0 -15px;
+}
+    .login-secondary-options ul,
+    .login-secondary-options li{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .login-secondary-options ul{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .login-secondary-options ul li{
+        width: 50%;
+        padding: 0 15px 15px;
+    }
+    .login-secondary-options li a{
+        display: block;
+        width: 100%;
+        color: #fff;
+        padding: 19px 20px 20px 60px;
+        background: #000;
+        text-decoration: none;
+        font-weight: bold;
+        position: relative;
+    }
+    .login-secondary-options li a:hover{
+        opacity: 0.8;;
+    }
+    .login-secondary-options li a .fa{
+        position: absolute;
+        left: 20px;
+        top: 15px;
+        font-size: 30px;
+    }
+    .login-secondary-options li a.login-personal{
+        background: #01a3ef;
+        background-image: linear-gradient(to right, #01a3ef , #82ba01);
+    }
+        .login-secondary-options li a.login-personal span{
+            background: url(../images/icon-microsoft.png) no-repeat;
+            background-size: 100% auto;
+            width: 28px;
+            height: 28px;
+            display: inline-block;
+        }
+        .login-secondary-options li a.login-personal span:before{
+            display: none;
+        }
+    .login-secondary-options li a.login-facebook{
+        background: #3b589d;
+    }
+    .login-secondary-options li a.login-google{
+        background: #d84d32;
+    }
+
+@media(max-width: 991px){
+    .login-wrap{
+        width: 95%;
+    }
+}
+@media(max-width: 767px){
+    .login-wrap{
+        padding-bottom: 30px;
+    }
+    .login-wrap h1{
+        font-size: 26px;
+        margin: 0 0 35px;
+    }
+    .login-section{
+        display: block;
+    }
+    .login-sidebar{
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e7e7e7;
+    }
+    .login-main{
+        width: 100%;
+    }
+    .login-nav ul{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .login-nav ul li{
+        width: 50%;
+    }
+    .login-nav-full-mobile ul li{
+        width: 100%;
+    }
+    .login-nav a{
+        padding: 20px 10px;
+    }
+    .customer-logo{
+        padding: 35px 15px;
+    }
+    .customer-logo img{
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    .login-title h2{
+        font-size: 24px;
+    }
+    .login-footer{
+        position: relative;
+    }
+    .login-secondary .login-main{
+        padding: 35px 25px;
+    }
+    .login-secondary-options{
+        margin: 0;
+    }
+    .login-secondary-options ul li{
+        width: 100%;
+        padding: 0 0 15px;
+    }
+}
