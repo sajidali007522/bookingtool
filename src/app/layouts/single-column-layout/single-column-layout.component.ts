@@ -20,13 +20,11 @@ export class SingleColumnLayoutComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // console.log("asdfaasdfasd a");
-  }
+  ngOnInit(): void {}
 
   logout() {
     this.authenticationService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   checkRouterEvent(routerEvent): void {

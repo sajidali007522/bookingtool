@@ -1,22 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from "./login/login.component";
-import { RegisterComponent } from "./register/register.component";
+import { ModuleWithProviders } from '@angular/core'
+
+import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from "./_helpers/auth.guard";
-import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
+import {MainComponent} from "./components/main/main.component";
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
   {
     path: '',
-    component: SingleColumnLayoutComponent,
+    component: MainComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+      { path: 'home', component: HomeComponent, canActivate: [AuthGuard], },
     ],
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },

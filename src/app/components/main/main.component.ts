@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../_models/user";
+import {User} from "../../_models/user";
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
-import {AuthenticationService} from "../_services/authentication.service";
+import {AuthenticationService} from "../../_services/authentication.service";
 
 @Component({
   selector: 'app-main',
@@ -26,9 +26,10 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
 
   }
+
   logout() {
     this.authenticationService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   checkRouterEvent(routerEvent): void {

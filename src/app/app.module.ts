@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+//import {AuthenticationModule} from "./authentication/authentication.module";
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from "./shared/header/header.component";
 import {FooterComponent} from "./shared/footer/footer.component";
@@ -10,9 +14,10 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {JwtInterceptor} from "./_helpers/jwt.interceptor";
 import {ErrorInterceptor} from "./_helpers/error.interceptor";
 import {fakeBackendProvider} from "./_helpers/fake-backend";
-import {HomeComponent} from "./home/home.component";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HomeComponent} from "./components/home/home.component";
+import {SideNavComponent} from "./shared/side-nav/side-nav.component";
+import {MainComponent} from "./components/main/main.component";
+import {ListViewComponent} from "./shared/side-nav/list-view/list-view.component";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 
 @NgModule({
@@ -20,8 +25,11 @@ import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single
     AppComponent,
     HeaderComponent,
     FooterComponent,
+    SideNavComponent,
+    ListViewComponent,
+    SingleColumnLayoutComponent,
+    MainComponent,
     HomeComponent,
-    SingleColumnLayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +37,8 @@ import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+//    AuthenticationModule
   ],
   providers: [
     {

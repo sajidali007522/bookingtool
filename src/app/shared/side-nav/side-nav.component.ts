@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CategoriesService} from "../../categories.service";
 
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+//import { catchError, retry } from 'rxjs/operators';
 import {ListViewComponent} from "./list-view/list-view.component";
 import {AuthenticationService} from "../../_services/authentication.service";
 import {ConfigService} from "../../config.service";
