@@ -1,0 +1,37 @@
+@import url("../../assets/css/slick.css");
+@import url("../../assets/css/carousel.css");
+
+
+.field-wrap .fa {
+  position: absolute;
+  left: 17px;
+  top: 17px;
+}
+.field-wrap .form-control{
+  margin: 0;
+  font-size: 16px;
+  padding: 12px 15px;
+  height: auto;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+.field-wrap .has-icon{
+  padding-left: 45px;
+}
+.carousel-custom-outer{
+  margin:0 0 25px;
+}
+.carousel-thumbnails{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  overflow-y: auto;
+}
+.carousel-thumbnails > div{
+  width: 120px;
+  min-width: 120px;
+}
+.main-photo{
+  overflow: hidden;
+}
