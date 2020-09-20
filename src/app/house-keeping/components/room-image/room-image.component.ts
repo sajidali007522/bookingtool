@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {HttpService} from "../http.service";
-import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.component";
-import {AuthenticationService} from "../_services/authentication.service";
-import {ConfigService} from "../config.service";
+import {HttpService} from "../../../http.service";
+import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal.component";
+import {AuthenticationService} from "../../../_services/authentication.service";
+import {ConfigService} from "../../../config.service";
 
 @Component({
   selector: 'app-room-image',
@@ -56,7 +56,11 @@ export class RoomImageComponent implements OnInit,OnChanges {
         data.filter(r=> {
           //createDate
           let d = new Date(Date.parse(r.createDate))
-          r.createDate = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDay()+" "+d.getHours()+":"+d.getMinutes();
+          let month = (d.getMonth()+1) < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1;
+          let day = d.getDay() < 10 ? '0'+d.getDay() : d.getDay();
+          let hours = d.getHours() < 10 ? '0'+d.getHours() : d.getHours();
+          let minutes = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
+          r.createDate = d.getFullYear()+"-"+month+"-"+day+" "+hours+":"+minutes;
           this.state.roomImages.push(r);
         })
         this.state.selectedImage = this.state.roomImages[this.state.roomImages.length-1];

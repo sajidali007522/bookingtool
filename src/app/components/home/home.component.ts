@@ -12,9 +12,7 @@ export class HomeComponent implements OnInit {
     this.addJsToElement('assets/js/home.js');
   }
 
-  ngOnInit(): void {
-    console.log("home ocmponent")
-  }
+  ngOnInit(): void {}
 
   addJsToElement(src: string): HTMLScriptElement {
     const script = document.createElement('script');

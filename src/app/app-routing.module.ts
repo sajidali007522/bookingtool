@@ -20,6 +20,12 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
+  {
+    path: 'house-keeping',
+    component: MainComponent,
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
+  },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
 ];

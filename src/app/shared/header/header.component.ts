@@ -3,7 +3,6 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "../../_services/authentication.service";
 import {ConfigService} from "../../config.service";
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
