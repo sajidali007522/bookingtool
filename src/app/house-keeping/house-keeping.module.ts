@@ -15,7 +15,7 @@ import { HouseKeepingComponent } from './components/house-keeping/house-keeping.
 import { RoomImageComponent } from './components/room-image/room-image.component';
 import {RoomComponent} from "./components/room/room.component";
 import {ImageCropperModule} from "ngx-image-cropper";
-import {LoaderComponent} from "../shared/loader/loader.component";
+//import {LoaderComponent} from "../shared/loader/loader.component";
 import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.component";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
 
@@ -32,7 +32,7 @@ export class MyHammerConfig extends HammerGestureConfig {
     HouseKeepingComponent,
     RoomImageComponent,
     RoomComponent,
-    LoaderComponent,
+    //LoaderComponent,
     ConfirmModalComponent
   ],
   imports: [
