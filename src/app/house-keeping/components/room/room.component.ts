@@ -3,7 +3,6 @@ import {ActivatedRoute} from "@angular/router";
 import {HttpService} from "../../../http.service";
 import {RoomsService} from "../../../_services/rooms.service";
 import {HouseKeepingService} from "../../../_services/house-keeping.service";
-import { LoaderComponent } from "../../../shared-module/components/loader/loader.component";
 
 @Component({
   selector: 'app-room',
