@@ -7,7 +7,7 @@ import {ReservationComponent} from "./components/reservation/reservation.compone
 
 export const routes: Routes = [
   { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
-  {path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
+  { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
 ]
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes)
