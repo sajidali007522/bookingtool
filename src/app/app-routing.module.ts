@@ -5,8 +5,19 @@ import { ModuleWithProviders } from '@angular/core'
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from "./_helpers/auth.guard";
 import {MainComponent} from "./components/main/main.component";
+import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 
 const routes: Routes = [
+  {
+    path: 'auth',
+    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
+  },
+  {
+    path: 'reservation',
+    component: SingleColumnLayoutComponent,
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
+  },
   {
     path: '',
     component: MainComponent,
@@ -16,10 +27,6 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent, canActivate: [AuthGuard], },
     ],
   },
-  {
-    path: 'auth',
-    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
-  },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
 ];
@@ -28,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule{ }

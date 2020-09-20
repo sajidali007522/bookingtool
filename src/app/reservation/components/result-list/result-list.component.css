@@ -1,0 +1,20 @@
+@import "./../../../../assets/fonts/fonts.css";
+@import "./../../../../assets/css/reservation-results.css";
+.filter-section{
+  background: rgba(0,0,0,.05);
+  padding: 25px 30px 15px;
+  margin: 0 0 35px;;
+}
+.filter-gradient{
+  background: #09425d;
+  background-image: linear-gradient(#eee, #ddd);
+}
+.filter-transparent{
+  padding: 0 0 15px;
+}
+.filter-section .form-control{
+  height: auto;
+  padding: 10px 10px 11px;
+  color: #222;
+}
+
