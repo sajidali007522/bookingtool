@@ -8,7 +8,7 @@ import {Ng5SliderModule} from "ng5-slider";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
-import {LoaderComponent} from "../shared/loader/loader.component";
+//import {LoaderComponent} from "../shared/loader/loader.component";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
 
 
@@ -17,7 +17,7 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
   declarations: [
     ReservationComponent,
     ResultListComponent,
-    LoaderComponent
+    //LoaderComponent
   ],
   imports: [
     CommonModule,
