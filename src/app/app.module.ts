@@ -19,6 +19,7 @@ import {SideNavComponent} from "./shared/side-nav/side-nav.component";
 import {MainComponent} from "./components/main/main.component";
 import {ListViewComponent} from "./shared/side-nav/list-view/list-view.component";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
+import {LoaderComponent} from "./shared/loader/loader.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single
     SingleColumnLayoutComponent,
     MainComponent,
     HomeComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
