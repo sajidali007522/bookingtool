@@ -15,9 +15,9 @@ import { HouseKeepingComponent } from './components/house-keeping/house-keeping.
 import { RoomImageComponent } from './components/room-image/room-image.component';
 import {RoomComponent} from "./components/room/room.component";
 import {ImageCropperModule} from "ngx-image-cropper";
-//import {LoaderComponent} from "../shared/loader/loader.component";
 import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.component";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
+import {SharedModuleModule} from "../shared-module/shared-module.module";
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
@@ -32,7 +32,6 @@ export class MyHammerConfig extends HammerGestureConfig {
     HouseKeepingComponent,
     RoomImageComponent,
     RoomComponent,
-    //LoaderComponent,
     ConfirmModalComponent
   ],
   imports: [
@@ -41,7 +40,8 @@ export class MyHammerConfig extends HammerGestureConfig {
     FormsModule,
     ReactiveFormsModule,
     ImageCropperModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    SharedModuleModule
   ]
 })
 export class HouseKeepingModule { }

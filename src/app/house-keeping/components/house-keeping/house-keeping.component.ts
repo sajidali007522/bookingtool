@@ -17,7 +17,6 @@ import {RoomImageComponent} from "../room-image/room-image.component";
 import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal.component";
 import {AuthenticationService} from "../../../_services/authentication.service";
 import {ConfigService} from "../../../config.service";
-
 import {MyHammerConfig} from "./../../house-keeping.module"
 
 import {
