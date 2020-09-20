@@ -1,0 +1,364 @@
+<div class="reservation-detail-wrap" *ngIf="state.processing">
+  <app-loader [className]="'loader-reservation-results loader-lg'"></app-loader>
+</div>
+<div *ngIf="!state.processing">
+  <div class="reservation-detail-wrap">
+    <div class="reservation-sidebar">
+      <div class="reservation-sidebar-inner">
+        <div class="reset-wrap">
+          <a href="javascript:void(0)" (click)="resetFilters()" class="btn btn-sm btn-success">Reset <span class="fa fa-refresh"></span> </a>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);" class="icon-contain icon-price">Price</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('price')"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ng5-slider [(value)]="state.filter.price.value" [(highValue)]="state.filter.price.highValue" [options]="state.price.options" (userChange)="filterSlider('price')"></ng5-slider>
+            <label>${{state.filter.price.value}}-{{state.filter.price.highValue}}</label>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);" class="icon-contain icon-departure">Departure</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('departure')"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ng5-slider [(value)]="state.filter.departure.value" [(highValue)]="state.filter.departure.highValue" [options]="state.departure.options" (userChange)="filterSlider('departure')"></ng5-slider>
+            <label>{{parseTime(state.filter.departure.value)}} - {{parseTime(state.filter.departure.highValue)}}</label>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);" class="icon-contain icon-arrival">Arrival</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('arrival')"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ng5-slider [(value)]="state.filter.arrival.value" [(highValue)]="state.filter.arrival.highValue" [options]="state.arrival.options" (userChange)="filterSlider('arrival')"></ng5-slider>
+            <label>{{parseTime(state.filter.arrival.value)}} - {{parseTime(state.filter.arrival.highValue)}}</label>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);" class="icon-contain icon-time">Max Stop Time</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('max-stops')"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ng5-slider [(value)]="state.filter.maxStoptime.value" [(highValue)]="state.filter.maxStoptime.highValue" [options]="state.maxStoptime.options" (userChange)="filterSlider('max-stops')"></ng5-slider>
+          </div>
+        </div>
+        <div class="accordion-group group-active" *ngIf="state.filter.policy.length > 1">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);">Policy</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('policy', state.filter.policy)"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ul #policyListFilter>
+              <li *ngFor="let item of state.filter.policy; let index=$index" [ngClass]="{'has-num': item.price > 0}">
+                <label for="{{item.id}}">
+                  <input type="checkbox" class="checkbox" id="{{item.id}}" [(ngModel)]="item.checked" (ngModelChange)="filterResultSet( item)"> {{item.label}}
+                  <span class="label-num">${{item.price}}</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="accordion-group group-active" *ngIf="state.filter.airlines.length > 1">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);">Airlines</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('airlines', state.filter.airlines)"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ul #airlineListFilter>
+              <li *ngFor="let item of state.filter.airlines; let index = $index;" [ngClass]="{'has-num': item.price > 0}">
+                <label for="{{item.id}}">
+                  <input type="checkbox" class="checkbox" id="{{item.id}}" [(ngModel)]="item.checked"  (ngModelChange)="filterResultSet( item )"> {{item.label}}
+                  <span class="label-num">${{item.price}}</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="accordion-group" *ngIf="state.filter.stops.length > 1">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);">Stops</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('stops', state.filter.stops)"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ul>
+              <li *ngFor="let item of state.filter.stops; let index = $index" [ngClass]="{'has-num': item.price > 0}">
+                <label for="{{item.id}}">
+                  <input type="checkbox" class="checkbox" id="{{item.id}}" [(ngModel)]="item.checked" (ngModelChange)="filterResultSet( item )"> {{item.label}}
+                  <span class="label-num">${{item.price}}</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="accordion-group"*ngIf="state.filter.options.length > 1">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);">Options</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('options', state.filter.options)"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ul>
+              <li *ngFor="let item of state.filter.options; let index=$index" [ngClass]="{'has-num': item.price > 0}">
+                <label for="{{item.id}}">
+                  <input type="checkbox" class="checkbox" id="{{item.id}}" [(ngModel)]="item.checked" (ngModelChange)="filterResultSet( item )"> {{item.label}}
+                  <span class="label-num">${{item.price}}</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="accordion-group" *ngIf="state.filter.connectingCity.length > 1">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);">Connecting City</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('connecting-city', state.filter.connectingCity)"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ul>
+              <li *ngFor="let item of state.filter.connectingCity; let index=$index;" [ngClass]="{'has-num': item.price > 0}">
+                <label for="{{item.id}}">
+                  <input type="checkbox" class="checkbox" id="{{item.id}}" [(ngModel)]="item.checked" (ngModelChange)="filterResultSet( item )"> {{item.label}}
+                  <span class="label-num">${{item.price}}</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="accordion-group"*ngIf="state.filter.fareType.length > 1">
+          <div class="accordon-heading">
+            <a href="javascript:void(0);">Fare Type</a>
+<!--            <i class="fa fa-trash" (click)="resetFilter('fare-type', state.filter.fareType)"></i>-->
+          </div>
+          <div class="accordion-body">
+            <ul>
+              <li *ngFor="let item of state.filter.fareType; let index = $index;" [ngClass]="{'has-num': item.price > 0}">
+                <label for="{{item.id}}">
+                  <input type="checkbox" class="checkbox" id="{{item.id}}" [(ngModel)]="item.checked" (ngModelChange)="filterResultSet( item )"> {{item.label}}
+                  <span class="label-num">${{item.price}}</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div><!-- reservation-sidebar -->
+    <div class="reservation-content-area">
+      <div class="reservation-content-inner">
+
+        <div class="reserve-filter-top-wrap">
+          <div class="row align-items-center row-break-1300">
+            <div class="col-lg-6">
+              <div class="reservation-tabs">
+                <ul *ngIf="state.resources.resources[0].resourceItems">
+                  <li *ngFor="let resource of state.resources.resources[0].resourceItems">
+                    <a href="javascript:void(0);"><strong>{{parseDate(resource.beginDate, 'month')}}</strong> {{parseDate(resource.beginDate, 'date')}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="reserve-top-filter">
+                <select class="form-control custom-select" [(ngModel)]="state.grid_filter" (ngModelChange)="renderFilterGrid()">
+                  <!-- metadataGridOptions -->
+                  <option *ngFor="let item of state.metaDataGridOptions" value="{{item.value}}">{{item.text}}</option>
+                </select>
+                <select class="form-control custom-select">
+                  <option>Sort By: Time</option>
+                  <option>Sort By: Price</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div id="content-1">
+
+          <div class="box">
+            <div class="table-responsive">
+              <table class="table selection-table" *ngIf="state.gridFilter">
+                <thead>
+                <tr>
+                  <th (click)="resetFilterState(); setGridCell('00');resetFilters();" [ngClass]="{'active': this.state.gridCell == '00'}" ><h4>Show All</h4> {{state.gridFilter.totalResults}} Total Results</th>
+                  <th *ngFor="let col of state.gridFilter.columns; let index=index;"
+                      (click)="filterResultSetByGrid([], -1, index, true);
+                                setGridCell('0'+(index+1));
+                                setFilterStateByGrid(-1, index)"
+                      [ngClass]="{'active': this.state.gridCell == '0'+(index+1)}"
+                  >
+                    <h4>{{col.name}}<br/><span>${{col.lowPrice}}</span></h4> {{col.resultCount}} Results
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr *ngFor="let row of state.gridFilter.rows; let index = index">
+                  <td (click)="filterResultSetByGrid(row.items, index, -1, true);
+                                setGridCell((index+1)+'0');
+                                setFilterStateByGrid(index, -1);
+                              "
+                      [ngClass]="{'active': this.state.gridCell == (index+1)+'0'}">
+                    <h4>
+                      <img src="{{row.logoUrl.split('.png').join('_50.png')}}" />
+                      {{row.name}}
+                    </h4><br/>
+                    {{row.resultCount}} Results
+                  </td>
+                  <td class="" *ngFor="let item of row.items; let i = index;"
+                      (click)="filterResultSetByGrid(row.items, index, i);
+                      setGridCell((index+1)+''+(i+1));
+                      setFilterStateByGrid(index, i);"
+                      [ngClass]="{'active': this.state.gridCell == ((index+1)+''+(i+1)) || this.state.gridCell == (index+1)+'0' || this.state.gridCell == '0'+(i+1) }">
+                    <p>{{item.lowPrice}}</p> {{item.resultCount}} Results
+                  </td>
+
+                </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="content-booking-wrapper">
+            <div class="article-content-booking" *ngFor="let row of state.bookingRows; let index = $index;" id="div_{{makeValidEleId(row.values2.UniqueID)}}">
+              <div class="content-booking-left">
+                <h3>
+                  <img src="{{row.values2.ProviderLogo.split('.png').join('_50.png')}}" alt="">
+                  {{row.values2.ProviderName}}
+                  <span class="book-sm-info" [ngClass]="{'non-stop': row.values2.ConnectionDescriptionExtended == 'Nonstop','multi-stop': row.values2.ConnectionDescriptionExtended != 'Nonstop' }">{{row.values2.ConnectionDescriptionExtended}}</span>
+                </h3>
+                <div class="booking-time">
+                  <ul>
+                    <li>{{formatDateIntoTime(row.values2.BeginDate)}} {{row.values2.From}}</li>
+                    <li>{{formatDateIntoTime(row.values2.EndDate)}} {{row.values2.To}}</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="content-booking-right">
+                <div class="table-price-tickets-wrap table-responsive">
+                  <table class="table table-border table-price-tickets" id="table_{{makeValidEleId(row.values2.UniqueID)}}">
+                    <tbody>
+                    <tr *ngFor="let channel of row.bookingChannels">
+                      <td *ngFor="let price of channel.prices" [ngClass]="{'active': price.values2.$selected, 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
+                        <a href="javascript:void(0)" class="selectMe" (click)="selectIt(row.values2, index, price, channel.prices)"
+                           *ngIf="price.values2.BasePrice"
+                        >
+                          <em>{{price.values2.GetFareNameShort}}</em>${{price.values2.TotalPrice}}
+                        </a>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="display-btn-wrap">
+                <a href="javascript:void(0)" class="display-detail"><span>Display Details</span> <span class=" fa fa-angle-down"></span> </a>
+              </div>
+              <div class="more-reservation-wrap">
+                <div class="more-reservation-inner">
+                  <div class="row">
+                    <div class="col-lg-6" *ngFor="let bookDetail of row.tripDetails">
+                      <div class="info-more-section">
+                        <h3>{{bookDetail.values2.Provider}} {{bookDetail.values2.Identifier}}</h3>
+                        <h4>{{skipSeconds(bookDetail.values2.BeginDate)}}</h4>
+                        <ul>
+                          <li>{{formatDateIntoTime(bookDetail.values2.BeginDate)}} - {{formatDateIntoTime(bookDetail.values2.EndDate)}}</li>
+                          <li>{{bookDetail.values2.FromName}} ({{bookDetail.values2.From}}) - {{bookDetail.values2.ToName}} ({{bookDetail.values2.To}})</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- more-reservation-wrap -->
+            </div><!-- article-content-booking -->
+          </div><!-- content-booking-wrapper -->
+        </div><!-- content-1 -->
+      </div>
+    </div><!-- reservation-content-area -->
+  </div><!-- reservation-detail-wrap -->
+  <div class="booking-article-bot">
+    <a href="javascript:void(0);" *ngIf="!state.bookingContentArea" (click)="toggleBookingContentArea(true);" class="new-booking">
+      <span *ngIf="state.cart.length>0">{{state.cart.length}}</span>
+    </a>
+    <div class="booking-content-area" *ngIf="state.bookingContentArea" style="display:block;">
+      <div class="booking-top" >
+        <a href="javascript:void(0)" class="close-booking" (click)="toggleBookingContentArea(false);"><span class="fa fa-close"></span></a>
+        <div class="booking-art-title"><h3>New Booking</h3></div>
+        <div class="booking-search"><input type="text" placeholder="Search by name" class="form-control"></div>
+      </div>
+      <div class="booking-art-inner">
+        <ul>
+          <li *ngFor="let item of state.cart; let index = $index;">
+            <h4>
+              <img src="{{item.providerLogo}}" width="20"/>{{item.provider}} <a href="javascript:void(0)" class="remove-booking" (click)="removeItemFromCart(item.UniqueID, index)">Remove</a></h4>
+            <h5><span>{{item.Date}}</span></h5>
+            <p>{{item.From}}</p>
+            <p>{{item.To}}</p>
+            <div class="booking-subtotal">
+              <span>{{item.Price.values2.GetFareNameShort}}</span> <strong>{{item.Price.values2.TotalPrice}}</strong>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="tableInfo1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><img src="../../assets/images/reservation/west.png" alt=""> WS 112</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            <strong>06:00 AM</strong>
+            Thu, Aug 13 Vancouvcer lntl. Airport (YVR)
+          </p>
+          <p>
+            <strong>08:22 AM</strong>
+            Thu, Aug 13 Calgary lntl. Airport (YYC)
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="tableInfo2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><img src="../../assets/images/reservation/air-canada.png" alt=""> Air Canada</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            <strong>06:00 AM</strong>
+            Thu, Aug 13 Vancouvcer lntl. Airport (YVR)
+          </p>
+          <p>
+            <strong>08:22 AM</strong>
+            Thu, Aug 13 Calgary lntl. Airport (YYC)
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
