@@ -19,6 +19,12 @@ const routes: Routes = [
     loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
   },
   {
+    path: 'house-keeping',
+    component: MainComponent,
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
+  },
+  {
     path: '',
     component: MainComponent,
     canActivate: [AuthGuard],
