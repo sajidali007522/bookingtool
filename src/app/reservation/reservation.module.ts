@@ -8,16 +8,15 @@ import {Ng5SliderModule} from "ng5-slider";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
-//import {LoaderComponent} from "../shared/loader/loader.component";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
+import {SharedModuleModule} from "../shared-module/shared-module.module";
 
 
 
 @NgModule({
   declarations: [
     ReservationComponent,
-    ResultListComponent,
-    //LoaderComponent
+    ResultListComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +26,8 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
     Ng5SliderModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    SharedModuleModule,
   ]
 })
 export class ReservationModule { }
