@@ -12,6 +12,7 @@ import {HouseKeepingComponent} from "./house-keeping/components/house-keeping/ho
 import {RoomComponent} from "./house-keeping/components/room/room.component";
 import {ReservationComponent} from "./reservation/components/reservation/reservation.component";
 import {ResultListComponent} from "./reservation/components/result-list/result-list.component";
+import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 
 const routes: Routes = [
   {
@@ -44,7 +45,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: SingleColumnLayoutComponent,
+    component: HomeLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },

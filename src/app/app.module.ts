@@ -23,6 +23,7 @@ import {SharedModuleModule} from "./shared-module/shared-module.module";
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {HouseKeepingModule} from "./house-keeping/house-keeping.module";
 import {ReservationModule} from "./reservation/reservation.module";
+import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {ReservationModule} from "./reservation/reservation.module";
     ListViewComponent,
     SingleColumnLayoutComponent,
     MainComponent,
-    HomeComponent
+    HomeComponent,
+    HomeLayoutComponent
   ],
   imports: [
     BrowserModule,
