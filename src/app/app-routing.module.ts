@@ -10,6 +10,7 @@ import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
 import {ReservationComponent} from "./reservation/components/reservation/reservation.component";
 import {ResultListComponent} from "./reservation/components/result-list/result-list.component";
+import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 
 const routes: Routes = [
   {
@@ -32,7 +33,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: SingleColumnLayoutComponent,
+    component: HomeLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
