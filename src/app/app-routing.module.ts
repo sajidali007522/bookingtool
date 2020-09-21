@@ -8,11 +8,12 @@ import {MainComponent} from "./components/main/main.component";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
+import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: SingleColumnLayoutComponent,
+    component: HomeLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
