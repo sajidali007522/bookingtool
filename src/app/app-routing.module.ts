@@ -6,11 +6,19 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from "./_helpers/auth.guard";
 import {MainComponent} from "./components/main/main.component";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
+import {LoginComponent} from "./authentication/login/login.component";
+import {RegisterComponent} from "./authentication/register/register.component";
+import {HouseKeepingComponent} from "./house-keeping/components/house-keeping/house-keeping.component";
+import {RoomComponent} from "./house-keeping/components/room/room.component";
 
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent }
+    ]
+    //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
     path: 'reservation',
@@ -22,7 +30,11 @@ const routes: Routes = [
     path: 'house-keeping',
     component: MainComponent,
     canActivate: [AuthGuard],
-    loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
+    children: [
+      { path: '', component: HouseKeepingComponent },
+      { path: 'search-room', component: RoomComponent },
+    ]
+    //loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
   },
   {
     path: '',
