@@ -5,6 +5,7 @@ import { ModuleWithProviders } from '@angular/core'
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from "./_helpers/auth.guard";
 import {MainComponent} from "./components/main/main.component";
+import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 
 const routes: Routes = [
   {
@@ -19,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: MainComponent,
+    component: SingleColumnLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
