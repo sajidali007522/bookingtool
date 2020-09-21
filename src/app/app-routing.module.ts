@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: MainComponent,
+    component: SingleColumnLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
