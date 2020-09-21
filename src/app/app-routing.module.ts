@@ -6,6 +6,8 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from "./_helpers/auth.guard";
 import {MainComponent} from "./components/main/main.component";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
+import {LoginComponent} from "./authentication/login/login.component";
+import {RegisterComponent} from "./authentication/register/register.component";
 
 const routes: Routes = [
   {
@@ -19,7 +21,11 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent }
+    ]
+    //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },

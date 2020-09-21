@@ -20,6 +20,7 @@ import {MainComponent} from "./components/main/main.component";
 import {ListViewComponent} from "./shared/side-nav/list-view/list-view.component";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 import {SharedModuleModule} from "./shared-module/shared-module.module";
+import {AuthenticationModule} from "./authentication/authentication.module";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {SharedModuleModule} from "./shared-module/shared-module.module";
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    AuthenticationModule,
     SharedModuleModule,
 //    AuthenticationModule
   ],
