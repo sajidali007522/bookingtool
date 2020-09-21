@@ -10,6 +10,7 @@ import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
 import {HouseKeepingComponent} from "./house-keeping/components/house-keeping/house-keeping.component";
 import {RoomComponent} from "./house-keeping/components/room/room.component";
+import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 
 const routes: Routes = [
   {
@@ -32,7 +33,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: SingleColumnLayoutComponent,
+    component: HomeLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
