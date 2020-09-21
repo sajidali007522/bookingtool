@@ -10,6 +10,8 @@ import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
 import {HouseKeepingComponent} from "./house-keeping/components/house-keeping/house-keeping.component";
 import {RoomComponent} from "./house-keeping/components/room/room.component";
+import {ReservationComponent} from "./reservation/components/reservation/reservation.component";
+import {ResultListComponent} from "./reservation/components/result-list/result-list.component";
 
 const routes: Routes = [
   {
@@ -24,7 +26,11 @@ const routes: Routes = [
     path: 'reservation',
     component: SingleColumnLayoutComponent,
     canActivate: [AuthGuard],
-    loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
+    children: [
+      { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
+      { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
+    ]
+    //loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
   },
   {
     path: 'house-keeping',

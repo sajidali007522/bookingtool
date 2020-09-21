@@ -22,6 +22,7 @@ import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single
 import {SharedModuleModule} from "./shared-module/shared-module.module";
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {HouseKeepingModule} from "./house-keeping/house-keeping.module";
+import {ReservationModule} from "./reservation/reservation.module";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {HouseKeepingModule} from "./house-keeping/house-keeping.module";
     ReactiveFormsModule,
     AuthenticationModule,
     HouseKeepingModule,
+    ReservationModule,
     SharedModuleModule,
 //    AuthenticationModule
   ],
