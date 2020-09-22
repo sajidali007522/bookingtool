@@ -24,6 +24,7 @@ import {AuthenticationModule} from "./authentication/authentication.module";
 import {HouseKeepingModule} from "./house-keeping/house-keeping.module";
 import {ReservationModule} from "./reservation/reservation.module";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
+import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {HomeLayoutComponent} from "./components/home-layout/home-layout.componen
     SideNavComponent,
     ListViewComponent,
     SingleColumnLayoutComponent,
+    LoginLayoutComponent,
     MainComponent,
     HomeComponent,
     HomeLayoutComponent
