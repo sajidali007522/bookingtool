@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from "@angular/router";
+import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 
 import { AuthenticationService } from './_services/authentication.service';
 import { User } from './_models/user';
@@ -20,6 +20,13 @@ export class AppComponent {
               private authenticationService: AuthenticationService
   ) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    if(event instanceof NavigationStart) {
+      this.loading = true;
+      console.log("event started")
+    }else if(event instanceof NavigationEnd) {
+      this.loading = false;
+      console.log("event end")
+    }
 
   }
 
