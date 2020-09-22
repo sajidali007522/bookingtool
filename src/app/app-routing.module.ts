@@ -3,24 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core'
 
 import { HomeComponent } from './components/home/home.component';
-import { AuthGuard } from "./_helpers/auth.guard";
-import {MainComponent} from "./components/main/main.component";
-import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
 import {HouseKeepingComponent} from "./house-keeping/components/house-keeping/house-keeping.component";
 import {RoomComponent} from "./house-keeping/components/room/room.component";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
+import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
+import {AuthGuard} from "./_helpers/auth.guard";
 
 const routes: Routes = [
-  {
-    path: 'auth',
-    children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent }
-    ]
-    //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
-  },
   {
     path: 'house-keeping',
     component: HomeLayoutComponent,
@@ -34,11 +25,19 @@ const routes: Routes = [
   {
     path: '',
     component: HomeLayoutComponent,
-    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent, canActivate: [AuthGuard], },
+      { path: 'home', component: HomeComponent },
     ],
+  },
+  {
+    path: 'auth',
+    component: LoginLayoutComponent,
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent }
+    ]
+    //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
