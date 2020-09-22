@@ -125,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "booking-tool"
+    }
+  },
+  "defaultProject": "booking-tool",
+  "cli": {
+    "analytics": "c42b1a79-253e-49aa-bb60-a724f0cab187"
+  }
 }
