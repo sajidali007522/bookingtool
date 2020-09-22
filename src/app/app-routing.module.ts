@@ -25,11 +25,11 @@ const routes: Routes = [
     path: 'reservation',
     component: SingleColumnLayoutComponent,
     canActivate: [AuthGuard],
-    children: [
-      { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
-      { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
-    ]
-    //loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
+    // children: [
+    //   { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
+    //   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
+    // ]
+    loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
   },
   {
     path: '',
