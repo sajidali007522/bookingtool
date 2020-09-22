@@ -15,7 +15,6 @@ import {AuthGuard} from "./_helpers/auth.guard";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 
 const routes: Routes = [
-
   {
     path: 'reservation',
     component: SingleColumnLayoutComponent,
