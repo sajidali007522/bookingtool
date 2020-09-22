@@ -44,7 +44,6 @@ import {HomeLayoutComponent} from "./components/home-layout/home-layout.componen
     FormsModule,
     ReactiveFormsModule,
     AuthenticationModule,
-    HouseKeepingModule,
     SharedModuleModule,
 //    AuthenticationModule
   ],

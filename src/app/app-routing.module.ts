@@ -28,8 +28,8 @@ const routes: Routes = [
     children: [
       { path: '', component: HouseKeepingComponent },
       { path: 'search-room', component: RoomComponent },
-    ]
-    //loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
+    ],
+    loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
   },
   {
     path: '',
