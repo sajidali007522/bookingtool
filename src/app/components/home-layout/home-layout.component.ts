@@ -15,13 +15,12 @@ export class HomeLayoutComponent implements OnInit {
   currentUser: User;
 
   constructor(public router: Router,
-              private authenticationService: AuthenticationService,
-              private renderer: Renderer2
+              private authenticationService: AuthenticationService
   ) {
   }
 
   ngOnInit(): void {
-    this.renderer.setAttribute(document.body, 'class', 'menu-fullwidth');
+    //this.renderer.setAttribute(document.body, 'class', 'menu-fullwidth');
   }
 
   logout() {
