@@ -3,26 +3,25 @@ import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core'
 
 import { HomeComponent } from './components/home/home.component';
-import { AuthGuard } from "./_helpers/auth.guard";
-import {MainComponent} from "./components/main/main.component";
-import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 import {AvailabilityComponent} from "./availability/components/availability/availability.component";
+import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
+import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 
 const routes: Routes = [
   {
     path: '',
     component: HomeLayoutComponent,
-    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent, canActivate: [AuthGuard], },
+      { path: 'home', component: HomeComponent },
     ],
   },
   {
     path: 'auth',
+    component: LoginLayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent }
