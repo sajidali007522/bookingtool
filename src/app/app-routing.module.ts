@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'availability',
-    component: HomeLayoutComponent,
+    component: SingleColumnLayoutComponent,
     children: [
       { path: '', component: AvailabilityComponent }
     ]
