@@ -9,6 +9,7 @@ import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single
 import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
+import {AvailabilityComponent} from "./availability/components/availability/availability.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,14 @@ const routes: Routes = [
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent }
+    ]
+    //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
+  },
+  {
+    path: 'availability',
+    component: HomeLayoutComponent,
+    children: [
+      { path: '', component: AvailabilityComponent }
     ]
     //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
