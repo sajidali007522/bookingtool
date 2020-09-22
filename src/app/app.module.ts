@@ -22,6 +22,7 @@ import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single
 import {SharedModuleModule} from "./shared-module/shared-module.module";
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
+import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {HomeLayoutComponent} from "./components/home-layout/home-layout.componen
     SideNavComponent,
     ListViewComponent,
     SingleColumnLayoutComponent,
+    LoginLayoutComponent,
     MainComponent,
     HomeComponent,
     HomeLayoutComponent
