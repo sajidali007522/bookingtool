@@ -35,13 +35,13 @@ const routes: Routes = [
   },
   {
     path: 'house-keeping',
-    component: MainComponent,
+    component: HomeLayoutComponent,
     canActivate: [AuthGuard],
-    children: [
-      { path: '', component: HouseKeepingComponent },
-      { path: 'search-room', component: RoomComponent },
-    ]
-    //loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
+    // children: [
+    //   { path: '', component: HouseKeepingComponent },
+    //   { path: 'search-room', component: RoomComponent },
+    // ],
+    loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
   },
   {
     path: '',
