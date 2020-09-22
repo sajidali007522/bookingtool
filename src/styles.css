@@ -31,13 +31,13 @@ p{
   top: 0;
   height: 100%;
 }
-.row-custom > div:first-child{
+.row-custom .leftcol-sidebar{
   width: 250px;
   max-width: inherit;
   flex: initial;
   padding: 0;
 }
-.row-custom > div:nth-child(2){
+.row-custom .rightcol-content{
   width: calc(100% - 260px);
   max-width: inherit;
   flex: initial;
@@ -45,6 +45,12 @@ p{
   height: 100vh;
   overflow-y: auto;
   padding: 85px 25px 25px;
+}
+.row-custom-full.row-custom:before{
+  display: none;
+}
+.row-custom-full.row-custom .rightcol-content{
+  width: 100%;
 }
 .sidebar{
   height: 100vh;
@@ -900,10 +906,10 @@ body.menu-fullwidth .reservation-content-area{
 
 /* sidebar destkop and mobile start */
 @media(min-width:1060px){
-  .menu-fullwidth .row-custom > div:first-child{
+  .menu-fullwidth .row-custom .leftcol-sidebar{
     display: none;
   }
-  .menu-fullwidth .row-custom > div:nth-child(2){
+  .menu-fullwidth {
     width: 100%;
   }
   .menu-fullwidth .row-custom:before{
@@ -914,25 +920,25 @@ body.menu-fullwidth .reservation-content-area{
   .row-custom:before{
     display: none;
   }
-  .row-custom > div:first-child{
+  .row-custom .leftcol-sidebar{
     display: none;
   }
-  .row-custom > div:nth-child(2){
+  .row-custom .rightcol-content{
     width: 100%;
   }
-  .menu-fullwidth .row-custom > div:first-child{
+  .menu-fullwidth .row-custom .leftcol-sidebar{
     display: block;
   }
-    .menu-fullwidth .row-custom > div:nth-child(2){
+    .menu-fullwidth .row-custom .rightcol-content{
       width: calc(100% - 260px);
     }
     .menu-fullwidth .row-custom:before{
       display: block;
     }
-  .menu-active .row-custom > div:first-child{
+  .menu-active .row-custom .leftcol-sidebar{
     display: block;
   }
-    .menu-active .row-custom > div:nth-child(2){
+    .menu-active .row-custom .rightcol-content{
       width: calc(100% - 260px);
     }
     .menu-active .row-custom:before{
@@ -963,7 +969,7 @@ body.menu-fullwidth .reservation-content-area{
   }
 }
 @media(max-width:767px){
-  .row-custom > div:nth-child(2){
+  .row-custom .rightcol-content{
     padding-left: 10px;
     padding-right: 10px;
   }
