@@ -189,6 +189,32 @@ body.theme-dark-primary .selection-table.table th h4{
 body.theme-dark-primary .booking-time ul li{
   background: url(../images/reservation/arrow-right-white.svg) right center no-repeat !important;
 }
+
+body.theme-dark-primary .rev-datewrap .form-control,
+body.theme-dark-primary .select-field{
+  background: #292e32;
+  border-color: #292e32 !important;
+  color: #fff !important;
+}
+body.theme-dark-primary .resv-btns a{
+  background: #292e32;
+  border-color: #292e32 !important;
+  color: #fff !important;
+}
+body.theme-dark-primary .table-editable-wrap .table{
+  background: #292e32 !important;
+  color:#fff !important;
+}
+body.theme-dark-primary .table-editable-wrap .table  th{
+  background: #000 !important;
+  color: #fff !important;
+}
+body.theme-dark-primary .table-editable-wrap .table .edited-tr td{
+  background: #333 !important;
+}
+body.theme-dark-primary .edit-field{
+  color:#fff;
+}
 /* SearchResult end */
 
 @media(max-width:991px){

@@ -840,6 +840,59 @@
         right: 15px;
         top: 15px;
     }
+    .resv-btns{
+        padding-top: 15px;
+    }
+    .resv-btns a{
+        display: block;
+        width: 100%;
+        border: 1px solid #979797;
+        padding: 11px 5px 11px 55px;
+        color: #0F1137;
+        font-size: 16px;
+        position: relative;
+        margin: 0 0 10px;
+        border-radius: 5px;
+    }
+    .resv-btns a:hover{
+        text-decoration: none;
+    }
+        .btn-mass-edit:before{
+            content: " ";
+            position: absolute;
+            left: 18px;
+            top: 14px;
+            width: 23px;
+            height: 23px;
+            background: url(../images/icons/edit-mass.png) no-repeat;
+        }
+        .btn-edit:before{
+            content: " ";
+            position: absolute;
+            left: 18px;
+            top: 14px;
+            width: 22px;
+            height: 22px;
+            background: url(../images/icons/edit.png) no-repeat;
+        }
+        .btn-save:before{
+            content: " ";
+            position: absolute;
+            left: 18px;
+            top: 14px;
+            width: 22px;
+            height: 22px;
+            background: url(../images/icons/save.png) no-repeat;
+        }
+        .btn-ref:before{
+            content: " ";
+            position: absolute;
+            left: 18px;
+            top: 14px;
+            width: 22px;
+            height: 25px;
+            background: url(../images/icons/refresh.png) no-repeat;
+        }
     .table-editable-wrap{
         max-width: 100%;
         overflow-y: auto;
