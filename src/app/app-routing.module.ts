@@ -8,6 +8,7 @@ import {RegisterComponent} from "./authentication/register/register.component";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 import {AvailabilityComponent} from "./availability/components/availability/availability.component";
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
+import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 
 const routes: Routes = [
   {
@@ -29,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'availability',
-    component: HomeLayoutComponent,
+    component: SingleColumnLayoutComponent,
     children: [
       { path: '', component: AvailabilityComponent }
     ]
@@ -44,3 +45,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
+
