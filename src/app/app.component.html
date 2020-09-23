@@ -1,1 +1,13 @@
 <router-outlet></router-outlet>
+<div style="position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    opacity: 0.65;
+    padding: 15%;
+    z-index: 9;
+" *ngIf="loading">
+  <app-loader style=""></app-loader>
+</div>
