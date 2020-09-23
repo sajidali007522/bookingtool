@@ -20,14 +20,19 @@ export class AppComponent {
               private authenticationService: AuthenticationService
   ) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    if(event instanceof NavigationStart) {
-      this.loading = true;
-      console.log("event started")
-    }else if(event instanceof NavigationEnd) {
-      this.loading = false;
-      console.log("event end")
-    }
-
+    router.events.subscribe(event => {
+      if(event instanceof NavigationStart) {
+        this.loading = true;
+        console.log("event started")
+      }else if(event instanceof NavigationEnd) {
+        this.loading = false;
+        console.log("event end")
+      }
+      // NavigationEnd
+      // NavigationCancel
+      // NavigationError
+      // RoutesRecognized
+    });
   }
 
   ngOnInit(): void {
