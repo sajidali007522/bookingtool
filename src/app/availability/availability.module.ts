@@ -6,8 +6,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
 
-
-
 @NgModule({
   declarations: [AvailabilityComponent],
   imports: [

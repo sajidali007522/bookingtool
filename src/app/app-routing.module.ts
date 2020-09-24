@@ -31,10 +31,7 @@ const routes: Routes = [
   {
     path: 'availability',
     component: SingleColumnLayoutComponent,
-    children: [
-      { path: '', component: AvailabilityComponent }
-    ]
-    //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
+    loadChildren: () => import('./availability/availability.routing').then(m => m.routing)
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },

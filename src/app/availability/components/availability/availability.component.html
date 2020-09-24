@@ -2,6 +2,14 @@
     <div class="reservation-sidebar">
       <div class="reservation-sidebar-inner">
         <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Site</a></div>
+          <div class="accordion-body">
+            <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.siteID">
+              <option *ngFor="let site of state.sites" value="{{site.value}}">{{site.text}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
           <div class="accordon-heading"><a href="javascript:void(0);">Resource</a></div>
           <div class="accordion-body">
             <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.ResourceTypeID">
@@ -25,8 +33,9 @@
         <div class="accordion-group group-active">
           <div class="accordon-heading"><a href="javascript:void(0);">Billing Profile</a></div>
           <div class="accordion-body">
-              <select class="select-field">
-                  <option value="">Billing Info</option>
+              <select class="select-field" [(ngModel)]="state.filterForm.BillingProfileID" (change)="loadContracts()">
+                <option value="">Select Profile</option>
+                <option *ngFor="let profile of state.billingProfiles" value="{{profile.value}}">{{profile.text}}</option>
               </select>
           </div>
         </div>
@@ -35,6 +44,15 @@
           <div class="accordion-body">
             <select class="select-field">
                 <option value="">Billing Info</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Contractor</a></div>
+          <div class="accordion-body">
+            <select class="select-field">
+              <option value="">Billing Info</option>
             </select>
           </div>
         </div>

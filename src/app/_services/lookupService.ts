@@ -8,19 +8,23 @@ export class LookupService {
 
   constructor(private _http: HttpService) { }
 
-  public hitLookup (lookup, params) {
+  private hitLookup (lookup, params) {
     return this._http._get('lookup/'+lookup, params);
   }
 
-  public loadResources () {
-    return this.hitLookup('ResourceType', {})
+  public loadResources (params={}) {
+    return this.hitLookup('ResourceType', params)
   }
 
-  public loadProfiles () {
-    return this.hitLookup('RuleBagContract', {})
+  public loadProfiles (params={}) {
+    return this.hitLookup('RuleBagContract', params)
   }
 
-  public loadContractLists () {
-    return this.hitLookup('RuleBagContractor', {})
+  public loadContractLists (params={}) {
+    return this.hitLookup('RuleBagContractor', params)
+  }
+
+  public loadSites (params= {}) {
+    return this.hitLookup(('Site'), params)
   }
 }
