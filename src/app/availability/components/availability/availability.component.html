@@ -2,6 +2,14 @@
     <div class="reservation-sidebar">
       <div class="reservation-sidebar-inner">
         <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Resource</a></div>
+          <div class="accordion-body">
+            <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.ResourceTypeID">
+              <option *ngFor="let resource of state.resourceTypes" value="{{resource.value}}">{{resource.text}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
           <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-price">Dashboard</a></div>
           <div class="accordion-body">
               <div class="rev-datewrap">
@@ -30,12 +38,12 @@
             </select>
           </div>
         </div>
-        
+
         <div class="resv-btns">
-            <a href="#" class="btn-mass-edit">Mass Edit</a>
-            <a href="#" class="btn-edit">Edit</a>
-            <a href="#" class="btn-save">Save</a>
-            <a href="#" class="btn-ref">Refresh</a>
+            <a href="javascript:void(0)" class="btn-mass-edit">Mass Edit</a>
+            <a href="javascript:void(0)" class="btn-edit">Edit</a>
+            <a href="javascript:void(0)" class="btn-save">Save</a>
+            <a href="javascript:void(0)" class="btn-ref">Refresh</a>
         </div>
       </div>
     </div><!-- reservation-sidebar -->
@@ -170,7 +178,6 @@
         </div>
     </div><!-- reservation-content-area -->
   </div><!-- reservation-detail-wrap -->
-  
-  
-  
-  
+
+
+
