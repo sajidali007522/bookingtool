@@ -1,5 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LookupService} from "../../../_services/lookupService";
+import * as $ from 'jquery'
+import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 
 @Component({
   selector: 'app-availability',
@@ -7,8 +9,9 @@ import {LookupService} from "../../../_services/lookupService";
   styleUrls: ['./availability.component.css']
 })
 export class AvailabilityComponent implements OnInit, AfterViewInit {
-
+  bsConfig: Partial<BsDatepickerConfig>;
   state={
+    minDate: new Date(),
     loading: {
       sites:false,
       ruleBag: false,
@@ -24,6 +27,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     rules: [],
     lodges: [],
     filterForm: {
+      dateFrom:<any> new Date(),
+      dateTo:<any> new Date(),
       ResourceTypeID: '',
       BillingProfileID: '00000000-0000-0000-0000-000000000000',
       contractID: '',
@@ -35,6 +40,9 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   constructor( private lookupService: LookupService,
                private ref: ChangeDetectorRef,
   ) {
+    this.bsConfig = Object.assign({}, { dateInputFormat: 'MM/DD/YYYY' });
+    let date = new Date();
+    this.state.filterForm.dateTo = new Date(date.setDate(date.getDate()+30))
   }
 
   ngOnInit(): void {
@@ -49,8 +57,15 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     })
   }
 
-  ngAfterViewInit() {}
-
+  ngAfterViewInit() {
+    $(".accordion-group .accordon-heading").on('click', function(){
+      $(this).parents('.accordion-group').toggleClass('group-active')
+    })
+  }
+  setToDate() {
+    let date = new Date(Date.parse(this.state.filterForm.dateFrom));
+    this.state.filterForm.dateTo = new Date(date.setDate(date.getDate()+30))
+  }
   loadRuleBag() {
     this.state.loading.ruleBag=true;
     this.lookupService.loadRuleBag()

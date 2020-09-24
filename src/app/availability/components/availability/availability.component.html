@@ -1,7 +1,7 @@
 <div class="reservation-detail-wrap">
     <div class="reservation-sidebar">
       <div class="reservation-sidebar-inner">
-        <div class="accordion-group group-active">
+        <div class="accordion-group">
           <div class="accordon-heading"><a href="javascript:void(0);">Site<span *ngIf="state.loading.sites" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.siteID">
@@ -10,7 +10,7 @@
             </select>
           </div>
         </div>
-        <div class="accordion-group group-active">
+        <div class="accordion-group">
           <div class="accordon-heading"><a href="javascript:void(0);">Rule Bag<span *ngIf="state.loading.ruleBag" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.RuleBagID">
@@ -33,11 +33,20 @@
           <div class="accordion-body">
               <div class="rev-datewrap">
                   <div class="rev-date">Start Date:</div>
-                  <input type="text" value="9-18-2020" class="form-control">
+                  <input type="text" bsDatepicker
+                         [bsConfig]="bsConfig"
+                         [(ngModel)]="state.filterForm.dateFrom"
+                         (ngModelChange)="setToDate()"
+                         [minDate]="state.minDate"
+                         class="form-control">
               </div>
               <div class="rev-datewrap">
                 <div class="rev-date">End Date:</div>
-                <input type="text" value="9-18-2020" class="form-control">
+                <input type="text" bsDatepicker
+                       [(ngModel)]="state.filterForm.dateTo"
+                       [bsConfig]="bsConfig"
+                       [minDate]="state.filterForm.dateFrom"
+                       class="form-control">
             </div>
           </div>
         </div>
@@ -50,7 +59,7 @@
               </select>
           </div>
         </div>
-        <div class="accordion-group group-active">
+        <div class="accordion-group">
           <div class="accordon-heading"><a href="javascript:void(0);">Lodge<span *ngIf="state.loading.lodge" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" [(ngModel)]="state.filterForm.lodgeID">
@@ -60,7 +69,7 @@
           </div>
         </div>
 
-        <div class="accordion-group group-active">
+        <div class="accordion-group">
           <div class="accordon-heading"><a href="javascript:void(0);">Contractor<span *ngIf="state.loading.contractor" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" [(ngModel)]="state.filterForm.contractID">
