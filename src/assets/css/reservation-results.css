@@ -856,6 +856,9 @@
     }
     .resv-btns a:hover{
         text-decoration: none;
+        background: linear-gradient(90deg,#cee1ea,#09415a);
+        border-color: #cee1ea;
+        color: #fff;
     }
         .btn-mass-edit:before{
             content: " ";
@@ -902,11 +905,13 @@
     }
     .table-editable-wrap .table th{
         background: #ecf1f9;
-        color: #9F9FB7;
+        color: #555;
         padding:20px;
     }
     .table-editable-wrap .table td{
         padding:20px;
+        overflow: hidden;
+        white-space: nowrap;
     }
     .table-editable-wrap .table .edited-tr td{
         background: #f0f0f1;
