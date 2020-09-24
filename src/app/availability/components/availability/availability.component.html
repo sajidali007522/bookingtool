@@ -1,0 +1,214 @@
+<div class="reservation-detail-wrap">
+    <div class="reservation-sidebar">
+      <div class="reservation-sidebar-inner">
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Site<span *ngIf="state.loading.sites" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordion-body">
+            <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.siteID">
+              <option value="00000000-0000-0000-0000-000000000000"> < None ></option>
+              <option *ngFor="let site of state.sites" value="{{site.value}}">{{site.text}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Rule Bag<span *ngIf="state.loading.ruleBag" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordion-body">
+            <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.RuleBagID">
+              <option value="00000000-0000-0000-0000-000000000000"> < None ></option>
+              <option *ngFor="let site of state.rules" value="{{site.value}}">{{site.text}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Resource<span *ngIf="state.loading.resources" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordion-body">
+            <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.ResourceTypeID">
+              <option value="00000000-0000-0000-0000-000000000000"> < None ></option>
+              <option *ngFor="let resource of state.resourceTypes" value="{{resource.value}}">{{resource.text}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-price">Dashboard</a></div>
+          <div class="accordion-body">
+              <div class="rev-datewrap">
+                  <div class="rev-date">Start Date:</div>
+                  <input type="text" value="9-18-2020" class="form-control">
+              </div>
+              <div class="rev-datewrap">
+                <div class="rev-date">End Date:</div>
+                <input type="text" value="9-18-2020" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Billing Profile<span *ngIf="state.loading.billingProfiles" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordion-body">
+              <select class="select-field" [(ngModel)]="state.filterForm.BillingProfileID" (change)="loadContracts()">
+                <option value="00000000-0000-0000-0000-000000000000">None</option>
+                <option *ngFor="let profile of state.billingProfiles" value="{{profile.value}}">{{profile.text}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Lodge<span *ngIf="state.loading.lodge" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordion-body">
+            <select class="select-field" [(ngModel)]="state.filterForm.lodgeID">
+              <option value="00000000-0000-0000-0000-000000000000">None</option>
+              <option *ngFor="let lodge of state.lodges" value="{{lodge.value}}">{{lodge.text}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Contractor<span *ngIf="state.loading.contractor" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordion-body">
+            <select class="select-field" [(ngModel)]="state.filterForm.contractID">
+              <option value="00000000-0000-0000-0000-000000000000">None</option>
+              <option *ngFor="let contract of state.contracts" value="{{contract.value}}">{{contract.text}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="resv-btns">
+            <a href="javascript:void(0)" class="btn-mass-edit">Mass Edit</a>
+            <a href="javascript:void(0)" class="btn-edit">Edit</a>
+            <a href="javascript:void(0)" class="btn-save">Save</a>
+            <a href="javascript:void(0)" class="btn-ref">Refresh</a>
+        </div>
+      </div>
+    </div><!-- reservation-sidebar -->
+    <div class="reservation-content-area">
+        <div class="reservation-content-inner">
+            <div class="table-editable-wrap">
+                <table class="table table-editable">
+                    <thead>
+                        <th>Bus# </th>
+                        <th>Leg</th>
+                        <th>Date</th>
+                        <th>Origination</th>
+                        <th>Depart</th>
+                        <th>Arrive</th>
+                        <th>Destination</th>
+                        <th>Total</th>
+                        <th>Avail</th>
+                        <th>Booked</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>IN-1234</td>
+                            <td>1</td>
+                            <td>9-18-2020</td>
+                            <td>(COC)Cochrane</td>
+                            <td>14:00</td>
+                            <td>16:00</td>
+                            <td>(DLK)Detour Leke</td>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>IN-1234</td>
+                            <td>1</td>
+                            <td>9-18-2020</td>
+                            <td>(COC)Cochrane</td>
+                            <td>14:00</td>
+                            <td>16:00</td>
+                            <td>(DLK)Detour Leke</td>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>IN-1234</td>
+                            <td>1</td>
+                            <td>9-18-2020</td>
+                            <td>(COC)Cochrane</td>
+                            <td>14:00</td>
+                            <td>16:00</td>
+                            <td>(DLK)Detour Leke</td>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>IN-1234</td>
+                            <td>1</td>
+                            <td>9-18-2020</td>
+                            <td>(COC)Cochrane</td>
+                            <td>14:00</td>
+                            <td>16:00</td>
+                            <td>(DLK)Detour Leke</td>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>0</td>
+                        </tr>
+                        <tr class="edited-tr">
+                            <td>IN-1234</td>
+                            <td>1</td>
+                            <td>9-18-2020</td>
+                            <td>(COC)Cochrane</td>
+                            <td>14:00</td>
+                            <td>16:00</td>
+                            <td>(DLK)Detour Leke</td>
+                            <td><input type="text" value="50" class="edit-field"></td>
+                            <td><input type="text" value="50" class="edit-field"></td>
+                            <td><input type="text" value="0" class="edit-field"></td>
+                        </tr>
+                        <tr>
+                            <td>IN-1234</td>
+                            <td>1</td>
+                            <td>9-18-2020</td>
+                            <td>(COC)Cochrane</td>
+                            <td>14:00</td>
+                            <td>16:00</td>
+                            <td>(DLK)Detour Leke</td>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>IN-1234</td>
+                            <td>1</td>
+                            <td>9-18-2020</td>
+                            <td>(COC)Cochrane</td>
+                            <td>14:00</td>
+                            <td>16:00</td>
+                            <td>(DLK)Detour Leke</td>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>IN-1234</td>
+                            <td>1</td>
+                            <td>9-18-2020</td>
+                            <td>(COC)Cochrane</td>
+                            <td>14:00</td>
+                            <td>16:00</td>
+                            <td>(DLK)Detour Leke</td>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>IN-1234</td>
+                            <td>1</td>
+                            <td>9-18-2020</td>
+                            <td>(COC)Cochrane</td>
+                            <td>14:00</td>
+                            <td>16:00</td>
+                            <td>(DLK)Detour Leke</td>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div><!-- reservation-content-area -->
+  </div><!-- reservation-detail-wrap -->
+
+
+

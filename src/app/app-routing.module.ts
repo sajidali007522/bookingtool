@@ -10,6 +10,7 @@ import {RoomComponent} from "./house-keeping/components/room/room.component";
 import {ReservationComponent} from "./reservation/components/reservation/reservation.component";
 import {ResultListComponent} from "./reservation/components/result-list/result-list.component";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
+import {AvailabilityComponent} from "./availability/components/availability/availability.component";
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
 import {AuthGuard} from "./_helpers/auth.guard";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
@@ -52,6 +53,11 @@ const routes: Routes = [
     ]
     //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
+  {
+    path: 'availability',
+    component: SingleColumnLayoutComponent,
+    loadChildren: () => import('./availability/availability.module').then(m => m.AvailabilityModule)
+  },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
 ];
@@ -60,4 +66,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
+
 export class AppRoutingModule{ }
