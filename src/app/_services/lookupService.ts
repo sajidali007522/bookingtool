@@ -16,23 +16,24 @@ export class LookupService {
     return this.hitLookup('ResourceType', params)
   }
 
-  public loadProfiles (params={}) {
+  public loadSites (params= {}) {
+    return this.hitLookup('Site', params)
+  }
+
+  public loadBusinessProfile (params={}){
+    return this.hitLookup('RuleBag', params)
+  }
+
+  public loadContracts (params={}){
     return this.hitLookup('RuleBagContract', params)
   }
 
-  public loadContractLists (params={}) {
+  public loadContractSites (params={}){
+    return this.hitLookup('ContractSite', params)
+  }
+
+  public loadContractorList (params =  {}) {
     return this.hitLookup('RuleBagContractor', params)
   }
 
-  public loadSites (params= {}) {
-    return this.hitLookup(('Site'), params)
-  }
-
-  public loadRuleBag (params={}){
-    return this.hitLookup(('RuleBag'), params)
-  }
-
-  public loadLodges (params = {}) {
-    return this.hitLookup(('ContractSite'), params)
-  }
 }
