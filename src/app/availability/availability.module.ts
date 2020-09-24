@@ -1,20 +1,15 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { AvailabilityComponent } from './components/availability/availability.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {routing} from "./availability.routing";
 
 @NgModule({
   declarations: [AvailabilityComponent],
   imports: [
-    BrowserModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
+    CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    CommonModule
+    routing
   ]
 })
 export class AvailabilityModule { }

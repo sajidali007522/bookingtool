@@ -12,14 +12,6 @@ import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomeLayoutComponent,
-    children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
-    ],
-  },
-  {
     path: 'auth',
     component: LoginLayoutComponent,
     children: [
@@ -31,7 +23,15 @@ const routes: Routes = [
   {
     path: 'availability',
     component: SingleColumnLayoutComponent,
-    loadChildren: () => import('./availability/availability.routing').then(m => m.routing)
+    loadChildren: () => import('./availability/availability.module').then(m => m.AvailabilityModule)
+  },
+  {
+    path: '',
+    component: HomeLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
+    ],
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },

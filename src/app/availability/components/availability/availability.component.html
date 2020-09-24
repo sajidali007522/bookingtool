@@ -2,17 +2,28 @@
     <div class="reservation-sidebar">
       <div class="reservation-sidebar-inner">
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);">Site</a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);">Site<span *ngIf="state.loading.sites" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.siteID">
+              <option value="00000000-0000-0000-0000-000000000000"> < None ></option>
               <option *ngFor="let site of state.sites" value="{{site.value}}">{{site.text}}</option>
             </select>
           </div>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);">Resource</a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);">Rule Bag<span *ngIf="state.loading.ruleBag" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordion-body">
+            <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.RuleBagID">
+              <option value="00000000-0000-0000-0000-000000000000"> < None ></option>
+              <option *ngFor="let site of state.rules" value="{{site.value}}">{{site.text}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);">Resource<span *ngIf="state.loading.resources" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.ResourceTypeID">
+              <option value="00000000-0000-0000-0000-000000000000"> < None ></option>
               <option *ngFor="let resource of state.resourceTypes" value="{{resource.value}}">{{resource.text}}</option>
             </select>
           </div>
@@ -31,28 +42,30 @@
           </div>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);">Billing Profile</a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);">Billing Profile<span *ngIf="state.loading.billingProfiles" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
               <select class="select-field" [(ngModel)]="state.filterForm.BillingProfileID" (change)="loadContracts()">
-                <option value="">Select Profile</option>
+                <option value="00000000-0000-0000-0000-000000000000">None</option>
                 <option *ngFor="let profile of state.billingProfiles" value="{{profile.value}}">{{profile.text}}</option>
               </select>
           </div>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);">Lodge</a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);">Lodge<span *ngIf="state.loading.lodge" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
-            <select class="select-field">
-                <option value="">Billing Info</option>
+            <select class="select-field" [(ngModel)]="state.filterForm.lodgeID">
+              <option value="00000000-0000-0000-0000-000000000000">None</option>
+              <option *ngFor="let lodge of state.lodges" value="{{lodge.value}}">{{lodge.text}}</option>
             </select>
           </div>
         </div>
 
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);">Contractor</a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);">Contractor<span *ngIf="state.loading.contractor" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
-            <select class="select-field">
-              <option value="">Billing Info</option>
+            <select class="select-field" [(ngModel)]="state.filterForm.contractID">
+              <option value="00000000-0000-0000-0000-000000000000">None</option>
+              <option *ngFor="let contract of state.contracts" value="{{contract.value}}">{{contract.text}}</option>
             </select>
           </div>
         </div>

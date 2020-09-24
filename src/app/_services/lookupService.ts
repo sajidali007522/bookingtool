@@ -27,4 +27,12 @@ export class LookupService {
   public loadSites (params= {}) {
     return this.hitLookup(('Site'), params)
   }
+
+  public loadRuleBag (params={}){
+    return this.hitLookup(('RuleBag'), params)
+  }
+
+  public loadLodges (params = {}) {
+    return this.hitLookup(('ContractSite'), params)
+  }
 }
