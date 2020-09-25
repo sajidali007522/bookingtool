@@ -23,6 +23,7 @@ import {SharedModuleModule} from "./shared-module/shared-module.module";
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
+import {DateParser} from "./_helpers/dateParser";
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
     //{ provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     // provider used to create fake backend
     fakeBackendProvider,
+    DateParser,
   ],
   bootstrap: [AppComponent]
 })
