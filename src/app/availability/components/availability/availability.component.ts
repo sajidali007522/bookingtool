@@ -106,6 +106,13 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       })
   }
 
+  resetFilter() {
+    this.state.filterForm.businessProfileID = '';
+    this.state.filterForm.contractID = '';
+    this.state.filterForm.contractorID = '';
+    this.state.filterForm.ContractSite = ''
+  }
+
   loadContracts() {
     this.state.loading.contract = true;
     this.lookupService.loadContracts({criteria: this.state.filterForm.businessProfileID})

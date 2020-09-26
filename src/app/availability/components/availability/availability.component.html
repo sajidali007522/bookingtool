@@ -13,7 +13,7 @@
         <div class="accordion-group group-active">
           <div class="accordon-heading"><a href="javascript:void(0);">Resource<span *ngIf="state.loading.resources" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
-            <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.resourceTypeID">
+            <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.resourceTypeID" (change)="resetFilter()">
               <option value=""> < None ></option>
               <option *ngFor="let resource of state.resourceTypes" value="{{resource.value}}">{{resource.text}}</option>
             </select>
@@ -55,7 +55,7 @@
           <div class="accordion-body">
               <select class="select-field" [(ngModel)]="state.filterForm.contractID" (change)="loadContractSites()">
                 <option value="">None</option>
-                <option *ngFor="let profile of state.contracts" value="{{profile.value}}">{{profile.text}}</option>
+                <option *ngFor="let contract of state.contracts" value="{{contract.value}}">{{contract.text}}</option>
               </select>
           </div>
         </div>
@@ -74,7 +74,7 @@
           <div class="accordion-body">
             <select class="select-field" [(ngModel)]="state.filterForm.contractorID">
               <option value="">None</option>
-              <option *ngFor="let contract of state.ContractorList" value="{{contract.value}}">{{contract.text}}</option>
+              <option *ngFor="let contractor of state.ContractorList" value="{{contractor.value}}">{{contractor.text}}</option>
             </select>
           </div>
         </div>
@@ -105,7 +105,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let row of remoteData" [ngClass]="{'edited-tr': state.isEditting}">
-                            <td>IN-1234</td>
+                            <td>{{row.identifier}}</td>
                             <td>{{row.leg}}</td>
                             <td>{{dateParser.parseDate(row.date)}}</td>
                             <td>{{row.from}}</td>
