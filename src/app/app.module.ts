@@ -25,6 +25,7 @@ import {HouseKeepingModule} from "./house-keeping/house-keeping.module";
 import {ReservationModule} from "./reservation/reservation.module";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
+import {DateParser} from "./_helpers/dateParser";
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
     //{ provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     // provider used to create fake backend
     fakeBackendProvider,
+    DateParser,
   ],
   bootstrap: [AppComponent]
 })

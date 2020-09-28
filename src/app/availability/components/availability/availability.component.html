@@ -1,0 +1,148 @@
+<div class="reservation-detail-wrap">
+    <div class="reservation-sidebar">
+      <div class="reservation-sidebar-inner">
+        <div *ngIf="!this.state.isMassEditting">
+          <div class="accordion-group">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-site">Site<span *ngIf="state.loading.sites" class="fa fa-spinner fa-spin"></span></a></div>
+            <div class="accordion-body">
+              <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.siteID">
+                <option value=""> < None ></option>
+                <option *ngFor="let site of state.sites" value="{{site.value}}">{{site.text}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Resource<span *ngIf="state.loading.resources" class="fa fa-spinner fa-spin"></span></a></div>
+            <div class="accordion-body">
+              <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.resourceTypeID" (change)="resetFilter()">
+                <option value=""> < None ></option>
+                <option *ngFor="let resource of state.resourceTypes" value="{{resource.value}}">{{resource.text}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-profile">Business Profiles<span *ngIf="state.loading.ruleBag" class="fa fa-spinner fa-spin"></span></a></div>
+            <div class="accordion-body">
+              <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.businessProfileID" (change)="loadContracts();  loadContractorList()">
+                <option value=""> < None ></option>
+                <option *ngFor="let site of state.businessProfiles" value="{{site.value}}">{{site.text}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-price">Dashboard</a></div>
+            <div class="accordion-body">
+                <div class="rev-datewrap">
+                    <div class="rev-date">Start Date:</div>
+                    <input type="text" bsDatepicker
+                           [bsConfig]="bsConfig"
+                           [(ngModel)]="state.filterForm.beginDate"
+                           (ngModelChange)="setToDate()"
+                           [minDate]="state.minDate"
+                           class="form-control">
+                </div>
+                <div class="rev-datewrap">
+                  <div class="rev-date">End Date:</div>
+                  <input type="text" bsDatepicker
+                         [(ngModel)]="state.filterForm.endDate"
+                         [bsConfig]="bsConfig"
+                         [minDate]="state.filterForm.beginDate"
+                         class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contact">Contract<span *ngIf="state.loading.contract" class="fa fa-spinner fa-spin"></span></a></div>
+            <div class="accordion-body">
+                <select class="select-field" [(ngModel)]="state.filterForm.contractID" (change)="loadContractSites()">
+                  <option value="">None</option>
+                  <option *ngFor="let contract of state.contracts" value="{{contract.value}}">{{contract.text}}</option>
+                </select>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-lodge">Lodge<span *ngIf="state.loading.ContractSite" class="fa fa-spinner fa-spin"></span></a></div>
+            <div class="accordion-body">
+              <select class="select-field" [(ngModel)]="state.filterForm.ContractSite">
+                <option value="">None</option>
+                <option *ngFor="let lodge of state.ContractSites" value="{{lodge.value}}">{{lodge.text}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="accordion-group">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contractor">Contractor<span *ngIf="state.loading.ContractorList" class="fa fa-spinner fa-spin"></span></a></div>
+            <div class="accordion-body">
+              <select class="select-field" [(ngModel)]="state.filterForm.contractorID">
+                <option value="">None</option>
+                <option *ngFor="let contractor of state.ContractorList" value="{{contractor.value}}">{{contractor.text}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="this.state.isMassEditting">
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contractor">Number</a></div>
+            <div class="accordion-body">
+              <input type="text" class="form-control" [(ngModel)]="state.massEditForm.number" />
+            </div>
+          </div>
+        </div>
+        <div class="resv-btns">
+            <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="btn-mass-edit" [ngClass]="{ 'disabled' :  remoteData.length <=0}" (click)="setMassEdit()">Mass Edit</a>
+            <a *ngIf="!this.state.isEditting && !this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : remoteData.length <=0}" (click)="setEditMode()">Edit</a>
+            <a *ngIf="this.state.isEditting || this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : !state.recordLoaded}" (click)="resetEditMode()">End Edit</a>
+            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" (click)="selectNone()">Select None</a>
+            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" (click)="selectAll()">Select All</a>
+            <a href="javascript:void(0)" class="btn-save" [ngClass]="{ 'disabled' : !state.isEditting && !state.isMassEditting}" (click)="saveChanges()"> Save</a>
+            <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="btn-ref" (click)="loadRecords()">Refresh</a>
+        </div>
+      </div>
+    </div><!-- reservation-sidebar -->
+    <div class="reservation-content-area">
+        <div class="reservation-content-inner">
+          <app-loader *ngIf="state.loading.records"></app-loader>
+            <div class="table-editable-wrap" *ngIf="!state.loading.records">
+                <div *ngIf="remoteData.length <= 0"> <h3 class="text-center">No record Found</h3></div>
+                <table *ngIf="remoteData.length > 0" class="table table-editable">
+                    <thead>
+                        <th *ngIf="state.isMassEditting"></th>
+                        <th>Flight# </th>
+                        <th>Leg</th>
+                        <th>Date</th>
+                        <th>Origination</th>
+                        <th>Depart</th>
+                        <th>Arrive</th>
+                        <th>Destination</th>
+                        <th>Total</th>
+                        <th>Avail</th>
+                        <th>Booked</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of remoteData" [ngClass]="{'edited-tr': state.isEditting}">
+                            <td *ngIf="state.isMassEditting">
+                              <input type="checkbox" [(ngModel)]="row.checked" />
+                            </td>
+                            <td>{{row.identifier}}</td>
+                            <td>{{row.leg}}</td>
+                            <td>{{dateParser.parseDate(row.date)}}</td>
+                            <td>{{row.from}}</td>
+                            <td>{{dateParser.parseDateToTime(row.startDate)}}</td>
+                            <td>{{dateParser.parseDateToTime(row.endDate)}}</td>
+                            <td>{{row.to}}</td>
+                            <td>
+                              <span *ngIf="!state.isEditting">{{row.total || 0}}</span>
+                              <input type="text" value="50" class="edit-field" [(ngModel)]="row.total" *ngIf="state.isEditting">
+                            </td>
+                            <td>{{row.available || 0}}</td>
+                            <td>{{row.booked || 0}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div><!-- reservation-content-area -->
+  </div><!-- reservation-detail-wrap -->
+
+
+
