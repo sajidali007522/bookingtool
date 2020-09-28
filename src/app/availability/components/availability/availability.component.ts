@@ -13,7 +13,9 @@ import {DateParser} from "../../../_helpers/dateParser";
 export class AvailabilityComponent implements OnInit, AfterViewInit {
   bsConfig: Partial<BsDatepickerConfig>;
   remoteData =<any> [];
+  remoteDataTemp = <any> [];
   state={
+    isMassEditting: false,
     recordLoaded: false,
     isEditting: false,
     minDate: new Date(),
@@ -43,7 +45,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       ContractSite: '',
       contractorID: '',
       includeHolds: false
-    }
+    },
+    massEditForm: {number: 0 }
   }
   constructor( private lookupService: LookupService,
                private availService: AvailabilityService,
@@ -161,5 +164,38 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
         err=>{console.log(err)},
         ()=>{this.state.loading.records = false;}
         );
+  }
+
+  setEditMode(){
+    if(this.remoteData.length <= 0 ) return;
+    this.remoteDataTemp = JSON.parse(JSON.stringify(this.remoteData));
+    this.state.isEditting= true;
+  }
+
+  resetEditMode () {
+    this.remoteData = JSON.parse(JSON.stringify(this.remoteDataTemp));
+    this.state.isEditting= false;
+    this.state.isMassEditting= false;
+  }
+
+  setMassEdit(){
+    if(this.remoteData.length <= 0 ) return;
+    this.remoteDataTemp = JSON.parse(JSON.stringify(this.remoteData));
+    this.state.isMassEditting= true;
+  }
+
+  selectNone(){
+    this.remoteData.filter(row=>{
+      row.checked = false
+    })
+  }
+  selectAll(){
+    this.remoteData.filter(row=>{
+      row.checked = true
+    })
+  }
+
+  saveChanges(){
+
   }
 }

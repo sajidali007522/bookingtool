@@ -4,14 +4,16 @@ import { AvailabilityComponent } from './components/availability/availability.co
 import {FormsModule} from "@angular/forms";
 import {routing} from "./availability.routing";
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {SharedModuleModule} from "../shared-module/shared-module.module";
 
 @NgModule({
   declarations: [AvailabilityComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    routing,
-    BsDatepickerModule.forRoot()
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        routing,
+        BsDatepickerModule.forRoot(),
+        SharedModuleModule
+    ]
 })
 export class AvailabilityModule { }
