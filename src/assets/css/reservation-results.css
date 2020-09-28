@@ -35,7 +35,7 @@
         background: #83157b;
     }
     .reservation-sidebar .accordion-group{
-        margin:  0 0 5px;
+        margin:  0 0 10px;
     }
     .reservation-sidebar ul,
     .reservation-sidebar li{
@@ -99,6 +99,50 @@
         width: 20px;
         height: 20px;
     }
+    .icon-contractor:after{
+        content: " ";
+        background: url(../images/icons/icon-contractor.png) no-repeat;
+        background-size: 100% auto;
+        width: 20px;
+        height: 20px;
+    }
+    .icon-profile:after{
+        content: " ";
+        background: url(../images/icons/icon-billing.png) no-repeat;
+        background-size: 100% auto;
+        width: 20px;
+        height: 20px;
+        top: 0 !important;
+    }
+    .icon-lodge:after{
+        content: " ";
+        background: url(../images/icons/icon-lodge.png) no-repeat;
+        background-size: 100% auto;
+        width: 14px;
+        height: 26px;
+        top: 4px !important;
+    }
+    .icon-site:after{
+        content: " ";
+        background: url(../images/icons/icon-site.png) no-repeat;
+        background-size: 100% auto;
+        width: 20px;
+        height: 20px;
+    }
+    .icon-resources:after{
+        content: " ";
+        background: url(../images/icons/icon-resources.png) no-repeat;
+        background-size: 100% auto;
+        width: 20px;
+        height: 20px;
+    }
+    .icon-contact:after{
+        content: " ";
+        background: url(../images/icons/icon-contact.png) no-repeat;
+        background-size: 100% auto;
+        width: 20px;
+        height: 20px;
+    }
         .group-active .accordon-heading a:before{
             content: "\f068";
         }
@@ -141,19 +185,29 @@
         position: relative;
         margin:0 0 10px;
     }
+    .rev-datewrap:before{
+        content: " ";
+        background: url(../images/icons/date.png) no-repeat;
+        background-size: 100% auto;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        left: 9px;
+        top: 19px;
+    }
     .rev-datewrap .rev-date{
         color: #9F9FB7;
         width: 80px;
         position: absolute;
-        left: 20px;
-        top: 13px;
+        left: 35px;
+        top: 15px;
         display: block;
-        font-size: 15px;
+        font-size: 14px;
     }
     .rev-datewrap .form-control{
         height: 50px;
-        padding: 0 5px 0 100px;
-        font-size: 15px;
+        padding: 0 2px 0 114px;
+        font-size: 14px;
         color:#4F4F4F;
         width: 100%;
         border:1px solid #979797;

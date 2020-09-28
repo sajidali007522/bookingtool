@@ -1,1 +1,5 @@
 @import url("../../../../assets/css/reservation-results.css");
+.reservation-sidebar-inner{
+    padding-left: 15px;
+    padding-right: 15px;
+}

@@ -2,7 +2,7 @@
     <div class="reservation-sidebar">
       <div class="reservation-sidebar-inner">
         <div class="accordion-group">
-          <div class="accordon-heading"><a href="javascript:void(0);">Site<span *ngIf="state.loading.sites" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-site">Site<span *ngIf="state.loading.sites" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.siteID">
               <option value=""> < None ></option>
@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);">Resource<span *ngIf="state.loading.resources" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Resource<span *ngIf="state.loading.resources" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.resourceTypeID" (change)="resetFilter()">
               <option value=""> < None ></option>
@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);">Business Profiles<span *ngIf="state.loading.ruleBag" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-profile">Business Profiles<span *ngIf="state.loading.ruleBag" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.businessProfileID" (change)="loadContracts();  loadContractorList()">
               <option value=""> < None ></option>
@@ -51,7 +51,7 @@
           </div>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);">Contract<span *ngIf="state.loading.contract" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contact">Contract<span *ngIf="state.loading.contract" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
               <select class="select-field" [(ngModel)]="state.filterForm.contractID" (change)="loadContractSites()">
                 <option value="">None</option>
@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="accordion-group">
-          <div class="accordon-heading"><a href="javascript:void(0);">Lodge<span *ngIf="state.loading.ContractSite" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-lodge">Lodge<span *ngIf="state.loading.ContractSite" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" [(ngModel)]="state.filterForm.ContractSite">
               <option value="">None</option>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="accordion-group">
-          <div class="accordon-heading"><a href="javascript:void(0);">Contractor<span *ngIf="state.loading.ContractorList" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contractor">Contractor<span *ngIf="state.loading.ContractorList" class="fa fa-spinner fa-spin"></span></a></div>
           <div class="accordion-body">
             <select class="select-field" [(ngModel)]="state.filterForm.contractorID">
               <option value="">None</option>
