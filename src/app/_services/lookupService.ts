@@ -13,7 +13,7 @@ export class LookupService {
   }
 
   public loadResources (params={}) {
-    return this.hitLookup('ResourceType', params)
+    return this.hitLookup('AvailabilityResourceType', params)
   }
 
   public loadSites (params= {}) {

@@ -15,6 +15,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   remoteData =<any> [];
   remoteDataTemp = <any> [];
   state={
+    resourceTypeValue: 0,
     isMassEditting: false,
     recordLoaded: false,
     isEditting: false,
@@ -38,12 +39,12 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     filterForm: {
       beginDate:<any> new Date(),
       endDate:<any> new Date(),
-      siteID: '',
-      businessProfileID: '',
-      resourceTypeID: '',
-      contractID: '',
-      ContractSite: '',
-      contractorID: '',
+      siteID: '00000000-0000-0000-0000-000000000000',
+      businessProfileID: '00000000-0000-0000-0000-000000000000',
+      resourceTypeID: '00000000-0000-0000-0000-000000000000',
+      contractID: '00000000-0000-0000-0000-000000000000',
+      ContractSite: '00000000-0000-0000-0000-000000000000',
+      contractorID: '00000000-0000-0000-0000-000000000000',
       includeHolds: false
     },
     massEditForm: {number: 0 }
@@ -90,10 +91,17 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
         this.state.loading.resources = false;
         this.state.resourceTypes = res['data']['results'];
         this.state.filterForm.resourceTypeID = res['data']['results'][0].value;
+        this.setResourceType();
+        this.state.filterForm.businessProfileID = '00000000-0000-0000-0000-000000000000';
+        this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
+        this.state.filterForm.ContractSite = '00000000-0000-0000-0000-000000000000'
+      })
+  }
 
-        this.state.filterForm.businessProfileID = '';
-        this.state.filterForm.contractorID = '';
-        this.state.filterForm.ContractSite = ''
+  setResourceType () {
+    this.availService.getAvailabilityType(this.state.filterForm.resourceTypeID)
+      .subscribe((res:any)=>{
+        this.state.resourceTypeValue = res
       })
   }
 
@@ -103,17 +111,17 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       .subscribe(res=> {
         this.state.loading.ruleBag=false;
         this.state.businessProfiles=res['data']['results'];
-        this.state.filterForm.contractID = '';
-        this.state.filterForm.ContractSite = '';
-        this.state.filterForm.contractorID = '';
+        this.state.filterForm.contractID = '00000000-0000-0000-0000-000000000000';
+        this.state.filterForm.ContractSite = '00000000-0000-0000-0000-000000000000';
+        this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
       })
   }
 
   resetFilter() {
-    this.state.filterForm.businessProfileID = '';
-    this.state.filterForm.contractID = '';
-    this.state.filterForm.contractorID = '';
-    this.state.filterForm.ContractSite = ''
+    this.state.filterForm.businessProfileID = '00000000-0000-0000-0000-000000000000';
+    this.state.filterForm.contractID = '00000000-0000-0000-0000-000000000000';
+    this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
+    this.state.filterForm.ContractSite = '00000000-0000-0000-0000-000000000000'
   }
 
   loadContracts() {
@@ -150,10 +158,10 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.availService.loadRecords(this.state.filterForm.siteID,
       this.state.filterForm.contractID,
       this.state.filterForm.resourceTypeID,
+      this.state.filterForm.contractorID,
       {
         beginDate: beginDate,
         endDate: endDate,
-        contractorID: this.state.filterForm.contractorID,
         includeHold: this.state.filterForm.includeHolds
       })
       .subscribe(res=> {
