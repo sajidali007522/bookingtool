@@ -18,7 +18,7 @@ export class AlertModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openModal () {
+  openAlertModal () {
     this.state.open=true;
   }
 

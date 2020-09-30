@@ -7,7 +7,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { RoomsComponent } from './components/rooms/rooms.component';
 import { TravelComponent } from './components/travel/travel.component';
-import {AppModule} from "../app.module";
 
 @NgModule({
   declarations: [AvailabilityComponent, RoomsComponent, TravelComponent],
@@ -16,8 +15,7 @@ import {AppModule} from "../app.module";
         FormsModule,
         routing,
         BsDatepickerModule.forRoot(),
-        SharedModuleModule,
-        AppModule
+        SharedModuleModule
     ]
 })
 export class AvailabilityModule { }

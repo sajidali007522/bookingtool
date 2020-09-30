@@ -122,6 +122,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   resetFilter() {
+    this.remoteData = [];
+    this.remoteDataTemp = [];
     this.state.filterForm.businessProfileID = '00000000-0000-0000-0000-000000000000';
     this.state.filterForm.contractID = '00000000-0000-0000-0000-000000000000';
     this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
@@ -156,7 +158,12 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   loadRecords () {
-    if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue) ){ return; }
+    this.availService.resetErrors();
+    if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue)){
+      this.state.errorMessages = this.availService.getErrorMessages();
+      this.childcomp.openAlertModal()
+      return;
+    }
     let beginDate = this.state.filterForm.beginDate.getFullYear()+"-"+(this.state.filterForm.beginDate.getMonth()+1)+"-"+this.state.filterForm.beginDate.getDay();
     let endDate = this.state.filterForm.endDate.getFullYear()+"-"+(this.state.filterForm.endDate.getMonth()+1)+"-"+this.state.filterForm.endDate.getDay();
     this.state.loading.records = true;
@@ -206,6 +213,10 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.remoteData.filter(row=>{
       row.checked = true
     })
+  }
+
+  closeAlertModal(){
+    this.childcomp.closeModal();
   }
 
   saveChanges(){
