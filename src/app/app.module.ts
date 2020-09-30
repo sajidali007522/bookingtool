@@ -24,6 +24,7 @@ import {AuthenticationModule} from "./authentication/authentication.module";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
 import {DateParser} from "./_helpers/dateParser";
+import { AlertModalComponent } from './shared/alert-modal/alert-modal.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {DateParser} from "./_helpers/dateParser";
     LoginLayoutComponent,
     MainComponent,
     HomeComponent,
-    HomeLayoutComponent
+    HomeLayoutComponent,
+    AlertModalComponent
   ],
   imports: [
     BrowserModule,

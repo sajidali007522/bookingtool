@@ -20,14 +20,14 @@
     <td>{{dateParser.parseDate(row.date)}}</td>
     <td>{{row.dayOfWeek}}</td>
     <td>{{row.total || 0}}</td>
-    <td>{{row.avail || 0}}</td>
+    <td>{{row.available || 0}}</td>
     <td>{{row.pickup || 0}}</td>
-    <td>{{row.percentage}}</td>
-    <td>{{row.standardRoom}}</td>
+    <td>{{row.percentage || 0}}</td>
+    <td>{{row.standardRoom || 0}}</td>
     <td *ngIf="state.isEditting">
       <input type="text" class="edit-field" [(ngModel)]="row.standardRoom">
     </td>
-    <td>{{row.vipRoom}}</td>
+    <td>{{row.vipRoom || 0}}</td>
     <td *ngIf="state.isEditting">
       <input type="text" class="edit-field" [(ngModel)]="row.vipRoom">
     </td>

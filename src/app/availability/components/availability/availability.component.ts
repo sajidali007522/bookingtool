@@ -152,6 +152,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   loadRecords () {
+    if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue) ){ return; }
     let beginDate = this.state.filterForm.beginDate.getFullYear()+"-"+(this.state.filterForm.beginDate.getMonth()+1)+"-"+this.state.filterForm.beginDate.getDay();
     let endDate = this.state.filterForm.endDate.getFullYear()+"-"+(this.state.filterForm.endDate.getMonth()+1)+"-"+this.state.filterForm.endDate.getDay();
     this.state.loading.records = true;
