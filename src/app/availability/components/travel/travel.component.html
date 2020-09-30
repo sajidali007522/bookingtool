@@ -26,7 +26,7 @@
     <td>{{row.to}}</td>
     <td>
       <span *ngIf="!state.isEditting">{{row.total || 0}}</span>
-      <input type="text" value="50" class="edit-field" [(ngModel)]="row.total" *ngIf="state.isEditting">
+      <input type="text" class="edit-field" [(ngModel)]="row.total" *ngIf="state.isEditting">
     </td>
     <td>{{row.available || 0}}</td>
     <td>{{row.booked || 0}}</td>

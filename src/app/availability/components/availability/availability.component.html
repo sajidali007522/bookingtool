@@ -104,9 +104,9 @@
           <app-loader *ngIf="state.loading.records && state.resourceTypeValue <= 0"></app-loader>
             <div class="table-editable-wrap" *ngIf="!state.loading.records && state.resourceTypeValue > 0">
                 <div *ngIf="remoteData.length <= 0"> <h3 class="text-center">No record Found</h3></div>
-                <div *ngIf="remoteData.length >= 0">
-                  <app-rooms *ngIf="state.resourceTypeValue == 1" [remoteData]="remoteData" [state]="state"></app-rooms>
-                  <app-travel *ngIf="state.resourceTypeValue == 2" [remoteData]="remoteData" [state]="state"></app-travel>
+                <div *ngIf="remoteData">
+                  <app-rooms *ngIf="state.resourceTypeValue == 1 && remoteData['data'].length > 0" [remoteData]="remoteData" [state]="state"></app-rooms>
+                  <app-travel *ngIf="state.resourceTypeValue == 2 && remoteData.length > 0" [remoteData]="remoteData" [state]="state"></app-travel>
                 </div>
             </div>
         </div>

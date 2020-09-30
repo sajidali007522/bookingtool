@@ -16,7 +16,9 @@ export class RoomsComponent implements OnInit {
   constructor( private lookupService: LookupService,
                private availService: AvailabilityService,
                public dateParser: DateParser
-  ) {}
+  ) {
+    console.log(this.remoteData);
+  }
 
   ngOnInit(): void {
   }
