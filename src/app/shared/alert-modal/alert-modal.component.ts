@@ -7,7 +7,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class AlertModalComponent implements OnInit {
   @Input() messages;
-  @Output() isConfirmed=new EventEmitter<boolean>();
+  @Output() closeIt=new EventEmitter<boolean>();
 
   state = {
     open: false

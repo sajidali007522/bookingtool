@@ -1,9 +1,10 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {LookupService} from "../../../_services/lookupService";
 import * as $ from 'jquery'
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {AvailabilityService} from "../../../_services/availability.service";
 import {DateParser} from "../../../_helpers/dateParser";
+import {AlertModalComponent} from "../../../shared/alert-modal/alert-modal.component";
 
 @Component({
   selector: 'app-availability',
@@ -11,10 +12,13 @@ import {DateParser} from "../../../_helpers/dateParser";
   styleUrls: ['./availability.component.css']
 })
 export class AvailabilityComponent implements OnInit, AfterViewInit {
+  @ViewChild(AlertModalComponent) childcomp: AlertModalComponent;
+
   bsConfig: Partial<BsDatepickerConfig>;
   remoteData =<any> [];
   remoteDataTemp = <any> [];
   state={
+    errorMessages: [],
     resourceTypeValue: 0,
     isMassEditting: false,
     recordLoaded: false,
