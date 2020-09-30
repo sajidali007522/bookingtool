@@ -49,6 +49,9 @@ body.theme-dark .resv-btns a{
   border-color: #292e32 !important;
   color: #fff !important;
 }
+body.theme-dark .reservation-sidebar-inner option{
+  color:#000;
+}
 /* SearchResult end */
 
 
