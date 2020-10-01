@@ -63,13 +63,14 @@ import {DateParser} from "./_helpers/dateParser";
         };
       },
     },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     //{ provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     // provider used to create fake backend
     fakeBackendProvider,
     DateParser,
   ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

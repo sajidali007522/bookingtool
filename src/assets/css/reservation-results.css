@@ -950,36 +950,6 @@
             height: 25px;
             background: url(../images/icons/refresh.png) no-repeat;
         }
-    .table-editable-wrap{
-        max-width: 100%;
-        overflow-y: auto;
-    }
-    .table-editable-wrap .table{
-        background: #fff;
-    }
-    .table-editable-wrap .table th{
-        background: #ecf1f9;
-        color: #555;
-        padding:20px;
-    }
-    .table-editable-wrap .table td{
-        padding:20px;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-    .table-editable-wrap .table .edited-tr td{
-        background: #f0f0f1;
-    }
-    .table-editable-wrap .table .edited-tr td:first-child{
-        border-left: 4px solid #4C8199;
-    }
-    .edit-field{
-        border: 1px solid #125D81;
-        width: auto;
-        background: none;
-        padding: 5px 10px;
-        width: 50px;
-    }
 
 @media(max-width:1300px){
     .article-content-booking{

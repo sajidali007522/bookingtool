@@ -1,9 +1,10 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {LookupService} from "../../../_services/lookupService";
 import * as $ from 'jquery'
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {AvailabilityService} from "../../../_services/availability.service";
 import {DateParser} from "../../../_helpers/dateParser";
+import {AlertModalComponent} from "../../../shared/alert-modal/alert-modal.component";
 
 @Component({
   selector: 'app-availability',
@@ -11,10 +12,14 @@ import {DateParser} from "../../../_helpers/dateParser";
   styleUrls: ['./availability.component.css']
 })
 export class AvailabilityComponent implements OnInit, AfterViewInit {
+  @ViewChild(AlertModalComponent) childcomp: AlertModalComponent;
+
   bsConfig: Partial<BsDatepickerConfig>;
   remoteData =<any> [];
   remoteDataTemp = <any> [];
   state={
+    errorMessages: [],
+    resourceTypeValue: 0,
     isMassEditting: false,
     recordLoaded: false,
     isEditting: false,
@@ -38,12 +43,12 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     filterForm: {
       beginDate:<any> new Date(),
       endDate:<any> new Date(),
-      siteID: '',
-      businessProfileID: '',
-      resourceTypeID: '',
-      contractID: '',
-      ContractSite: '',
-      contractorID: '',
+      siteID: '00000000-0000-0000-0000-000000000000',
+      businessProfileID: '00000000-0000-0000-0000-000000000000',
+      resourceTypeID: '00000000-0000-0000-0000-000000000000',
+      contractID: '00000000-0000-0000-0000-000000000000',
+      ContractSite: '00000000-0000-0000-0000-000000000000',
+      contractorID: '00000000-0000-0000-0000-000000000000',
       includeHolds: false
     },
     massEditForm: {number: 0 }
@@ -90,10 +95,17 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
         this.state.loading.resources = false;
         this.state.resourceTypes = res['data']['results'];
         this.state.filterForm.resourceTypeID = res['data']['results'][0].value;
+        this.setResourceType();
+        this.state.filterForm.businessProfileID = '00000000-0000-0000-0000-000000000000';
+        this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
+        this.state.filterForm.ContractSite = '00000000-0000-0000-0000-000000000000'
+      })
+  }
 
-        this.state.filterForm.businessProfileID = '';
-        this.state.filterForm.contractorID = '';
-        this.state.filterForm.ContractSite = ''
+  setResourceType () {
+    this.availService.getAvailabilityType(this.state.filterForm.resourceTypeID)
+      .subscribe((res:any)=>{
+        this.state.resourceTypeValue = res
       })
   }
 
@@ -103,17 +115,19 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       .subscribe(res=> {
         this.state.loading.ruleBag=false;
         this.state.businessProfiles=res['data']['results'];
-        this.state.filterForm.contractID = '';
-        this.state.filterForm.ContractSite = '';
-        this.state.filterForm.contractorID = '';
+        this.state.filterForm.contractID = '00000000-0000-0000-0000-000000000000';
+        this.state.filterForm.ContractSite = '00000000-0000-0000-0000-000000000000';
+        this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
       })
   }
 
   resetFilter() {
-    this.state.filterForm.businessProfileID = '';
-    this.state.filterForm.contractID = '';
-    this.state.filterForm.contractorID = '';
-    this.state.filterForm.ContractSite = ''
+    this.remoteData = [];
+    this.remoteDataTemp = [];
+    this.state.filterForm.businessProfileID = '00000000-0000-0000-0000-000000000000';
+    this.state.filterForm.contractID = '00000000-0000-0000-0000-000000000000';
+    this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
+    this.state.filterForm.ContractSite = '00000000-0000-0000-0000-000000000000'
   }
 
   loadContracts() {
@@ -144,16 +158,22 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   loadRecords () {
+    this.availService.resetErrors();
+    if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue)){
+      this.state.errorMessages = this.availService.getErrorMessages();
+      this.childcomp.openAlertModal()
+      return;
+    }
     let beginDate = this.state.filterForm.beginDate.getFullYear()+"-"+(this.state.filterForm.beginDate.getMonth()+1)+"-"+this.state.filterForm.beginDate.getDay();
     let endDate = this.state.filterForm.endDate.getFullYear()+"-"+(this.state.filterForm.endDate.getMonth()+1)+"-"+this.state.filterForm.endDate.getDay();
     this.state.loading.records = true;
     this.availService.loadRecords(this.state.filterForm.siteID,
       this.state.filterForm.contractID,
       this.state.filterForm.resourceTypeID,
+      this.state.filterForm.contractorID,
       {
         beginDate: beginDate,
         endDate: endDate,
-        contractorID: this.state.filterForm.contractorID,
         includeHold: this.state.filterForm.includeHolds
       })
       .subscribe(res=> {
@@ -193,6 +213,10 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.remoteData.filter(row=>{
       row.checked = true
     })
+  }
+
+  closeAlertModal(){
+    this.childcomp.closeModal();
   }
 
   saveChanges(){

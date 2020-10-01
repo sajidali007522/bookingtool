@@ -1,0 +1,36 @@
+<table class="table table-editable">
+  <thead>
+  <th *ngIf="state.isMassEditting"></th>
+  <th>Date </th>
+  <th>Day</th>
+  <th>Total</th>
+  <th>Avail</th>
+  <th>Pickup</th>
+  <th>%</th>
+  <th>Standard Room</th>
+  <th *ngIf="state.isEditting">Standard Room Hold</th>
+  <th>VIP Room</th>
+  <th *ngIf="state.isEditting">VIP Room Hold</th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of remoteData['data']" [ngClass]="{'edited-tr': state.isEditting}">
+    <td *ngIf="state.isMassEditting">
+      <input type="checkbox" [(ngModel)]="row.checked" />
+    </td>
+    <td>{{dateParser.parseDate(row.date)}}</td>
+    <td>{{row.dayOfWeek}}</td>
+    <td>{{row.total || 0}}</td>
+    <td>{{row.available || 0}}</td>
+    <td>{{row.pickup || 0}}</td>
+    <td>{{row.percentage || 0}}</td>
+    <td>{{row.standardRoom || 0}}</td>
+    <td *ngIf="state.isEditting">
+      <input type="text" class="edit-field" [(ngModel)]="row.standardRoom">
+    </td>
+    <td>{{row.vipRoom || 0}}</td>
+    <td *ngIf="state.isEditting">
+      <input type="text" class="edit-field" [(ngModel)]="row.vipRoom">
+    </td>
+  </tr>
+  </tbody>
+</table>

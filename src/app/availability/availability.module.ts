@@ -5,9 +5,11 @@ import {FormsModule} from "@angular/forms";
 import {routing} from "./availability.routing";
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {SharedModuleModule} from "../shared-module/shared-module.module";
+import { RoomsComponent } from './components/rooms/rooms.component';
+import { TravelComponent } from './components/travel/travel.component';
 
 @NgModule({
-  declarations: [AvailabilityComponent],
+  declarations: [AvailabilityComponent, RoomsComponent, TravelComponent],
     imports: [
         CommonModule,
         FormsModule,
