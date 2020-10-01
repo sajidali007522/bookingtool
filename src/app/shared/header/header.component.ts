@@ -14,13 +14,15 @@ export class HeaderComponent implements OnInit {
   language;
   custom_configs;
   userDevice;
-
+  currentUser={};
   constructor( private renderer: Renderer2,
                public router: Router,
                private authenticationService: AuthenticationService,
                private appConfigService: ConfigService
   ) {
     this.custom_configs = this.appConfigService.ui_configs || {};
+    this.currentUser = this.authenticationService.currentUserValue
+    console.log(this.currentUser);
   }
 
   ngOnInit(): void {
