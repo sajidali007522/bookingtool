@@ -179,7 +179,6 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       .subscribe(res=> {
         this.state.recordLoaded=true;
         this.remoteData = res;
-        console.log(res)
       },
         err=>{console.log(err)},
         ()=>{this.state.loading.records = false;}
