@@ -205,15 +205,28 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   selectNone(){
-    this.remoteData.filter(row=>{
-      row.checked = false
-    })
+    if(this.state.resourceTypeValue == 1) {// rooms
+      this.setRemoteDataState(this.remoteData['data'], false)
+    }
+    if(this.state.resourceTypeValue == 2) {// travel
+      this.setRemoteDataState(this.remoteData, false)
+    }
   }
   selectAll(){
-    this.remoteData.filter(row=>{
-      row.checked = true
+    if(this.state.resourceTypeValue == 1) {// rooms
+      this.setRemoteDataState(this.remoteData['data'], true)
+    }
+    if(this.state.resourceTypeValue == 2) {// travel
+      this.setRemoteDataState(this.remoteData, true)
+    }
+  }
+
+  setRemoteDataState(data, state) {
+    data.filter(row=>{
+      row.checked = state
     })
   }
+
 
   closeAlertModal(){
     this.childcomp.closeModal();
