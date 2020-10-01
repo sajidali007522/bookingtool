@@ -164,8 +164,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       this.childcomp.openAlertModal()
       return;
     }
-    let beginDate = this.state.filterForm.beginDate.getFullYear()+"-"+(this.state.filterForm.beginDate.getMonth()+1)+"-"+this.state.filterForm.beginDate.getDay();
-    let endDate = this.state.filterForm.endDate.getFullYear()+"-"+(this.state.filterForm.endDate.getMonth()+1)+"-"+this.state.filterForm.endDate.getDay();
+    let beginDate = this.state.filterForm.beginDate.getFullYear()+"-"+(this.state.filterForm.beginDate.getMonth()+1)+"-"+(this.state.filterForm.beginDate.getDay()+1);
+    let endDate = this.state.filterForm.endDate.getFullYear()+"-"+(this.state.filterForm.endDate.getMonth()+1)+"-"+(this.state.filterForm.endDate.getDay()+1);
     this.state.loading.records = true;
     this.availService.loadRecords(this.state.filterForm.siteID,
       this.state.filterForm.contractID,
