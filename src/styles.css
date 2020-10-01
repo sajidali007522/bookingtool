@@ -913,6 +913,12 @@ body.menu-fullwidth .reservation-content-area{
   overflow: hidden;
   white-space: nowrap;
 }
+.table-editable-wrap .table.table-sm th,
+.table-editable-wrap .table.table-sm td{
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 14px;
+}
 .table-editable-wrap .table .edited-tr td:first-child{
   border-left: 4px solid #4C8199;
 }
@@ -922,6 +928,17 @@ body.menu-fullwidth .reservation-content-area{
   background: none;
   padding: 5px 10px;
   width: 50px;
+}
+.norecord{
+  background: #fff;
+    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.22);
+    min-height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin: 25px;
 }
 /* for reservation-results end */
 
@@ -1039,6 +1056,13 @@ body.menu-fullwidth .reservation-content-area{
   }
   .table-housekeeping-wrap .box.loader{
     min-height: 400px;
+  }
+  .sure-wrap h2{
+    font-size: 34px;
+  }
+  .norecord{
+    padding: 15px;
+    min-height: 200px;
   }
 }
 
