@@ -69,8 +69,9 @@
         </ul>
       </li>
       <li class="has-dropdown">
-        <a routerLink="/login">Login</a>
-        <ul class="dropdown-menu-wrap">
+        <a *ngIf="!currentUser" routerLink="/login">Login</a>
+        <a href="javascript:void(0)" *ngIf="currentUser">{{currentUser['username']}}</a>
+        <ul *ngIf="currentUser" class="dropdown-menu-wrap">
           <li><a href="javascript:void(0);"><i class="fa fa-gears"></i> <span>Settings</span></a></li>
           <li><a href="javascript:void(0);"><i class="fa fa-user"></i> <span>Profile</span></a></li>
           <li><a href="javascript:void(0);" (click)="logout()"><i class="fa fa-sign-in"></i> <span>Logout</span></a></li>
