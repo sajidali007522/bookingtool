@@ -99,7 +99,7 @@
     </div><!-- reservation-sidebar -->
     <div class="reservation-content-area">
         <div class="reservation-content-inner">
-          <app-loader *ngIf="state.loading.records && state.resourceTypeValue <= 0"></app-loader>
+          <app-loader *ngIf="state.loading.records || state.resourceTypeValue <= 0"></app-loader>
           <div class="table-editable-wrap" *ngIf="!state.loading.records && state.resourceTypeValue > 0">
               <div *ngIf="remoteData.length <= 0"> <div class="norecord"><h3 class="text-center">No Record Found</h3></div> </div>
               <div *ngIf="remoteData">

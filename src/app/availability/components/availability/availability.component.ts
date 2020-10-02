@@ -176,7 +176,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       {
         beginDate: beginDate,
         endDate: endDate,
-        includeHold: this.state.filterForm.includeHolds
+        includeHolds: this.state.filterForm.includeHolds
       })
       .subscribe(res=> {
         this.state.recordLoaded=true;
@@ -197,11 +197,15 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.remoteData = JSON.parse(JSON.stringify(this.remoteDataTemp));
     this.state.isEditting= false;
     this.state.isMassEditting= false;
+    this.state.filterForm.includeHolds = false;
+    this.loadRecords();
   }
 
   setMassEdit(){
     if(this.remoteData.length <= 0 ) return;
     this.remoteDataTemp = JSON.parse(JSON.stringify(this.remoteData));
+    this.state.filterForm.includeHolds = true;
+    this.loadRecords();
     this.state.isMassEditting= true;
   }
 
