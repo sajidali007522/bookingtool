@@ -14,22 +14,34 @@
   </thead>
   <tbody>
   <tr *ngFor="let row of remoteData" [ngClass]="{'edited-tr': state.isEditting}">
-    <td *ngIf="state.isMassEditting">
+    <td data-title="" *ngIf="state.isMassEditting">
       <input type="checkbox" [(ngModel)]="row.checked" />
     </td>
-    <td>{{row.identifier}}</td>
-    <td>{{row.leg}}</td>
-    <td>{{dateParser.parseDate(row.date)}}</td>
-    <td>{{row.from}}</td>
-    <td>{{dateParser.parseDateToTime(row.startDate)}}</td>
-    <td>{{dateParser.parseDateToTime(row.endDate)}}</td>
-    <td>{{row.to}}</td>
-    <td>
+    <td data-title="Flight#">{{row.identifier}}</td>
+    <td data-title="Leg">{{row.leg}}</td>
+    <td data-title="Date">{{dateParser.parseDate(row.date)}}</td>
+    <td data-title="Origination">{{row.from}}</td>
+    <td data-title="Depart">{{dateParser.parseDateToTime(row.startDate)}}</td>
+    <td data-title="Arrive">{{dateParser.parseDateToTime(row.endDate)}}</td>
+    <td data-title="Destination">{{row.to}}</td>
+    <td data-title="Total">
       <span *ngIf="!state.isEditting">{{row.total || 0}}</span>
       <input type="text" class="edit-field" [(ngModel)]="row.total" *ngIf="state.isEditting">
     </td>
-    <td>{{row.available || 0}}</td>
-    <td>{{row.booked || 0}}</td>
+    <td data-title="Avail">{{row.available || 0}}</td>
+    <td data-title="Booked">{{row.booked || 0}}</td>
   </tr>
   </tbody>
 </table>
+<div class="for-mobile">
+  <ul class="pagination justify-content-center pagination-arrow">
+    <li class="page-item page-prev">
+      <a href="javascript:void(0)" class="page-link">
+      <span>Previous</span>
+    </a></li>
+    <li class="page-item page-next">
+      <a href="javascript:void(0)" class="page-link">
+      <span>Next</span>
+    </a></li>
+  </ul>
+</div>

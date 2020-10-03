@@ -12,19 +12,33 @@
   </thead>
   <tbody>
   <tr *ngFor="let row of remoteData['data']" [ngClass]="{'edited-tr': state.isEditting}">
-    <td *ngIf="state.isMassEditting">
+    <td data-title="" *ngIf="state.isMassEditting">
       <input type="checkbox" [(ngModel)]="row.checked" />
     </td>
-    <td>{{dateParser.parseDate(row.date)}}</td>
-    <td>{{row.dayOfWeek}}</td>
-    <td>{{row.total || 0}}</td>
-    <td>{{row.available || 0}}</td>
-    <td>{{row.pickup || 0}}</td>
-    <td>{{row.percentage || 0}}</td>
-    <td *ngFor="let feature of row.features">
+    <td data-title="Date">{{dateParser.parseDate(row.date)}}</td>
+    <td data-title="Day">{{row.dayOfWeek}}</td>
+    <td data-title="Total">{{row.total || 0}}</td>
+    <td data-title="Avail">{{row.available || 0}}</td>
+    <td data-title="Pickup">{{row.pickup || 0}}</td>
+    <td data-title="%">{{row.percentage || 0}}</td>
+    <td data-title="{{feature.description}}" *ngFor="let feature of row.features">
       {{feature['number'] || 0}}
     </td>
-    <td>{{row.total}}</td>
+    <td data-title="Total">{{row.total}}</td>
   </tr>
   </tbody>
 </table>
+
+
+<div class="for-mobile">
+  <ul class="pagination justify-content-center pagination-arrow">
+    <li class="page-item page-prev">
+      <a href="javascript:void(0)" class="page-link">
+      <span>Previous</span>
+    </a></li>
+    <li class="page-item page-next">
+      <a href="javascript:void(0)" class="page-link">
+      <span>Next</span>
+    </a></li>
+  </ul>
+</div>
