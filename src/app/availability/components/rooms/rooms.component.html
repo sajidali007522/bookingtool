@@ -7,8 +7,10 @@
   <th>Avail</th>
   <th>Pickup</th>
   <th>%</th>
-  <th *ngFor="let feature of remoteData['features']">{{feature.description}}</th>
-  <th>Total</th>
+  <ng-container *ngFor="let feature of remoteData['features']">
+    <th>{{feature.description}}</th>
+    <th *ngIf="state.filterForm.includeHolds">{{feature.description}} Hold</th>
+  </ng-container>
   </thead>
   <tbody>
   <tr *ngFor="let row of remoteData['data']" [ngClass]="{'edited-tr': state.isEditting}">
@@ -21,10 +23,14 @@
     <td data-title="Avail">{{row.available || 0}}</td>
     <td data-title="Pickup">{{row.pickup || 0}}</td>
     <td data-title="%">{{row.percentage || 0}}</td>
-    <td data-title="{{feature.description}}" *ngFor="let feature of row.features">
-      {{feature['number'] || 0}}
-    </td>
-    <td data-title="Total">{{row.total}}</td>
+    <ng-container *ngFor="let feature of row.features; let index = index;">
+      <td data-title="{{remoteData['features'][index]}}">
+        {{feature['number'] || 0}}
+      </td>
+      <td data-title="{{remoteData['features'][index]}} Hold" *ngIf="state.filterForm.includeHolds">
+        {{feature['hold'] || 0}}
+      </td>
+    </ng-container>
   </tr>
   </tbody>
 </table>
