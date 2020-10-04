@@ -1,10 +1,11 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {LookupService} from "../../../_services/lookupService";
 import * as $ from 'jquery'
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {AvailabilityService} from "../../../_services/availability.service";
 import {DateParser} from "../../../_helpers/dateParser";
 import {AlertModalComponent} from "../../../shared/alert-modal/alert-modal.component";
+import {DeviceDetectionService} from "../../../_services/device-detection.service";
 
 @Component({
   selector: 'app-availability',
@@ -53,9 +54,11 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     },
     massEditForm: {number: 0 }
   }
-  constructor( private lookupService: LookupService,
+  constructor( private renderer: Renderer2,
+               private lookupService: LookupService,
                private availService: AvailabilityService,
-               public dateParser: DateParser
+               public dateParser: DateParser,
+               public dvcService:DeviceDetectionService
   ) {
     this.bsConfig = Object.assign({}, { dateInputFormat: 'MM/DD/YYYY' });
     let date = new Date();
@@ -181,9 +184,17 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       .subscribe(res=> {
         this.state.recordLoaded=true;
         this.remoteData = res;
+
       },
-        err=>{console.log(err)},
-        ()=>{this.state.loading.records = false;}
+      err=>{
+        console.log(err)
+      },
+      ()=>{
+        this.state.loading.records = false;
+        if(this.dvcService.isMobile()) {
+          this.renderer.addClass(document.body, 'menu-fullwidth')
+        }
+      }
         );
   }
 
