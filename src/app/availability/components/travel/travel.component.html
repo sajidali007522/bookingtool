@@ -1,4 +1,4 @@
-<table *ngIf="remoteData.length > 0" class="table table-editable">
+<table *ngIf="remoteData.length > 0" class="table table-editable" (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
   <thead>
   <th *ngIf="state.isMassEditting"></th>
   <th>Flight# </th>
@@ -36,11 +36,11 @@
 <div class="for-mobile">
   <ul class="pagination justify-content-center pagination-arrow">
     <li class="page-item page-prev">
-      <a href="javascript:void(0)" class="page-link">
-      <span>Previous</span>
-    </a></li>
+      <a href="javascript:void(0)" (click)="swipePrev()" class="page-link">
+        <span>Previous</span>
+      </a></li>
     <li class="page-item page-next">
-      <a href="javascript:void(0)" class="page-link">
+      <a href="javascript:void(0)" (click)="swipeNext()" class="page-link">
       <span>Next</span>
     </a></li>
   </ul>

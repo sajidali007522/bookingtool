@@ -19,6 +19,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   remoteData =<any> [];
   remoteDataTemp = <any> [];
   state={
+    mobileContainer: <any>[],
+    recordVisible: 0,
     errorMessages: [],
     resourceTypeValue: 0,
     isMassEditting: false,
@@ -162,6 +164,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   loadRecords () {
+    if(this.state.loading.records == true) return;
     this.availService.resetErrors();
     if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue)){
       this.state.errorMessages = this.availService.getErrorMessages();
@@ -184,6 +187,15 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       .subscribe(res=> {
         this.state.recordLoaded=true;
         this.remoteData = res;
+        if(this.dvcService.isMobile()) {
+          if(this.state.resourceTypeValue == 1) {
+            this.remoteData['data'] = [res['data'][0]]
+          } else {
+            this.remoteData = [res[0]];
+          }
+          this.state.mobileContainer = res;
+          this.state.recordVisible = 0;
+        }
 
       },
       err=>{
@@ -250,5 +262,25 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   saveChanges(){
 
+  }
+  public nextPage(event) {
+    if(!this.dvcService.isMobile()) return;
+    if(this.state.recordVisible >= this.state.mobileContainer.length) { return; }
+    this.state.recordVisible++
+    if(this.state.resourceTypeValue == 1) {
+      this.remoteData['data'] = [this.state.mobileContainer['data'][this.state.recordVisible]];
+    } else {
+      this.remoteData = [this.state.mobileContainer[this.state.recordVisible]];
+    }
+  }
+  public previousPage(event) {
+    if(!this.dvcService.isMobile()) return;
+    if(this.state.recordVisible <= 0) {return;}
+    this.state.recordVisible--
+    if(this.state.resourceTypeValue == 1) {
+      this.remoteData['data'] = [this.state.mobileContainer['data'][this.state.recordVisible]];
+    } else {
+      this.remoteData = [this.state.mobileContainer[this.state.recordVisible]];
+    }
   }
 }
