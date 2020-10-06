@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, 
 import {LookupService} from "../../../_services/lookupService";
 import {AvailabilityService} from "../../../_services/availability.service";
 import {DateParser} from "../../../_helpers/dateParser";
-import * as $ from 'jquery'
+import 'hammerjs'
 
 @Component({
   selector: 'app-rooms',

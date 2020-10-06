@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 
+import {HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angular/platform-browser';
+
 import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -47,6 +49,7 @@ import {DateParser} from "./_helpers/dateParser";
     ReactiveFormsModule,
     AuthenticationModule,
     SharedModuleModule,
+    HammerModule
 //    AuthenticationModule
   ],
   providers: [
@@ -63,6 +66,7 @@ import {DateParser} from "./_helpers/dateParser";
     },
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    { provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig},
     //{ provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     // provider used to create fake backend
     fakeBackendProvider,

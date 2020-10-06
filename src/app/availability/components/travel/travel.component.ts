@@ -3,7 +3,7 @@ import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {LookupService} from "../../../_services/lookupService";
 import {AvailabilityService} from "../../../_services/availability.service";
 import {DateParser} from "../../../_helpers/dateParser";
-
+import 'hammerjs'
 
 @Component({
   selector: 'app-travel',
