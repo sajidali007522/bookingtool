@@ -6,6 +6,7 @@ import {AvailabilityService} from "../../../_services/availability.service";
 import {DateParser} from "../../../_helpers/dateParser";
 import {AlertModalComponent} from "../../../shared/alert-modal/alert-modal.component";
 import {DeviceDetectionService} from "../../../_services/device-detection.service";
+import {RoomsComponent} from "../rooms/rooms.component";
 
 @Component({
   selector: 'app-availability',
@@ -163,7 +164,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       })
   }
 
-  loadRecords () {
+  loadRecords (avtiveIndex= 0) {
     if(this.state.loading.records == true) return;
     this.availService.resetErrors();
     if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue)){
@@ -187,14 +188,15 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       .subscribe(res=> {
         this.state.recordLoaded=true;
         this.remoteData = res;
+        this.state.recordVisible = avtiveIndex;
         if(this.dvcService.isMobile()) {
           if(this.state.resourceTypeValue == 1) {
-            this.remoteData['data'] = [res['data'][0]]
+            this.state.mobileContainer = JSON.parse(JSON.stringify(res['data']));
+            this.remoteData['data'] = [res['data'][this.state.recordVisible]]
           } else {
-            this.remoteData = [res[0]];
+            this.remoteData = [res[this.state.recordVisible]];
+            this.state.mobileContainer = res;
           }
-          this.state.mobileContainer = res;
-          this.state.recordVisible = 0;
         }
 
       },
@@ -210,13 +212,16 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
         );
   }
 
-  setEditMode(){
-    if(this.remoteData.length <= 0 ) return;
+  setEditMode(event:any={}){
+    console.log("setting edit mode");
+    if((this.state.resourceTypeValue == 2 && this.remoteData.length <= 0) || (this.state.resourceTypeValue == 1 && this.remoteData['data'].length <= 0) ) return;
     this.remoteDataTemp = JSON.parse(JSON.stringify(this.remoteData));
     this.state.isEditting= true;
+    this.state.filterForm.includeHolds = true
+    this.loadRecords(this.state.recordVisible)
   }
 
-  resetEditMode () {
+  resetEditMode (event:any={}) {
     this.remoteData = JSON.parse(JSON.stringify(this.remoteDataTemp));
     this.state.isEditting= false;
     this.state.isMassEditting= false;
@@ -263,12 +268,17 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   saveChanges(){
 
   }
+
+  saveCard(event:any={}) {
+    console.log("card saved")
+  }
+
   public nextPage(event) {
     if(!this.dvcService.isMobile()) return;
-    if(this.state.recordVisible >= this.state.mobileContainer.length) { return; }
+    if(this.state.recordVisible >= (this.state.mobileContainer.length-1)) { return; }
     this.state.recordVisible++
     if(this.state.resourceTypeValue == 1) {
-      this.remoteData['data'] = [this.state.mobileContainer['data'][this.state.recordVisible]];
+      this.remoteData['data'] = [this.state.mobileContainer[this.state.recordVisible]];
     } else {
       this.remoteData = [this.state.mobileContainer[this.state.recordVisible]];
     }
@@ -278,7 +288,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     if(this.state.recordVisible <= 0) {return;}
     this.state.recordVisible--
     if(this.state.resourceTypeValue == 1) {
-      this.remoteData['data'] = [this.state.mobileContainer['data'][this.state.recordVisible]];
+      this.remoteData['data'] = [this.state.mobileContainer[this.state.recordVisible]];
     } else {
       this.remoteData = [this.state.mobileContainer[this.state.recordVisible]];
     }

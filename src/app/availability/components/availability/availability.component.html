@@ -103,8 +103,24 @@
           <div class="table-editable-wrap table-datatitle-wrap" *ngIf="!state.loading.records && state.resourceTypeValue > 0">
               <div *ngIf="remoteData.length <= 0"> <div class="norecord"><h3 class="text-center">No Record Found</h3></div> </div>
               <div *ngIf="remoteData">
-                <app-rooms *ngIf="state.resourceTypeValue == 1 && remoteData.hasOwnProperty('data') && remoteData['data'].length > 0" [remoteData]="remoteData" [state]="state" (nextPage)="nextPage($event)" (prevPage)="previousPage($event)"></app-rooms>
-                <app-travel *ngIf="state.resourceTypeValue == 2 && !remoteData.hasOwnProperty('data') && remoteData.length > 0" [remoteData]="remoteData" [state]="state"  (nextPage)="nextPage($event)" (prevPage)="previousPage($event)"></app-travel>
+                <app-rooms *ngIf="state.resourceTypeValue == 1 && remoteData.hasOwnProperty('data') && remoteData['data'].length > 0"
+                           [remoteData]="remoteData"
+                           [state]="state"
+                           (nextPage)="nextPage($event)"
+                           (prevPage)="previousPage($event)"
+                           (edit)="setEditMode($event)"
+                           (endEdit)="resetEditMode($event)"
+                           (save)="saveCard($event)"
+                ></app-rooms>
+                <app-travel *ngIf="state.resourceTypeValue == 2 && !remoteData.hasOwnProperty('data') && remoteData.length > 0"
+                            [remoteData]="remoteData"
+                            [state]="state"
+                            (nextPage)="nextPage($event)"
+                            (prevPage)="previousPage($event)"
+                            (edit)="setEditMode($event)"
+                            (endEdit)="resetEditMode($event)"
+                            (save)="saveCard($event)"
+                ></app-travel>
               </div>
           </div>
         </div>

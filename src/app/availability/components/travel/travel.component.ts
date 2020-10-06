@@ -1,15 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {LookupService} from "../../../_services/lookupService";
 import {AvailabilityService} from "../../../_services/availability.service";
 import {DateParser} from "../../../_helpers/dateParser";
-import {MyHammerConfig} from "./../../availability.module"
-import {
-  HammerGestureConfig,
-  HAMMER_GESTURE_CONFIG
-} from "@angular/platform-browser";
-import { fromEvent } from "rxjs";
-import {takeWhile} from "rxjs/operators"
+
 
 @Component({
   selector: 'app-travel',
@@ -23,6 +17,9 @@ export class TravelComponent implements OnInit {
 
   @Output() nextPage = new EventEmitter<string>();
   @Output() prevPage = new EventEmitter<string>();
+  @Output() edit = new EventEmitter<string>();
+  @Output() endEdit = new EventEmitter<string>();
+  @Output() save = new EventEmitter<string>();
 
   constructor( private lookupService: LookupService,
                private availService: AvailabilityService,
@@ -30,6 +27,24 @@ export class TravelComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    /*const hammerConfig = new HammerGestureConfig()
+    //or if you use another class as provider:
+    //    const hammerConfig=new MyHammerConfig()
+
+    const hammer=hammerConfig.buildHammer(document.documentElement)
+    fromEvent(hammer, "swipe").pipe(
+      takeWhile(()=>true))
+      .subscribe((res: any) => {
+        console.log(res.deltaX);
+      });*/
+  }
+  getResourceType() {
+    let data = this.state.resourceTypes.filter(resource => {
+      if (resource.value == this.state.filterForm.resourceTypeID){
+        return resource;
+      }
+    })
+    return data[0].text;
   }
 
   swipeNext() {
@@ -39,5 +54,17 @@ export class TravelComponent implements OnInit {
 
   swipePrev() {
     this.prevPage.emit('prevPage');
+  }
+
+  setEdit () {
+    this.edit.emit('setEdit');
+  }
+
+  resetEdit () {
+    this.endEdit.emit('endEdit');
+  }
+
+  callSave () {
+    this.save.emit('save');
   }
 }

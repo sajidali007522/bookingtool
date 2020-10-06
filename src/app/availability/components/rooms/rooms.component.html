@@ -1,12 +1,20 @@
+<div class="for-mobile">
+  <h3 class="text-center">{{getResourceType()}}</h3>
+</div>
+<div class="for-mobile">
+  <ul class="pagination justify-content-center">
+    <li>Showing {{(this.state.recordVisible+1)}} of {{this.state.mobileContainer.length}} Records</li>
+  </ul>
+</div>
 <table class="table table-sm table-editable"  (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
   <thead>
-  <th *ngIf="state.isMassEditting"></th>
-  <th>Date </th>
-  <th>Day</th>
-  <th>Total</th>
-  <th>Avail</th>
-  <th>Pickup</th>
-  <th>%</th>
+    <th *ngIf="state.isMassEditting"></th>
+    <th>Date </th>
+    <th>Day</th>
+    <th>Total</th>
+    <th>Avail</th>
+    <th>Pickup</th>
+    <th>%</th>
   <ng-container *ngFor="let feature of remoteData['features']">
     <th>{{feature.description}}</th>
     <th *ngIf="state.filterForm.includeHolds">{{feature.description}} Hold</th>
@@ -28,7 +36,7 @@
         {{feature['number'] || 0}}
       </td>
       <td data-title="{{remoteData['features'][i]}} Hold" *ngIf="state.filterForm.includeHolds">
-        {{feature['hold'] || 0}}
+        <input type="text" class="edit-field" [(ngModel)]="feature['hold']" />
       </td>
     </ng-container>
   </tr>
@@ -42,6 +50,11 @@
       <a href="javascript:void(0)" (click)="swipePrev()" class="page-link">
       <span>Previous</span>
     </a></li>
+    <li>
+      <button *ngIf="!state.isEditting" (click)="setEdit()" class="btn btn-default btn-primary"> Edit </button>
+      <button *ngIf="state.isEditting" (click)="resetEdit()" class="btn btn-default btn-primary">End Edit</button>
+      <button *ngIf="state.isEditting" (click)="callSave()" class="btn btn-default btn-primary">Save</button>
+    </li>
     <li class="page-item page-next">
       <a href="javascript:void(0)" (click)="swipeNext()" class="page-link">
       <span>Next</span>
