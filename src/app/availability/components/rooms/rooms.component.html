@@ -1,10 +1,12 @@
-<div class="for-mobile">
-  <h3 class="text-center">{{getResourceType()}}</h3>
-</div>
-<div class="for-mobile">
-  <ul class="pagination justify-content-center">
-    <li>Showing {{(this.state.recordVisible+1)}} of {{this.state.mobileContainer.length}} Records</li>
-  </ul>
+<div class="topinfo-wrap">
+  <div class="for-mobile">
+    <h3 class="text-center">{{getResourceType()}}</h3>
+  </div>
+  <div class="for-mobile">
+    <ul class="pagination justify-content-center">
+      <li>Showing {{(this.state.recordVisible+1)}} of {{this.state.mobileContainer.length}} Records</li>
+    </ul>
+  </div>
 </div>
 <table class="table table-sm table-editable"  (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
   <thead>
@@ -51,9 +53,9 @@
       <span>Previous</span>
     </a></li>
     <li>
-      <button *ngIf="!state.isEditting" (click)="setEdit()" class="btn btn-default btn-primary"> Edit </button>
-      <button *ngIf="state.isEditting" (click)="resetEdit()" class="btn btn-default btn-primary">End Edit</button>
-      <button *ngIf="state.isEditting" (click)="callSave()" class="btn btn-default btn-primary">Save</button>
+      <button *ngIf="!state.isEditting" (click)="setEdit()" class="btn btn-default btn-success btn-inarrow"> Edit </button>
+      <button *ngIf="state.isEditting" (click)="resetEdit()" class="btn btn-default btn-secondary btn-inarrow">End Edit</button>
+      <button *ngIf="state.isEditting" (click)="callSave()" class="btn btn-default btn-success btn-inarrow">Save</button>
     </li>
     <li class="page-item page-next">
       <a href="javascript:void(0)" (click)="swipeNext()" class="page-link">

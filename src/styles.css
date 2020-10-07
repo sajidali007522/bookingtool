@@ -941,6 +941,15 @@ body.menu-fullwidth .reservation-content-area{
     margin: 25px;
 }
 /* for reservation-results end */
+.topinfo-wrap h3{
+  margin: 0 0 7px;
+  font-size: 23px;
+}
+.btn-inarrow{
+  padding: 5px 8px;
+  margin: 0 3px;
+  font-size: 14px;
+}
 
 @media(min-width:767px){
   .modal-md{
