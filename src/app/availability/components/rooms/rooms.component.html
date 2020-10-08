@@ -38,7 +38,7 @@
         {{feature['number'] || 0}}
       </td>
       <td data-title="{{remoteData['features'][i]}} Hold" *ngIf="state.filterForm.includeHolds">
-        <input type="text" class="edit-field" [(ngModel)]="feature['hold']" />
+        <input type="text" class="edit-field" [(ngModel)]="feature['hold']" (blur)="setAsSelected(row, feature)" />
       </td>
     </ng-container>
   </tr>

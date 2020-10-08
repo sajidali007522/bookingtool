@@ -79,4 +79,9 @@ export class RoomsComponent implements OnInit,AfterViewInit {
   setCardCellTitle() {
 
   }
+
+  setAsSelected (item, feature) {
+    item.checked = true;
+    feature.checked=true;
+  }
 }

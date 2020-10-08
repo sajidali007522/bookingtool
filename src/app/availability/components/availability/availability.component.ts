@@ -266,11 +266,43 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   saveChanges(){
-
+    var postBody = []
+    if(this.state.resourceTypeValue == 1) {
+      postBody = this.remoteData.data.filter((row)=> {
+        var temp = {}
+        if(row.checked) {
+          temp = row;
+          delete temp['$type']
+          temp['features']= [];
+          temp['features'] = row.features.filter((feature) => {
+            if(this.state.isMassEditting) { feature.hold = this.state.massEditForm.number }
+            if(feature.checked) return feature;
+          })
+          return temp;
+        }
+      });
+    } else {
+      postBody = this.remoteData.filter((row)=> {
+        if(row.checked) {
+          delete row.$type
+          if(this.state.isMassEditting) { row.total = this.state.massEditForm.number }
+          return row
+        }
+      });
+    }
+    console.log(postBody);
+    this.availService.patchAvailabilityRecord(postBody, this.state.resourceTypeValue)
+      .subscribe(res=>{
+        console.log(res)
+      },
+        err=> {
+        console.log(err)
+        })
   }
 
   saveCard(event:any={}) {
     console.log("card saved")
+    this.saveChanges()
   }
 
   public nextPage(event) {

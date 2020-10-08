@@ -67,4 +67,8 @@ export class TravelComponent implements OnInit {
   callSave () {
     this.save.emit('save');
   }
+
+  setAsSelected (item) {
+    item.checked = true;
+  }
 }

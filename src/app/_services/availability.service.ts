@@ -52,4 +52,8 @@ export class AvailabilityService {
     return this.state.errorMessages;
   }
 
+  patchAvailabilityRecord (postBody, resourceType) {
+    return this._http._patch(`availability/AllotmentsDocumentation/${resourceType}`, postBody);
+  }
+
 }

@@ -38,7 +38,7 @@
     <td data-title="Destination">{{row.to}}</td>
     <td data-title="Total">
       <span *ngIf="!state.isEditting">{{row.total || 0}}</span>
-      <input type="text" class="edit-field" [(ngModel)]="row.total" *ngIf="state.isEditting">
+      <input type="text" class="edit-field" [(ngModel)]="row.total" *ngIf="state.isEditting" (blur)="setAsSelected(row)">
     </td>
     <td data-title="Avail">{{row.available || 0}}</td>
     <td data-title="Booked">{{row.booked || 0}}</td>
