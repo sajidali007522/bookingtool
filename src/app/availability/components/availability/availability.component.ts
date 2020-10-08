@@ -1,10 +1,12 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {LookupService} from "../../../_services/lookupService";
 import * as $ from 'jquery'
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {AvailabilityService} from "../../../_services/availability.service";
 import {DateParser} from "../../../_helpers/dateParser";
 import {AlertModalComponent} from "../../../shared/alert-modal/alert-modal.component";
+import {DeviceDetectionService} from "../../../_services/device-detection.service";
+import {RoomsComponent} from "../rooms/rooms.component";
 
 @Component({
   selector: 'app-availability',
@@ -18,6 +20,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   remoteData =<any> [];
   remoteDataTemp = <any> [];
   state={
+    mobileContainer: <any>[],
+    recordVisible: 0,
     errorMessages: [],
     resourceTypeValue: 0,
     isMassEditting: false,
@@ -25,6 +29,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     isEditting: false,
     minDate: new Date(),
     loading: {
+      save: false,
       records: false,
       sites:false,
       ruleBag: false,
@@ -53,12 +58,15 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     },
     massEditForm: {number: 0 }
   }
-  constructor( private lookupService: LookupService,
+  constructor( private renderer: Renderer2,
+               private lookupService: LookupService,
                private availService: AvailabilityService,
-               public dateParser: DateParser
+               public dateParser: DateParser,
+               public dvcService:DeviceDetectionService
   ) {
     this.bsConfig = Object.assign({}, { dateInputFormat: 'MM/DD/YYYY' });
     let date = new Date();
+    this.state.filterForm.beginDate = new Date(date.setDate(date.getDate()))
     this.state.filterForm.endDate = new Date(date.setDate(date.getDate()+30))
   }
 
@@ -157,15 +165,17 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       })
   }
 
-  loadRecords () {
+  loadRecords (avtiveIndex= 0) {
+    if(this.state.loading.records == true) return;
     this.availService.resetErrors();
     if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue)){
       this.state.errorMessages = this.availService.getErrorMessages();
       this.childcomp.openAlertModal()
       return;
     }
-    let beginDate = this.state.filterForm.beginDate.getFullYear()+"-"+(this.state.filterForm.beginDate.getMonth()+1)+"-"+(this.state.filterForm.beginDate.getDay()+1);
-    let endDate = this.state.filterForm.endDate.getFullYear()+"-"+(this.state.filterForm.endDate.getMonth()+1)+"-"+(this.state.filterForm.endDate.getDay()+1);
+
+    let beginDate = this.dateParser.formatDate(this.state.filterForm.beginDate);
+    let endDate = this.dateParser.formatDate(this.state.filterForm.endDate);
     this.state.loading.records = true;
     this.availService.loadRecords(this.state.filterForm.siteID,
       this.state.filterForm.contractID,
@@ -174,33 +184,57 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       {
         beginDate: beginDate,
         endDate: endDate,
-        includeHold: this.state.filterForm.includeHolds
+        includeHolds: this.state.filterForm.includeHolds
       })
       .subscribe(res=> {
         this.state.recordLoaded=true;
         this.remoteData = res;
-        console.log(res)
+        this.state.recordVisible = avtiveIndex;
+        if(this.dvcService.isMobile()) {
+          if(this.state.resourceTypeValue == 1) {
+            this.state.mobileContainer = JSON.parse(JSON.stringify(res['data']));
+            this.remoteData['data'] = [res['data'][this.state.recordVisible]]
+          } else {
+            this.remoteData = [res[this.state.recordVisible]];
+            this.state.mobileContainer = res;
+          }
+        }
+
       },
-        err=>{console.log(err)},
-        ()=>{this.state.loading.records = false;}
+      err=>{
+        console.log(err)
+      },
+      ()=>{
+        this.state.loading.records = false;
+        if(this.dvcService.isMobile()) {
+          this.renderer.addClass(document.body, 'menu-fullwidth')
+        }
+      }
         );
   }
 
-  setEditMode(){
-    if(this.remoteData.length <= 0 ) return;
+  setEditMode(event:any={}){
+    console.log("setting edit mode");
+    if((this.state.resourceTypeValue == 2 && this.remoteData.length <= 0) || (this.state.resourceTypeValue == 1 && this.remoteData['data'].length <= 0) ) return;
     this.remoteDataTemp = JSON.parse(JSON.stringify(this.remoteData));
     this.state.isEditting= true;
+    this.state.filterForm.includeHolds = true
+    this.loadRecords(this.state.recordVisible)
   }
 
-  resetEditMode () {
+  resetEditMode (event:any={}) {
     this.remoteData = JSON.parse(JSON.stringify(this.remoteDataTemp));
     this.state.isEditting= false;
     this.state.isMassEditting= false;
+    this.state.filterForm.includeHolds = false;
+    this.loadRecords();
   }
 
   setMassEdit(){
     if(this.remoteData.length <= 0 ) return;
     this.remoteDataTemp = JSON.parse(JSON.stringify(this.remoteData));
+    this.state.filterForm.includeHolds = true;
+    this.loadRecords();
     this.state.isMassEditting= true;
   }
 
@@ -233,6 +267,70 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   saveChanges(){
+    if(this.state.loading.save == true) return;
+    var postBody = []
+    if(this.state.resourceTypeValue == 1) {
+      postBody = this.remoteData.data.filter((row)=> {
+        var temp = {}
+        if(row.checked) {
+          temp = row;
+          delete temp['$type']
+          temp['features']= [];
+          temp['features'] = row.features.filter((feature) => {
+            if(this.state.isMassEditting) { feature.hold = this.state.massEditForm.number }
+            if(feature.checked) return feature;
+          })
+          return temp;
+        }
+      });
+    } else {
+      postBody = this.remoteData.filter((row)=> {
+        if(row.checked) {
+          delete row.$type
+          if(this.state.isMassEditting) { row.total = this.state.massEditForm.number }
+          return row
+        }
+      });
+    }
+    //console.log(postBody);
+    this.state.loading.save = true;
+    this.availService.patchAvailabilityRecord(postBody, this.state.filterForm.siteID,
+      this.state.filterForm.contractID,
+      this.state.filterForm.contractorID,
+      this.state.filterForm.resourceTypeID)
+      .subscribe(res=>{
+        console.log(res)
+          this.state.loading.save = false;
+      },
+        err=> {
+        console.log(err)
+          this.state.loading.save = false;
+        })
+  }
 
+  saveCard(event:any={}) {
+    console.log("card saved")
+    this.saveChanges()
+  }
+
+  public nextPage(event) {
+    if(!this.dvcService.isMobile()) return;
+    if(this.state.recordVisible >= (this.state.mobileContainer.length-1)) { return; }
+    this.state.recordVisible++
+    if(this.state.resourceTypeValue == 1) {
+      this.remoteData['data'] = [this.state.mobileContainer[this.state.recordVisible]];
+    } else {
+      this.remoteData = [this.state.mobileContainer[this.state.recordVisible]];
+    }
+  }
+  public previousPage(event) {
+    if(!this.dvcService.isMobile()) return;
+    if(this.state.recordVisible <= 0) {return;}
+    this.state.recordVisible--
+    if(this.state.resourceTypeValue == 1) {
+      this.remoteData['data'] = [this.state.mobileContainer[this.state.recordVisible]];
+    } else {
+      this.remoteData = [this.state.mobileContainer[this.state.recordVisible]];
+    }
   }
 }

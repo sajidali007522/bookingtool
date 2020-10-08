@@ -1,36 +1,65 @@
-<table class="table table-sm table-editable">
+<div class="topinfo-wrap">
+  <div class="for-mobile">
+    <h3 class="text-center">{{getResourceType()}}</h3>
+  </div>
+  <div class="for-mobile">
+    <ul class="pagination justify-content-center">
+      <li>Showing {{(this.state.recordVisible+1)}} of {{this.state.mobileContainer.length}} Records</li>
+    </ul>
+  </div>
+</div>
+<table class="table table-sm table-editable"  (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
   <thead>
-  <th *ngIf="state.isMassEditting"></th>
-  <th>Date </th>
-  <th>Day</th>
-  <th>Total</th>
-  <th>Avail</th>
-  <th>Pickup</th>
-  <th>%</th>
-  <th>Standard Room</th>
-  <th *ngIf="state.isEditting">Standard Room Hold</th>
-  <th>VIP Room</th>
-  <th *ngIf="state.isEditting">VIP Room Hold</th>
+    <th *ngIf="state.isMassEditting"></th>
+    <th>Date </th>
+    <th>Day</th>
+    <th>Total</th>
+    <th>Avail</th>
+    <th>Pickup</th>
+    <th>%</th>
+  <ng-container *ngFor="let feature of remoteData['features']">
+    <th>{{feature.description}}</th>
+    <th *ngIf="state.filterForm.includeHolds">{{feature.description}} Hold</th>
+  </ng-container>
   </thead>
   <tbody>
   <tr *ngFor="let row of remoteData['data']" [ngClass]="{'edited-tr': state.isEditting}">
-    <td *ngIf="state.isMassEditting">
+    <td data-title="" *ngIf="state.isMassEditting">
       <input type="checkbox" [(ngModel)]="row.checked" />
     </td>
-    <td>{{dateParser.parseDate(row.date)}}</td>
-    <td>{{row.dayOfWeek}}</td>
-    <td>{{row.total || 0}}</td>
-    <td>{{row.available || 0}}</td>
-    <td>{{row.pickup || 0}}</td>
-    <td>{{row.percentage || 0}}</td>
-    <td>{{row.standardRoom || 0}}</td>
-    <td *ngIf="state.isEditting">
-      <input type="text" class="edit-field" [(ngModel)]="row.standardRoom">
-    </td>
-    <td>{{row.vipRoom || 0}}</td>
-    <td *ngIf="state.isEditting">
-      <input type="text" class="edit-field" [(ngModel)]="row.vipRoom">
-    </td>
+    <td data-title="Date">{{dateParser.parseDate(row.date)}}</td>
+    <td data-title="Day">{{row.dayOfWeek}}</td>
+    <td data-title="Total">{{row.total || 0}}</td>
+    <td data-title="Avail">{{row.available || 0}}</td>
+    <td data-title="Pickup">{{row.pickup || 0}}</td>
+    <td data-title="%">{{row.percentage || 0}}</td>
+    <ng-container *ngFor="let feature of row.features; let i = index;">
+      <td [attr.data-title]="remoteData['features'][i].description">
+        {{feature['number'] || 0}}
+      </td>
+      <td [attr.data-title]="remoteData['features'][i].description+' Hold'" *ngIf="state.filterForm.includeHolds">
+        <input type="text" class="edit-field" [(ngModel)]="feature['hold']" (blur)="setAsSelected(row, feature)" />
+      </td>
+    </ng-container>
   </tr>
   </tbody>
 </table>
+
+
+<div class="for-mobile">
+  <ul class="pagination justify-content-center pagination-arrow">
+    <li class="page-item page-prev">
+      <a href="javascript:void(0)" (click)="swipePrev()" class="page-link">
+      <span>Previous</span>
+    </a></li>
+    <li>
+      <button *ngIf="!state.isEditting" (click)="setEdit()" class="btn btn-default btn-success btn-inarrow"> Edit </button>
+      <button *ngIf="state.isEditting" (click)="resetEdit()" class="btn btn-default btn-secondary btn-inarrow">End Edit</button>
+      <button *ngIf="state.isEditting" (click)="callSave()" class="btn btn-default btn-success btn-inarrow">Save</button>
+    </li>
+    <li class="page-item page-next">
+      <a href="javascript:void(0)" (click)="swipeNext()" class="page-link">
+      <span>Next</span>
+    </a></li>
+  </ul>
+</div>

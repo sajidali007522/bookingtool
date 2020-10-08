@@ -52,4 +52,9 @@ export class AvailabilityService {
     return this.state.errorMessages;
   }
 
+  patchAvailabilityRecord (postBody, siteID, contractId, contractorId, resourceType) {
+    ///api2/availability/{siteID}/Allotments/{contractID}/{contractorID}/{resourceTypeID}
+    return this._http._patch(`availability/${siteID}/Allotments/${contractId}/${contractorId}/${resourceType}`, postBody);
+  }
+
 }
