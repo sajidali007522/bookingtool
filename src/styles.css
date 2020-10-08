@@ -1093,7 +1093,7 @@ body.menu-fullwidth .reservation-content-area{
       display: block;
       width: 100%!important;
       position: relative;
-      padding-left: 117px!important;
+      padding-left: 127px!important;
       padding: 8px;
       min-height: 35px;
       font-size: 14px;
@@ -1104,7 +1104,7 @@ body.menu-fullwidth .reservation-content-area{
       font-weight: 700;
       position: absolute;
       left: 12px;
-      font-size: 13px;
+      font-size: 12px;
     }
   .pagination-arrow{
       position: relative;
