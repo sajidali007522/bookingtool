@@ -29,6 +29,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     isEditting: false,
     minDate: new Date(),
     loading: {
+      save: false,
       records: false,
       sites:false,
       ruleBag: false,
@@ -266,6 +267,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   saveChanges(){
+    if(this.state.loading.save == true) return;
     var postBody = []
     if(this.state.resourceTypeValue == 1) {
       postBody = this.remoteData.data.filter((row)=> {
@@ -290,13 +292,19 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
         }
       });
     }
-    console.log(postBody);
-    this.availService.patchAvailabilityRecord(postBody, this.state.resourceTypeValue)
+    //console.log(postBody);
+    this.state.loading.save = true;
+    this.availService.patchAvailabilityRecord(postBody, this.state.filterForm.siteID,
+      this.state.filterForm.contractID,
+      this.state.filterForm.contractorID,
+      this.state.filterForm.resourceTypeID)
       .subscribe(res=>{
         console.log(res)
+          this.state.loading.save = false;
       },
         err=> {
         console.log(err)
+          this.state.loading.save = false;
         })
   }
 
