@@ -6,7 +6,7 @@ export class DateParser {
     let d = new Date(Date.parse(date));
     let minutes = d.getMinutes() < 10 ? '0'+(d.getMinutes()) : d.getMinutes();
     let hours = d.getHours() < 10 ? '0'+(d.getHours()) : d.getHours();
-    return minutes+":"+hours;
+    return hours+":"+minutes;
   }
 
   parseDateStringToDate(date){

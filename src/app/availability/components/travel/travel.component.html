@@ -16,8 +16,9 @@
   <th>Flight# </th>
   <th>Leg</th>
   <th>Date</th>
-  <th>Origination</th>
   <th>Depart</th>
+  <th>Origination</th>
+
   <th>Arrive</th>
   <th>Destination</th>
   <th>Total</th>
@@ -32,8 +33,9 @@
     <td data-title="Flight#">{{row.identifier}}</td>
     <td data-title="Leg">{{row.leg}}</td>
     <td data-title="Date">{{dateParser.parseDate(row.date)}}</td>
-    <td data-title="Origination">{{row.from}}</td>
     <td data-title="Depart">{{dateParser.parseDateToTime(row.startDate)}}</td>
+    <td data-title="Origination">{{row.from}}</td>
+
     <td data-title="Arrive">{{dateParser.parseDateToTime(row.endDate)}}</td>
     <td data-title="Destination">{{row.to}}</td>
     <td data-title="Total">
