@@ -69,8 +69,8 @@
           <!-- <li><a href="javascript:;" (click)="setTheme($event, 'theme-light-primary')" [ngClass]="{'active':isLightTheme }" class="theme-light-primary">{{'theme_light_primary' | translate}}</a></li> -->
         </ul>
       </li>
-      <li class="has-dropdown">
-        <a *ngIf="!currentUser" routerLink="/login">Login</a>
+      <li class="" [ngClass]="{'has-dropdown': currentUser}">
+        <a *ngIf="!currentUser" routerLink="{{'/auth/login'}}">Login</a>
         <a href="javascript:void(0)" *ngIf="currentUser">{{currentUser['username']}}</a>
         <ul *ngIf="currentUser" class="dropdown-menu-wrap">
           <li><a href="javascript:void(0);"><i class="fa fa-gears"></i> <span>Settings</span></a></li>
