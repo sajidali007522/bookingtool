@@ -7,6 +7,7 @@ import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
+import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 
 const routes: Routes = [
   {
@@ -26,6 +27,12 @@ const routes: Routes = [
     ]
     //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
+  {
+    path: 'flight-setup',
+    component: SingleColumnLayoutComponent,
+    loadChildren: () => import('./flight-setup/flight-setup.module').then(m => m.FlightSetupModule)
+  },
+
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
 ];
