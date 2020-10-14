@@ -39,26 +39,29 @@
               <div class="col-lg-4">
                 <label>Shift</label>
                 <p>
-                  <select class="form-control">
-                    <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.value">{{shift.text}}</option>
-                  </select>
+                  <ngx-bootstrap-multiselect name="selectedItems" [(ngModel)]="pageFilters.shifts" [options]="state.filterConfigs.shifts" [settings]="dropdownSettings"> </ngx-bootstrap-multiselect>
+<!--                  <select class="form-control">-->
+<!--                    <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.value">{{shift.text}}</option>-->
+<!--                  </select>-->
                 </p>
               </div>
 
               <div class="col-lg-4">
                 <label>Feature</label>
                 <p>
-                  <select class="form-control" [(ngModel)]="pageFilters.features" (change)="loadRooms()">
-                    <option *ngFor="let feature of state.filterConfigs.features" value="{{feature.value}}">{{feature.text}}</option>
-                  </select>
+                  <ngx-bootstrap-multiselect name="features" [(ngModel)]="pageFilters.features" [options]="state.filterConfigs.features" [settings]="dropdownSettings"> </ngx-bootstrap-multiselect>
+<!--                  <select class="form-control" [(ngModel)]="pageFilters.features" (change)="loadRooms()">-->
+<!--                    <option *ngFor="let feature of state.filterConfigs.features" value="{{feature.value}}">{{feature.text}}</option>-->
+<!--                  </select>-->
                 </p>
               </div>
               <div class="col-lg-4">
                 <label>Dorm</label>
                 <p>
-                  <select class="form-control">
-                    <option>Dorm 1</option>
-                  </select>
+                  <ngx-bootstrap-multiselect name="dorm" [(ngModel)]="pageFilters.shifts" [options]="state.filterConfigs.shifts" [settings]="dropdownSettings"> </ngx-bootstrap-multiselect>
+<!--                  <select class="form-control">-->
+<!--                    <option>Dorm 1</option>-->
+<!--                  </select>-->
                 </p>
               </div>
             </div>

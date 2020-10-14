@@ -18,7 +18,7 @@ import {ImageCropperModule} from "ngx-image-cropper";
 import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.component";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {SharedModuleModule} from "../shared-module/shared-module.module";
-
+import { NgxBootstrapMultiselectModule } from 'ngx-bootstrap-multiselect';
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
@@ -41,7 +41,8 @@ export class MyHammerConfig extends HammerGestureConfig {
     ReactiveFormsModule,
     ImageCropperModule,
     AutocompleteLibModule,
-    SharedModuleModule
+    SharedModuleModule,
+    NgxBootstrapMultiselectModule,
   ]
 })
 export class DemoHousekeepingModule { }

@@ -18,6 +18,7 @@ import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal
 import {AuthenticationService} from "../../../_services/authentication.service";
 import {ConfigService} from "../../../config.service";
 import {MyHammerConfig} from "./../../demo-housekeeping.module"
+import { IMultiSelectOption } from 'ngx-bootstrap-multiselect';
 
 import {
   HammerGestureConfig,
@@ -28,9 +29,9 @@ import {takeWhile} from "rxjs/operators"
 import * as $ from 'jquery';
 
 const SHIFTS: Shift [] = [
-  {value: 1, text: "Day"},
-  {value: 2, text: "TimeOut"},
-  {value: 3, text: "Night"},
+  {value: 1, text: "Day", id: 1, name: "Day"},
+  {value: 2, text: "TimeOut", id: 2, name: "Timeout"},
+  {value: 3, text: "Night", id: 3, name: "Night"},
 ];
 
 @Component({
@@ -51,6 +52,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     housekeepers: '',
     searchText: '',
     searchField: '',
+    shifts: []
 
   }
   imageChangedEvent: any = '';
@@ -82,7 +84,21 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
 
     }
   }
-
+  dropdownSettings = {
+    dataIdProperty: "value",
+    dataNameProperty: "text",
+    headerText: "Test header",
+    noneSelectedBtnText: "All selected",
+    btnWidth: "200px",
+    dropdownHeight: "200px",
+    showDeselectAllBtn: true,
+    showSelectAllBtn: true,
+    deselectAllBtnText: 'Deselect',
+    selectAllBtnText: 'Select',
+    btnClasses: 'btn btn-primary btn-sm dropdown-toggle',
+    selectionLimit: 3,
+    enableFilter: true
+  };
   constructor (private HKService: HouseKeepingService,
                private roomService: RoomsService,
                private ref: ChangeDetectorRef,
@@ -103,6 +119,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       housekeepers: '',
       searchText: '',
       searchField: '',
+      shifts: []
     }
   }
 
@@ -115,7 +132,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.sites = data['sites'];
         this.pageFilters.sites = data['sites'][0].value;
         this.state.filterConfigs.houseKeepers = data['housekeepers'];
-        this.state.filterConfigs.features = data['features'];
+        this.state.filterConfigs.features = [];
+        data['features'].filter( (f) => {
+          this.state.filterConfigs.features.push({...f, ...{id: f.value, name: f.text}});
+        });
         this.state.filterConfigs.hsStatus = data['housekeepingStatuses'];
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.sites = data['sites'][0]['value'];
@@ -153,6 +173,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       housekeepers: '',
       searchText: '',
       searchField: '',
+      shifts: []
     }
     this.loadRooms();
   }
