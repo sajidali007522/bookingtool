@@ -8,23 +8,26 @@
                     Flight Setup
                 </h2>
               </div>
-        
+
               <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
                 <div class="box box-lr">
-                  
-        
+
+
                   <div class="custom-accordion-wrap">
                     <div class="custom-accordion">
                       <h3 class="active"><a href="javascript:void(0)">Flight Search</a></h3>
                       <div class="custom-accordion-content exp">
                         <div class="form-primary">
-        
+
                           <div class="row">
                             <div class="col-md-4">
                               <div class="mb-3">
                                 <label>Start Date</label>
                                 <div class="field-icon-wrap">
-                                    <input type="text" value="" class="form-control">
+                                    <input type="text" [(ngModel)]="form.StartDate"
+                                           bsDatepicker
+                                           [bsConfig]="bsConfig"
+                                           class="form-control">
                                     <span class="fa fa-calendar-o field-icon"></span>
                                 </div>
                               </div>
@@ -33,7 +36,9 @@
                               <div class="mb-3">
                                 <label>End Date</label>
                                 <div class="field-icon-wrap">
-                                    <input type="text" value="" class="form-control">
+                                    <input type="text" [(ngModel)]="form.EndDate"
+                                           bsDatepicker
+                                           [bsConfig]="bsConfig" class="form-control">
                                     <span class="fa fa-calendar-o field-icon"></span>
                                 </div>
                               </div>
@@ -46,13 +51,13 @@
                               </div>
                           </div>
                           <div class="btns-wrap">
-                              <a href="#" class="btn btn-lg btn-info"> <span class="fa fa-plus btn-icon"></span> <span>Add New</span></a>
-                              <a href="#" class="btn btn-lg btn-success"> <span class="fa fa-refresh btn-icon"></span> <span>Refresh</span></a>
+                              <a href="javascript:void(0)"class="btn btn-lg btn-info"> <span class="fa fa-plus btn-icon"></span> <span>Add New</span></a>
+                              <a href="javascript:void(0)"class="btn btn-lg btn-success" (click)="loadRecords()"> <span class="fa fa-refresh btn-icon"></span> <span>Refresh</span></a>
                           </div>
                         </div>
                       </div>
                     </div>
-        
+
                     <div class="table-wrap">
                         <table class="table table-sm table-theme">
                             <tr>
@@ -64,60 +69,16 @@
                                 <th>Destination	</th>
                                 <th>Legs</th>
                             </tr>
-                            <tr>
-                                <td><a href="#" class="table-tag">OUT-9876</a></td>
-                                <td>10/14/2020</td>
-                                <td>06:00</td>
+                            <tr *ngFor="let row of state.resourceItems">
+                                <td><a href="javascript:void(0)"class="table-tag">{{row.id}}</a></td>
+                                <td>{{row.date}}</td>
+                                <td>{{dateparse}}</td>
                                 <td>08:00</td>
                                 <td>(DLK)Detour Lake</td>
                                 <td>(COC)Cochrane</td>
                                 <td>1</td>
                             </tr>
-                            <tr>
-                                <td><a href="#" class="table-tag">OUT-9876</a></td>
-                                <td>10/14/2020</td>
-                                <td>06:00</td>
-                                <td>08:00</td>
-                                <td>(DLK)Detour Lake</td>
-                                <td>(COC)Cochrane</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="table-tag">OUT-9876</a></td>
-                                <td>10/14/2020</td>
-                                <td>06:00</td>
-                                <td>08:00</td>
-                                <td>(DLK)Detour Lake</td>
-                                <td>(COC)Cochrane</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="table-tag">OUT-9876</a></td>
-                                <td>10/14/2020</td>
-                                <td>06:00</td>
-                                <td>08:00</td>
-                                <td>(DLK)Detour Lake</td>
-                                <td>(COC)Cochrane</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="table-tag">OUT-9876</a></td>
-                                <td>10/14/2020</td>
-                                <td>06:00</td>
-                                <td>08:00</td>
-                                <td>(DLK)Detour Lake</td>
-                                <td>(COC)Cochrane</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="table-tag">OUT-9876</a></td>
-                                <td>10/14/2020</td>
-                                <td>06:00</td>
-                                <td>08:00</td>
-                                <td>(DLK)Detour Lake</td>
-                                <td>(COC)Cochrane</td>
-                                <td>1</td>
-                            </tr>
+
                         </table>
                     </div>
                   </div>
@@ -137,7 +98,7 @@
                           <h3 class="active"><a href="javascript:void(0)">Flight Search</a></h3>
                           <div class="custom-accordion-content exp">
                             <div class="form-primary">
-            
+
                               <div class="row">
                                 <div class="col-md-3">
                                   <div class="mb-3">
@@ -166,15 +127,15 @@
                               </div>
 
                                 <div class="btns-wrap">
-                                    <a href="#" class="btn btn-lg btn-info"> <span class="fa fa-plus btn-icon"></span> <span>Add Log</span></a>
-                                    <a href="#" class="btn btn-lg btn-success"> <span class="fa fa-save btn-icon"></span> <span>Save</span></a>
-                                    <a href="#" class="btn btn-lg btn-dark"> <span class="fa fa-copy btn-icon"></span> <span>Copy</span></a>
-                                    <a href="#" class="btn btn-lg btn-secondary"><span>....</span></a>
+                                    <a href="javascript:void(0)"class="btn btn-lg btn-info"> <span class="fa fa-plus btn-icon"></span> <span>Add Log</span></a>
+                                    <a href="javascript:void(0)"class="btn btn-lg btn-success"> <span class="fa fa-save btn-icon"></span> <span>Save</span></a>
+                                    <a href="javascript:void(0)"class="btn btn-lg btn-dark"> <span class="fa fa-copy btn-icon"></span> <span>Copy</span></a>
+                                    <a href="javascript:void(0)"class="btn btn-lg btn-secondary"><span>....</span></a>
                                 </div>
                             </div>
                           </div>
                         </div>
-            
+
                         <div class="table-wrap">
                             <table class="table table-theme">
                                 <tr>
@@ -207,7 +168,7 @@
                                     <td>
                                         <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
                                     </td>
-                                    <td><a href="#" class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
+                                    <td><a href="javascript:void(0)"class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -230,7 +191,7 @@
                                     <td>
                                         <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
                                     </td>
-                                    <td><a href="#" class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
+                                    <td><a href="javascript:void(0)"class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -253,7 +214,7 @@
                                     <td>
                                         <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
                                     </td>
-                                    <td><a href="#" class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
+                                    <td><a href="javascript:void(0)"class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -276,7 +237,7 @@
                                     <td>
                                         <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
                                     </td>
-                                    <td><a href="#" class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
+                                    <td><a href="javascript:void(0)"class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
                                 </tr>
                             </table>
                         </div>
