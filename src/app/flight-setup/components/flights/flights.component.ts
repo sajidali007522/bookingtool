@@ -21,7 +21,7 @@ export class FlightsComponent implements OnInit {
     resourceItems: <any>[]
   }
   constructor(private setupService: FlightSetupService,
-              private dateParser: DateParser) { }
+              public dateParser: DateParser) { }
 
   ngOnInit(): void {
     this.setupService.loadResourceTypes()
