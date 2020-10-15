@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FlightSetupService} from "../../../_services/flight-setup.service";
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {DateFormatsService} from "../../../_services/date-formats.service";
+import {DateParser} from "../../../_helpers/DateParser";
 
 @Component({
   selector: 'app-flights',
@@ -20,7 +21,7 @@ export class FlightsComponent implements OnInit {
     resourceItems: <any>[]
   }
   constructor(private setupService: FlightSetupService,
-              private DFService: DateFormatsService) { }
+              private dateParser: DateParser) { }
 
   ngOnInit(): void {
     this.setupService.loadResourceTypes()

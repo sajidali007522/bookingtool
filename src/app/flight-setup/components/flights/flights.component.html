@@ -71,12 +71,12 @@
                             </tr>
                             <tr *ngFor="let row of state.resourceItems">
                                 <td><a href="javascript:void(0)"class="table-tag">{{row.id}}</a></td>
-                                <td>{{row.date}}</td>
-                                <td>{{dateparse}}</td>
-                                <td>08:00</td>
-                                <td>(DLK)Detour Lake</td>
-                                <td>(COC)Cochrane</td>
-                                <td>1</td>
+                                <td>{{dateParser.parseDateToTime(row.date)}}</td>
+                                <td>{{dateParser.parseDateToTime(row.depart)}}</td>
+                                <td>{{dateParser.parseDateToTime(row.arrive)}}</td>
+                                <td>{{row.from}}</td>
+                                <td>{{row.to}}</td>
+                                <td>{{row.legs}}</td>
                             </tr>
 
                         </table>
