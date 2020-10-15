@@ -1,3 +1,5 @@
+@import url("../../../../assets/css/reservation-results.css");
+
 .position-relative{
   z-index: 1;
 }
@@ -136,6 +138,14 @@ td select.view-mode:active{
 .filters-view-sm{
   display: none;
 }
+
+
+.filter-section button.dropdown-toggle{
+  display: block;
+  width: 100%;
+}
+
+
 @media(max-width:767px){
   .table-housekeeping-wrap table{
     touch-action: pan-y !important;
