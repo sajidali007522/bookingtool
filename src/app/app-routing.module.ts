@@ -69,6 +69,12 @@ const routes: Routes = [
     // ]
     loadChildren: () => import('./demo-housekeeping/demo-housekeeping.module').then(m => m.DemoHousekeepingModule)
   },
+  {
+    path: 'flight-setup',
+    canActivate: [AuthGuard],
+    component: SingleColumnLayoutComponent,
+    loadChildren: () => import('./flight-setup/flight-setup.module').then(m => m.FlightSetupModule)
+  },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
 ];

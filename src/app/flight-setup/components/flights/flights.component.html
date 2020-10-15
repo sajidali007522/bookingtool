@@ -1,0 +1,251 @@
+<div class="row-custom row-custom-full">
+    <div class="rightcol-content">
+
+        <div class="accordion custom-accordion" id="accordionExample">
+            <div class="mb-3">
+              <div class="card-header" id="headingOne">
+                <h2 class="accordion-link" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
+                    Flight Setup
+                </h2>
+              </div>
+
+              <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
+                <div class="box box-lr">
+
+
+                  <div class="custom-accordion-wrap">
+                    <div class="custom-accordion">
+                      <h3 class="active"><a href="javascript:void(0)">Flight Search</a></h3>
+                      <div class="custom-accordion-content exp">
+                        <div class="form-primary">
+
+                          <div class="row">
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label>Start Date</label>
+                                <div class="field-icon-wrap">
+                                    <input type="text" [(ngModel)]="form.StartDate"
+                                           bsDatepicker
+                                           [bsConfig]="bsConfig"
+                                           class="form-control">
+                                    <span class="fa fa-calendar-o field-icon"></span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label>End Date</label>
+                                <div class="field-icon-wrap">
+                                    <input type="text" [(ngModel)]="form.EndDate"
+                                           bsDatepicker
+                                           [bsConfig]="bsConfig" class="form-control">
+                                    <span class="fa fa-calendar-o field-icon"></span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                  <label>Filter</label>
+                                  <input type="text" value="1" class="form-control">
+                                </div>
+                              </div>
+                          </div>
+                          <div class="btns-wrap">
+                              <a href="javascript:void(0)"class="btn btn-lg btn-info"> <span class="fa fa-plus btn-icon"></span> <span>Add New</span></a>
+                              <a href="javascript:void(0)"class="btn btn-lg btn-success" (click)="loadRecords()"> <span class="fa fa-refresh btn-icon"></span> <span>Refresh</span></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table class="table table-sm table-theme">
+                            <tr>
+                                <th>ID#</th>
+                                <th>Date</th>
+                                <th>Depart</th>
+                                <th>Arrive</th>
+                                <th>Origination</th>
+                                <th>Destination	</th>
+                                <th>Legs</th>
+                            </tr>
+                            <tr *ngFor="let row of state.resourceItems">
+                                <td><a href="javascript:void(0)"class="table-tag">{{row.id}}</a></td>
+                                <td>{{dateParser.parseDateToTime(row.date)}}</td>
+                                <td>{{dateParser.parseDateToTime(row.depart)}}</td>
+                                <td>{{dateParser.parseDateToTime(row.arrive)}}</td>
+                                <td>{{row.from}}</td>
+                                <td>{{row.to}}</td>
+                                <td>{{row.legs}}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="card-header" id="headingTwo">
+                <h2 class="accordion-link" data-toggle="collapse" data-target="#collaps-2" aria-expanded="false">
+                    Bus Details
+                </h2>
+              </div>
+              <div id="collaps-2" class="collapse" data-parent="#accordionExample">
+                <div class="box box-lr">
+                    <div class="custom-accordion-wrap">
+                        <div class="custom-accordion">
+                          <h3 class="active"><a href="javascript:void(0)">Flight Search</a></h3>
+                          <div class="custom-accordion-content exp">
+                            <div class="form-primary">
+
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <div class="mb-3">
+                                    <label>Bus</label>
+                                    <input type="text" value="247" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="mb-3">
+                                    <label>Date</label>
+                                    <input type="text" value="1" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                      <label>Seats</label>
+                                      <input type="text" value="1" class="form-control">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="mb-3">
+                                      <label>Carrier</label>
+                                      <input type="text" value="" class="form-control">
+                                    </div>
+                                  </div>
+                              </div>
+
+                                <div class="btns-wrap">
+                                    <a href="javascript:void(0)"class="btn btn-lg btn-info"> <span class="fa fa-plus btn-icon"></span> <span>Add Log</span></a>
+                                    <a href="javascript:void(0)"class="btn btn-lg btn-success"> <span class="fa fa-save btn-icon"></span> <span>Save</span></a>
+                                    <a href="javascript:void(0)"class="btn btn-lg btn-dark"> <span class="fa fa-copy btn-icon"></span> <span>Copy</span></a>
+                                    <a href="javascript:void(0)"class="btn btn-lg btn-secondary"><span>....</span></a>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="table-wrap">
+                            <table class="table table-theme">
+                                <tr>
+                                    <th>Depart Date	</th>
+                                    <th>Depart Time	</th>
+                                    <th>Arrive Date	</th>
+                                    <th>Arrive Time	</th>
+                                    <th>Origination</th>
+                                    <th>Destination	</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="field-icon-wrap">
+                                            <input type="text" value="" class="form-control field-table">
+                                            <span class="fa fa-calendar-o field-icon"></span>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="06:00 AM" class="form-control field-table"></td>
+                                    <td>
+                                        <div class="field-icon-wrap">
+                                            <input type="text" value="" class="form-control field-table">
+                                            <span class="fa fa-calendar-o field-icon"></span>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="06:00 AM" class="form-control field-table"></td>
+                                    <td>
+                                        <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
+                                    </td>
+                                    <td><a href="javascript:void(0)"class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="field-icon-wrap">
+                                            <input type="text" value="" class="form-control field-table">
+                                            <span class="fa fa-calendar-o field-icon"></span>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="06:00 AM" class="form-control field-table"></td>
+                                    <td>
+                                        <div class="field-icon-wrap">
+                                            <input type="text" value="" class="form-control field-table">
+                                            <span class="fa fa-calendar-o field-icon"></span>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="06:00 AM" class="form-control field-table"></td>
+                                    <td>
+                                        <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
+                                    </td>
+                                    <td><a href="javascript:void(0)"class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="field-icon-wrap">
+                                            <input type="text" value="" class="form-control field-table">
+                                            <span class="fa fa-calendar-o field-icon"></span>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="06:00 AM" class="form-control field-table"></td>
+                                    <td>
+                                        <div class="field-icon-wrap">
+                                            <input type="text" value="" class="form-control field-table">
+                                            <span class="fa fa-calendar-o field-icon"></span>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="06:00 AM" class="form-control field-table"></td>
+                                    <td>
+                                        <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
+                                    </td>
+                                    <td><a href="javascript:void(0)"class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="field-icon-wrap">
+                                            <input type="text" value="" class="form-control field-table">
+                                            <span class="fa fa-calendar-o field-icon"></span>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="06:00 AM" class="form-control field-table"></td>
+                                    <td>
+                                        <div class="field-icon-wrap">
+                                            <input type="text" value="" class="form-control field-table">
+                                            <span class="fa fa-calendar-o field-icon"></span>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="06:00 AM" class="form-control field-table"></td>
+                                    <td>
+                                        <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control field-table"><option value="">(DLK)Detour Lake</option></select>
+                                    </td>
+                                    <td><a href="javascript:void(0)"class="btn btn-danger text-nowrap">Disable <span class="fa fa-trash"></span></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    </div>
+</div>

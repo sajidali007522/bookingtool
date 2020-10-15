@@ -363,6 +363,10 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
     background: #3f7892 !important;
     box-shadow: none !important;
   }
+.btn-primary{
+  background: #6f6fb1;
+  border-color: #6f6fb1;
+}
 .btn-long{
   padding-left: 30px;
   padding-right: 30px;
@@ -772,6 +776,10 @@ input[type="file"] {
   padding: 7px 40px;
   margin:0 3px 5px;
 }
+.btns-wrap .btn span{
+  display: inline-block;
+  vertical-align: middle;
+}
 .field-wrap{
   position: relative;
 }
@@ -780,6 +788,11 @@ input[type="file"] {
     right: 15px;
     top: 50%;
     margin-top: -9px;
+  }
+  .btn-icon{
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 5px;
   }
 .bs-datepicker-container{
   padding: 0;
@@ -791,6 +804,18 @@ input[type="file"] {
 .signature-outer canvas{
   background: rgba(0,0,0, 0.1);
 }
+.field-icon-wrap{
+  position: relative;
+}
+  .field-icon-wrap .form-control{
+    padding-left: 45px;
+  }
+  .field-icon{
+    position: absolute;
+    left: 17px;
+    top: 50%;
+    margin-top: -8px;
+  }
 
 .jsoneditor{
   min-height: 300px;
@@ -941,6 +966,7 @@ body.menu-fullwidth .reservation-content-area{
     margin: 25px;
 }
 /* for reservation-results end */
+<<<<<<< HEAD
 .topinfo-wrap h3{
   margin: 0 0 7px;
   font-size: 23px;
@@ -986,6 +1012,24 @@ body.menu-fullwidth .reservation-content-area{
   .filter-section .dropdown.dropdown-inline .dropdown-menu{
     width: 100%;
   }
+=======
+.table-theme th{
+  background: #e7f8ff;;
+  color:#4e7385;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.table-tag{
+  display: inline-block;
+  padding: 2px 10px;
+  color: #fff;
+  background: #4e7385;
+  font-size: 12px;
+}
+.table-tag:hover{
+  color: #fff;
+}
+>>>>>>> flight-setup
 
 @media(min-width:767px){
   .modal-md{
