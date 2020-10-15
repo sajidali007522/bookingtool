@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FlightSetupService} from "../../../_services/flight-setup.service";
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {DateFormatsService} from "../../../_services/date-formats.service";
-import {DateParser} from "../../../_helpers/DateParser";
+import {DateParser} from "../../../_helpers/dateParser";
 
 @Component({
   selector: 'app-flights',

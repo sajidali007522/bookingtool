@@ -2,16 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {LoaderComponent} from "./components/loader/loader.component";
 import {AlertModalComponent} from "../shared/alert-modal/alert-modal.component";
+import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.component";
 
 
 
 @NgModule({
-  declarations: [LoaderComponent, AlertModalComponent],
+  declarations: [LoaderComponent, AlertModalComponent, ConfirmModalComponent],
   imports: [
     CommonModule
   ],
   exports:[
-    LoaderComponent, AlertModalComponent
+    LoaderComponent, AlertModalComponent, ConfirmModalComponent
   ]
 })
 export class SharedModuleModule { }
