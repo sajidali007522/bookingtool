@@ -271,6 +271,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public ngAfterViewInit () {
+
     $(".main-content-area").scroll((e, arg) => {
       var elem = $(e.currentTarget);
       if (elem[0].scrollHeight - elem.scrollTop() <= elem.outerHeight()) {
@@ -283,7 +284,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         }
       }
     });
-
+    $(".accordion-group .accordon-heading").on('click', function(){
+      $(this).parents('.accordion-group').toggleClass('group-active')
+    });
   }
 
   public ngAfterViewChecked() {

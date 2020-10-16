@@ -3,11 +3,11 @@
 <div class="reservation-detail-wrap">
   <div class="reservation-sidebar">
     <div class="reservation-sidebar-inner">
-      <div class="reset-wrap"><a href="#" class="btn btn-sm btn-success">Reset</a></div>
+      <div class="reset-wrap"><a href="javascript:void(0)" class="btn btn-sm btn-success">Reset</a></div>
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="#">Sites</a>
+          <a href="javascript:void(0)">Room Status</a>
         </div>
         <div class="accordion-body">
           <ul>
@@ -32,7 +32,7 @@
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="#">Shift</a>
+          <a href="javascript:void(0)">Shift</a>
         </div>
         <div class="accordion-body">
           <ul>
@@ -72,63 +72,9 @@
             </div> -->
           </div>
           <div class="box-body">
-      
-            <div class="filters-parent">
-      
-              <div class="filters-outer" [ngClass]="{'filter-hide-mobile': !state.toggleFilter}" style="display: none;">
-                <div class="filter-transparent">
-                  <div class="row">
-                    <div class="mb-2 col-lg-4">
-                      <div class="custom-control custom-checkbox pl-0">
-                        <label>Sites</label>
-                        <select class="form-control" [(ngModel)]="pageFilters.sites" (change)="reloadConfigs()">
-                          <option *ngFor="let site of state.filterConfigs.sites" value="{{site.value}}"> {{site.text}}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="filter-section position-relative">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <label>Shift</label>
-                      <p>
-                        <ngx-bootstrap-multiselect name="selectedItems" [(ngModel)]="pageFilters.shifts" [options]="state.filterConfigs.shifts" [settings]="dropdownSettings"> </ngx-bootstrap-multiselect>
-      <!--                  <select class="form-control">-->
-      <!--                    <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.value">{{shift.text}}</option>-->
-      <!--                  </select>-->
-                      </p>
-                    </div>
-      
-                    <div class="col-lg-4">
-                      <label>Feature</label>
-                      <p>
-                        <ngx-bootstrap-multiselect name="features" [(ngModel)]="pageFilters.features" [options]="state.filterConfigs.features" [settings]="dropdownSettings"> </ngx-bootstrap-multiselect>
-      <!--                  <select class="form-control" [(ngModel)]="pageFilters.features" (change)="loadRooms()">-->
-      <!--                    <option *ngFor="let feature of state.filterConfigs.features" value="{{feature.value}}">{{feature.text}}</option>-->
-      <!--                  </select>-->
-                      </p>
-                    </div>
-                    <div class="col-lg-4">
-                      <label>Dorm</label>
-                      <p>
-                        <ngx-bootstrap-multiselect name="dorm" [(ngModel)]="pageFilters.shifts" [options]="state.filterConfigs.shifts" [settings]="dropdownSettings"> </ngx-bootstrap-multiselect>
-      <!--                  <select class="form-control">-->
-      <!--                    <option>Dorm 1</option>-->
-      <!--                  </select>-->
-                      </p>
-                    </div>
-                  </div>
-                  <div class="refresh-wrap">
-                    <button type="button" class="btn btn-success" (click)="refreshFilter()"><span class="fa fa-refresh"></span></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-      
+
             <!-- for mobile start -->
             <div *ngIf="isMobileDevice() && !state.isLoadingRooms" #room_container class="for-mobile-table">
-      
               <div class="table-responsive table-housekeeping-wrap" id="table_container">
                 <table *ngIf="!state.isLoadingMoreRooms"
                        class="table table-bordered row-border hover room-table table-skin"
@@ -233,7 +179,7 @@
                     <span class="sr-only">Previous</span>
                   </a>
                 </li>
-      
+
                 <li class="page-item page-next">
                   <a class="page-link" href="javascript:void(0)" (click)="nextPage()" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
@@ -245,8 +191,8 @@
             </div>
             <app-loader *ngIf="isMobileDevice() && state.isLoadingRooms "></app-loader>
             <!-- for mobile end -->
-      
-      
+
+
             <!-- <div *ngIf="!isMobileDevice()" class="jump-section">
               <label>Page:</label>
               <select [(ngModel)]="state.pagination.pageNum" (change)="loadRooms()">
@@ -256,7 +202,7 @@
                 <option value="40">40</option>
               </select>
             </div> -->
-      
+
             <div class="row" *ngIf="!isMobileDevice()" >
               <div class="col-md-6">
                 <div class="jump-section">
@@ -287,7 +233,7 @@
                 </div>
               </div>
             </div>
-      
+
             <div *ngIf="!isMobileDevice()" class="table-responsive table-housekeeping-wrap"
                  [ngClass]="{'table-loader': state.isLoadingRooms}"
             >
@@ -377,7 +323,7 @@
                               (change)= "updateHouseKeeping(row.id, row, 'housekeeper', '$editHousekeeper')" >
                         <option *ngFor="let hk of state.filterConfigs.houseKeepers" [ngValue]="hk.value">{{hk.text}}</option>
                       </select>
-      
+
                     </span>
                   </td>
                   <td data-title="Shift">
@@ -394,7 +340,7 @@
                   <td data-title="Linen Status">{{row.linenStatus}}</td>
                   <td data-title="Image"></td>
                   <td data-title="Files">
-      
+
                     <div class="table-btns">
                       <div class="fileUpload" *ngIf="!row.uploading">
                         <label for="file-upload" class="btn btn-success">Upload</label>
@@ -418,28 +364,28 @@
                 </tfoot>
               </table>
             </div>
-      
+
             <ul *ngIf="!isMobileDevice()" class="pagination justify-content-center for-mobile-table">
               <li class="page-item page-prev">
-                <a class="page-link" href="#" aria-label="Previous">
+                <a class="page-link" href="javascript:void(0)" aria-label="Previous">
                   <span aria-hidden="true">&laquo;</span>
                   <span class="sr-only">Previous</span>
                 </a>
               </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item active"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#">....</a></li>
-              <li class="page-item"><a class="page-link" href="#">2500</a></li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
+              <li class="page-item active"><a class="page-link" href="javascript:void(0)">2</a></li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">....</a></li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">2500</a></li>
               <li class="page-item page-next">
-                <a class="page-link" href="#" aria-label="Next">
+                <a class="page-link" href="javascript:void(0)" aria-label="Next">
                   <span aria-hidden="true">&raquo;</span>
                   <span class="sr-only">Next</span>
                 </a>
               </li>
             </ul>
-      
+
           </div>
         </div>
       </div>
