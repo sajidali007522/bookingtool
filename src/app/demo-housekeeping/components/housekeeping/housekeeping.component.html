@@ -7,17 +7,25 @@
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="#">Room Status</a>
+          <a href="#">Sites</a>
         </div>
         <div class="accordion-body">
           <ul>
-            <li><label for="label1"><input type="checkbox" id="label1" class="checkbox"> Site</label></li>
-            <li><label for="label2"><input type="checkbox" id="label2" class="checkbox"> Feature</label></li>
-            <li><label for="label3"><input type="checkbox" id="label3" class="checkbox"> Dorm</label></li>
-            <li><label for="label4"><input type="checkbox" id="label4" class="checkbox"> Shift</label></li>
-            <li><label for="label5"><input type="checkbox" id="label5" class="checkbox"> FD Status</label></li>
-            <li><label for="label6"><input type="checkbox" id="label6" class="checkbox"> HK Status</label></li>
-            <li><label for="label6"><input type="checkbox" id="label6" class="checkbox"> Admin Status</label></li>
+            <li><label class="flx-center d-flex" for="label1a"><input type="radio" name="sites" id="label1a" class="radio"> Main Camp</label></li>
+            <li><label class="flx-center d-flex" for="label2a"><input type="radio" name="sites" id="label2a" class="radio"> Startup Camp</label></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-group group-active">
+        <div class="accordon-heading">
+          <a href="#">FD Status</a>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li><label for="label1"><input type="checkbox" id="label1" class="checkbox"> Available</label></li>
+            <li><label for="label2"><input type="checkbox" id="label2" class="checkbox"> New Checkin</label></li>
+            <li><label for="label3"><input type="checkbox" id="label3" class="checkbox"> Stayover</label></li>
           </ul>
         </div>
       </div>
@@ -37,15 +45,15 @@
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="#">House Keepers</a>
+          <a href="#">HK Status</a>
         </div>
         <div class="accordion-body">
           <ul>
-            <li><label for="label3a"><input type="checkbox" id="label3a" class="checkbox"> Dorm <span class="label-num">215</span></label></li>
-            <li><label for="label3b"><input type="checkbox" id="label3b" class="checkbox"> Shift <span class="label-num">105</span></label></li>
-            <li><label for="label3c"><input type="checkbox" id="label3c" class="checkbox"> FD Status</label></li>
-            <li><label for="label3d"><input type="checkbox" id="label3d" class="checkbox"> HK Status</label></li>
-            <li><label for="label3e"><input type="checkbox" id="label3e" class="checkbox"> Admin Status</label></li>
+            <li><label for="label3a"><input type="checkbox" id="label3a" class="checkbox"> Vocant/Clean <span class="label-num">215</span></label></li>
+            <li><label for="label3b"><input type="checkbox" id="label3b" class="checkbox"> Occupied/clean <span class="label-num">105</span></label></li>
+            <li><label for="label3c"><input type="checkbox" id="label3c" class="checkbox"> Dirty</label></li>
+            <li><label for="label3d"><input type="checkbox" id="label3d" class="checkbox"> Inspection Required</label></li>
+            <li><label for="label3e"><input type="checkbox" id="label3e" class="checkbox"> Cleaning in Progress</label></li>
           </ul>
         </div>
       </div>
@@ -62,21 +70,12 @@
               <input type="checkbox" class="custom-control-input" [(ngModel)]="pageFilters.isHousekeeperAdmin" id="customCheck1">
               <label class="custom-control-label" for="customCheck1">Admin Mode</label>
             </div> -->
-            <div class="custom-control custom-checkbox admin-mode">
-              <input type="checkbox" class="custom-control-input" [(ngModel)]="pageFilters.isHousekeeperAdmin" id="customCheck2">
-              <label class="custom-control-label" for="customCheck2">Admin Mode</label>
-            </div>
           </div>
           <div class="box-body">
       
             <div class="filters-parent">
-              <div class="filters-view-sm">
-                <!-- need to add class active once click and removed after second click -->
-                <a href="javascript:void(0)" class="filter-link" [ngClass]="{'active': state.toggleFilter}" (click)="state.toggleFilter=!state.toggleFilter">Filters</a>
-                <!-- "filter-hide-mobile" this class will show and hide -->
-              </div>
       
-              <div class="filters-outer" [ngClass]="{'filter-hide-mobile': !state.toggleFilter}">
+              <div class="filters-outer" [ngClass]="{'filter-hide-mobile': !state.toggleFilter}" style="display: none;">
                 <div class="filter-transparent">
                   <div class="row">
                     <div class="mb-2 col-lg-4">
@@ -129,44 +128,6 @@
       
             <!-- for mobile start -->
             <div *ngIf="isMobileDevice() && !state.isLoadingRooms" #room_container class="for-mobile-table">
-              <div class="table-top-wrap">
-                <div class="row">
-                  <div class="col-6">
-                    <div class="jump-section">
-                      <label>Jump to Page:</label>
-                      <div class="input-group">
-                        <input type="number" class="form-control" placeholder="Page Number" [(ngModel)]="state.pagination.pageNum"/>
-                        <div class="input-group-append">
-                          <button class="btn btn-success" type="button" (click)="loadRooms()"> <span class="fa fa-search"></span> </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="jump-section">
-                      <label>Search By:</label>
-                      <select [(ngModel)]="pageFilters.searchField">
-                        <option>Room #</option>
-                        <option>Features</option>
-                        <option>FD Status</option>
-                        <option>Hk Status</option>
-                        <option>HouseKeeper</option>
-                        <option>Shift</option>
-                        <option>Linen Status</option>
-                        <option>Image</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="table-search">
-                <div class="input-group">
-                  <input type="text" class="form-control rounded-0" placeholder="Search" [(ngModel)]="pageFilters.searchText">
-                  <div class="input-group-append">
-                    <button class="btn btn-success" type="button" (click)="setPagination();loadRooms();"> <span class="fa fa-search"></span> </button>
-                  </div>
-                </div>
-              </div>
       
               <div class="table-responsive table-housekeeping-wrap" id="table_container">
                 <table *ngIf="!state.isLoadingMoreRooms"

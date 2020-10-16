@@ -168,6 +168,7 @@ h3{
   top: 0;
   width: 100%;
   z-index: 2;
+  z-index: 3;
   height: 60px;
   background: #09425d;
   padding: 0 25px 0 0;
@@ -933,6 +934,14 @@ body.menu-fullwidth .reservation-content-area{
   .filter-section .dropdown.dropdown-inline .dropdown-menu{
     width: 100%;
   }
+.flx-center{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.flx-center .radio{
+  margin-bottom: 0 !important;
+}
 
 @media(min-width:767px){
   .modal-md{
