@@ -167,7 +167,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   public refreshFilter () {
     this.pageFilters = {
       isHousekeeperAdmin: true,
-      sites:'',
+      sites: this.state.filterConfigs.sites[0].value,
       features: this.state.filterConfigs.sites[0].value,
       housekeepingStatuses: '',
       adminStatuses: '',
@@ -179,9 +179,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.loadRooms();
   }
 
-  public reloadConfigs () {
+  public reloadConfigs (siteVal) {
     this.state.isLoading=true;
     this.ref.detectChanges();
+    this.pageFilters.sites = siteVal;
     this.HKService.loadSiteconfig(this.pageFilters.sites, {featureId : this.pageFilters.features}).subscribe(data => {
         this.state.filterConfigs.shifts = SHIFTS;
         this.state.filterConfigs.houseKeepers = data['housekeepers'];
