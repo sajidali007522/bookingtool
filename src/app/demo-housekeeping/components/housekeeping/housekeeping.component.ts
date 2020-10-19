@@ -65,6 +65,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       description: ''
     },
     isLoading: false,
+    isLoadingConfig: false,
     isLoadingRooms:  false,
     isLoadingMoreRooms: false,
     toggleFilter: false,
@@ -124,7 +125,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   ngOnInit(): void {
-    this.state.isLoading = true;
+    this.state.isLoadingConfig = true;
     this.HKService.loadInitialConfig().subscribe(data => {
 
         this.pageFilters.isHousekeeperAdmin = data['isHousekeeperAdmin'];
@@ -139,7 +140,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.hsStatus = data['housekeepingStatuses'];
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.sites = data['sites'][0]['value'];
-        this.state.isLoading=false;
+        this.state.isLoadingConfig=false;
         this.ref.detectChanges();
         this.loadRooms();
 
@@ -147,7 +148,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       err => {
         //handle errors here
         console.log(err);
-        this.state.isLoading = false;
+        this.state.isLoadingConfig = false;
       });
 
     /*const hammerConfig = new HammerGestureConfig()
@@ -166,7 +167,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   public refreshFilter () {
     this.pageFilters = {
       isHousekeeperAdmin: true,
-      sites:'',
+      sites: this.state.filterConfigs.sites[0].value,
       features: this.state.filterConfigs.sites[0].value,
       housekeepingStatuses: '',
       adminStatuses: '',
@@ -178,9 +179,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.loadRooms();
   }
 
-  public reloadConfigs () {
+  public reloadConfigs (siteVal) {
     this.state.isLoading=true;
     this.ref.detectChanges();
+    this.pageFilters.sites = siteVal;
     this.HKService.loadSiteconfig(this.pageFilters.sites, {featureId : this.pageFilters.features}).subscribe(data => {
         this.state.filterConfigs.shifts = SHIFTS;
         this.state.filterConfigs.houseKeepers = data['housekeepers'];

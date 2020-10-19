@@ -3,52 +3,62 @@
 <div class="reservation-detail-wrap">
   <div class="reservation-sidebar">
     <div class="reservation-sidebar-inner">
-      <div class="reset-wrap"><a href="javascript:void(0)" class="btn btn-sm btn-success">Reset</a></div>
+      <div class="reset-wrap"><a href="javascript:void(0)" (click)="refreshFilter()" class="btn btn-sm btn-success">Reset</a></div>
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="javascript:void(0)">Room Status</a>
+          <a href="javascript:void(0)">Room Status <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i> </a>
         </div>
         <div class="accordion-body">
           <ul>
-            <li><label for="label1"><input type="checkbox" id="label1" class="checkbox"> Site</label></li>
-            <li><label for="label2"><input type="checkbox" id="label2" class="checkbox"> Feature</label></li>
-            <li><label for="label3"><input type="checkbox" id="label3" class="checkbox"> Dorm</label></li>
-            <li><label for="label4"><input type="checkbox" id="label4" class="checkbox"> Shift</label></li>
-            <li><label for="label5"><input type="checkbox" id="label5" class="checkbox"> FD Status</label></li>
-            <li><label for="label6"><input type="checkbox" id="label6" class="checkbox"> HK Status</label></li>
-            <li><label for="label6"><input type="checkbox" id="label6" class="checkbox"> Admin Status</label></li>
+            <li *ngFor="let site of state.filterConfigs.sites">
+              <label class="flx-center d-flex" for="site_{{site.value.split(' ').join('_')}}">
+              <input type="radio" name="sites" [value]="site.value" [(ngModel)]="pageFilters.sites" id="site_{{site.value.split(' ').join('_')}}" class="radio" (click)="reloadConfigs($event.target.value)"> {{site.text}}</label>
+            </li>
           </ul>
         </div>
       </div>
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="javascript:void(0)">Shift</a>
+          <a href="#">FD Status <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i></a>
         </div>
         <div class="accordion-body">
           <ul>
-            <li><label for="label2a"><input type="checkbox" id="label2a" class="checkbox"> Day</label></li>
-            <li><label for="label2b"><input type="checkbox" id="label2b" class="checkbox"> Night</label></li>
-            <li><label for="label2c"><input type="checkbox" id="label2c" class="checkbox"> Time Out</label></li>
+            <li><label for="label1"><input type="checkbox" id="label1" class="checkbox"> Available</label></li>
+            <li><label for="label2"><input type="checkbox" id="label2" class="checkbox"> New Checkin</label></li>
+            <li><label for="label3"><input type="checkbox" id="label3" class="checkbox"> Stayover</label></li>
           </ul>
         </div>
       </div>
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="javascript:void(0)">House Keepers</a>
+          <a href="javascript:void(0)">Shift <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i></a>
         </div>
         <div class="accordion-body">
           <ul>
-            <li><label for="label3a"><input type="checkbox" id="label3a" class="checkbox"> Dorm <span class="label-num">215</span></label></li>
-            <li><label for="label3b"><input type="checkbox" id="label3b" class="checkbox"> Shift <span class="label-num">105</span></label></li>
-            <li><label for="label3c"><input type="checkbox" id="label3c" class="checkbox"> FD Status</label></li>
-            <li><label for="label3d"><input type="checkbox" id="label3d" class="checkbox"> HK Status</label></li>
-            <li><label for="label3e"><input type="checkbox" id="label3e" class="checkbox"> Admin Status</label></li>
+            <li *ngFor="let shift of state.filterConfigs.shifts"><label for="label2a"><input type="checkbox" name="shifts[]" [value]="shift.value" [(ngModel)]="shift.checked" id="label2a" class="checkbox"> {{shift.text}}</label></li>
           </ul>
         </div>
       </div>
+
+      <div class="accordion-group group-active">
+        <div class="accordon-heading">
+          <a href="#">HK Status <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i></a>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li *ngFor="let hkStatus of state.filterConfigs.hsStatus">
+              <label for="label3a">
+                <input type="checkbox" name="hkStatuses[]" id="label3a" class="checkbox" [value]="hkStatus.value" [(ngModel)]="hkStatus.checked"> {{hkStatus.text}}
+<!--                <span class="label-num">215</span>-->
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -62,112 +72,11 @@
               <input type="checkbox" class="custom-control-input" [(ngModel)]="pageFilters.isHousekeeperAdmin" id="customCheck1">
               <label class="custom-control-label" for="customCheck1">Admin Mode</label>
             </div> -->
-            <div class="custom-control custom-checkbox admin-mode">
-              <input type="checkbox" class="custom-control-input" [(ngModel)]="pageFilters.isHousekeeperAdmin" id="customCheck2">
-              <label class="custom-control-label" for="customCheck2">Admin Mode</label>
-            </div>
           </div>
           <div class="box-body">
 
-            <div class="filters-parent">
-              <div class="filters-view-sm">
-                <!-- need to add class active once click and removed after second click -->
-                <a href="javascript:void(0)" class="filter-link" [ngClass]="{'active': state.toggleFilter}" (click)="state.toggleFilter=!state.toggleFilter">Filters</a>
-                <!-- "filter-hide-mobile" this class will show and hide -->
-              </div>
-
-              <div class="filters-outer" [ngClass]="{'filter-hide-mobile': !state.toggleFilter}">
-                <div class="filter-transparent">
-                  <div class="row">
-                    <div class="mb-2 col-lg-4">
-                      <div class="custom-control custom-checkbox pl-0">
-                        <label>Sites</label>
-                        <select class="form-control" [(ngModel)]="pageFilters.sites" (change)="reloadConfigs()">
-                          <option *ngFor="let site of state.filterConfigs.sites" value="{{site.value}}"> {{site.text}}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="filter-section position-relative">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <label>Shift</label>
-                      <p>
-                        <ngx-bootstrap-multiselect name="selectedItems" [(ngModel)]="pageFilters.shifts" [options]="state.filterConfigs.shifts" [settings]="dropdownSettings"> </ngx-bootstrap-multiselect>
-      <!--                  <select class="form-control">-->
-      <!--                    <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.value">{{shift.text}}</option>-->
-      <!--                  </select>-->
-                      </p>
-                    </div>
-
-                    <div class="col-lg-4">
-                      <label>Feature</label>
-                      <p>
-                        <ngx-bootstrap-multiselect name="features" [(ngModel)]="pageFilters.features" [options]="state.filterConfigs.features" [settings]="dropdownSettings"> </ngx-bootstrap-multiselect>
-      <!--                  <select class="form-control" [(ngModel)]="pageFilters.features" (change)="loadRooms()">-->
-      <!--                    <option *ngFor="let feature of state.filterConfigs.features" value="{{feature.value}}">{{feature.text}}</option>-->
-      <!--                  </select>-->
-                      </p>
-                    </div>
-                    <div class="col-lg-4">
-                      <label>Dorm</label>
-                      <p>
-                        <ngx-bootstrap-multiselect name="dorm" [(ngModel)]="pageFilters.shifts" [options]="state.filterConfigs.shifts" [settings]="dropdownSettings"> </ngx-bootstrap-multiselect>
-      <!--                  <select class="form-control">-->
-      <!--                    <option>Dorm 1</option>-->
-      <!--                  </select>-->
-                      </p>
-                    </div>
-                  </div>
-                  <div class="refresh-wrap">
-                    <button type="button" class="btn btn-success" (click)="refreshFilter()"><span class="fa fa-refresh"></span></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <!-- for mobile start -->
             <div *ngIf="isMobileDevice() && !state.isLoadingRooms" #room_container class="for-mobile-table">
-              <div class="table-top-wrap">
-                <div class="row">
-                  <div class="col-6">
-                    <div class="jump-section">
-                      <label>Jump to Page:</label>
-                      <div class="input-group">
-                        <input type="number" class="form-control" placeholder="Page Number" [(ngModel)]="state.pagination.pageNum"/>
-                        <div class="input-group-append">
-                          <button class="btn btn-success" type="button" (click)="loadRooms()"> <span class="fa fa-search"></span> </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="jump-section">
-                      <label>Search By:</label>
-                      <select [(ngModel)]="pageFilters.searchField">
-                        <option>Room #</option>
-                        <option>Features</option>
-                        <option>FD Status</option>
-                        <option>Hk Status</option>
-                        <option>HouseKeeper</option>
-                        <option>Shift</option>
-                        <option>Linen Status</option>
-                        <option>Image</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="table-search">
-                <div class="input-group">
-                  <input type="text" class="form-control rounded-0" placeholder="Search" [(ngModel)]="pageFilters.searchText">
-                  <div class="input-group-append">
-                    <button class="btn btn-success" type="button" (click)="setPagination();loadRooms();"> <span class="fa fa-search"></span> </button>
-                  </div>
-                </div>
-              </div>
-
               <div class="table-responsive table-housekeeping-wrap" id="table_container">
                 <table *ngIf="!state.isLoadingMoreRooms"
                        class="table table-bordered row-border hover room-table table-skin"

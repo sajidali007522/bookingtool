@@ -168,6 +168,7 @@ h3{
   top: 0;
   width: 100%;
   z-index: 2;
+  z-index: 3;
   height: 60px;
   background: #09425d;
   padding: 0 25px 0 0;
@@ -1012,6 +1013,7 @@ body.menu-fullwidth .reservation-content-area{
   .filter-section .dropdown.dropdown-inline .dropdown-menu{
     width: 100%;
   }
+<<<<<<< HEAD
 =======
 .table-theme th{
   background: #e7f8ff;;
@@ -1029,7 +1031,15 @@ body.menu-fullwidth .reservation-content-area{
 .table-tag:hover{
   color: #fff;
 }
->>>>>>> flight-setup
+
+.flx-center{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.flx-center .radio{
+  margin-bottom: 0 !important;
+}
 
 @media(min-width:767px){
   .modal-md{
@@ -1215,7 +1225,7 @@ body.menu-fullwidth .reservation-content-area{
       content: "\f105";
       font: normal normal normal 26px/1 FontAwesome;
     }
-    .pagination-arrow .page-next a span, 
+    .pagination-arrow .page-next a span,
     .pagination-arrow .page-prev a span{
       display: none;
     }
