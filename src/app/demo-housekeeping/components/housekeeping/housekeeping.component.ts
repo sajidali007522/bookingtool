@@ -27,6 +27,7 @@ import {
 import { fromEvent } from "rxjs";
 import {takeWhile} from "rxjs/operators"
 import * as $ from 'jquery';
+import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
 
 const SHIFTS: Shift [] = [
   {value: 1, text: "Day", id: 1, name: "Day"},
@@ -82,6 +83,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       shifts: [],
       hsStatus: [],
       adminStatuses: [],
+      hkStatusFilter: '',
+      shiftFilter: '',
+      fdstatusFilter: ''
 
     }
   }
@@ -101,6 +105,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     enableFilter: true
   };
   constructor (private HKService: HouseKeepingService,
+               private DHKService: DemoHousekeepingService,
                private roomService: RoomsService,
                private ref: ChangeDetectorRef,
                private renderer: Renderer2,
