@@ -7,7 +7,11 @@
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="javascript:void(0)">Room Status <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i> </a>
+          <a href="javascript:void(0)">Room Status
+            <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
+            <i>checkAll</i> |
+            <i>Un CheckAll</i>
+          </a>
         </div>
         <div class="accordion-body">
           <ul>
@@ -21,10 +25,17 @@
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="#">FD Status <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i></a>
+          <a href="#">FD Status
+            <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
+            <i>checkAll</i> |
+            <i>Un CheckAll</i>
+          </a>
         </div>
         <div class="accordion-body">
           <ul>
+            <li>
+              <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" />
+            </li>
             <li><label for="label1"><input type="checkbox" id="label1" class="checkbox"> Available</label></li>
             <li><label for="label2"><input type="checkbox" id="label2" class="checkbox"> New Checkin</label></li>
             <li><label for="label3"><input type="checkbox" id="label3" class="checkbox"> Stayover</label></li>
@@ -34,10 +45,17 @@
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="javascript:void(0)">Shift <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i></a>
+          <a href="javascript:void(0)">Shift
+            <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
+            <i>checkAll</i> |
+            <i>Un CheckAll</i>
+          </a>
         </div>
         <div class="accordion-body">
           <ul>
+            <li>
+              <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.shiftFilter" placeholder="filter" />
+            </li>
             <li *ngFor="let shift of state.filterConfigs.shifts"><label for="label2a"><input type="checkbox" name="shifts[]" [value]="shift.value" [(ngModel)]="shift.checked" id="label2a" class="checkbox"> {{shift.text}}</label></li>
           </ul>
         </div>
@@ -45,10 +63,17 @@
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="#">HK Status <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i></a>
+          <a href="javascript:void(0)">HK Status
+            <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
+            <i>checkAll</i> |
+            <i>Un CheckAll</i>
+          </a>
         </div>
         <div class="accordion-body">
           <ul>
+            <li>
+              <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.hkStatusFilter" placeholder="filter" />
+            </li>
             <li *ngFor="let hkStatus of state.filterConfigs.hsStatus">
               <label for="label3a">
                 <input type="checkbox" name="hkStatuses[]" id="label3a" class="checkbox" [value]="hkStatus.value" [(ngModel)]="hkStatus.checked"> {{hkStatus.text}}
