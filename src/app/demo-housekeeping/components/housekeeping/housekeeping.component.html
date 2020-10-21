@@ -9,11 +9,13 @@
         <div class="accordon-heading">
           <a href="javascript:void(0)">Room Status
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
-            <i>checkAll</i> |
-            <i>Un CheckAll</i>
           </a>
         </div>
         <div class="accordion-body">
+          <select class="select-field-secondary mb-1">
+            <option>Main Camp</option>
+            <option>Startup Camp</option>
+          </select>
           <ul>
             <li *ngFor="let site of state.filterConfigs.sites">
               <label class="flx-center d-flex" for="site_{{site.value.split(' ').join('_')}}">
@@ -27,14 +29,21 @@
         <div class="accordon-heading">
           <a href="#">FD Status
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
-            <i>checkAll</i> |
-            <i>Un CheckAll</i>
           </a>
         </div>
         <div class="accordion-body">
           <ul>
             <li>
-              <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" />
+              <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
+              <div class="input-group input-group-sm mb-1">
+                <input type="text" class="form-control" placeholder="Search">
+              </div>
+            </li>
+            <li>
+              <label for="checkall" class="flx-center d-flex">
+                <input type="checkbox" class="checkbox" id="checkall">
+                Select / Unselect All
+              </label>
             </li>
             <li><label for="label1"><input type="checkbox" id="label1" class="checkbox"> Available</label></li>
             <li><label for="label2"><input type="checkbox" id="label2" class="checkbox"> New Checkin</label></li>
@@ -47,14 +56,18 @@
         <div class="accordon-heading">
           <a href="javascript:void(0)">Shift
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
-            <i>checkAll</i> |
-            <i>Un CheckAll</i>
           </a>
         </div>
         <div class="accordion-body">
           <ul>
             <li>
-              <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.shiftFilter" placeholder="filter" />
+              <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.shiftFilter" placeholder="filter" /> -->
+              <div class="input-group input-group-sm mb-1">
+                <input type="text" class="form-control" placeholder="Search">
+                <div class="input-group-append">
+                  <button class="btn btn-success" type="button" id="button-addon2">Go</button>
+                </div>
+              </div>
             </li>
             <li *ngFor="let shift of state.filterConfigs.shifts"><label for="label2a"><input type="checkbox" name="shifts[]" [value]="shift.value" [(ngModel)]="shift.checked" id="label2a" class="checkbox"> {{shift.text}}</label></li>
           </ul>
@@ -65,14 +78,18 @@
         <div class="accordon-heading">
           <a href="javascript:void(0)">HK Status
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
-            <i>checkAll</i> |
-            <i>Un CheckAll</i>
           </a>
         </div>
         <div class="accordion-body">
           <ul>
             <li>
-              <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.hkStatusFilter" placeholder="filter" />
+              <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.hkStatusFilter" placeholder="filter" /> -->
+              <div class="input-group input-group-sm mb-1">
+                <input type="text" class="form-control" placeholder="Search">
+                <div class="input-group-append">
+                  <button class="btn btn-success" type="button" id="button-addon2">Go</button>
+                </div>
+              </div>
             </li>
             <li *ngFor="let hkStatus of state.filterConfigs.hsStatus">
               <label for="label3a">
