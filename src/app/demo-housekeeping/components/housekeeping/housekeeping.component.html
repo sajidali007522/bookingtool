@@ -35,8 +35,14 @@
           <ul>
             <li>
               <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
-              <div class="input-group input-group-sm mb-1">
-                <input type="text" class="form-control" placeholder="Search">
+              <label class="flx-center d-flex" for="searchFilter" class="search-label">Search</label>
+              <div class="not-show">
+                <div class="input-group input-group-sm mb-1">
+                  <input type="text" class="form-control" placeholder="Search">
+                  <div class="input-group-append">
+                    <button class="btn btn-success" type="button" id="button-addon2">Go</button>
+                  </div>
+                </div>
               </div>
             </li>
             <li>
@@ -60,15 +66,9 @@
         </div>
         <div class="accordion-body">
           <ul>
-            <li>
-              <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.shiftFilter" placeholder="filter" /> -->
-              <div class="input-group input-group-sm mb-1">
-                <input type="text" class="form-control" placeholder="Search">
-                <div class="input-group-append">
-                  <button class="btn btn-success" type="button" id="button-addon2">Go</button>
-                </div>
-              </div>
-            </li>
+            <!-- <li>
+              <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.shiftFilter" placeholder="filter" />
+            </li> -->
             <li *ngFor="let shift of state.filterConfigs.shifts"><label for="label2a"><input type="checkbox" name="shifts[]" [value]="shift.value" [(ngModel)]="shift.checked" id="label2a" class="checkbox"> {{shift.text}}</label></li>
           </ul>
         </div>
@@ -84,10 +84,13 @@
           <ul>
             <li>
               <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.hkStatusFilter" placeholder="filter" /> -->
-              <div class="input-group input-group-sm mb-1">
-                <input type="text" class="form-control" placeholder="Search">
-                <div class="input-group-append">
-                  <button class="btn btn-success" type="button" id="button-addon2">Go</button>
+              <label class="flx-center d-flex" for="searchFilter" class="search-label">Search</label>
+              <div class="not-show">
+                <div class="input-group input-group-sm mb-1">
+                  <input type="text" class="form-control" placeholder="Search">
+                  <div class="input-group-append">
+                    <button class="btn btn-success" type="button" id="button-addon2">Go</button>
+                  </div>
                 </div>
               </div>
             </li>
