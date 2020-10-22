@@ -1,5 +1,3 @@
-<app-loader *ngIf="state.isLoading "></app-loader>
-
 <div class="reservation-detail-wrap">
   <div class="reservation-sidebar">
     <div class="reservation-sidebar-inner">
@@ -25,9 +23,9 @@
         </div>
       </div>
 
-      <div class="accordion-group group-active">
+      <div class="accordion-group group-active" *ngFor="let group of metaDataGroups">
         <div class="accordon-heading">
-          <a href="javascript:void(0)">FD Status
+          <a href="javascript:void(0)">{{group.name}}
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
           </a>
         </div>
@@ -35,8 +33,8 @@
           <ul>
             <li>
               <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
-              <label class="flx-center d-flex" for="searchFilter" class="search-label">Search</label>
-              <div class="not-show">
+              <label class="flx-center d-flex" class="search-label" (click)="handleSearchBox(group)">Search</label>
+              <div class="" [ngClass]="{'not-show': !group.showSearch}">
                 <div class="input-group input-group-sm mb-1">
                   <input type="text" class="form-control" placeholder="Search">
                   <div class="input-group-append">
@@ -47,68 +45,28 @@
             </li>
             <li>
               <label for="checkall" class="flx-center d-flex">
-                <input type="checkbox" class="checkbox" id="checkall">
+                <input type="checkbox" [(ngModel)]="group.selectAll" class="checkbox" id="checkall" (ngModelChange)="handleFilterCheckboxState(group)">
                 Select / Unselect All
               </label>
             </li>
-            <li><label for="label1"><input type="checkbox" id="label1" class="checkbox"> Available</label></li>
-            <li><label for="label2"><input type="checkbox" id="label2" class="checkbox"> New Checkin</label></li>
-            <li><label for="label3"><input type="checkbox" id="label3" class="checkbox"> Stayover</label></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="accordion-group group-active">
-        <div class="accordon-heading">
-          <a href="javascript:void(0)">Shift
-            <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
-          </a>
-        </div>
-        <div class="accordion-body">
-          <ul>
-            <!-- <li>
-              <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.shiftFilter" placeholder="filter" />
-            </li> -->
-            <li *ngFor="let shift of state.filterConfigs.shifts"><label for="label2a"><input type="checkbox" name="shifts[]" [value]="shift.value" [(ngModel)]="shift.checked" id="label2a" class="checkbox"> {{shift.text}}</label></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="accordion-group group-active">
-        <div class="accordon-heading">
-          <a href="javascript:void(0)">HK Status
-            <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
-          </a>
-        </div>
-        <div class="accordion-body">
-          <ul>
-            <li>
-              <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.hkStatusFilter" placeholder="filter" /> -->
-              <label class="flx-center d-flex" for="searchFilter" class="search-label">Search</label>
-              <div class="not-show">
-                <div class="input-group input-group-sm mb-1">
-                  <input type="text" class="form-control" placeholder="Search">
-                  <div class="input-group-append">
-                    <button class="btn btn-success" type="button" id="button-addon2">Go</button>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li *ngFor="let hkStatus of state.filterConfigs.hsStatus">
-              <label for="label3a">
-                <input type="checkbox" name="hkStatuses[]" id="label3a" class="checkbox" [value]="hkStatus.value" [(ngModel)]="hkStatus.checked"> {{hkStatus.text}}
-<!--                <span class="label-num">215</span>-->
+            <li *ngFor="let item of group.items">
+              <label for="{{item.key}}" *ngIf="item.name">
+                <input type="checkbox" id="{{item.key}}" [(ngModel)]="item.isSelected" class="checkbox"> {{item.name}}
               </label>
             </li>
+
           </ul>
         </div>
       </div>
+
+
 
     </div>
   </div>
 
   <div class="reservation-content-area">
     <div class="reservation-content-inner">
+      <app-loader *ngIf="state.isLoading || state.isLoadingConfig "></app-loader>
       <div class="" *ngIf="!state.isLoading">
         <div class="box position-relative box-skin" id="container">
           <div class="box-header">

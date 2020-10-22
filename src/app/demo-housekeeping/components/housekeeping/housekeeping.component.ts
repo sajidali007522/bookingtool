@@ -44,6 +44,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
 
   data;
+  metaDataGroups = []
   pageFilters= {
     isHousekeeperAdmin: true,
     sites:'',
@@ -211,23 +212,24 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
 
     this.ref.detectChanges();
-    this.DHKService.loadRooms(this.pageFilters.sites, {
+    this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:[]},{
       includeMetadata: true,
       //featureId : this.pageFilters.features,
       pageNum: this.state.pagination.pageNum,
       pageSize: (this.isMobileDevice() ? 1 :this.state.pagination.pageSize),
-      //searchField:this.pageFilters.searchField,
-      //searchText:this.pageFilters.searchText,
+      searchField:this.pageFilters.searchField,
+      searchText:this.pageFilters.searchText,
       sortBy: this.state.pagination.sortBy,
       sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC',
       adminMode: true
     }).subscribe(data => {
         console.log("processed")
         if(!append) {
-          this.data = data;
+          this.data = data['data']['roomStatuses'];
         } else {
-          this.data = this.data.concat(data);
+          this.data = this.data.concat(data['data']['roomStatuses']);
         }
+        this.metaDataGroups = data['data']['metadata']['metadataGroups']
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
         this.ref.detectChanges();
@@ -395,7 +397,15 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   setPagination(){
     this.state.pagination.pageNum=1;
   }
+  handleSearchBox (group) {
+    group.showSearch = !group.showSearch;
+  }
 
+  handleFilterCheckboxState(group) {
+    group.items.filter(item => {
+      item.isSelected = group.selectAll
+    })
+  }
   scrolling(){ return true; }
 
 }

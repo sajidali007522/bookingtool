@@ -11,9 +11,9 @@ export class DemoHousekeepingService {
   apiBaseUrl = 'https://demo.innfinity.com/productsdemo/api3/'
   constructor(private http: HttpClient, private _auth:AuthService, private appConfigService: ConfigService) {}
 
-  public loadRooms(url, params={}) {
+  public loadRooms(url, body, params={}) {
     let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.get(this.apiBaseUrl+"housekeeping/"+url+"/Rooms", {
+    return this.http.post(this.apiBaseUrl+"housekeeping/"+url+"/Rooms", body, {
       params: params,
       headers: headers
     });
