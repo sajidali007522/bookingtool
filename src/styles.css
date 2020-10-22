@@ -1037,10 +1037,57 @@ body.menu-fullwidth .reservation-content-area{
   flex-wrap: wrap;
   align-items: center;
 }
-.flx-center .radio{
+.flx-center .radio,
+.flx-center .checkbox{
   margin-bottom: 0 !important;
 }
+.input-group-sm{
+}
+  .input-group-sm .form-control{
+    padding: 3px 10px 5px;
+    height: auto;
+    min-height: inherit;
+    font-size: 14px;
+    box-shadow: none !important;
+  }
+  .input-group-sm .btn{
+    height: auto;
+    padding: 4px 10px 5px;
+    font-size: 12px;
+  }
+  .select-field-secondary{
+    background: #efeaea;
+    border-color: #efeaea;
+    width: 100%;
+    padding: 10px 20px;
+  }
+  .select-field-secondary option{
+    color: #000;
+  }
+  body.theme-dark .select-field-secondary{
+    background: linear-gradient(90deg,#3f7892,#09425d);
+    border-color: #292e32!important;
+    color: #fff!important;
+  }
+  body.theme-dark-primary .select-field-secondary{
+    background: #292e32;
+    border-color: #292e32!important;
+    color: #fff!important;
+  }
+  .search-label{
+    position: relative;
+  }
+  .search-label:before{
+    content: "\f0d7";
+    font: normal normal normal 12px/1 FontAwesome;
+    position: absolute;
+    right: 7px;
+    top: 3px;
+  }
 
+.not-show{
+  display: none;
+}
 @media(min-width:767px){
   .modal-md{
     max-width: 700px;

@@ -44,6 +44,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
 
   data;
+  metaDataGroups = []
   pageFilters= {
     isHousekeeperAdmin: true,
     sites:'',
@@ -184,10 +185,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.loadRooms();
   }
 
-  public reloadConfigs (siteVal) {
+  public reloadConfigs () {
     this.state.isLoading=true;
     this.ref.detectChanges();
-    this.pageFilters.sites = siteVal;
     this.HKService.loadSiteconfig(this.pageFilters.sites, {featureId : this.pageFilters.features}).subscribe(data => {
         this.state.filterConfigs.shifts = SHIFTS;
         this.state.filterConfigs.houseKeepers = data['housekeepers'];
@@ -212,23 +212,27 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
 
     this.ref.detectChanges();
-    this.roomService.loadRooms(this.pageFilters.sites, {
-      featureId : this.pageFilters.features,
+    this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:[]},{
+      includeMetadata: true,
+      //featureId : this.pageFilters.features,
       pageNum: this.state.pagination.pageNum,
       pageSize: (this.isMobileDevice() ? 1 :this.state.pagination.pageSize),
       searchField:this.pageFilters.searchField,
       searchText:this.pageFilters.searchText,
       sortBy: this.state.pagination.sortBy,
-      sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC'
+      sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC',
+      adminMode: true
     }).subscribe(data => {
         console.log("processed")
         if(!append) {
-          this.data = data;
+          this.data = data['data']['roomStatuses'];
         } else {
-          this.data = this.data.concat(data);
+          this.data = this.data.concat(data['data']['roomStatuses']);
         }
+        this.metaDataGroups = data['data']['metadata']['metadataGroups']
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
+        this.setFilterStates();
         this.ref.detectChanges();
       },
       err => {
@@ -237,6 +241,28 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
       });
+  }
+
+  public setFilterStates() {
+    this.metaDataGroups.filter((group) => {
+      group.selectAll = false;
+      let selectedItem = group.items.filter(item => {
+        if(item.isSelected) return item;
+      });
+      if(group.items.length == selectedItem.length) {
+        group.selectAll = true;
+      }
+    });
+  }
+
+  public handleFilterState(group) {
+    group.selectAll = false;
+    let selectedItem = group.items.filter(item => {
+      if(item.isSelected) return item;
+    });
+    if(group.items.length == selectedItem.length) {
+      group.selectAll = true;
+    }
   }
 
   public updateHouseKeeping(roomId, roomRow, key, editKey) {
@@ -394,7 +420,15 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   setPagination(){
     this.state.pagination.pageNum=1;
   }
+  handleSearchBox (group) {
+    group.showSearch = !group.showSearch;
+  }
 
+  handleFilterCheckboxState(group) {
+    group.items.filter(item => {
+      item.isSelected = group.selectAll
+    })
+  }
   scrolling(){ return true; }
 
 }
