@@ -13,7 +13,7 @@ export class DemoHousekeepingService {
 
   public loadRooms(url, params={}) {
     let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.get(this.appConfigService.apiBaseUrl+url, {
+    return this.http.get(this.apiBaseUrl+"housekeeping/"+url+"/Rooms", {
       params: params,
       headers: headers
     });
@@ -22,7 +22,7 @@ export class DemoHousekeepingService {
 
   public loadRoom(url, params={}) {
     let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.get(this.appConfigService.apiBaseUrl+url, {
+    return this.http.get(this.apiBaseUrl+url, {
       params: params,
       headers: headers
     });

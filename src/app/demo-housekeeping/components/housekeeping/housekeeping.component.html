@@ -12,16 +12,16 @@
           </a>
         </div>
         <div class="accordion-body">
-          <select class="select-field-secondary mb-1">
-            <option>Main Camp</option>
-            <option>Startup Camp</option>
+          <select class="select-field-secondary mb-1" [(ngModel)]="this.pageFilters.sites" (change)="reloadConfigs()">
+            <option value="00000000-0000-0000-0000-000000000000">Select</option>
+            <option value="{{site.value}}" *ngFor="let site of state.filterConfigs.sites">{{site.text}}</option>
           </select>
-          <ul>
-            <li *ngFor="let site of state.filterConfigs.sites">
-              <label class="flx-center d-flex" for="site_{{site.value.split(' ').join('_')}}">
-              <input type="radio" name="sites" [value]="site.value" [(ngModel)]="pageFilters.sites" id="site_{{site.value.split(' ').join('_')}}" class="radio" (click)="reloadConfigs($event.target.value)"> {{site.text}}</label>
-            </li>
-          </ul>
+<!--          <ul>-->
+<!--            <li *ngFor="let site of state.filterConfigs.sites">-->
+<!--              <label class="flx-center d-flex" for="site_{{site.value.split(' ').join('_')}}">-->
+<!--              <input type="radio" name="sites" [value]="site.value" [(ngModel)]="pageFilters.sites" id="site_{{site.value.split(' ').join('_')}}" class="radio" (click)="reloadConfigs($event.target.value)"> {{site.text}}</label>-->
+<!--            </li>-->
+<!--          </ul>-->
         </div>
       </div>
 

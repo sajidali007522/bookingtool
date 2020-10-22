@@ -184,10 +184,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.loadRooms();
   }
 
-  public reloadConfigs (siteVal) {
+  public reloadConfigs () {
     this.state.isLoading=true;
     this.ref.detectChanges();
-    this.pageFilters.sites = siteVal;
     this.HKService.loadSiteconfig(this.pageFilters.sites, {featureId : this.pageFilters.features}).subscribe(data => {
         this.state.filterConfigs.shifts = SHIFTS;
         this.state.filterConfigs.houseKeepers = data['housekeepers'];
@@ -212,14 +211,16 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
 
     this.ref.detectChanges();
-    this.roomService.loadRooms(this.pageFilters.sites, {
-      featureId : this.pageFilters.features,
+    this.DHKService.loadRooms(this.pageFilters.sites, {
+      includeMetadata: true,
+      //featureId : this.pageFilters.features,
       pageNum: this.state.pagination.pageNum,
       pageSize: (this.isMobileDevice() ? 1 :this.state.pagination.pageSize),
-      searchField:this.pageFilters.searchField,
-      searchText:this.pageFilters.searchText,
+      //searchField:this.pageFilters.searchField,
+      //searchText:this.pageFilters.searchText,
       sortBy: this.state.pagination.sortBy,
-      sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC'
+      sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC',
+      adminMode: true
     }).subscribe(data => {
         console.log("processed")
         if(!append) {
