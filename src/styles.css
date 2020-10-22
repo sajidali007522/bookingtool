@@ -963,6 +963,9 @@ body.menu-fullwidth .reservation-content-area{
     width: 100%;
     padding: 10px 20px;
   }
+  .select-field-secondary option{
+    color: #000;
+  }
   body.theme-dark .select-field-secondary{
     background: linear-gradient(90deg,#3f7892,#09425d);
     border-color: #292e32!important;
