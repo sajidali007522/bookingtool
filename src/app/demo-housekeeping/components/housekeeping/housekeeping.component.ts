@@ -232,6 +232,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.metaDataGroups = data['data']['metadata']['metadataGroups']
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
+        this.setFilterStates();
         this.ref.detectChanges();
       },
       err => {
@@ -240,6 +241,28 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
       });
+  }
+
+  public setFilterStates() {
+    this.metaDataGroups.filter((group) => {
+      group.selectAll = false;
+      let selectedItem = group.items.filter(item => {
+        if(item.isSelected) return item;
+      });
+      if(group.items.length == selectedItem.length) {
+        group.selectAll = true;
+      }
+    });
+  }
+
+  public handleFilterState(group) {
+    group.selectAll = false;
+    let selectedItem = group.items.filter(item => {
+      if(item.isSelected) return item;
+    });
+    if(group.items.length == selectedItem.length) {
+      group.selectAll = true;
+    }
   }
 
   public updateHouseKeeping(roomId, roomRow, key, editKey) {
