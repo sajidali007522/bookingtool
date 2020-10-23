@@ -29,11 +29,11 @@ import {takeWhile} from "rxjs/operators"
 import * as $ from 'jquery';
 import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
 
-const SHIFTS: Shift [] = [
-  {value: 1, text: "Day", id: 1, name: "Day"},
-  {value: 2, text: "TimeOut", id: 2, name: "Timeout"},
-  {value: 3, text: "Night", id: 3, name: "Night"},
-];
+// const SHIFTS: Shift [] = [
+//   {value: 1, text: "Day", id: 1, name: "Day"},
+//   {value: 2, text: "TimeOut", id: 2, name: "Timeout"},
+//   {value: 3, text: "Night", id: 3, name: "Night"},
+// ];
 
 @Component({
   selector: 'app-housekeeping',
@@ -60,6 +60,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   imageChangedEvent: any = '';
   croppedImage: any = '';
   state = {
+    loadMetaData: true,
     showRoomImages:  false,
     selectedRoom: {roomId: '', roomNumber: ''},
     roomImage: {
@@ -135,7 +136,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.HKService.loadInitialConfig().subscribe(data => {
 
         this.pageFilters.isHousekeeperAdmin = data['isHousekeeperAdmin'];
-        this.state.filterConfigs.shifts = SHIFTS;
+        this.state.filterConfigs.shifts = [];
         this.state.filterConfigs.sites = data['sites'];
         this.pageFilters.sites = data['sites'][0].value;
         this.state.filterConfigs.houseKeepers = data['housekeepers'];
@@ -147,6 +148,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.sites = data['sites'][0]['value'];
         this.state.isLoadingConfig=false;
+        this.state.loadMetaData = true;
         this.ref.detectChanges();
         this.loadRooms();
 
@@ -189,13 +191,14 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.isLoading=true;
     this.ref.detectChanges();
     this.HKService.loadSiteconfig(this.pageFilters.sites, {featureId : this.pageFilters.features}).subscribe(data => {
-        this.state.filterConfigs.shifts = SHIFTS;
+        this.state.filterConfigs.shifts = [];
         this.state.filterConfigs.houseKeepers = data['housekeepers'];
         this.state.filterConfigs.features = data['features'];
         this.state.filterConfigs.hsStatus = data['housekeepingStatuses'];
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.features =  this.pageFilters.sites;
         this.state.isLoading = false;
+        this.state.loadMetaData = true;
         this.ref.detectChanges();
         this.loadRooms();
       },
@@ -213,7 +216,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
 
     this.ref.detectChanges();
     this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:[]},{
-      includeMetadata: true,
+      includeMetadata: this.state.loadMetaData,
       //featureId : this.pageFilters.features,
       pageNum: this.state.pagination.pageNum,
       pageSize: (this.isMobileDevice() ? 1 :this.state.pagination.pageSize),
@@ -229,9 +232,19 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         } else {
           this.data = this.data.concat(data['data']['roomStatuses']);
         }
-        this.metaDataGroups = data['data']['metadata']['metadataGroups']
+        if(this.state.loadMetaData) {
+          this.metaDataGroups = data['data']['metadata']['metadataGroups'];
+          //this.state.filterConfigs.shifts
+          this.metaDataGroups.filter(group => {
+            if(group.name == 'Shift') {
+              this.state.filterConfigs.shifts = group.items;
+            }
+          })
+
+        }
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
+        this.state.loadMetaData = false;
         this.setFilterStates();
         this.ref.detectChanges();
       },
@@ -336,6 +349,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   fileChangeEvent(event: any, room:any): void {
+    console.log(room);
     this.state.selectedRoom = room;
     this.imageChangedEvent = event;
     this.state.roomImage.name = "Picture of "+room.roomNumber;
@@ -372,11 +386,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           //this.router.navigate(['/house-keeping/'+this.pageFilters.sites+'/room/'+this.state.selectedRoom.roomId]);
           console.log(data);
           this.state.selectedRoom['uploading']=false;
-          alert("image attached");
         },
         (err) => {
           this.state.selectedRoom['uploading']=false;
-          alert(err);
           this.ref.detectChanges();
         });
 

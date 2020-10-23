@@ -5,7 +5,7 @@
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="javascript:void(0)">Room Status
+          <a href="javascript:void(0)">Sites
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
           </a>
         </div>
@@ -154,7 +154,7 @@
                                 (focus)= "row.$editShift = true;"
                                 (focusout)= "row.$editShift = false;"
                                 (change) = "updateHouseKeeping(row.id, row, 'shift', '$editShift')">
-                        <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.text">{{shift.text}}</option>
+                        <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.key">{{shift.name}}</option>
                       </select>
                       </span>
                     </td>
@@ -270,7 +270,7 @@
                   <th class="sort-custom" data-breakpoint="md" (click)="setSortingParams('housekeeperId');" [ngClass]="{
                       'sort-custom-asc' : state.pagination.sortBy == 'housekeeperId' && !state.pagination.sortOrder,
                       'sort-custom-dsc' : state.pagination.sortBy == 'housekeeperId' && state.pagination.sortOrder
-                      }">House Keeper</th>
+                      }">Housekeeper</th>
                   <th class="sort-custom" data-breakpoint="sm" (click)="setSortingParams('shift');" [ngClass]="{
                       'sort-custom-asc' : state.pagination.sortBy == 'shift' && !state.pagination.sortOrder,
                       'sort-custom-dsc' : state.pagination.sortBy == 'shift' && state.pagination.sortOrder
@@ -284,81 +284,81 @@
                 </tr>
                 </thead>
                 <tbody class="mobile-slider">
-                <tr *ngFor="let row of data;index as $index;">
-                  <td data-title="Room #">
-                    <span>{{row.roomNumber}}</span>
-                  </td>
-                  <td data-title="Feature">
-                    <span>{{row.features}}</span>
-                  </td>
-                  <td data-title="FD Status">
-                    <span>{{row.fdStatus}}</span>
-                  </td>
-                  <td data-title="HS Status">
-                    <span>
-                      <select id="hs_status_{{$index}}"
-                              [(ngModel)]="row.hkStatusId"
-                              [ngClass]="{'view-mode': !row.$editHsStatus, 'form-control': row.$editHsStatus}"
-                              (focus)= "row.$editHsStatus = true;"
-                              (focusout)="row.$editHsStatus = false;"
-                              (change)="updateHouseKeeping(row.id, row, 'hs_status', '$editHsStatus')">
-                        <option *ngFor="let status of state.filterConfigs.hsStatus" [ngValue]="status.value">{{status.text}}</option>
-                      </select>
-                    </span>
-                  </td>
-                  <td data-title="Admin Status">
-                    <span>
-                      <select id="admin_status"
-                              [(ngModel)]="row.adminStatusId"
-                              (change)="updateHouseKeeping(row.id, row, 'admin_status', '$editAdminStatus')"
-                              [ngClass]="{'view-mode': !row.$editAdminStatus, 'form-control': row.$editAdminStatus}"
-                              (focus)= "row.$editAdminStatus = true;"
-                              (focusout)= "row.$editAdminStatus = false;"
-                      >
-                        <option *ngFor="let adStatus of state.filterConfigs.adminStatuses" [ngValue]="adStatus.value">{{adStatus.text}}</option>
-                      </select>
-                    </span>
-                  </td>
-                  <td data-title="House Keeper">
-                    <span>
-                      <select [(ngModel)]="row.housekeeperId"
-                              [ngClass]="{'view-mode': !row.$editHousekeeper, 'form-control': row.$editHousekeeper}"
-                              (focus)= "row.$editHousekeeper = true;"
-                              (focusout)= "row.$editHousekeeper = false;"
-                              (change)= "updateHouseKeeping(row.id, row, 'housekeeper', '$editHousekeeper')" >
-                        <option *ngFor="let hk of state.filterConfigs.houseKeepers" [ngValue]="hk.value">{{hk.text}}</option>
-                      </select>
+                  <tr *ngFor="let row of data;index as $index;">
+                    <td data-title="Room #">
+                      <span>{{row.roomNumber}}</span>
+                    </td>
+                    <td data-title="Feature">
+                      <span>{{row.features}}</span>
+                    </td>
+                    <td data-title="FD Status">
+                      <span>{{row.fdStatus}}</span>
+                    </td>
+                    <td data-title="HS Status">
+                      <span>
+                        <select id="hs_status_{{$index}}"
+                                [(ngModel)]="row.hkStatusId"
+                                [ngClass]="{'view-mode': !row.$editHsStatus, 'form-control': row.$editHsStatus}"
+                                (focus)= "row.$editHsStatus = true;"
+                                (focusout)="row.$editHsStatus = false;"
+                                (change)="updateHouseKeeping(row.id, row, 'hs_status', '$editHsStatus')">
+                          <option *ngFor="let status of state.filterConfigs.hsStatus" [ngValue]="status.value">{{status.text}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <td data-title="Admin Status">
+                      <span>
+                        <select id="admin_status"
+                                [(ngModel)]="row.adminStatusId"
+                                (change)="updateHouseKeeping(row.id, row, 'admin_status', '$editAdminStatus')"
+                                [ngClass]="{'view-mode': !row.$editAdminStatus, 'form-control': row.$editAdminStatus}"
+                                (focus)= "row.$editAdminStatus = true;"
+                                (focusout)= "row.$editAdminStatus = false;"
+                        >
+                          <option *ngFor="let adStatus of state.filterConfigs.adminStatuses" [ngValue]="adStatus.value">{{adStatus.text}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <td data-title="Housekeeper">
+                      <span>
+                        <select [(ngModel)]="row.housekeeperId"
+                                [ngClass]="{'view-mode': !row.$editHousekeeper, 'form-control': row.$editHousekeeper}"
+                                (focus)= "row.$editHousekeeper = true;"
+                                (focusout)= "row.$editHousekeeper = false;"
+                                (change)= "updateHouseKeeping(row.id, row, 'housekeeper', '$editHousekeeper')" >
+                          <option *ngFor="let hk of state.filterConfigs.houseKeepers" [ngValue]="hk.value">{{hk.text}}</option>
+                        </select>
 
-                    </span>
-                  </td>
-                  <td data-title="Shift">
-                    <span>
-                      <select [(ngModel)]="row.shift"
-                              [ngClass]="{'view-mode': !row.$editShift, 'form-control': row.$editShift}"
-                              (focus)= "row.$editShift = true;"
-                              (focusout)= "row.$editShift = false;"
-                              (change) = "updateHouseKeeping(row.id, row, 'shift', '$editShift')">
-                        <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.text">{{shift.text}}</option>
-                      </select>
-                    </span>
-                  </td>
-                  <td data-title="Linen Status">{{row.linenStatus}}</td>
-                  <td data-title="Image"></td>
-                  <td data-title="Files">
+                      </span>
+                    </td>
+                    <td data-title="Shift">
+                      <span>
+                        <select [(ngModel)]="row.shift"
+                                [ngClass]="{'view-mode': !row.$editShift, 'form-control': row.$editShift}"
+                                (focus)= "row.$editShift = true;"
+                                (focusout)= "row.$editShift = false;"
+                                (change) = "updateHouseKeeping(row.id, row, 'shift', '$editShift')">
+                          <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.key">{{shift.name}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <td data-title="Linen Status">{{row.linenStatus}}</td>
+                    <td data-title="Image"></td>
+                    <td data-title="Files">
 
-                    <div class="table-btns">
-                      <div class="fileUpload" *ngIf="!row.uploading">
-                        <label for="file-upload" class="btn btn-success">Upload</label>
-                        <input style="position: initial" type="file" id="file-upload" (change)="fileChangeEvent($event, row)" />
+                      <div class="table-btns">
+                        <div class="fileUpload" *ngIf="!row.uploading">
+                          <label for="file-upload_{{row.roomId}}" class="btn btn-success">Upload</label>
+                          <input style="position: initial" type="file" id="file-upload_{{row.roomId}}" (change)="fileChangeEvent($event, row)" />
+                        </div>
+                        <span class="fa fa-spin fa-spinner" *ngIf="row.uploading"></span>
+                        <a href="javascript:void(0)"  data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
+                          <!--                <a href="javascript:void(0)"  data-toggle="modal" data-target="#imageCropModal" class="btn btn-info" routerLink="{{'/house-keeping/'+this.pageFilters.sites+'/room/'+row.roomId}}">-->
+                          Edit
+                        </a>
                       </div>
-                      <span class="fa fa-spin fa-spinner" *ngIf="row.uploading"></span>
-                      <a href="javascript:void(0)"  data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
-                        <!--                <a href="javascript:void(0)"  data-toggle="modal" data-target="#imageCropModal" class="btn btn-info" routerLink="{{'/house-keeping/'+this.pageFilters.sites+'/room/'+row.roomId}}">-->
-                        Edit
-                      </a>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
                 </tbody>
                 <tfoot *ngIf="state.isLoadingMoreRooms">
                 <tr>
