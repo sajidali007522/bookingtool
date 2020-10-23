@@ -452,6 +452,18 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.modalComp.openModal();
   }
   closeModal (){}
+
+  filterList(group, term) {
+    if(typeof group.$actual == 'undefined') {
+      group.$actual = JSON.parse(JSON.stringify(group.items));
+    }
+    group.items = JSON.parse(JSON.stringify(group.$actual));
+    let temp = [];
+    temp = group.items.filter((item) => {
+      return item.name.toLowerCase().indexOf(term.toLowerCase()) !== -1
+    });
+    group.items = JSON.parse(JSON.stringify(temp));
+  }
   scrolling(){ return true; }
 
 }

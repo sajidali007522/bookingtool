@@ -36,7 +36,7 @@
               <label class="flx-center d-flex" class="search-label" (click)="handleSearchBox(group)">Search</label>
               <div class="" [ngClass]="{'not-show': !group.showSearch}">
                 <div class="input-group input-group-sm mb-1 mt-1">
-                  <input type="text" class="form-control" placeholder="Search">
+                  <input type="text" [(ngModel)]="group.search" (keyup)="filterList(group, $event.target.value)" class="form-control" placeholder="Search">
                   <div class="input-group-append">
                     <button class="btn btn-success" type="button" id="button-addon2">Go</button>
                   </div>
