@@ -150,7 +150,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.sites = data['sites'][0]['value'];
         this.state.isLoadingConfig=false;
-        this.state.loadMetaData = true;
+        this.state.loadMetaData = !this.isMobileDevice();
         this.ref.detectChanges();
         this.loadRooms();
 
@@ -200,7 +200,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.features =  this.pageFilters.sites;
         this.state.isLoading = false;
-        this.state.loadMetaData = true;
+        this.state.loadMetaData = !this.isMobileDevice();
         this.ref.detectChanges();
         this.loadRooms();
       },
@@ -212,7 +212,6 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public loadRooms (append = false) {
-    if(this.state.isLoadingMoreRooms || this.state.isLoadingRooms) return;
     if(!this.state.isLoadingMoreRooms) {
       this.state.isLoadingRooms = true;
     }
@@ -320,20 +319,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public ngAfterViewInit () {
-    $("body").scroll(() => {
-      console.log($(window).scrollTop() + $(window).height(), '>=', $(document).height(), $(window).scrollTop() + $(window).height() >= $(document).height())
-      if($(window).scrollTop() + $(window).height() >= $(document).height()) {
-        console.log("bottom")
-        if(this.state.isLoading || this.state.isLoadingRooms || this.state.isLoadingMoreRooms) return;
-        //console.log("bottom");
-        this.state.pagination.pageNum++;
-        this.state.isLoadingMoreRooms = true;
-        if(!this.isMobileDevice()) {
-          this.loadRooms(true);
-        }
-      }
-    })
-    /*$("#container").scroll((e, arg) => {
+
+    $(".reservation-content-area").scroll((e, arg) => {
       var elem = $(e.currentTarget);
       if (elem[0].scrollHeight - elem.scrollTop() <= elem.outerHeight()) {
         if(this.state.isLoading || this.state.isLoadingRooms || this.state.isLoadingMoreRooms) return;
@@ -344,13 +331,14 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           this.loadRooms(true);
         }
       }
-    });*/
+    });
     $(".accordion-group .accordon-heading").on('click', function(){
       $(this).parents('.accordion-group').toggleClass('group-active')
     });
   }
 
   public ngAfterViewChecked() {
+
     //this.addJsToElement('assets/js/plugins/jsmartable.js');
     //$(".jsmartable").jsmartable();
   }
