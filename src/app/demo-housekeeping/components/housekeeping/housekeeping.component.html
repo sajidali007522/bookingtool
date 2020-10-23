@@ -22,7 +22,32 @@
 <!--          </ul>-->
         </div>
       </div>
-
+      <div class="accordion-group group-active">
+        <div class="accordon-heading">
+          <a href="javascript:void(0)">Search</a>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li>
+              <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
+              <div class="">
+                <div class="input-group input-group-sm mb-1 mt-1">
+                  <select class="form-control">
+                    <option value="">Select</option>
+                    <option value="">Room#</option>
+                  </select>
+                </div>
+                <div class="input-group input-group-sm mb-1 mt-1">
+                  <input type="text" class="form-control" placeholder="Search Term">
+                </div>
+                <div class="input-group input-group-sm mb-1 mt-1">
+                  <button class="btn btn-success btn-block">Go</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div class="accordion-group group-active" *ngFor="let group of metaDataGroups">
         <div class="accordon-heading">
           <a href="javascript:void(0)">{{group.name}}
