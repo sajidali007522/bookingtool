@@ -28,6 +28,7 @@ import { fromEvent } from "rxjs";
 import {takeWhile} from "rxjs/operators"
 import * as $ from 'jquery';
 import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
+import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
 
 // const SHIFTS: Shift [] = [
 //   {value: 1, text: "Day", id: 1, name: "Day"},
@@ -42,7 +43,7 @@ import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.serv
 })
 export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
-
+  @ViewChild(ModalComponent) modalComp: ModalComponent;
   data;
   metaDataGroups = []
   pageFilters= {
@@ -60,6 +61,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   imageChangedEvent: any = '';
   croppedImage: any = '';
   state = {
+    message: '',
     loadMetaData: true,
     showRoomImages:  false,
     selectedRoom: {roomId: '', roomNumber: ''},
@@ -210,6 +212,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public loadRooms (append = false) {
+    if(this.state.isLoadingMoreRooms || this.state.isLoadingRooms) return;
     if(!this.state.isLoadingMoreRooms) {
       this.state.isLoadingRooms = true;
     }
@@ -317,8 +320,20 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public ngAfterViewInit () {
-
-    $(".main-content-area").scroll((e, arg) => {
+    $("body").scroll(() => {
+      console.log($(window).scrollTop() + $(window).height(), '>=', $(document).height(), $(window).scrollTop() + $(window).height() >= $(document).height())
+      if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+        console.log("bottom")
+        if(this.state.isLoading || this.state.isLoadingRooms || this.state.isLoadingMoreRooms) return;
+        //console.log("bottom");
+        this.state.pagination.pageNum++;
+        this.state.isLoadingMoreRooms = true;
+        if(!this.isMobileDevice()) {
+          this.loadRooms(true);
+        }
+      }
+    })
+    /*$("#container").scroll((e, arg) => {
       var elem = $(e.currentTarget);
       if (elem[0].scrollHeight - elem.scrollTop() <= elem.outerHeight()) {
         if(this.state.isLoading || this.state.isLoadingRooms || this.state.isLoadingMoreRooms) return;
@@ -329,7 +344,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           this.loadRooms(true);
         }
       }
-    });
+    });*/
     $(".accordion-group .accordon-heading").on('click', function(){
       $(this).parents('.accordion-group').toggleClass('group-active')
     });
@@ -385,9 +400,13 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       .subscribe((data )=> {
           //this.router.navigate(['/house-keeping/'+this.pageFilters.sites+'/room/'+this.state.selectedRoom.roomId]);
           console.log(data);
+          this.state.message = "Image has been attached"
+          this.openModal()
           this.state.selectedRoom['uploading']=false;
         },
         (err) => {
+          this.state.message = "Image has been attached"
+          this.openModal()
           this.state.selectedRoom['uploading']=false;
           this.ref.detectChanges();
         });
@@ -441,6 +460,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       item.isSelected = group.selectAll
     })
   }
+  openModal(){
+    this.modalComp.openModal();
+  }
+  closeModal (){}
   scrolling(){ return true; }
 
 }
