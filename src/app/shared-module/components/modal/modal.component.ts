@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-confirm-modal',
+  selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css']
 })
