@@ -22,7 +22,7 @@
 <!--          </ul>-->
         </div>
       </div>
-      <div class="accordion-group group-active">
+      <div class="accordion-group group-active" *ngIf="isMobileDevice()">
         <div class="accordon-heading">
           <a href="javascript:void(0)">Search</a>
         </div>
@@ -55,7 +55,7 @@
           </a>
         </div>
         <div class="accordion-body">
-          <ul>
+          <ul class="container">
             <li>
               <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
               <label class="flx-center d-flex" class="search-label" (click)="handleSearchBox(group)">Search</label>
@@ -79,13 +79,14 @@
                 <input type="checkbox" id="{{item.key}}" [(ngModel)]="item.isSelected" (ngModelChange)="handleFilterState(group)" class="checkbox"> {{item.name}}
               </label>
             </li>
-
+          </ul>
+          <ul>
+            <li>
+              <a href="javascript:void(0)" (click)="expandContainer($event)">Show more/Less</a>
+            </li>
           </ul>
         </div>
       </div>
-
-
-
     </div>
   </div>
 
@@ -233,7 +234,7 @@
               </select>
             </div> -->
 
-            <div class="row" *ngIf="!isMobileDevice()" >
+            <!--<div class="row" *ngIf="!isMobileDevice()" >
               <div class="col-md-6">
                 <div class="jump-section">
                   <label>Jump to Page:</label>
@@ -262,7 +263,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
 
             <div *ngIf="!isMobileDevice()" class="table-responsive table-housekeeping-wrap"
                  [ngClass]="{'table-loader': state.isLoadingRooms}"

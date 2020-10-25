@@ -332,11 +332,14 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         }
       }
     });
-    $(".accordion-group .accordon-heading").on('click', function(){
+    $(".reservation-sidebar-inner").on('click', ".accordion-group > .accordon-heading",function(){
       $(this).parents('.accordion-group').toggleClass('group-active')
     });
   }
-
+  public expandContainer (event) {
+    console.log(event)
+    $(event.target).parents('.accordion-body').find('ul.container').toggleClass('expand');
+  }
   public ngAfterViewChecked() {
 
     //this.addJsToElement('assets/js/plugins/jsmartable.js');

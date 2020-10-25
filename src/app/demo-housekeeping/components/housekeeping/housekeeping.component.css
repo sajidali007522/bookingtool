@@ -298,3 +298,12 @@ td select.view-mode:active{
     font: normal normal normal 26px/1 FontAwesome;
   }
 }
+
+.accordion-body ul.container {
+  max-height: 225px;
+  overflow: hidden;
+}
+.accordion-body ul.container.expand {
+  max-height: max-content;
+  height: auto;
+}
