@@ -89,7 +89,7 @@
         </div>
       </div>
 
-      <div class="full-btns">
+      <div class="full-btns" *ngIf="!isMobileDevice()">
         <a href="#" class="full-btn"><span class="fa fa-refresh" (click)="refreshFilter()" ></span> Refresh</a>
       </div>
 
