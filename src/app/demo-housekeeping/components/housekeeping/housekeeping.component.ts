@@ -271,7 +271,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     });
   }
 
-  public handleFilterState(group, item) {
+  public handleFilterState(group, item) {}
+  public handleFilterState_bk(group, item) {
     group.selectAll = false;
     let selectedItem = group.items.filter(item => {
       if(item.isSelected) return item;
