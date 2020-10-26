@@ -48,7 +48,7 @@
           </ul>
         </div>
       </div>
-      <div class="accordion-group group-active" *ngFor="let group of metaDataGroups">
+      <div class="accordion-group" [ngClass]="{'group-active': group.isExpanded}" *ngFor="let group of metaDataGroups">
         <div class="accordon-heading">
           <a href="javascript:void(0)">{{group.name}}
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>

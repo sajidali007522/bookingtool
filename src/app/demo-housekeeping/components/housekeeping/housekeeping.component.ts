@@ -186,6 +186,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       searchField: '',
       shifts: []
     }
+    this.state.loadMetaData = !this.isMobileDevice()
     this.loadRooms();
   }
 
