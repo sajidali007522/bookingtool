@@ -83,7 +83,7 @@
           </ul>
           <ul>
             <li>
-              <a href="javascript:void(0)" (click)="expandContainer($event)">Show more/Less</a>
+              <a href="javascript:void(0)" (click)="expandContainer($event, group)">{{group.expanded ? 'Show Less' : 'show More'}}</a>
             </li>
           </ul>
         </div>

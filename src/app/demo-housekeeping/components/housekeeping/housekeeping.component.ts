@@ -343,8 +343,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       $(this).parents('.accordion-group').toggleClass('group-active')
     });
   }
-  public expandContainer (event) {
-    console.log(event)
+  public expandContainer (event, group) {
+    group.expanded = !group.expanded
     $(event.target).parents('.accordion-body').find('ul.container').toggleClass('expand');
   }
   public ngAfterViewChecked() {
