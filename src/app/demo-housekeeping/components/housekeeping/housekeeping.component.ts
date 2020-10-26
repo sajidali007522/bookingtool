@@ -271,24 +271,28 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     });
   }
 
-  public handleFilterState(group, item) {}
-  public handleFilterState_bk(group, item) {
-    group.selectAll = false;
+  public handleFilterState(group, item) {
+    group.selectAll = true;
     let selectedItem = group.items.filter(item => {
       if(item.isSelected) return item;
     });
-    if(group.items.length == selectedItem.length) {
-      group.selectAll = true;
+    if(group.items.length != selectedItem.length) {
+      group.selectAll = false;
     }
     //
-    console.log(item.isSelected, "tr."+group.key+"_"+item.key.split('-').join('_'))
+    /*console.log(item.isSelected, "tr."+group.key+"_"+item.key.split('-').join('_'))
     if(!item.isSelected) {
       $("tr."+group.key+"_"+item.key.split('-').join('_')).hide()
     } else {
       $("tr."+group.key+"_"+item.key.split('-').join('_')).show()
-    }
+    }*/
   }
-
+  public checkAll (group) {
+    group.items.filter(item => {
+      item.isSelected = true
+    });
+    group.selectAll = true;
+  }
   public updateHouseKeeping(roomId, roomRow, key, editKey) {
     //console.log(roomId, roomRow, key, editKey);
     roomRow[editKey] = false;
