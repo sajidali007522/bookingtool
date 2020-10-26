@@ -22,6 +22,11 @@
     overflow-y: auto;
     padding: 80px 30px 0;
 }
+.reservation-sidebar .accordion-body > ul{
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
     .reservation-sidebar ::-webkit-scrollbar {
         width: 5px;
     }
@@ -136,6 +141,10 @@
         color: #fff;
         line-height: 1;
         padding: 2px 5px;
+    }
+    .show-options{
+        color: #55637d;
+        text-decoration: underline;
     }
 .reservation-content-area{
     width: calc(100% - 250px);
@@ -812,6 +821,27 @@
         right: 15px;
         top: 15px;
     }
+.full-btns{
+    padding-top: 15px;
+}
+.full-btn{
+    display: block;
+    width: 100%;
+    border: 1px solid #979797;
+    padding: 11px 5px 11px 55px;
+    color: #0f1137;
+    font-size: 16px;
+    position: relative;
+    text-decoration: none;
+    margin: 0 0 10px;
+    border-radius: 5px;
+}
+.full-btn .fa{
+    position: absolute;
+    left: 22px;
+    top: 15px;
+    font-size: 18px;
+}
 
 @media(max-width:1300px){
     .article-content-booking{
