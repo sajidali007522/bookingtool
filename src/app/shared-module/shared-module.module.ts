@@ -13,7 +13,7 @@ import {ModalComponent} from "./components/modal/modal.component";
     CommonModule
   ],
   exports:[
-    LoaderComponent, AlertModalComponent, ConfirmModalComponent
+    LoaderComponent, AlertModalComponent, ConfirmModalComponent, ModalComponent
   ]
 })
 export class SharedModuleModule { }

@@ -23,7 +23,7 @@ body.theme-dark .article-content-booking{
   background: #3e7792;
   background-image: linear-gradient(#3e7792, #5bc0ed);
 }
-body.theme-dark .selection-table.table th, 
+body.theme-dark .selection-table.table th,
 body.theme-dark .selection-table.table td,
 body.theme-dark .content-booking-left,
 body.theme-dark .content-booking-left h3,
@@ -50,8 +50,19 @@ body.theme-dark .resv-btns a{
   border-color: #292e32 !important;
   color: #fff !important;
 }
-body.theme-dark .reservation-sidebar-inner option{
-  color:#000;
+body.theme-dark .reservation-sidebar-inner option {
+  color: #000;
+}
+body.theme-dark .reservation-sidebar ::-webkit-scrollbar-track {
+  background: rgba(255,255,255, 0.2) !important;
+}
+body.theme-dark .reservation-sidebar ::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255, 0.2) !important;
+}
+body.theme-dark .full-btn{
+  background: linear-gradient(90deg,#cee1ea,#09415a) !important;
+  border:none !important;
+  color:#fff !important;
 }
 /* SearchResult end */
 
@@ -70,6 +81,9 @@ body.theme-dark .reservation-sidebar-inner option{
 }
 .theme-dark .table-skin option{
   color:#000;
+}
+body.theme-dark .show-options{
+  color: #fff;
 }
 
 

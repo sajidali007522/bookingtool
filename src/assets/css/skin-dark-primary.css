@@ -72,16 +72,16 @@
   background: #000 !important;
   color:#fff !important;
   font-weight: 600;
-} 
+}
 /* end header */
 
-.theme-dark-blue .bs-datepicker-body table td span.selected, 
-.theme-dark-blue .bs-datepicker-body table td.selected span, 
-.theme-dark-blue .bs-datepicker-body table td span[class*="select-"]:after, 
+.theme-dark-blue .bs-datepicker-body table td span.selected,
+.theme-dark-blue .bs-datepicker-body table td.selected span,
+.theme-dark-blue .bs-datepicker-body table td span[class*="select-"]:after,
 .theme-dark-blue .bs-datepicker-body table td[class*="select-"] span:after,
-.theme-green .bs-datepicker-body table td span.selected, 
-.theme-green .bs-datepicker-body table td.selected span, 
-.theme-green .bs-datepicker-body table td span[class*="select-"]:after, 
+.theme-green .bs-datepicker-body table td span.selected,
+.theme-green .bs-datepicker-body table td.selected span,
+.theme-green .bs-datepicker-body table td span[class*="select-"]:after,
 .theme-green .bs-datepicker-body table td[class*="select-"] span:after{
   background: #09425d;
   background-image: linear-gradient(#09425d, #3f7892);
@@ -212,8 +212,23 @@ body.theme-dark-primary .table-editable-wrap .table  th{
 body.theme-dark-primary .table-editable-wrap .table .edited-tr td{
   background: #333 !important;
 }
-body.theme-dark-primary .edit-field{
-  color:#fff;
+body.theme-dark-primary .edit-field {
+  color: #fff;
+}
+body.theme-dark-primary .show-options{
+  color: #fff;
+}
+
+body.theme-dark-primary .reservation-sidebar ::-webkit-scrollbar-track {
+  background: rgba(255,255,255, 0.2) !important;
+}
+body.theme-dark-primary .reservation-sidebar ::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255, 0.2) !important;
+}
+body.theme-dark-primary .full-btn{
+  background: #292e32!important;
+  color: #fff;
+  border-color: #292e32!important;
 }
 /* SearchResult end */
 

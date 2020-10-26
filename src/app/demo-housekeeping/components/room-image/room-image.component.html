@@ -63,3 +63,4 @@
 </div>
 
 <app-confirm-modal [confirmationMessage]="'You want to delete this Photo'" (isConfirmed)="deleteImage($event)"></app-confirm-modal>
+<app-modal [message]="state.message" (closeIt)="closeIt($event)" ></app-modal>

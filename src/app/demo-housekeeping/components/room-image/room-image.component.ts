@@ -3,6 +3,7 @@ import {HttpService} from "../../../http.service";
 import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal.component";
 import {AuthenticationService} from "../../../_services/authentication.service";
 import {ConfigService} from "../../../config.service";
+import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
 
 @Component({
   selector: 'app-room-image',
@@ -14,7 +15,9 @@ export class RoomImageComponent implements OnInit,OnChanges {
   @Input() siteId;
   @Input() room;
   @ViewChild(ConfirmModalComponent) childcomp: ConfirmModalComponent;
+  @ViewChild(ModalComponent) modalComp: ModalComponent;
   state={
+    message: '',
     isLoadingImages:false,
     roomImages: <any>[],
     selectedIndex: -1,
@@ -43,6 +46,9 @@ export class RoomImageComponent implements OnInit,OnChanges {
 
   openModal(){
     this.childcomp.openModal();
+  }
+  openAlertModal(){
+    this.modalComp.openModal();
   }
 
   loadRoomImages() {
@@ -108,9 +114,15 @@ export class RoomImageComponent implements OnInit,OnChanges {
           this.state.isLoadingImages = false;
         },
         error => { console.log(error)},
-        ()=>{this.state.isLoadingImages = false; this.ref.detectChanges();console.log('completed')});
+        ()=>{
+          this.state.isLoadingImages = false; this.ref.detectChanges();
+          this.state.message = "Image has been deleted!"
+          this.openAlertModal()
+        });
     }
   }
+
+  closeIt(event){}
 
   reset(){
     this.state.componentState.isViewMode=true;
