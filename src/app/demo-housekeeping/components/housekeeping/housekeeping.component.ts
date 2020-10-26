@@ -270,13 +270,20 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     });
   }
 
-  public handleFilterState(group) {
+  public handleFilterState(group, item) {
     group.selectAll = false;
     let selectedItem = group.items.filter(item => {
       if(item.isSelected) return item;
     });
     if(group.items.length == selectedItem.length) {
       group.selectAll = true;
+    }
+    //
+    console.log(item.isSelected, "tr."+group.key+"_"+item.key.split('-').join('_'))
+    if(!item.isSelected) {
+      $("tr."+group.key+"_"+item.key.split('-').join('_')).hide()
+    } else {
+      $("tr."+group.key+"_"+item.key.split('-').join('_')).show()
     }
   }
 

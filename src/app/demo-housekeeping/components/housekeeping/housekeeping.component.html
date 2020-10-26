@@ -31,17 +31,17 @@
             <li>
               <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
               <div class="">
-                <div class="mb-1 mt-1">
+                <div class="input-group input-group-sm mb-1 mt-1">
                   <select class="form-control">
                     <option value="">Select</option>
                     <option value="">Room#</option>
                   </select>
                 </div>
-                <div class="mb-1 mt-1">
+                <div class="input-group input-group-sm mb-1 mt-1">
                   <input type="text" class="form-control" placeholder="Search Term">
                 </div>
-                <div class="mb-1 mt-1">
-                  <button class="btn btn-info btn-block">Go</button>
+                <div class="input-group input-group-sm mb-1 mt-1">
+                  <button class="btn btn-success btn-block">Go</button>
                 </div>
               </div>
             </li>
@@ -76,22 +76,18 @@
             </li>
             <li *ngFor="let item of group.items">
               <label for="{{item.key}}" *ngIf="item.name">
-                <input type="checkbox" id="{{item.key}}" [(ngModel)]="item.isSelected" (ngModelChange)="handleFilterState(group)" class="checkbox"> {{item.name}}
+                <input type="checkbox" id="{{item.key}}" [(ngModel)]="item.isSelected" (ngModelChange)="handleFilterState(group, item)" class="checkbox"> {{item.name}}
+
               </label>
             </li>
           </ul>
           <ul>
             <li>
-              <a href="javascript:void(0)" (click)="expandContainer($event)" class="show-options">Show more/Less</a>
+              <a href="javascript:void(0)" (click)="expandContainer($event)">Show more/Less</a>
             </li>
           </ul>
         </div>
       </div>
-
-      <div class="full-btns">
-        <a href="#" class="full-btn"><span class="fa fa-refresh"></span> Refresh</a>
-      </div>
-
     </div>
   </div>
 
@@ -310,12 +306,17 @@
                       'sort-custom-asc' : state.pagination.sortBy == 'linenStatus' && !state.pagination.sortOrder,
                       'sort-custom-dsc' : state.pagination.sortBy == 'linenStatus' && state.pagination.sortOrder
                       }">Linen Status</th>
-                  <th>Image</th>
+                  <!-- <th>Image</th> -->
                   <th></th>
                 </tr>
                 </thead>
                 <tbody class="mobile-slider">
-                  <tr *ngFor="let row of data;index as $index;">
+                  <tr *ngFor="let row of data;index as $index;"
+                      class="GuaranteeToType_{{row.shift.split('-').join('_')}}
+                              FrontDeskStatus_{{row.adminStatusId.split('-').join('_')}}
+                              HousekeepingStatus_{{row.hkStatusId.split('-').join('_')}}
+                              AdminStatus_{{row.adminStatusId.split('-').join('_')}}
+                      ">
                     <td data-title="Room #">
                       <span>{{row.roomNumber}}</span>
                     </td>
@@ -374,7 +375,7 @@
                       </span>
                     </td>
                     <td data-title="Linen Status">{{row.linenStatus}}</td>
-                    <td data-title="Image"></td>
+                    <!-- <td data-title="Image"></td> -->
                     <td data-title="Files">
 
                       <div class="table-btns">
