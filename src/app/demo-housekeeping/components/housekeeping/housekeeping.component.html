@@ -31,17 +31,17 @@
             <li>
               <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
               <div class="">
-                <div class="input-group input-group-sm mb-1 mt-1">
+                <div class="mb-1 mt-1">
                   <select class="form-control">
                     <option value="">Select</option>
                     <option value="">Room#</option>
                   </select>
                 </div>
-                <div class="input-group input-group-sm mb-1 mt-1">
+                <div class="mb-1 mt-1">
                   <input type="text" class="form-control" placeholder="Search Term">
                 </div>
-                <div class="input-group input-group-sm mb-1 mt-1">
-                  <button class="btn btn-success btn-block">Go</button>
+                <div class="mb-1 mt-1">
+                  <button class="btn btn-info btn-block">Go</button>
                 </div>
               </div>
             </li>
@@ -83,11 +83,16 @@
           </ul>
           <ul>
             <li>
-              <a href="javascript:void(0)" (click)="expandContainer($event, group)">{{group.expanded ? 'Show Less' : 'show More'}}</a>
+              <a href="javascript:void(0)" (click)="expandContainer($event, group)" class="show-options">{{group.expanded ? 'Show Less' : 'show More'}}</a>
             </li>
           </ul>
         </div>
       </div>
+
+      <div class="full-btns">
+        <a href="#" class="full-btn"><span class="fa fa-refresh" (click)="refreshFilter()" ></span> Refresh</a>
+      </div>
+
     </div>
   </div>
 
@@ -152,7 +157,7 @@
                     </td>
                     <td data-title="Admin Status">
                       <span>
-                        <select id="admin_status"
+                        <select id="admin_status_{{$index}}"
                                 [(ngModel)]="row.adminStatusId"
                                 (change)="updateHouseKeeping(row.id, row, 'admin_status', '$editAdminStatus')"
                                 [ngClass]="{'view-mode': !row.$editAdminStatus, 'form-control': row.$editAdminStatus}"
@@ -340,7 +345,7 @@
                     </td>
                     <td data-title="Admin Status">
                       <span>
-                        <select id="admin_status"
+                        <select id="admin_status_{{$index}}"
                                 [(ngModel)]="row.adminStatusId"
                                 (change)="updateHouseKeeping(row.id, row, 'admin_status', '$editAdminStatus')"
                                 [ngClass]="{'view-mode': !row.$editAdminStatus, 'form-control': row.$editAdminStatus}"
