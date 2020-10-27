@@ -226,8 +226,18 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       groupBody['selectedMetadataItems'] = itemTemp;
       return groupBody
     });
+    console.log(body);
     return body;
   }
+
+  public checkOnly (group, item) {
+    group.items.filter((item)=>{
+      item.isSelected = false;
+    })
+    item.isSelected = true;
+    this.loadRooms();
+  }
+
   public loadRooms (append = false) {
     if(!this.state.isLoadingMoreRooms) {
       if(this.canceler) { this.canceler.unsubscribe(); }
