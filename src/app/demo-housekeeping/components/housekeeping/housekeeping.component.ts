@@ -151,7 +151,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.sites = data['sites'][0]['value'];
         this.state.isLoadingConfig=false;
-        this.state.loadMetaData = !this.isMobileDevice();
+        this.state.loadMetaData = true;
         this.ref.detectChanges();
         this.loadRooms();
 
@@ -187,7 +187,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       searchField: '',
       shifts: []
     }
-    this.state.loadMetaData = !this.isMobileDevice()
+    this.state.loadMetaData = true
     this.loadRooms();
   }
 
@@ -202,7 +202,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.features =  this.pageFilters.sites;
         this.state.isLoading = false;
-        this.state.loadMetaData = !this.isMobileDevice();
+        this.state.loadMetaData = true;
         this.ref.detectChanges();
         this.loadRooms();
       },
@@ -235,6 +235,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       item.isSelected = false;
     })
     item.isSelected = true;
+    group.selectAll = false;
     this.loadRooms();
   }
 

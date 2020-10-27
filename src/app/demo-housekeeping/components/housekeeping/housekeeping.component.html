@@ -75,8 +75,8 @@
 <!--                Select / Unselect All-->
 <!--              </label>-->
 <!--            </li>-->
-            <li *ngFor="let item of group.items" class="has-num">
-              <span class="label-num">123</span>
+            <li *ngFor="let item of group.items" [ngClass]="{'has-num': item.count}">
+              <span class="label-num" *ngIf="item.count">{{item.count}}</span>
               <label for="{{item.key}}" *ngIf="item.name" class="onlywrap">
                 <input type="checkbox" id="{{item.key}}" [(ngModel)]="item.isSelected" (ngModelChange)="handleFilterState(group, item)" class="checkbox"> {{item.name}}
                 <a href="javascript:void(0)" class="onlyitem" (click)="checkOnly(group, item)">Only</a>
@@ -91,7 +91,7 @@
         </div>
       </div>
 
-      <div class="full-btns" *ngIf="!isMobileDevice()">
+      <div class="full-btns">
         <a href="#" class="full-btn"><span class="fa fa-refresh" (click)="refreshFilter()" ></span> Refresh</a>
       </div>
 
@@ -112,168 +112,7 @@
           </div>
           <div class="box-body">
 
-            <!-- for mobile start -->
-            <div *ngIf="isMobileDevice() && !state.isLoadingRooms" #room_container class="for-mobile-table">
-              <div class="table-responsive table-housekeeping-wrap" id="table_container">
-                <table *ngIf="!state.isLoadingMoreRooms"
-                       class="table table-bordered row-border hover room-table table-skin"
-                       (swipeleft)="nextPage()"
-                       (swiperight)="previousPage()"
-                >
-                  <thead>
-                  <tr>
-                    <th class="sort-custom">Room #</th>
-                    <th class="sort-custom" >Feature</th>
-                    <th class="sort-custom">FD Status</th>
-                    <th class="sort-custom">Hk Status</th>
-                    <th class="sort-custom">Admin Status</th>
-                    <th class="sort-custom">HouseKeeper</th>
-                    <th class="sort-custom">Shift</th>
-                    <th class="sort-custom">Linen Status</th>
-                    <th>Image</th>
-                    <th></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let row of data;index as $index;">
-                    <td data-title="Room #">
-                      <span>{{row.roomNumber}}	</span>
-                    </td>
-                    <td data-title="Feature">
-                      <span>{{row.features}}</span>
-                    </td>
-                    <td data-title="FD Status">
-                      <span>{{row.fdStatus}}</span>
-                    </td>
-                    <td data-title="HS Status">
-                      <span>
-                         <select id="hs_status_{{$index}}"
-                                 [(ngModel)]="row.hkStatusId"
-                                 [ngClass]="{'view-mode': !row.$editHsStatus, 'form-control': row.$editHsStatus}"
-                                 (focus)= "row.$editHsStatus = true;"
-                                 (focusout)="row.$editHsStatus = false;"
-                                 (change)="updateHouseKeeping(row.id, row, 'hs_status', '$editHsStatus')">
-                            <option *ngFor="let status of state.filterConfigs.hsStatus" [ngValue]="status.value">{{status.text}}</option>
-                         </select>
-                      </span>
-                    </td>
-                    <td data-title="Admin Status">
-                      <span>
-                        <select id="admin_status_{{$index}}"
-                                [(ngModel)]="row.adminStatusId"
-                                (change)="updateHouseKeeping(row.id, row, 'admin_status', '$editAdminStatus')"
-                                [ngClass]="{'view-mode': !row.$editAdminStatus, 'form-control': row.$editAdminStatus}"
-                                (focus)= "row.$editAdminStatus = true;"
-                                (focusout)= "row.$editAdminStatus = false;"
-                        >
-                          <option *ngFor="let adStatus of state.filterConfigs.adminStatuses" [ngValue]="adStatus.value">{{adStatus.text}}</option>
-                        </select>
-                      </span>
-                    </td>
-                    <td data-title="HouseKeeper">
-                      <span>
-                        <select [(ngModel)]="row.housekeeperId"
-                                [ngClass]="{'view-mode': !row.$editHousekeeper, 'form-control': row.$editHousekeeper}"
-                                (focus)= "row.$editHousekeeper = true;"
-                                (focusout)= "row.$editHousekeeper = false;"
-                                (change)= "updateHouseKeeping(row.id, row, 'housekeeper', '$editHousekeeper')" >
-                          <option *ngFor="let hk of state.filterConfigs.houseKeepers" [ngValue]="hk.value">{{hk.text}}</option>
-                        </select>
-                      </span>
-                    </td>
-                    <td data-title="Shift">
-                      <span>
-                        <select [(ngModel)]="row.shift"
-                                [ngClass]="{'view-mode': !row.$editShift, 'form-control': row.$editShift}"
-                                (focus)= "row.$editShift = true;"
-                                (focusout)= "row.$editShift = false;"
-                                (change) = "updateHouseKeeping(row.id, row, 'shift', '$editShift')">
-                        <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.key">{{shift.name}}</option>
-                      </select>
-                      </span>
-                    </td>
-                    <td data-title="Linen Status">{{row.linenStatus}}</td>
-                    <td data-title="Image"></td>
-                    <td data-title="Files">
-                      <div class="table-btns">
-                        <div class="fileUpload" *ngIf="!row.uploading">
-                          <label for="file-upload" class="btn btn-success">Upload</label>
-                          <input style="position: initial" type="file" id="file-upload" (change)="fileChangeEvent($event, row)" />
-                        </div>
-                        <span class="fa fa-spin fa-spinner" *ngIf="row.uploading"></span>
-                        <a href="javascript:void(0)"  data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
-                          Edit
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-                <app-loader *ngIf="state.isLoadingMoreRooms"></app-loader>
-              </div>
-              <ul class="pagination justify-content-center">
-                <li class="page-item page-prev">
-                  <a class="page-link" href="javascript:void(0)" (click)="previousPage()" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                </li>
-
-                <li class="page-item page-next">
-                  <a class="page-link" href="javascript:void(0)" (click)="nextPage()" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
-              </ul>
-              <br><br>
-            </div>
-            <app-loader *ngIf="isMobileDevice() && state.isLoadingRooms "></app-loader>
-            <!-- for mobile end -->
-
-
-            <!-- <div *ngIf="!isMobileDevice()" class="jump-section">
-              <label>Page:</label>
-              <select [(ngModel)]="state.pagination.pageNum" (change)="loadRooms()">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="40">40</option>
-              </select>
-            </div> -->
-
-            <!--<div class="row" *ngIf="!isMobileDevice()" >
-              <div class="col-md-6">
-                <div class="jump-section">
-                  <label>Jump to Page:</label>
-                  <select class="form-control jump-w120" [(ngModel)]="state.pagination.pageNum" (change)="loadRooms()">
-                    <option></option>
-                    <option>2</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6 ml-auto">
-                <div class="jump-wrap">
-                  <div class="jump-section">
-                    <label>Search By:</label>
-                    <select name="" [(ngModel)]="pageFilters.searchField">
-                      <option>Room #</option>
-                    </select>
-                  </div>
-                  <div class="jump-section">
-                    <label>Search:</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" placeholder="" [(ngModel)]="pageFilters.searchText">
-                      <div class="input-group-append">
-                        <button class="btn btn-success" type="button" (click)="setPagination();loadRooms()"> <span class="fa fa-search"></span> </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>-->
-
-            <div *ngIf="!isMobileDevice()" class="table-responsive table-housekeeping-wrap"
+            <div class="table-responsive table-housekeeping-wrap"
                  [ngClass]="{'table-loader': state.isLoadingRooms}"
             >
               <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
@@ -318,12 +157,7 @@
                 </tr>
                 </thead>
                 <tbody class="mobile-slider">
-                  <tr *ngFor="let row of data;index as $index;"
-                      class="GuaranteeToType_{{row.shift.split('-').join('_')}}
-                              FrontDeskStatus_{{row.adminStatusId.split('-').join('_')}}
-                              HousekeepingStatus_{{row.hkStatusId.split('-').join('_')}}
-                              AdminStatus_{{row.adminStatusId.split('-').join('_')}}
-                      ">
+                  <tr *ngFor="let row of data;index as $index;">
                     <td data-title="Room #">
                       <span>{{row.roomNumber}}</span>
                     </td>
