@@ -32,13 +32,13 @@
               <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
               <div class="">
                 <div class="mb-1 mt-1">
-                  <select class="form-control">
+                  <select class="select-field-secondary">
                     <option value="">Select</option>
                     <option value="">Room#</option>
                   </select>
                 </div>
                 <div class="mb-1 mt-1">
-                  <input type="text" class="form-control" placeholder="Search Term">
+                  <input type="text" class="select-field-secondary" placeholder="Search Term">
                 </div>
                 <div class="mb-1 mt-1">
                   <button class="btn btn-info btn-block">Go</button>
@@ -52,8 +52,8 @@
         <div class="accordon-heading">
           <a href="javascript:void(0)">{{group.name}}
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
-            <i *ngIf="!group.selectAll" (click)="checkAll(group)">View All</i>
           </a>
+          <span *ngIf="!group.selectAll" (click)="checkAll(group)" class="btn btn-viewall btn-sm btn-info">View All</span>
         </div>
         <div class="accordion-body">
           <ul class="container">
@@ -76,8 +76,9 @@
 <!--              </label>-->
 <!--            </li>-->
             <li *ngFor="let item of group.items">
-              <label for="{{item.key}}" *ngIf="item.name">
+              <label for="{{item.key}}" *ngIf="item.name" class="onlywrap">
                 <input type="checkbox" id="{{item.key}}" [(ngModel)]="item.isSelected" (ngModelChange)="handleFilterState(group, item)" class="checkbox"> {{item.name}}
+                <a href="#" class="onlyitem">Only</a>
               </label>
             </li>
           </ul>
