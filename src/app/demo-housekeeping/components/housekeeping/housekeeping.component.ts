@@ -60,6 +60,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  canceler: any;
   state = {
     message: '',
     loadMetaData: true,
@@ -211,14 +212,30 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.isLoading = false;
       });
   }
-
+  public getMetaDataGroup () {
+    let body = [];
+    body = this.metaDataGroups.filter((group) => {
+      let groupBody = {'$type': [group.$type]};
+      groupBody['key'] = group.key;
+      let itemTemp = [];
+      group.items.filter(item => {
+        if(item.isSelected) {
+          itemTemp.push(item.key)
+        }
+      });
+      groupBody['selectedMetadataItems'] = itemTemp;
+      return groupBody
+    });
+    return body;
+  }
   public loadRooms (append = false) {
     if(!this.state.isLoadingMoreRooms) {
+      if(this.canceler) { this.canceler.unsubscribe(); }
       this.state.isLoadingRooms = true;
     }
 
     this.ref.detectChanges();
-    this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:[]},{
+    this.canceler = this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:this.getMetaDataGroup()},{
       includeMetadata: this.state.loadMetaData,
       //featureId : this.pageFilters.features,
       pageNum: this.state.pagination.pageNum,
@@ -256,7 +273,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         console.log(err);
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
-      });
+      },
+      ()=>{this.canceler.unsubscribe();});
   }
 
   public setFilterStates() {
@@ -279,6 +297,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     if(group.items.length != selectedItem.length) {
       group.selectAll = false;
     }
+    this.loadRooms();
     //
     /*console.log(item.isSelected, "tr."+group.key+"_"+item.key.split('-').join('_'))
     if(!item.isSelected) {
@@ -292,6 +311,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       item.isSelected = true
     });
     group.selectAll = true;
+    this.loadRooms();
   }
   public updateHouseKeeping(roomId, roomRow, key, editKey) {
     //console.log(roomId, roomRow, key, editKey);
