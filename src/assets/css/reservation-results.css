@@ -20,7 +20,7 @@
 .reservation-sidebar-inner{
     max-height: 100vh;
     overflow-y: auto;
-    padding: 80px 30px 0;
+    padding: 80px 20px 0;
 }
 .reservation-sidebar .accordion-body > ul{
     max-height: 200px;
