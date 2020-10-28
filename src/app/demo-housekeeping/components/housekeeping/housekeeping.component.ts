@@ -63,6 +63,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   croppedImage: any = '';
   canceler: any;
   state = {
+    gridDropDowns: {},
     message: '',
     loadMetaData: true,
     showRoomImages:  false,
@@ -266,12 +267,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           this.metaDataGroups = data['data']['metadata']['metadataGroups'];
           this.gridColumns = data['data']['metadata']['columns'];
           //this.state.filterConfigs.shifts
-          this.metaDataGroups.filter(group => {
-            if(group.name == 'Shift') {
-              this.state.filterConfigs.shifts = group.items;
-            }
-          })
-
+          this.gridColumns.filter(column => {
+            this.state.gridDropDowns[column.dataProperty] = this.setGridDropDowns(column);
+          });
+          console.log(this.state.gridDropDowns);
         }
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
@@ -516,7 +515,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     return string.charAt(0).toLowerCase() + string.slice(1);
   }
   getGroupItems(column){
+    return this.state.gridDropDowns[column.dataProperty];
+  }
 
+  setGridDropDowns(column){
     let selectedGroup = {items:[]};
     switch (column.dataProperty) {
       case "Features":
@@ -551,7 +553,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       case "LinenStatus":
         break;
     }
-    return selectedGroup.items
+
+    return selectedGroup.items;
   }
   scrolling(){ return true; }
 
