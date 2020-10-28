@@ -214,17 +214,15 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   public getMetaDataGroup () {
     let body = [];
-    body = this.metaDataGroups.filter((group) => {
-      let groupBody = {'$type': [group.$type]};
-      groupBody['key'] = group.key;
+    this.metaDataGroups.filter((group) => {
       let itemTemp = [];
       group.items.filter(item => {
         if(item.isSelected) {
           itemTemp.push(item.key)
         }
       });
-      groupBody['selectedMetadataItems'] = itemTemp;
-      return groupBody
+
+      body.push({'selectedMetadataItems': itemTemp, key: group.key});
     });
     console.log(body);
     return body;
