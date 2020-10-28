@@ -122,102 +122,31 @@
               >
                 <thead>
                 <tr>
-                  <th class="sort-custom" (click)="setSortingParams('roomNumber');" [ngClass]="{
-                      'sort-custom-asc' : state.pagination.sortBy == 'roomNumber' && !state.pagination.sortOrder,
-                      'sort-custom-dsc' : state.pagination.sortBy == 'roomNumber' && state.pagination.sortOrder
-                      }">Room #</th>
-                  <th class="sort-custom" data-breakpoint="xs" (click)="setSortingParams('features')" [ngClass]="{
-                      'sort-custom-asc' : state.pagination.sortBy == 'features' && !state.pagination.sortOrder,
-                      'sort-custom-dsc' : state.pagination.sortBy == 'features' && state.pagination.sortOrder
-                      }">Feature</th>
-                  <th class="sort-custom" data-breakpoint="md" (click)="setSortingParams('fdStatus')" [ngClass]="{
-                      'sort-custom-asc' : state.pagination.sortBy == 'fdStatus' && !state.pagination.sortOrder,
-                      'sort-custom-dsc' : state.pagination.sortBy == 'fdStatus' && state.pagination.sortOrder
-                      }">FD Status</th>
-                  <th class="sort-custom" data-breakpoint="md" (click)="setSortingParams('hkStatusId');" [ngClass]="{
-                      'sort-custom-asc' : state.pagination.sortBy == 'hkStatusId' && !state.pagination.sortOrder,
-                      'sort-custom-dsc' : state.pagination.sortBy == 'hkStatusId' && state.pagination.sortOrder
-                      }">Hk Status</th>
-                  <th class="sort-custom" data-breakpoint="sm" (click)="setSortingParams('adminStatusId');" [ngClass]="{
-                      'sort-custom-asc' : state.pagination.sortBy == 'adminStatusId' && !state.pagination.sortOrder,
-                      'sort-custom-dsc' : state.pagination.sortBy == 'adminStatusId' && state.pagination.sortOrder
-                      }">Admin Status</th>
-                  <th class="sort-custom" data-breakpoint="md" (click)="setSortingParams('housekeeperId');" [ngClass]="{
-                      'sort-custom-asc' : state.pagination.sortBy == 'housekeeperId' && !state.pagination.sortOrder,
-                      'sort-custom-dsc' : state.pagination.sortBy == 'housekeeperId' && state.pagination.sortOrder
-                      }">Housekeeper</th>
-                  <th class="sort-custom" data-breakpoint="sm" (click)="setSortingParams('shift');" [ngClass]="{
-                      'sort-custom-asc' : state.pagination.sortBy == 'shift' && !state.pagination.sortOrder,
-                      'sort-custom-dsc' : state.pagination.sortBy == 'shift' && state.pagination.sortOrder
-                      }">Shift</th>
-                  <th class="sort-custom" (click)="setSortingParams('linenStatus');" [ngClass]="{
-                      'sort-custom-asc' : state.pagination.sortBy == 'linenStatus' && !state.pagination.sortOrder,
-                      'sort-custom-dsc' : state.pagination.sortBy == 'linenStatus' && state.pagination.sortOrder
-                      }">Linen Status</th>
-                  <!-- <th>Image</th> -->
+                  <th class="sort-custom" (click)="setSortingParams(column.sortProperty);" [ngClass]="{
+                      'sort-custom-asc' : state.pagination.sortBy == column.sortProperty && !state.pagination.sortOrder,
+                      'sort-custom-dsc' : state.pagination.sortBy == column.sortProperty && state.pagination.sortOrder
+                      }" *ngFor="let column of gridColumns">
+                      {{column.name}}
+
                   <th></th>
                 </tr>
+
                 </thead>
                 <tbody class="mobile-slider">
                   <tr *ngFor="let row of data;index as $index;">
-                    <td data-title="Room #">
-                      <span>{{row.roomNumber}}</span>
-                    </td>
-                    <td data-title="Feature">
-                      <span>{{row.features}}</span>
-                    </td>
-                    <td data-title="FD Status">
-                      <span>{{row.fdStatus}}</span>
-                    </td>
-                    <td data-title="HS Status">
-                      <span>
-                        <select id="hs_status_{{$index}}"
-                                [(ngModel)]="row.hkStatusId"
-                                [ngClass]="{'view-mode': !row.$editHsStatus, 'form-control': row.$editHsStatus}"
-                                (focus)= "row.$editHsStatus = true;"
-                                (focusout)="row.$editHsStatus = false;"
-                                (change)="updateHouseKeeping(row.id, row, 'hs_status', '$editHsStatus')">
-                          <option *ngFor="let status of state.filterConfigs.hsStatus" [ngValue]="status.value">{{status.text}}</option>
+                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns">
+                      <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
+                      <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
+                        <select id="{{column.dataProperty}}_{{$index}}"
+                                [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
+                                [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
+                                (focus)= "row['$'+column.dataProperty] = true;"
+                                (focusout)="row['$'+column.dataProperty] = false;"
+                                (change)="updateHouseKeeping(row.id, row, column.dataProperty, '$'+column.dataProperty)">
+                          <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
                         </select>
                       </span>
                     </td>
-                    <td data-title="Admin Status">
-                      <span>
-                        <select id="admin_status_{{$index}}"
-                                [(ngModel)]="row.adminStatusId"
-                                (change)="updateHouseKeeping(row.id, row, 'admin_status', '$editAdminStatus')"
-                                [ngClass]="{'view-mode': !row.$editAdminStatus, 'form-control': row.$editAdminStatus}"
-                                (focus)= "row.$editAdminStatus = true;"
-                                (focusout)= "row.$editAdminStatus = false;"
-                        >
-                          <option *ngFor="let adStatus of state.filterConfigs.adminStatuses" [ngValue]="adStatus.value">{{adStatus.text}}</option>
-                        </select>
-                      </span>
-                    </td>
-                    <td data-title="Housekeeper">
-                      <span>
-                        <select [(ngModel)]="row.housekeeperId"
-                                [ngClass]="{'view-mode': !row.$editHousekeeper, 'form-control': row.$editHousekeeper}"
-                                (focus)= "row.$editHousekeeper = true;"
-                                (focusout)= "row.$editHousekeeper = false;"
-                                (change)= "updateHouseKeeping(row.id, row, 'housekeeper', '$editHousekeeper')" >
-                          <option *ngFor="let hk of state.filterConfigs.houseKeepers" [ngValue]="hk.value">{{hk.text}}</option>
-                        </select>
-
-                      </span>
-                    </td>
-                    <td data-title="Shift">
-                      <span>
-                        <select [(ngModel)]="row.shift"
-                                [ngClass]="{'view-mode': !row.$editShift, 'form-control': row.$editShift}"
-                                (focus)= "row.$editShift = true;"
-                                (focusout)= "row.$editShift = false;"
-                                (change) = "updateHouseKeeping(row.id, row, 'shift', '$editShift')">
-                          <option *ngFor="let shift of state.filterConfigs.shifts" [ngValue]="shift.key">{{shift.name}}</option>
-                        </select>
-                      </span>
-                    </td>
-                    <td data-title="Linen Status">{{row.linenStatus}}</td>
                     <!-- <td data-title="Image"></td> -->
                     <td data-title="Files">
 

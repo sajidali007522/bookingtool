@@ -45,7 +45,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
   @ViewChild(ModalComponent) modalComp: ModalComponent;
   data;
-  metaDataGroups = []
+  metaDataGroups = [];
+  gridColumns=[];
   pageFilters= {
     isHousekeeperAdmin: true,
     sites:'',
@@ -263,6 +264,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         }
         if(this.state.loadMetaData) {
           this.metaDataGroups = data['data']['metadata']['metadataGroups'];
+          this.gridColumns = data['data']['metadata']['columns'];
           //this.state.filterConfigs.shifts
           this.metaDataGroups.filter(group => {
             if(group.name == 'Shift') {
@@ -508,6 +510,48 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       return item.name.toLowerCase().indexOf(term.toLowerCase()) !== -1
     });
     group.items = JSON.parse(JSON.stringify(temp));
+  }
+
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+  }
+  getGroupItems(column){
+
+    let selectedGroup = {items:[]};
+    switch (column.dataProperty) {
+      case "Features":
+        break;
+      case "FdStatus":
+        this.metaDataGroups.filter(group => {
+          if(group.name ==  "Front Desk Status") {
+            selectedGroup = group;
+          }
+        });
+        break;
+      case "HkStatus":
+        this.metaDataGroups.filter(group => {
+          if(group.name ==  "Housekeeping Status") {
+            selectedGroup = group;
+          }
+        });
+        break;
+      case "Housekeeper":
+        selectedGroup = {items: []};
+        this.state.filterConfigs.houseKeepers.filter(houseKeeper => {
+          selectedGroup.items.push({key: houseKeeper.value, name: houseKeeper.text})
+        });
+        break;
+      case "Shift":
+        this.metaDataGroups.filter(group => {
+          if(group.name == "Shift") {
+            selectedGroup = group;
+          }
+        });
+        break;
+      case "LinenStatus":
+        break;
+    }
+    return selectedGroup.items
   }
   scrolling(){ return true; }
 
