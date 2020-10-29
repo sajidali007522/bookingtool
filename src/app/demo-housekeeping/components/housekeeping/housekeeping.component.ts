@@ -54,8 +54,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     housekeepingStatuses: '',
     adminStatuses: '',
     housekeepers: '',
-    searchText: '',
-    searchField: '',
+    searchValue: '',
+    searchBy: '',
     shifts: []
 
   }
