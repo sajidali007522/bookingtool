@@ -26,13 +26,13 @@
               <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
               <div class="">
                 <div class="mb-1 mt-1">
-                  <select class="select-field-secondary" [(ngModel)]="pageFilters.searchField">
+                  <select class="select-field-secondary" [(ngModel)]="pageFilters.searchBy">
                     <option value="">Select</option>
-                    <option value="{{column.dataProperty}}" *ngFor="let column of gridColumns">{{column.name}}</option>
+                    <option value="{{column.sortProperty}}" *ngFor="let column of gridColumns">{{column.name}}</option>
                   </select>
                 </div>
                 <div class="mb-1 mt-1">
-                  <input type="text" [(ngModel)]="pageFilters.searchText" class="select-field-secondary" placeholder="Search Term">
+                  <input type="text" [(ngModel)]="pageFilters.searchValue" class="select-field-secondary" placeholder="Search Term">
                 </div>
                 <div class="mb-1 mt-1">
                   <button class="btn btn-info btn-block" (click)="filterBySearchBox()">Go</button>
