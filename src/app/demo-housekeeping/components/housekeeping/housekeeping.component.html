@@ -163,7 +163,7 @@
                 </tr>
                 </tfoot>
               </table>
-              <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
+              <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
             </div>
 
             <ul *ngIf="!isMobileDevice()" class="pagination justify-content-center for-mobile-table">
