@@ -45,7 +45,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
   @ViewChild(ModalComponent) modalComp: ModalComponent;
   data;
-  metaDataGroups = []
+  metaDataGroups = [];
+  gridColumns=[];
   pageFilters= {
     isHousekeeperAdmin: true,
     sites:'',
@@ -60,7 +61,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  canceler: any;
   state = {
+    gridDropDowns: {},
     message: '',
     loadMetaData: true,
     showRoomImages:  false,
@@ -78,7 +81,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       pageNum: 1,
       pageSize: 25,
       sortBy: '',
-      sortOrder: false
+      sortOrder: false,
+      totalRooms: 0
     },
     filterConfigs: {
       sites: [],
@@ -150,7 +154,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.sites = data['sites'][0]['value'];
         this.state.isLoadingConfig=false;
-        this.state.loadMetaData = !this.isMobileDevice();
+        this.state.loadMetaData = true;
+        this.state.pagination.pageNum=1;
         this.ref.detectChanges();
         this.loadRooms();
 
@@ -186,7 +191,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       searchField: '',
       shifts: []
     }
-    this.state.loadMetaData = !this.isMobileDevice()
+    this.state.pagination.pageNum=1;
+    this.state.loadMetaData = true
     this.loadRooms();
   }
 
@@ -201,7 +207,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.features =  this.pageFilters.sites;
         this.state.isLoading = false;
-        this.state.loadMetaData = !this.isMobileDevice();
+        this.state.loadMetaData = true;
+        this.state.pagination.pageNum=1;
         this.ref.detectChanges();
         this.loadRooms();
       },
@@ -212,17 +219,47 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       });
   }
 
+  public getMetaDataGroup () {
+    let body = [];
+    this.metaDataGroups.filter((group) => {
+      let itemTemp = [];
+      group.items.filter(item => {
+        if(item.isSelected) {
+          itemTemp.push(item.key)
+        }
+      });
+
+      body.push({'selectedMetadataItems': itemTemp, key: group.key});
+    });
+    console.log(body);
+    return body;
+  }
+
+  public checkOnly (group, item) {
+    group.items.filter((item)=>{
+      item.isSelected = false;
+    })
+    item.isSelected = true;
+    group.selectAll = false;
+    this.loadRooms();
+  }
+  public filterBySearchBox(){
+    this.state.pagination.pageNum = 1;
+    this.loadRooms();
+  }
   public loadRooms (append = false) {
     if(!this.state.isLoadingMoreRooms) {
+      if(this.canceler) { this.canceler.unsubscribe(); }
       this.state.isLoadingRooms = true;
     }
 
     this.ref.detectChanges();
-    this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:[]},{
+    this.state.pagination.pageSize = this.isMobileDevice() ? 1 : 25;
+    this.canceler = this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:this.getMetaDataGroup()},{
       includeMetadata: this.state.loadMetaData,
       //featureId : this.pageFilters.features,
       pageNum: this.state.pagination.pageNum,
-      pageSize: (this.isMobileDevice() ? 1 :this.state.pagination.pageSize),
+      pageSize: this.state.pagination.pageSize,
       searchField:this.pageFilters.searchField,
       searchText:this.pageFilters.searchText,
       sortBy: this.state.pagination.sortBy,
@@ -237,17 +274,17 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         }
         if(this.state.loadMetaData) {
           this.metaDataGroups = data['data']['metadata']['metadataGroups'];
+          this.gridColumns = data['data']['metadata']['columns'];
           //this.state.filterConfigs.shifts
-          this.metaDataGroups.filter(group => {
-            if(group.name == 'Shift') {
-              this.state.filterConfigs.shifts = group.items;
-            }
-          })
-
+          this.gridColumns.filter(column => {
+            this.state.gridDropDowns[column.dataProperty] = this.setGridDropDowns(column);
+          });
+          console.log(this.state.gridDropDowns);
         }
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
         this.state.loadMetaData = false;
+        this.state.pagination.totalRooms = data['data']['totalRooms'];
         this.setFilterStates();
         this.ref.detectChanges();
       },
@@ -256,9 +293,19 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         console.log(err);
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
+      },
+      ()=>{
+        this.canceler.unsubscribe();
+        if(this.isMobileDevice()){
+          this.reReadGridTitles();
+        }
       });
   }
-
+  reReadGridTitles () {
+    $(document).find(".table-housekeeping-wrap .table-bordered td").each(function(){
+      $(this).attr('data-title', $(this).attr('title'))
+    });
+  }
   public setFilterStates() {
     this.metaDataGroups.filter((group) => {
       group.selectAll = false;
@@ -272,22 +319,29 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public handleFilterState(group, item) {
-    group.selectAll = false;
+    group.selectAll = true;
     let selectedItem = group.items.filter(item => {
       if(item.isSelected) return item;
     });
-    if(group.items.length == selectedItem.length) {
-      group.selectAll = true;
+    if(group.items.length != selectedItem.length) {
+      group.selectAll = false;
     }
+    this.loadRooms();
     //
-    console.log(item.isSelected, "tr."+group.key+"_"+item.key.split('-').join('_'))
+    /*console.log(item.isSelected, "tr."+group.key+"_"+item.key.split('-').join('_'))
     if(!item.isSelected) {
       $("tr."+group.key+"_"+item.key.split('-').join('_')).hide()
     } else {
       $("tr."+group.key+"_"+item.key.split('-').join('_')).show()
-    }
+    }*/
   }
-
+  public checkAll (group) {
+    group.items.filter(item => {
+      item.isSelected = true
+    });
+    group.selectAll = true;
+    this.loadRooms();
+  }
   public updateHouseKeeping(roomId, roomRow, key, editKey) {
     //console.log(roomId, roomRow, key, editKey);
     roomRow[editKey] = false;
@@ -474,6 +528,52 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       return item.name.toLowerCase().indexOf(term.toLowerCase()) !== -1
     });
     group.items = JSON.parse(JSON.stringify(temp));
+  }
+
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+  }
+  getGroupItems(column){
+    return this.state.gridDropDowns[column.dataProperty];
+  }
+
+  setGridDropDowns(column){
+    let selectedGroup = {items:[]};
+    switch (column.dataProperty) {
+      case "Features":
+        break;
+      case "FdStatus":
+        this.metaDataGroups.filter(group => {
+          if(group.name ==  "Front Desk Status") {
+            selectedGroup = group;
+          }
+        });
+        break;
+      case "HkStatus":
+        this.metaDataGroups.filter(group => {
+          if(group.name ==  "Housekeeping Status") {
+            selectedGroup = group;
+          }
+        });
+        break;
+      case "Housekeeper":
+        selectedGroup = {items: []};
+        this.state.filterConfigs.houseKeepers.filter(houseKeeper => {
+          selectedGroup.items.push({key: houseKeeper.value, name: houseKeeper.text})
+        });
+        break;
+      case "Shift":
+        this.metaDataGroups.filter(group => {
+          if(group.name == "Shift") {
+            selectedGroup = group;
+          }
+        });
+        break;
+      case "LinenStatus":
+        break;
+    }
+
+    return selectedGroup.items;
   }
   scrolling(){ return true; }
 

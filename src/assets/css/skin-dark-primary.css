@@ -230,6 +230,9 @@ body.theme-dark-primary .full-btn{
   color: #fff;
   border-color: #292e32!important;
 }
+body.theme-dark-primary .select-field-secondary::-webkit-input-placeholder {color: #fff;}
+body.theme-dark-primary .select-field-secondary:-ms-input-placeholder {color: #fff;}
+body.theme-dark-primary .select-field-secondary::placeholder {color: #fff;}
 /* SearchResult end */
 
 @media(max-width:991px){

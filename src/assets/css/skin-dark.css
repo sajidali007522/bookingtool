@@ -103,3 +103,6 @@ body.theme-dark .show-options{
 .theme-dark .filters-view-sm a{
   background: #373737 !important;
 }
+body.theme-dark .select-field-secondary::-webkit-input-placeholder {color: #fff;}
+body.theme-dark .select-field-secondary:-ms-input-placeholder {color: #fff;}
+body.theme-dark .select-field-secondary::placeholder {color: #fff;}
