@@ -14,12 +14,6 @@
             <option value="00000000-0000-0000-0000-000000000000">Select</option>
             <option value="{{site.value}}" *ngFor="let site of state.filterConfigs.sites">{{site.text}}</option>
           </select>
-<!--          <ul>-->
-<!--            <li *ngFor="let site of state.filterConfigs.sites">-->
-<!--              <label class="flx-center d-flex" for="site_{{site.value.split(' ').join('_')}}">-->
-<!--              <input type="radio" name="sites" [value]="site.value" [(ngModel)]="pageFilters.sites" id="site_{{site.value.split(' ').join('_')}}" class="radio" (click)="reloadConfigs($event.target.value)"> {{site.text}}</label>-->
-<!--            </li>-->
-<!--          </ul>-->
         </div>
       </div>
       <div class="accordion-group group-active">
@@ -32,16 +26,16 @@
               <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
               <div class="">
                 <div class="mb-1 mt-1">
-                  <select class="select-field-secondary">
+                  <select class="select-field-secondary" [(ngModel)]="pageFilters.searchField">
                     <option value="">Select</option>
-                    <option value="">Room#</option>
+                    <option value="{{column.dataProperty}}" *ngFor="let column of gridColumns">{{column.name}}</option>
                   </select>
                 </div>
                 <div class="mb-1 mt-1">
-                  <input type="text" class="select-field-secondary" placeholder="Search Term">
+                  <input type="text" [(ngModel)]="pageFilters.searchText" class="select-field-secondary" placeholder="Search Term">
                 </div>
                 <div class="mb-1 mt-1">
-                  <button class="btn btn-info btn-block">Go</button>
+                  <button class="btn btn-info btn-block" (click)="filterBySearchBox()">Go</button>
                 </div>
               </div>
             </li>
@@ -109,6 +103,7 @@
             <div class="table-responsive table-housekeeping-wrap"
                  [ngClass]="{'table-loader': state.isLoadingRooms}"
             >
+              <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
               <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
                      id="room_container"
                      (swipeleft)="nextPage()"
@@ -166,6 +161,7 @@
                 </tr>
                 </tfoot>
               </table>
+              <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
             </div>
 
             <ul *ngIf="!isMobileDevice()" class="pagination justify-content-center for-mobile-table">

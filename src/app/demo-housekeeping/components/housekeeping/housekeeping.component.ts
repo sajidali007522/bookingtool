@@ -81,7 +81,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       pageNum: 1,
       pageSize: 25,
       sortBy: '',
-      sortOrder: false
+      sortOrder: false,
+      totalRooms: 0
     },
     filterConfigs: {
       sites: [],
@@ -154,6 +155,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.pageFilters.sites = data['sites'][0]['value'];
         this.state.isLoadingConfig=false;
         this.state.loadMetaData = true;
+        this.state.pagination.pageNum=1;
         this.ref.detectChanges();
         this.loadRooms();
 
@@ -189,6 +191,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       searchField: '',
       shifts: []
     }
+    this.state.pagination.pageNum=1;
     this.state.loadMetaData = true
     this.loadRooms();
   }
@@ -205,6 +208,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.pageFilters.features =  this.pageFilters.sites;
         this.state.isLoading = false;
         this.state.loadMetaData = true;
+        this.state.pagination.pageNum=1;
         this.ref.detectChanges();
         this.loadRooms();
       },
@@ -214,6 +218,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.isLoading = false;
       });
   }
+
   public getMetaDataGroup () {
     let body = [];
     this.metaDataGroups.filter((group) => {
@@ -238,7 +243,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     group.selectAll = false;
     this.loadRooms();
   }
-
+  public filterBySearchBox(){
+    this.state.pagination.pageNum = 1;
+    this.loadRooms();
+  }
   public loadRooms (append = false) {
     if(!this.state.isLoadingMoreRooms) {
       if(this.canceler) { this.canceler.unsubscribe(); }
@@ -246,11 +254,12 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
 
     this.ref.detectChanges();
+    this.state.pagination.pageSize = this.isMobileDevice() ? 1 : 25;
     this.canceler = this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:this.getMetaDataGroup()},{
       includeMetadata: this.state.loadMetaData,
       //featureId : this.pageFilters.features,
       pageNum: this.state.pagination.pageNum,
-      pageSize: (this.isMobileDevice() ? 1 :this.state.pagination.pageSize),
+      pageSize: this.state.pagination.pageSize,
       searchField:this.pageFilters.searchField,
       searchText:this.pageFilters.searchText,
       sortBy: this.state.pagination.sortBy,
@@ -275,6 +284,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
         this.state.loadMetaData = false;
+        this.state.pagination.totalRooms = data['data']['totalRooms'];
         this.setFilterStates();
         this.ref.detectChanges();
       },
@@ -284,9 +294,18 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
       },
-      ()=>{this.canceler.unsubscribe();});
+      ()=>{
+        this.canceler.unsubscribe();
+        if(this.isMobileDevice()){
+          this.reReadGridTitles();
+        }
+      });
   }
-
+  reReadGridTitles () {
+    $(document).find(".table-housekeeping-wrap .table-bordered td").each(function(){
+      $(this).attr('data-title', $(this).attr('title'))
+    });
+  }
   public setFilterStates() {
     this.metaDataGroups.filter((group) => {
       group.selectAll = false;
