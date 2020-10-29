@@ -111,7 +111,7 @@
           <div class="box-body">
 
             <div class="table-responsive table-housekeeping-wrap"
-                 [ngClass]="{'table-loader': state.isLoadingRooms}"
+                 [ngClass]="{'table-loader': state.isLoadingRooms || state.isLoadingMoreRooms}"
             >
 
               <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
@@ -163,7 +163,7 @@
                     </td>
                   </tr>
                 </tbody>
-                <tfoot *ngIf="state.isLoadingMoreRooms">
+                <tfoot *ngIf="state.isLoadingMoreRooms && !isMobileDevice()">
                 <tr>
                   <td colspan="10">
                     <div class="table-loader-bot"></div>
@@ -171,6 +171,7 @@
                 </tr>
                 </tfoot>
               </table>
+
               <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
             </div>
             <ul *ngIf="isMobileDevice()" class="pagination justify-content-center">
