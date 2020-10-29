@@ -211,6 +211,7 @@ td select.view-mode:active{
   }
   .table-housekeeping-wrap{
     min-height: 410px;
+    min-height: 250px;
   }
   .table-housekeeping-wrap thead{
     display: none;
