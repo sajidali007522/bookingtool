@@ -131,8 +131,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       housekeepingStatuses: '',
       adminStatuses: '',
       housekeepers: '',
-      searchText: '',
-      searchField: '',
+      searchValue: '',
+      searchBy: '',
       shifts: []
     }
   }
@@ -187,8 +187,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       housekeepingStatuses: '',
       adminStatuses: '',
       housekeepers: '',
-      searchText: '',
-      searchField: '',
+      searchBy: '',
+      searchValue: '',
       shifts: []
     }
     this.state.pagination.pageNum=1;
@@ -231,11 +231,18 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
 
       body.push({'selectedMetadataItems': itemTemp, key: group.key});
     });
-    console.log(body);
     return body;
   }
 
   public checkOnly (group, item) {
+    if(group.$actual) {
+      group.$actual.filter(i => {
+        i.isSelected = false;
+        if (i.key === item.key) {
+          i.isSelected = true;
+        }
+      })
+    }
     group.items.filter((item)=>{
       item.isSelected = false;
     })
@@ -260,8 +267,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       //featureId : this.pageFilters.features,
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
-      searchField:this.pageFilters.searchField,
-      searchText:this.pageFilters.searchText,
+      searchBy:this.pageFilters.searchBy,
+      searchValue:this.pageFilters.searchValue,
       sortBy: this.state.pagination.sortBy,
       sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC',
       adminMode: true
@@ -279,7 +286,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           this.gridColumns.filter(column => {
             this.state.gridDropDowns[column.dataProperty] = this.setGridDropDowns(column);
           });
-          console.log(this.state.gridDropDowns);
+          //console.log(this.state.gridDropDowns);
         }
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
@@ -290,7 +297,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       },
       err => {
         //handle errors here
-        console.log(err);
+        //console.log(err);
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
       },
