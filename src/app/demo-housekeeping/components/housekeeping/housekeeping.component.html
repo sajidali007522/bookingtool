@@ -58,7 +58,7 @@
                 <div class="input-group input-group-sm mb-1 mt-1">
                   <input type="text" [(ngModel)]="group.search" (keyup)="filterList(group, $event.target.value)" class="form-control" placeholder="Search">
                   <div class="input-group-append">
-                    <button class="btn btn-success" type="button" id="button-addon2">Go</button>
+                    <button class="btn btn-success" type="button" id="button-addon2" (click)="clearFilter(group)">Go</button>
                   </div>
                 </div>
               </div>

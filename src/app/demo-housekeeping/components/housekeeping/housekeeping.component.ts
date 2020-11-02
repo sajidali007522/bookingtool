@@ -582,6 +582,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
 
     return selectedGroup.items;
   }
+  clearFilter(group) {
+    group.search = '';
+    this.filterList(group, '')
+  }
   scrolling(){ return true; }
 
 }
