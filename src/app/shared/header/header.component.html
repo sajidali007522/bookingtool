@@ -1,6 +1,6 @@
 <div class="header-wrap" style="" [ngStyle]="{background: (custom_configs.header_bg ? custom_configs.header_bg : '')}">
-  <a href="#" class="menu-icon" [ngClass]="{'active': isFullWidth == 'no'}" (click)="setWidth($event, isFullWidth == 'full' ? false : true)"><span class="fa fa-navicon"></span></a>
-  <div class="logo"><a href="#">Innfinity</a></div>
+  <a href="javascript:void(0)" class="menu-icon" [ngClass]="{'active': isFullWidth == 'no'}" (click)="setWidth($event, isFullWidth == 'full' ? false : true)"><span class="fa fa-navicon"></span></a>
+  <div class="logo"><a href="javascript:void(0)">Innfinity</a></div>
   <div class="nav-wrap">
     <nav class="navbar navbar-expand-lg navbar-light">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,19 +10,19 @@
         <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" routerLink="{{'/home'}}"><span>Home</span></a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span>About</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Travel by Interest</a>
-              <a class="dropdown-item" href="#">Travel by Region</a>
-              <a class="dropdown-item" href="#">Travel by Price</a>
-              <a class="dropdown-item" href="#">Last Minute Flights</a>
-              <a class="dropdown-item" href="#">5 Star Hotels</a>
+              <a class="dropdown-item" href="javascript:void(0)">Travel by Interest</a>
+              <a class="dropdown-item" href="javascript:void(0)">Travel by Region</a>
+              <a class="dropdown-item" href="javascript:void(0)">Travel by Price</a>
+              <a class="dropdown-item" href="javascript:void(0)">Last Minute Flights</a>
+              <a class="dropdown-item" href="javascript:void(0)">5 Star Hotels</a>
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span>Pages</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
@@ -32,7 +32,7 @@
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span>Target Blank Pages</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
@@ -57,19 +57,19 @@
         <a href="javascript:void(0)">Theme <i class="fa fa-themeisle"></i> </a>
         <ul class="dropdown-menu-wrap">
           <li [ngClass]="{ 'active': 'theme-dark' == isLightTheme }">
-            <a href="javascript:;" (click)="setTheme($event, 'theme-dark')" class="theme-dark">Theme Dark</a>
+            <a href="javascript:;" (click)="setTheme($event, 'theme-dark')" class="theme-dark">Theme Innfinity</a>
           </li>
           <li [ngClass]="{'active': 'theme-light' == isLightTheme }">
             <a href="javascript:;" (click)="setTheme($event, 'theme-light')" class="theme-light">Theme Light</a>
           </li>
           <li [ngClass]="{'active': 'theme-dark-primary' == isLightTheme }">
-            <a href="javascript:;" (click)="setTheme($event, 'theme-dark-primary')" class="">Theme Dark Primary</a>
+            <a href="javascript:;" (click)="setTheme($event, 'theme-dark-primary')" class="">Theme Dark</a>
           </li>
           <!-- <li><a href="javascript:;" (click)="setTheme($event, 'theme-light-primary')" [ngClass]="{'active':isLightTheme }" class="theme-light-primary">{{'theme_light_primary' | translate}}</a></li> -->
         </ul>
       </li>
-      <li class="has-dropdown">
-        <a *ngIf="!currentUser" routerLink="/login">Login</a>
+      <li class="" [ngClass]="{'has-dropdown': currentUser}">
+        <a *ngIf="!currentUser" routerLink="{{'/auth/login'}}">Login</a>
         <a href="javascript:void(0)" *ngIf="currentUser">{{currentUser['username']}}</a>
         <ul *ngIf="currentUser" class="dropdown-menu-wrap">
           <li><a href="javascript:void(0);"><i class="fa fa-gears"></i> <span>Settings</span></a></li>
