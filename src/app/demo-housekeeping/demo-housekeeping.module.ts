@@ -19,6 +19,7 @@ import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.compo
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { NgxBootstrapMultiselectModule } from 'ngx-bootstrap-multiselect';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
@@ -42,6 +43,7 @@ export class MyHammerConfig extends HammerGestureConfig {
     AutocompleteLibModule,
     SharedModuleModule,
     NgxBootstrapMultiselectModule,
+    PopoverModule.forRoot()
   ]
 })
 export class DemoHousekeepingModule { }
