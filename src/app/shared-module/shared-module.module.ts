@@ -10,8 +10,9 @@ import {ModalComponent} from "./components/modal/modal.component";
   imports: [
     CommonModule
   ],
-  exports:[
-    LoaderComponent
+  exports: [
+    LoaderComponent,
+    ModalComponent
   ]
 })
 export class SharedModuleModule { }

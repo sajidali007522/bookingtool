@@ -1,0 +1,272 @@
+<div class="reservation-detail-wrap">
+  <div class="reservation-sidebar">
+    <div class="reservation-sidebar-inner">
+      <div class="reset-wrap"><a href="javascript:void(0)" (click)="refreshFilter()" class="btn btn-sm btn-success">Reset</a></div>
+
+      <div class="accordion-group group-active">
+        <div class="accordon-heading">
+          <a href="javascript:void(0)">Sites
+            <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
+          </a>
+        </div>
+        <div class="accordion-body">
+          <select class="select-field-secondary mb-1" [(ngModel)]="this.pageFilters.sites" (change)="reloadConfigs()">
+            <option value="00000000-0000-0000-0000-000000000000">Select</option>
+            <option value="{{site.value}}" *ngFor="let site of state.filterConfigs.sites">{{site.text}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="accordion-group group-active">
+        <div class="accordon-heading">
+          <a href="javascript:void(0)">Search</a>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li>
+              <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
+              <div class="">
+                <div class="mb-1 mt-1">
+                  <select class="select-field-secondary" [(ngModel)]="pageFilters.searchBy">
+                    <option value="">Select</option>
+                    <option value="{{column.sortProperty}}" *ngFor="let column of gridColumns">{{column.name}}</option>
+                  </select>
+                </div>
+                <div class="mb-1 mt-1">
+                  <input type="text" [(ngModel)]="pageFilters.searchValue" class="select-field-secondary" placeholder="Search Term">
+                </div>
+                <div class="mb-1 mt-1">
+                  <button class="btn btn-info btn-block" (click)="filterBySearchBox()">Go</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion-group " [ngClass]="{'group-active': group.isOpen}" *ngFor="let group of metaDataGroups">
+        <div class="accordon-heading">
+          <a href="javascript:void(0)">{{group.name}}
+            <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
+          </a>
+          <span *ngIf="!group.selectAll" (click)="checkAll(group)" class="btn btn-viewall btn-sm btn-info">View All</span>
+        </div>
+        <div class="accordion-body">
+          <ul class="container">
+            <li>
+              <!-- <input class="form-control" type="text" [(ngModel)]="state.filterConfigs.fdstatusFilter" placeholder="filter" /> -->
+              <label class="flx-center d-flex" class="search-label" (click)="handleSearchBox(group)">Search</label>
+              <div class="" [ngClass]="{'not-show': !group.showSearch}">
+                <div class="input-group input-group-sm mb-1 mt-1">
+                  <input type="text" [(ngModel)]="group.search" (keyup)="filterList(group, $event.target.value)" class="form-control" placeholder="Search">
+                  <div class="input-group-append">
+                    <button class="btn btn-success" type="button" id="button-addon2" (click)="clearFilter(group)" popover="Clear" triggers="mouseenter:mouseleave"><span class="fa fa-refresh"></span></button>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li *ngFor="let item of group.items" [ngClass]="{'has-num': item.count}">
+              <span class="label-num" *ngIf="item.count">{{item.count}}</span>
+              <label for="{{item.key}}" *ngIf="item.name" class="onlywrap">
+                <input type="checkbox" id="{{item.key}}" [(ngModel)]="item.isSelected" (ngModelChange)="handleFilterState(group, item)" class="checkbox"> {{item.name}}
+                <a href="javascript:void(0)" class="onlyitem" (click)="checkOnly(group, item)">Only</a>
+              </label>
+            </li>
+          </ul>
+          <ul *ngIf="group.items.length > 6">
+            <li>
+              <a href="javascript:void(0)" (click)="expandContainer($event, group)" class="show-options">{{group.expanded ? 'Show Less' : 'Show More'}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="full-btns">
+        <a href="javascript:void(0)" class="full-btn" (click)="refreshFilter()" >
+          <span class="fa fa-refresh"></span> Refresh
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="reservation-content-area">
+    <div class="reservation-content-inner">
+      <app-loader *ngIf="state.isLoading || state.isLoadingConfig "></app-loader>
+      <div class="" *ngIf="!state.isLoading">
+        <div class="box position-relative box-skin" id="container">
+          <div class="box-header">
+            <div class="row">
+              <div class="col-5">
+                <h3>Room Status</h3>
+              </div>
+              <div class="col-7">
+                <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
+              </div>
+            </div>
+
+            <!-- <div class="admin-mode">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="pageFilters.isHousekeeperAdmin" id="customCheck1">
+              <label class="custom-control-label" for="customCheck1">Admin Mode</label>
+            </div> -->
+          </div>
+          <div class="box-body">
+
+            <div class="table-responsive table-housekeeping-wrap"
+                 [ngClass]="{'table-loader': state.isLoadingRooms || state.isLoadingMoreRooms}"
+            >
+
+              <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
+                     id="room_container"
+                     (swipeleft)="nextPage()"
+                     (swiperight)="previousPage()"
+              >
+                <thead>
+                <tr>
+                  <th class="sort-custom" (click)="setSortingParams(column.sortProperty);" [ngClass]="{
+                      'sort-custom-asc' : state.pagination.sortBy == column.sortProperty && !state.pagination.sortOrder,
+                      'sort-custom-dsc' : state.pagination.sortBy == column.sortProperty && state.pagination.sortOrder
+                      }" *ngFor="let column of gridColumns">
+                      {{column.name}}
+
+                  <th></th>
+                </tr>
+
+                </thead>
+                <tbody class="mobile-slider">
+                  <tr *ngFor="let row of data;index as $index;">
+                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns">
+                      <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
+                      <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
+                        <select id="{{column.dataProperty}}_{{$index}}"
+                                [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
+                                [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
+                                (focus)= "row['$'+column.dataProperty] = true;"
+                                (focusout)="row['$'+column.dataProperty] = false;"
+                                (change)="updateHouseKeeping(row.id, row, column.dataProperty, '$'+column.dataProperty)">
+                          <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <!-- <td data-title="Image"></td> -->
+                    <td data-title="Files">
+
+                      <div class="table-btns">
+                        <div class="fileUpload" *ngIf="!row.uploading">
+                          <label for="file-upload_{{row.roomId}}" class="btn btn-success">Upload</label>
+                          <input style="position: initial" type="file" id="file-upload_{{row.roomId}}" (change)="fileChangeEvent($event, row)" />
+                        </div>
+                        <span class="fa fa-spin fa-spinner" *ngIf="row.uploading"></span>
+                        <a href="javascript:void(0)"  data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
+                          <!--                <a href="javascript:void(0)"  data-toggle="modal" data-target="#imageCropModal" class="btn btn-info" routerLink="{{'/house-keeping/'+this.pageFilters.sites+'/room/'+row.roomId}}">-->
+                          Edit
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot *ngIf="state.isLoadingMoreRooms && !isMobileDevice()">
+                <tr>
+                  <td colspan="10">
+                    <div class="table-loader-bot"></div>
+                  </td>
+                </tr>
+                </tfoot>
+              </table>
+
+              <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
+            </div>
+            <ul *ngIf="isMobileDevice()" class="pagination justify-content-center">
+              <li class="page-item page-prev">
+                <a class="page-link" href="javascript:void(0)" (click)="previousPage()" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+
+              <li class="page-item page-next">
+                <a class="page-link" href="javascript:void(0)" (click)="nextPage()" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+            <br><br>
+
+          </div>
+        </div>
+      </div>
+      <p style="position: absolute;z-index: -1; width:1px; height: 1px; overflow: hidden; top: 250px;">
+        <button type="button" class="trigger-image-crop-model" data-toggle="modal" data-target="#imageCropModal">
+          &nbsp;
+        </button>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageCropModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{state.selectedRoom.roomNumber}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelImageCrop()" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <image-cropper
+          *ngIf="imageChangedEvent"
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="4 / 3"
+          format="png|jpeg|jpg"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+
+        <div class="filter-transparent">
+          <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+              <p>
+                <label class="control-label">Name</label>
+                <input type="text" [(ngModel)]="state.roomImage.name" class="form-control" />
+              </p>
+              <p>
+                <label class="control-label">Description</label>
+                <textarea type="text" [(ngModel)]="state.roomImage.description" rows="3" cols="3" class="form-control"></textarea>
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal" (click)= "cancelImageCrop()" >Close</button>
+        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal" (click)="doneWithCrop()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="roomDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="roomDetailModalLabel">{{state.selectedRoom.roomNumber}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)= "closeRoomDetail()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-room-image [room]="state.selectedRoom" [siteId]="pageFilters.sites"></app-room-image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal" (click)= "closeRoomDetail()" >Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal [message]="state.message" (closeIt)="closeModal()"></app-modal>

@@ -215,6 +215,27 @@ body.theme-dark-primary .table-editable-wrap .table .edited-tr td{
 body.theme-dark-primary .edit-field{
   color:#fff;
 }
+body.theme-dark-primary .show-options{
+  color: #fff;
+}
+
+body.theme-dark-primary .reservation-sidebar ::-webkit-scrollbar-track {
+  background: rgba(255,255,255, 0.2) !important;
+}
+body.theme-dark-primary .reservation-sidebar ::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255, 0.2) !important;
+}
+body.theme-dark-primary .full-btn{
+  background: #292e32!important;
+  color: #fff;
+  border-color: #292e32!important;
+}
+body.theme-dark-primary .select-field-secondary::-webkit-input-placeholder {color: #fff;}
+body.theme-dark-primary .select-field-secondary:-ms-input-placeholder {color: #fff;}
+body.theme-dark-primary .select-field-secondary::placeholder {color: #fff;}
+body.theme-dark-primary .select-field-secondary option{
+  color:#fff;
+}
 /* SearchResult end */
 
 @media(max-width:991px){

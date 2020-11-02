@@ -168,6 +168,7 @@ h3{
   top: 0;
   width: 100%;
   z-index: 2;
+  z-index: 3;
   height: 60px;
   background: #09425d;
   padding: 0 25px 0 0;
@@ -339,6 +340,13 @@ h3{
   }
   .popover-content{
     color: #fff;
+  }
+  .reservation-sidebar .popover{
+      top: -4px !important;
+      margin:0 !important;
+  }
+  .reservation-sidebar .popover-content{
+    padding: 3px 4px !important;
   }
 
 
@@ -898,6 +906,98 @@ body.menu-fullwidth .reservation-content-area{
 }
 /* for reservation-results end */
 
+.filter-section ngx-bootstrap-multiselect,
+.filter-section .dropdown.dropdown-inline{
+  display: block;
+  width: 100%;
+}
+  .filter-section .dropdown.dropdown-inline button{
+    width: 100%;
+    display: block;
+    text-align: left;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    position: relative;
+  }
+  .filter-section .dropdown.dropdown-inline button:active{
+    background: #fff;
+    color: #495057;
+  }
+  .filter-section .dropdown.dropdown-inline .dropdown-toggle::after{
+    position: absolute;
+    right: 10px;
+    top: 15px;
+  }
+  .filter-section .dropdown.dropdown-inline .dropdown-menu{
+    width: 100%;
+  }
+.flx-center{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.flx-center .radio,
+.flx-center .checkbox{
+  margin-bottom: 0 !important;
+}
+.input-group-sm{
+}
+  .input-group-sm .form-control{
+    padding: 3px 10px 5px;
+    height: auto;
+    min-height: inherit;
+    font-size: 14px;
+    box-shadow: none !important;
+  }
+  .input-group-sm .btn{
+    height: auto;
+    padding: 4px 10px 5px;
+    font-size: 12px;
+  }
+  .select-field-secondary{
+    background: #efeaea;
+    border:1px solid #efeaea;
+    width: 100%;
+    padding: 10px 20px;
+    outline: none;
+  }
+  .select-field-secondary option{
+    color: #000;
+  }
+  body.theme-dark .select-field-secondary{
+    background: linear-gradient(90deg,#3f7892,#09425d);
+    border-color: #292e32!important;
+    color: #fff!important;
+  }
+  body.theme-dark-primary .select-field-secondary{
+    background: #292e32;
+    border-color: #292e32!important;
+    color: #fff!important;
+  }
+  .search-label{
+    position: relative;
+  }
+  .search-label:before{
+    content: "\f0d7";
+    font: normal normal normal 12px/1 FontAwesome;
+    position: absolute;
+    right: 7px;
+    top: 3px;
+  }
+
+.not-show{
+  display: none;
+}
 @media(min-width:767px){
   .modal-md{
     max-width: 700px;
