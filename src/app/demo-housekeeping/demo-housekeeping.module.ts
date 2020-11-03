@@ -32,8 +32,7 @@ export class MyHammerConfig extends HammerGestureConfig {
   declarations: [
     HousekeepingComponent,
     RoomImageComponent,
-    RoomComponent,
-    ConfirmModalComponent
+    RoomComponent
   ],
   imports: [
     CommonModule,

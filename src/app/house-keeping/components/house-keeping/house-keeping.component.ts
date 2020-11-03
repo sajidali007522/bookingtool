@@ -28,9 +28,9 @@ import {takeWhile} from "rxjs/operators"
 import * as $ from 'jquery';
 
 const SHIFTS: Shift [] = [
-  {value: 1, text: "Day"},
-  {value: 2, text: "TimeOut"},
-  {value: 3, text: "Night"},
+  {value: 1, text: "Day",id: 1, name: "Day"},
+  {value: 2, text: "TimeOut", id: 2, name: "TimeOut"},
+  {value: 3, text: "Night", id: 3, name: "Night"},
 ];
 
 @Component({
