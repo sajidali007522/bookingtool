@@ -63,6 +63,11 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   croppedImage: any = '';
   canceler: any;
   state = {
+    massEdit: {
+      lastIndex: -1,
+      items: [],
+      indexes:[]
+    },
     gridDropDowns: {},
     message: '',
     loadMetaData: true,
@@ -585,6 +590,46 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   clearFilter(group) {
     group.search = '';
     this.filterList(group, '')
+  }
+
+  selectRoom(room, $event, index) {
+    console.log("inside selecting room")
+    this.handleMassEditRooms(index, room);
+    this.state.massEdit.lastIndex = -1;
+  }
+
+  setMultipleSelect(index, room, $event){
+    if(!$event.shiftKey) return;
+    console.log("selecting " + index)
+    this.state.massEdit.lastIndex=index;
+
+  }
+
+  completeMultipleSelect(index, room, $event){
+    if(!$event.shiftKey || this.state.massEdit.lastIndex == -1) return;
+    let flag = this.state.massEdit.lastIndex;
+    while(flag <= index){
+      this.handleMassEditRooms(flag, this.data[flag])
+      flag++;
+    }
+    this.state.massEdit.lastIndex = -1;
+    return;
+
+  }
+
+  handleMassEditRooms (index, room) {
+    if(this.state.massEdit.indexes.indexOf(index) != -1) {
+      this.state.massEdit.indexes.splice(this.state.massEdit.indexes.indexOf(index), 1)
+      this.state.massEdit.items.splice(this.state.massEdit.indexes.indexOf(index), 1)
+      this.data[index]['isSelected'] = false
+      return;
+    }
+    this.state.massEdit.indexes.push(index)
+    this.state.massEdit.items.push(room)
+    console.log(index,this.data[index])
+    this.data[index]['isSelected'] = true
+    if (window.getSelection) {window.getSelection().removeAllRanges();}
+    else if (document.getSelection()) {document.getSelection().empty();}
   }
   scrolling(){ return true; }
 

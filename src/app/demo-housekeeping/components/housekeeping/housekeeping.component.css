@@ -308,3 +308,4 @@ td select.view-mode:active{
   max-height: max-content;
   height: auto;
 }
+tr.selected td { background: #474a4f;}
