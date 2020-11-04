@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {HttpService} from "../../../http.service";
 import {RoomsService} from "../../../_services/rooms.service";
 import {HouseKeepingService} from "../../../_services/house-keeping.service";
+import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
 
 @Component({
   selector: 'app-room',
@@ -30,7 +31,8 @@ export class RoomComponent implements OnInit,AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private _http: HttpService,
     private renderer: Renderer2,
-    private HKService: HouseKeepingService
+    private HKService: HouseKeepingService,
+    private DHKService: DemoHousekeepingService,
   ) {}
 
   ngOnInit(): void {
@@ -51,11 +53,12 @@ export class RoomComponent implements OnInit,AfterViewInit {
 
   loadRoomDetails(roomID){
     this.state.isLoadingRoom = true;
-    this._http._get('housekeeping/'+this.state.siteId+'/Rooms/'+roomID)
+    //this._http._get('housekeeping/'+this.state.siteId+'/Rooms/'+roomID)
+    this.DHKService.loadRoomDetails('housekeeping/'+this.state.siteId+'/Rooms/'+roomID, {})
       .subscribe((data) => {
         this.state.room = data;
         this.state.isLoadingRoom = false;
-      })
+      });
   }
 
 

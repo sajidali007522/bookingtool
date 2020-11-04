@@ -431,10 +431,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   fileChangeEvent(event: any, room:any): void {
-    console.log(room);
     this.state.selectedRoom = room;
     this.imageChangedEvent = event;
     this.state.roomImage.name = "Picture of "+room.roomNumber;
+    console.log(event);
     $(".trigger-image-crop-model").trigger('click');
   }
   imageCropped(event: ImageCroppedEvent) {
@@ -456,7 +456,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   doneWithCrop () {
     let image = this.croppedImage.split(",");
     this.state.selectedRoom['uploading']=true;
-    this._http._post('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
+    //this._http._post('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
+    this.DHKService.uploadRoomImage('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
       {
         value:  image[1]
       },
