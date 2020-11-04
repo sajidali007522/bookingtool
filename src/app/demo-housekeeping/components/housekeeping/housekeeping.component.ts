@@ -598,14 +598,16 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.lastIndex = -1;
   }
 
-  setMultipleSelect(index, room, $event){
+  setMultipleSelect(index, room, $event, column){
+    if(column.canEdit) return;
     if(!$event.shiftKey) return;
     console.log("selecting " + index)
     this.state.massEdit.lastIndex=index;
 
   }
 
-  completeMultipleSelect(index, room, $event){
+  completeMultipleSelect(index, room, $event, column){
+    if(column.canEdit) return;
     if(!$event.shiftKey || this.state.massEdit.lastIndex == -1) return;
     let flag = this.state.massEdit.lastIndex;
     while(flag <= index){
@@ -630,6 +632,11 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.data[index]['isSelected'] = true
     if (window.getSelection) {window.getSelection().removeAllRanges();}
     else if (document.getSelection()) {document.getSelection().empty();}
+  }
+
+  removeSelectedItem (room, index) {
+    this.data[this.state.massEdit.indexes[index]]['isSelected'] = false
+    this.state.massEdit.items.splice(index, 1)
   }
   scrolling(){ return true; }
 

@@ -41,8 +41,8 @@
             </li>
           </ul>
 
-          <div class="mb-1 mt-1">
-            <a href="javascript:void(0)" class="full-btn shake" data-toggle="modal" data-target="#exampleModal">
+          <div class="mb-1 mt-1" *ngIf="state.massEdit.items.length > 0">
+            <a href="javascript:void(0)" class="full-btn shake" data-toggle="modal" data-target="#exampleModal_">
               <span class="fa fa-edit"></span> Mass Edit
             </a>
           </div>
@@ -133,14 +133,14 @@
                       'sort-custom-dsc' : state.pagination.sortBy == column.sortProperty && state.pagination.sortOrder
                       }" *ngFor="let column of gridColumns">
                       {{column.name}}
-
+                  </th>
                   <th></th>
                 </tr>
 
                 </thead>
                 <tbody class="mobile-slider">
                   <tr *ngFor="let row of data;let index = index;" [ngClass]="{'selected': row.isSelected}">
-                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (click)="selectRoom(row, $event, index)" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">
+                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (click)="selectRoom(row, $event, index)" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
                       <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
                       <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
                         <select id="{{column.dataProperty}}_{{index}}_{{i}}"
@@ -201,8 +201,9 @@
           </div>
         </div>
       </div>
-      <p style="position: absolute;z-index: -1; width:1px; height: 1px; overflow: hidden; top: 250px;">
-        <button type="button" class="trigger-image-crop-model" data-toggle="modal" data-target="#imageCropModal">
+      <!-- *ngIf="state.massEdit.items.length > 0" -->
+      <p style="position: absolute;z-index: -1; width:1px; height: 1px; overflow: hidden; top: 250px;" >
+        <button type="button" class="trigger-image-crop-model" data-toggle="modal" data-target="#imageCropModal_">
           &nbsp;
         </button>
       </p>
@@ -279,11 +280,11 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal_" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel_" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Mass Edit</h5>
+        <h5 class="modal-title" id="exampleModalLabel_">Mass Edit</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -296,66 +297,20 @@
               <table class="table table-bordered room-table table-sm td-middle text-nowrap">
                 <thead>
                   <tr>
-                    <th>Room #</th>
-                    <th>Feature</th>
-                    <th>FD Status</th>
-                    <th>HK Status</th>
-                    <th>Housekeeper</th>
-                    <th>Shift</th>
-                    <th>Linen Status</th>
+                    <th *ngFor="let column of gridColumns">
+                      {{column.name}}
+                    </th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                <tbody class="mobile-slider">
+                  <tr *ngFor="let row of state.massEdit.items;let index = index;">
+                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns;">
+                      <span>{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)" (click)="removeSelectedItem(row, index)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -364,74 +319,7 @@
 
           <h3 class="active"><a href="javascript:void(0)">Mass Edit Form</a></h3>
           <div class="custom-accordion-content">
-            <div class="table-massedit-wrap table-responsive">
-              <table class="table table-bordered room-table table-sm td-middle text-nowrap">
-                <thead>
-                  <tr>
-                    <th>Room #</th>
-                    <th>Feature</th>
-                    <th>FD Status</th>
-                    <th>HK Status</th>
-                    <th>Housekeeper</th>
-                    <th>Shift</th>
-                    <th>Linen Status</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
-                    <td><input type="text" value="Available" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><input type="text" value="None" class="form-control" ></td>
-                    <td><input type="text" value="31-40" class="form-control" ></td>
-                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            
           </div>
         </div>
       </div>
