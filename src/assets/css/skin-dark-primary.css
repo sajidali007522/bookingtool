@@ -148,6 +148,9 @@
 .theme-dark-primary .table-skin option{
   color:#000;
 }
+.theme-dark-primary tr.selected td{
+  background:#7b1b17 !important;
+}
 
 /* background's */
 

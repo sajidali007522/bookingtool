@@ -40,6 +40,12 @@
               </div>
             </li>
           </ul>
+
+          <div class="mb-1 mt-1">
+            <a href="javascript:void(0)" class="full-btn shake" data-toggle="modal" data-target="#exampleModal">
+              <span class="fa fa-edit"></span> Mass Edit
+            </a>
+          </div>
         </div>
       </div>
       <div class="accordion-group " [ngClass]="{'group-active': group.isOpen}" *ngFor="let group of metaDataGroups">
@@ -270,4 +276,171 @@
     </div>
   </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Mass Edit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="custom-accordion">
+          <h3 class="active"><a href="javascript:void(0)">Selected Item list Grid</a></h3>
+          <div class="custom-accordion-content exp">
+            <div class="table-massedit-wrap table-responsive">
+              <table class="table table-bordered room-table table-sm td-middle text-nowrap">
+                <thead>
+                  <tr>
+                    <th>Room #</th>
+                    <th>Feature</th>
+                    <th>FD Status</th>
+                    <th>HK Status</th>
+                    <th>Housekeeper</th>
+                    <th>Shift</th>
+                    <th>Linen Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h3 class="active"><a href="javascript:void(0)">Mass Edit Form</a></h3>
+          <div class="custom-accordion-content">
+            <div class="table-massedit-wrap table-responsive">
+              <table class="table table-bordered room-table table-sm td-middle text-nowrap">
+                <thead>
+                  <tr>
+                    <th>Room #</th>
+                    <th>Feature</th>
+                    <th>FD Status</th>
+                    <th>HK Status</th>
+                    <th>Housekeeper</th>
+                    <th>Shift</th>
+                    <th>Linen Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="Craft, Dorm 31" class="form-control" ></td>
+                    <td><input type="text" value="Available" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><input type="text" value="None" class="form-control" ></td>
+                    <td><input type="text" value="31-40" class="form-control" ></td>
+                    <td><a href="javascript:void(0)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <app-modal [message]="state.message" (closeIt)="closeModal()"></app-modal>

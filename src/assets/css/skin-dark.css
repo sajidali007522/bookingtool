@@ -65,6 +65,9 @@ body.theme-dark .full-btn{
 .theme-dark .table-skin select:focus{
   color:#000;
 }
+.theme-dark tr.selected td{
+  background-color: rgba(0,0,0,.2) !important;
+}
 .theme-dark .table-skin option{
   color:#000;
 }
