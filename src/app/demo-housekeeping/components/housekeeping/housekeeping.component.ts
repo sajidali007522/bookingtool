@@ -64,9 +64,11 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   canceler: any;
   state = {
     massEdit: {
+      formState: false,
       lastIndex: -1,
       items: [],
-      indexes:[]
+      indexes:[],
+      form: {}
     },
     gridDropDowns: {},
     message: '',
@@ -592,14 +594,14 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.filterList(group, '')
   }
 
-  selectRoom(room, $event, index) {
-    console.log("inside selecting room")
+  selectRoom(room, $event, index,column) {
+    if(column.canEdit && column.dataProperty != 'FdStatus') return;
     this.handleMassEditRooms(index, room);
     this.state.massEdit.lastIndex = -1;
   }
 
   setMultipleSelect(index, room, $event, column){
-    if(column.canEdit) return;
+    if(column.canEdit && column.dataProperty != 'FdStatus') return;
     if(!$event.shiftKey) return;
     console.log("selecting " + index)
     this.state.massEdit.lastIndex=index;
@@ -607,7 +609,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   completeMultipleSelect(index, room, $event, column){
-    if(column.canEdit) return;
+    if(column.canEdit && column.dataProperty != 'FdStatus') return;
     if(!$event.shiftKey || this.state.massEdit.lastIndex == -1) return;
     let flag = this.state.massEdit.lastIndex;
     while(flag <= index){
@@ -638,6 +640,28 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.data[this.state.massEdit.indexes[index]]['isSelected'] = false
     this.state.massEdit.items.splice(index, 1)
   }
+
+  getEditAbleColumns(gridColumns){
+    let cols = []
+    gridColumns.filter(column => {
+      if(column.canEdit) {
+        cols.push(column)
+      }
+    });
+    return cols;
+  }
+  toggleFormState(event){
+    $(event.target).parent('h3').toggleClass('active');
+    $(event.target).parent('h3').next('.custom-accordion-content').toggleClass('exp')
+  }
+  resetRoomStatus(){
+    for (let i=0; i < this.state.massEdit.indexes.length; i++) {
+      this.data[this.state.massEdit.indexes[i]]['isSelected'] = false;
+    }
+    this.state.massEdit.indexes = []
+    this.state.massEdit.items = []
+  }
+  processMassEdit(){}
   scrolling(){ return true; }
 
 }
