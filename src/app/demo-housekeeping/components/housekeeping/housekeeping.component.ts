@@ -624,7 +624,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   completeMultipleSelect(index, room, $event, column){
-    console.log("completing", index, this.state.massEdit.lastIndex);
+    //console.log("completing", index, this.state.massEdit.lastIndex);
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
     if(this.state.massEdit.lastIndex == -1) return;
     //if($event.shiftKey && $event.altKey) return;
@@ -647,15 +647,17 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
     this.state.massEdit.indexes.push(index)
     this.state.massEdit.items.push(room)
-    console.log(index,this.data[index])
+    //console.log(index,this.data[index])
     this.data[index]['isSelected'] = true
     if (window.getSelection) {window.getSelection().removeAllRanges();}
     else if (document.getSelection()) {document.getSelection().empty();}
   }
 
   removeSelectedItem (room, index) {
+    //console.log(index, this.state.massEdit.indexes)
     this.data[this.state.massEdit.indexes[index]]['isSelected'] = false
     this.state.massEdit.items.splice(index, 1)
+    this.state.massEdit.indexes.splice(index, 1)
   }
 
   getEditAbleColumns(gridColumns){
