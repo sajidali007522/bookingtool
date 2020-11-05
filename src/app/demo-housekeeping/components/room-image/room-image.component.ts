@@ -4,6 +4,7 @@ import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal
 import {AuthenticationService} from "../../../_services/authentication.service";
 import {ConfigService} from "../../../config.service";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
+import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
 
 @Component({
   selector: 'app-room-image',
@@ -35,8 +36,10 @@ export class RoomImageComponent implements OnInit,OnChanges {
       }
     }
   };
-  constructor(private _http: HttpService, private ref: ChangeDetectorRef,
-              private appConfigService: ConfigService) {}
+  constructor(private _http: HttpService,
+              private ref: ChangeDetectorRef,
+              private appConfigService: ConfigService,
+              private DHKService: DemoHousekeepingService) {}
 
   ngOnInit(): void {}
   ngOnChanges() {
@@ -57,6 +60,7 @@ export class RoomImageComponent implements OnInit,OnChanges {
     }
     this.state.isLoadingImages=true;
     this._http._get('housekeeping/'+this.siteId+'/RoomImages/'+this.room.roomId)
+    //this.DHKService.loadRoomImages('housekeeping/'+this.siteId+'/RoomImages/'+this.room.roomId, {})
       .subscribe((data:any) => {
         this.state.roomImages = [];
         data.filter(r=> {
@@ -84,16 +88,16 @@ export class RoomImageComponent implements OnInit,OnChanges {
 
   save(){
     this.state.isLoadingImages = true;
-    this._http._patch('housekeeping/'+this.siteId+'/RoomImage/'+this.room.roomId+'/'+this.state.selectedImage.documentArchiveIndexID, {},
+    this.DHKService.saveRoom('housekeeping/'+this.siteId+'/RoomImage/'+this.room.roomId+'/'+this.state.selectedImage.documentArchiveIndexID, {},
       {
         name: this.state.selectedImage.name,
         description: this.state.selectedImage.description
       })
-      .subscribe(data => {
-        this.state.componentState.isViewMode=true;
-      },
-        error => { console.log(error)},
-      ()=>{this.state.isLoadingImages = false;console.log('completed'); this.ref.detectChanges();});
+    .subscribe(data => {
+      this.state.componentState.isViewMode=true;
+    },
+      error => { console.log(error)},
+    ()=>{this.state.isLoadingImages = false;console.log('completed'); this.ref.detectChanges();});
   }
 
   edit(){
@@ -105,7 +109,7 @@ export class RoomImageComponent implements OnInit,OnChanges {
     //delete logic
     if(event) {
       this.state.isLoadingImages = true;
-      this._http._delete('housekeeping/'+this.siteId+'/RoomImage/'+this.room.roomId+'/'+this.state.selectedImage.documentArchiveIndexID)
+      this.DHKService.deleteRoomImage('housekeeping/'+this.siteId+'/RoomImage/'+this.room.roomId+'/'+this.state.selectedImage.documentArchiveIndexID,{})
         .subscribe(data => {
           this.state.roomImages.splice(this.state.selectedIndex, 1);
           this.state.selectedImage = this.state.roomImages[this.state.roomImages.length-1];

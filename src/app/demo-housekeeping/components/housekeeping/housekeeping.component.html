@@ -40,6 +40,12 @@
               </div>
             </li>
           </ul>
+
+          <div class="mb-1 mt-1" *ngIf="state.massEdit.items.length > 0">
+            <a href="javascript:void(0)" class="full-btn shake" data-toggle="modal" data-target="#exampleModal_">
+              <span class="fa fa-edit"></span> Mass Edit
+            </a>
+          </div>
         </div>
       </div>
       <div class="accordion-group " [ngClass]="{'group-active': group.isOpen}" *ngFor="let group of metaDataGroups">
@@ -113,6 +119,7 @@
             <div class="table-responsive table-housekeeping-wrap"
                  [ngClass]="{'table-loader': state.isLoadingRooms || state.isLoadingMoreRooms}"
             >
+              {{state.massEdit.indexes}}
 
               <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
                      id="room_container"
@@ -126,17 +133,17 @@
                       'sort-custom-dsc' : state.pagination.sortBy == column.sortProperty && state.pagination.sortOrder
                       }" *ngFor="let column of gridColumns">
                       {{column.name}}
-
+                  </th>
                   <th></th>
                 </tr>
 
                 </thead>
                 <tbody class="mobile-slider">
-                  <tr *ngFor="let row of data;index as $index;">
-                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns">
+                  <tr *ngFor="let row of data;let index = index;" [ngClass]="{'selected': row.isSelected}"> <!-- (click)="selectRoom(row, $event, index, column)" -->
+                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
                       <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
                       <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
-                        <select id="{{column.dataProperty}}_{{$index}}"
+                        <select id="{{column.dataProperty}}_{{index}}_{{i}}"
                                 [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
                                 [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
                                 (focus)= "row['$'+column.dataProperty] = true;"
@@ -148,7 +155,6 @@
                     </td>
                     <!-- <td data-title="Image"></td> -->
                     <td data-title="Files">
-
                       <div class="table-btns">
                         <div class="fileUpload" *ngIf="!row.uploading">
                           <label for="file-upload_{{row.roomId}}" class="btn btn-success">Upload</label>
@@ -194,7 +200,13 @@
           </div>
         </div>
       </div>
-      <p style="position: absolute;z-index: -1; width:1px; height: 1px; overflow: hidden; top: 250px;">
+      <!-- *ngIf="state.massEdit.items.length > 0" -->
+      <p style="position: absolute;z-index: -1; width:1px; height: 1px; overflow: hidden; top: 250px;" >
+        <button type="button" class="trigger-mass-edit-model" data-toggle="modal" data-target="#imageCropModal_">
+          &nbsp;
+        </button>
+      </p>
+      <p style="position: absolute;z-index: -1; width:1px; height: 1px; overflow: hidden; top: 250px;" >
         <button type="button" class="trigger-image-crop-model" data-toggle="modal" data-target="#imageCropModal">
           &nbsp;
         </button>
@@ -269,4 +281,71 @@
     </div>
   </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal_" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel_" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel_">Mass Edit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="custom-accordion">
+          <h3 class="active"><a (click)="toggleFormState($event)" href="javascript:void(0)">Selected Item list Grid</a></h3>
+          <div class="custom-accordion-content exp">
+            <div class="table-massedit-wrap table-responsive">
+              <table class="table table-bordered room-table td-middle text-nowrap">
+                <thead>
+                  <tr>
+                    <th *ngFor="let column of gridColumns">
+                      {{column.name}}
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody class="mobile-slider">
+                  <tr *ngFor="let row of state.massEdit.items;let index = index;">
+                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns;">
+                      <span>{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)" (click)="removeSelectedItem(row, index)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="custom-accordion">
+          <h3>
+            <a (click)="toggleFormState($event)" href="javascript:void(0)">Mass Edit Form</a>
+          </h3>
+          <div class="custom-accordion-content">
+            <div class="form-group row" *ngFor="let column of getEditAbleColumns(gridColumns); let index = index">
+              <label class="col-sm-3">{{column.name}}</label>
+              <div class="col-sm-9">
+                <select id="{{column.dataProperty}}_{{index}}_field"
+                        [(ngModel)]="state.massEdit.form[column.dataProperty+'Id']"
+                        class="form-control"
+                >
+                  <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="resetRoomStatus()">Close</button>
+        <button type="button" class="btn btn-success" (click)="processMassEdit()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <app-modal [message]="state.message" (closeIt)="closeModal()"></app-modal>

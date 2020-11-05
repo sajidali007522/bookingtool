@@ -63,6 +63,13 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   croppedImage: any = '';
   canceler: any;
   state = {
+    massEdit: {
+      formState: false,
+      lastIndex: -1,
+      items: [],
+      indexes:[],
+      form: {}
+    },
     gridDropDowns: {},
     message: '',
     loadMetaData: true,
@@ -424,10 +431,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   fileChangeEvent(event: any, room:any): void {
-    console.log(room);
     this.state.selectedRoom = room;
     this.imageChangedEvent = event;
     this.state.roomImage.name = "Picture of "+room.roomNumber;
+    console.log(event);
     $(".trigger-image-crop-model").trigger('click');
   }
   imageCropped(event: ImageCroppedEvent) {
@@ -449,7 +456,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   doneWithCrop () {
     let image = this.croppedImage.split(",");
     this.state.selectedRoom['uploading']=true;
-    this._http._post('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
+    //this._http._post('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
+    this.DHKService.uploadRoomImage('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
       {
         value:  image[1]
       },
@@ -586,6 +594,93 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     group.search = '';
     this.filterList(group, '')
   }
+
+  selectRoom(room, $event, index,column) {
+    if(column.canEdit && column.dataProperty != 'FdStatus') {
+      return;
+    }
+    if($event.shiftKey && $event.altKey && this.state.massEdit.lastIndex == -1) {
+      this.setMultipleSelect(index, room, $event, column);
+      return;
+    }
+    else if($event.shiftKey && $event.altKey && this.state.massEdit.lastIndex != -1) {
+      this.completeMultipleSelect(index, room, $event, column);
+      return;
+    }
+    else {
+      this.handleMassEditRooms(index, room);
+      this.state.massEdit.lastIndex = -1;
+    }
+  }
+
+  setMultipleSelect(index, room, $event, column){
+    if(column.canEdit && column.dataProperty != 'FdStatus') return;
+    //if(!$event.shiftKey) return;
+    //if(!$event.shiftKey && $event.altKey) return;
+
+    console.log("selecting ", index, this.state.massEdit.lastIndex)
+    this.state.massEdit.lastIndex=index;
+
+  }
+
+  completeMultipleSelect(index, room, $event, column){
+    //console.log("completing", index, this.state.massEdit.lastIndex);
+    if(column.canEdit && column.dataProperty != 'FdStatus') return;
+    if(this.state.massEdit.lastIndex == -1) return;
+    //if($event.shiftKey && $event.altKey) return;
+    let flag = this.state.massEdit.lastIndex;
+    while(flag <= index){
+      this.handleMassEditRooms(flag, this.data[flag])
+      flag++;
+    }
+    this.state.massEdit.lastIndex = -1;
+    return;
+
+  }
+
+  handleMassEditRooms (index, room) {
+    if(this.state.massEdit.indexes.indexOf(index) != -1) {
+      this.state.massEdit.indexes.splice(this.state.massEdit.indexes.indexOf(index), 1)
+      this.state.massEdit.items.splice(this.state.massEdit.indexes.indexOf(index), 1)
+      this.data[index]['isSelected'] = false
+      return;
+    }
+    this.state.massEdit.indexes.push(index)
+    this.state.massEdit.items.push(room)
+    //console.log(index,this.data[index])
+    this.data[index]['isSelected'] = true
+    if (window.getSelection) {window.getSelection().removeAllRanges();}
+    else if (document.getSelection()) {document.getSelection().empty();}
+  }
+
+  removeSelectedItem (room, index) {
+    //console.log(index, this.state.massEdit.indexes)
+    this.data[this.state.massEdit.indexes[index]]['isSelected'] = false
+    this.state.massEdit.items.splice(index, 1)
+    this.state.massEdit.indexes.splice(index, 1)
+  }
+
+  getEditAbleColumns(gridColumns){
+    let cols = []
+    gridColumns.filter(column => {
+      if(column.canEdit) {
+        cols.push(column)
+      }
+    });
+    return cols;
+  }
+  toggleFormState(event){
+    $(event.target).parent('h3').toggleClass('active');
+    $(event.target).parent('h3').next('.custom-accordion-content').toggleClass('exp')
+  }
+  resetRoomStatus(){
+    for (let i=0; i < this.state.massEdit.indexes.length; i++) {
+      this.data[this.state.massEdit.indexes[i]]['isSelected'] = false;
+    }
+    this.state.massEdit.indexes = []
+    this.state.massEdit.items = []
+  }
+  processMassEdit(){}
   scrolling(){ return true; }
 
 }

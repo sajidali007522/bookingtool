@@ -28,4 +28,49 @@ export class DemoHousekeepingService {
     });
     //  .pipe(shareReplay({ bufferSize: 1, refCount: true }));
   }
+
+  public loadRoomDetails(url, params){
+    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
+    return this.http.get(this.apiBaseUrl+url, {
+      params: params,
+      headers: headers
+    })
+  }
+
+  public loadRoomImages(url, params) {
+    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
+    return this.http.get(this.apiBaseUrl+url, {
+      params: params,
+      headers: headers
+    })
+  }
+
+  public saveRoom(url, body, params) {
+    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
+    return this.http.patch(this.apiBaseUrl+url, {},{
+          params: params,
+          headers: headers
+        }
+      )
+  }
+
+  public deleteRoomImage(url, params) {
+    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
+    return this.http.patch(this.apiBaseUrl+url, {},{
+        params: params,
+        headers: headers
+      }
+    )
+  }
+
+  public uploadRoomImage(url, body, params={}){
+    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
+    return this.http.post(this.apiBaseUrl+url,
+      body,
+      {
+        params: params,
+        headers: headers
+      }
+      )
+  }
 }
