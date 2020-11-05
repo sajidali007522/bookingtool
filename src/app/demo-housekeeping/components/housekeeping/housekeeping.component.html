@@ -28,7 +28,7 @@
                 <div class="mb-1 mt-1">
                   <select class="select-field-secondary" [(ngModel)]="pageFilters.searchBy">
                     <option value="">Select</option>
-                    <option value="{{column.sortProperty}}" *ngFor="let column of gridColumns">{{column.name}}</option>
+                    <option value="{{column.dataProperty}}" *ngFor="let column of gridColumns">{{column.name}}</option>
                   </select>
                 </div>
                 <div class="mb-1 mt-1">
