@@ -596,22 +596,38 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   selectRoom(room, $event, index,column) {
-    if(column.canEdit && column.dataProperty != 'FdStatus') return;
-    this.handleMassEditRooms(index, room);
-    this.state.massEdit.lastIndex = -1;
+    if(column.canEdit && column.dataProperty != 'FdStatus') {
+      return;
+    }
+    if($event.shiftKey && $event.altKey && this.state.massEdit.lastIndex == -1) {
+      this.setMultipleSelect(index, room, $event, column);
+      return;
+    }
+    else if($event.shiftKey && $event.altKey && this.state.massEdit.lastIndex != -1) {
+      this.completeMultipleSelect(index, room, $event, column);
+      return;
+    }
+    else {
+      this.handleMassEditRooms(index, room);
+      this.state.massEdit.lastIndex = -1;
+    }
   }
 
   setMultipleSelect(index, room, $event, column){
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
-    if(!$event.shiftKey) return;
-    console.log("selecting " + index)
+    //if(!$event.shiftKey) return;
+    //if(!$event.shiftKey && $event.altKey) return;
+
+    console.log("selecting ", index, this.state.massEdit.lastIndex)
     this.state.massEdit.lastIndex=index;
 
   }
 
   completeMultipleSelect(index, room, $event, column){
+    console.log("completing", index, this.state.massEdit.lastIndex);
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
-    if(!$event.shiftKey || this.state.massEdit.lastIndex == -1) return;
+    if(this.state.massEdit.lastIndex == -1) return;
+    //if($event.shiftKey && $event.altKey) return;
     let flag = this.state.massEdit.lastIndex;
     while(flag <= index){
       this.handleMassEditRooms(flag, this.data[flag])

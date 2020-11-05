@@ -139,8 +139,8 @@
 
                 </thead>
                 <tbody class="mobile-slider">
-                  <tr *ngFor="let row of data;let index = index;" [ngClass]="{'selected': row.isSelected}">
-                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (click)="selectRoom(row, $event, index, column)" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
+                  <tr *ngFor="let row of data;let index = index;" [ngClass]="{'selected': row.isSelected}"> <!-- (click)="selectRoom(row, $event, index, column)" -->
+                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
                       <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
                       <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
                         <select id="{{column.dataProperty}}_{{index}}_{{i}}"
