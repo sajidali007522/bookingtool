@@ -70,6 +70,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       indexes:[],
       form: {}
     },
+    alertMessages : '',
     gridDropDowns: {},
     message: '',
     loadMetaData: true,
@@ -260,6 +261,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   public filterBySearchBox(){
     this.state.pagination.pageNum = 1;
+    this.state.loadMetaData = true;
     this.loadRooms();
   }
   public loadRooms (append = false) {
@@ -281,33 +283,40 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC',
       adminMode: true
     }).subscribe(data => {
-        console.log("processed")
-        if(!append) {
-          this.data = data['data']['roomStatuses'];
-        } else {
-          this.data = this.data.concat(data['data']['roomStatuses']);
+      if(data['success']) {
+          console.log("processed")
+          if (!append) {
+            this.data = data['data']['roomStatuses'];
+          } else {
+            this.data = this.data.concat(data['data']['roomStatuses']);
+          }
+          if (this.state.loadMetaData) {
+            this.metaDataGroups = data['data']['metadata']['metadataGroups'];
+            this.gridColumns = data['data']['metadata']['columns'];
+            //this.state.filterConfigs.shifts
+            this.gridColumns.filter(column => {
+              this.state.gridDropDowns[column.dataProperty] = this.setGridDropDowns(column);
+            });
+            //console.log(this.state.gridDropDowns);
+          }
+          this.state.pagination.totalRooms = data['data']['totalRooms'];
+          this.setFilterStates();
         }
-        if(this.state.loadMetaData) {
-          this.metaDataGroups = data['data']['metadata']['metadataGroups'];
-          this.gridColumns = data['data']['metadata']['columns'];
-          //this.state.filterConfigs.shifts
-          this.gridColumns.filter(column => {
-            this.state.gridDropDowns[column.dataProperty] = this.setGridDropDowns(column);
-          });
-          //console.log(this.state.gridDropDowns);
+        else {
+          this.state.alertMessages = data['message']
         }
+
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
         this.state.loadMetaData = false;
-        this.state.pagination.totalRooms = data['data']['totalRooms'];
-        this.setFilterStates();
-        this.ref.detectChanges();
       },
       err => {
         //handle errors here
         //console.log(err);
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
+        this.state.loadMetaData = false;
+        console.log(err);
       },
       ()=>{
         this.canceler.unsubscribe();
