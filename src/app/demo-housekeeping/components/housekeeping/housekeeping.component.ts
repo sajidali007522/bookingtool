@@ -673,7 +673,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   getEditAbleColumns(gridColumns){
     let cols = []
     gridColumns.filter(column => {
-      if(column.canEdit) {
+      if(column.canEdit && column.dataProperty != 'FdStatus') {
         cols.push(column)
       }
     });
@@ -690,7 +690,15 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.indexes = []
     this.state.massEdit.items = []
   }
-  processMassEdit(){}
+  processMassEdit(column){
+    let value = this.state.massEdit.form[column.dataProperty+'Id'];
+    this.state.massEdit.indexes.filter(index => {
+      this.updateHouseKeeping(this.data[index].id, this.data[index], column.dataProperty, '$'+column.dataProperty);
+    });
+  }
+  clearMassEditField(column){
+    this.state.massEdit.form[column.dataProperty+'Id'] = ''
+  }
   scrolling(){ return true; }
 
 }

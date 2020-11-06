@@ -329,7 +329,7 @@
           <div class="custom-accordion-content">
             <div class="form-group row" *ngFor="let column of getEditAbleColumns(gridColumns); let index = index">
               <label class="col-sm-3">{{column.name}}</label>
-              <div class="col-sm-9">
+              <div class="col-sm-5">
                 <select id="{{column.dataProperty}}_{{index}}_field"
                         [(ngModel)]="state.massEdit.form[column.dataProperty+'Id']"
                         class="form-control"
@@ -337,13 +337,18 @@
                   <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
                 </select>
               </div>
+              <div class="col-sm-2">
+                <button type="button" class="btn btn-danger" (click)="clearMassEditField(column)">Clear</button>
+              </div>
+              <div class="col-sm-2">
+                <button type="button" class="btn btn-danger" (click)="processMassEdit(column)">Clear</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="resetRoomStatus()">Clear</button>
-        <button type="button" class="btn btn-success" (click)="processMassEdit()">Save</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="resetRoomStatus()">Cancel Mass Edit</button>
       </div>
     </div>
   </div>
