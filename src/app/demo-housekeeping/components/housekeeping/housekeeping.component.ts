@@ -200,6 +200,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
     this.state.pagination.pageNum=1;
     this.state.loadMetaData = true
+    this.metaDataGroups=[];
     this.loadRooms();
   }
 
