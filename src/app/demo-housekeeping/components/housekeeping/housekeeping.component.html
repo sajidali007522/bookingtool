@@ -123,7 +123,6 @@
             <div class="table-responsive table-housekeeping-wrap"
                  [ngClass]="{'table-loader': state.isLoadingRooms || state.isLoadingMoreRooms}"
             >
-              {{state.massEdit.indexes}}
 
               <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
                      id="room_container"
@@ -144,7 +143,7 @@
                 </thead>
                 <tbody class="mobile-slider">
                   <tr *ngFor="let row of data;let index = index;" [ngClass]="{'selected': row.isSelected}"> <!-- (click)="selectRoom(row, $event, index, column)" -->
-                    <td data-title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
+                    <td data-title="{{column.name}}" title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
                       <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
                       <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
                         <select id="{{column.dataProperty}}_{{index}}_{{i}}"
