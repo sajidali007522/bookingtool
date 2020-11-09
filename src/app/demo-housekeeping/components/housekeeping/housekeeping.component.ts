@@ -70,6 +70,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       indexes:[],
       form: {}
     },
+    alertMessages : '',
     gridDropDowns: {},
     message: '',
     loadMetaData: true,
@@ -200,6 +201,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
     this.state.pagination.pageNum=1;
     this.state.loadMetaData = true
+    this.metaDataGroups=[];
     this.loadRooms();
   }
 
@@ -259,6 +261,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   public filterBySearchBox(){
     this.state.pagination.pageNum = 1;
+    this.state.loadMetaData = true;
     this.loadRooms();
   }
   public loadRooms (append = false) {
@@ -280,33 +283,40 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC',
       adminMode: true
     }).subscribe(data => {
-        console.log("processed")
-        if(!append) {
-          this.data = data['data']['roomStatuses'];
-        } else {
-          this.data = this.data.concat(data['data']['roomStatuses']);
+      if(data['success']) {
+          console.log("processed")
+          if (!append) {
+            this.data = data['data']['roomStatuses'];
+          } else {
+            this.data = this.data.concat(data['data']['roomStatuses']);
+          }
+          if (this.state.loadMetaData) {
+            this.metaDataGroups = data['data']['metadata']['metadataGroups'];
+            this.gridColumns = data['data']['metadata']['columns'];
+            //this.state.filterConfigs.shifts
+            this.gridColumns.filter(column => {
+              this.state.gridDropDowns[column.dataProperty] = this.setGridDropDowns(column);
+            });
+            //console.log(this.state.gridDropDowns);
+          }
+          this.state.pagination.totalRooms = data['data']['totalRooms'];
+          this.setFilterStates();
         }
-        if(this.state.loadMetaData) {
-          this.metaDataGroups = data['data']['metadata']['metadataGroups'];
-          this.gridColumns = data['data']['metadata']['columns'];
-          //this.state.filterConfigs.shifts
-          this.gridColumns.filter(column => {
-            this.state.gridDropDowns[column.dataProperty] = this.setGridDropDowns(column);
-          });
-          //console.log(this.state.gridDropDowns);
+        else {
+          this.state.alertMessages = data['message']
         }
+
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
         this.state.loadMetaData = false;
-        this.state.pagination.totalRooms = data['data']['totalRooms'];
-        this.setFilterStates();
-        this.ref.detectChanges();
       },
       err => {
         //handle errors here
         //console.log(err);
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
+        this.state.loadMetaData = false;
+        console.log(err);
       },
       ()=>{
         this.canceler.unsubscribe();
@@ -358,6 +368,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   public updateHouseKeeping(roomId, roomRow, key, editKey) {
     //console.log(roomId, roomRow, key, editKey);
+    this.DHKService.patchRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
     roomRow[editKey] = false;
   }
 
@@ -628,7 +639,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
     if(this.state.massEdit.lastIndex == -1) return;
     //if($event.shiftKey && $event.altKey) return;
-    let flag = this.state.massEdit.lastIndex;
+    let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
     while(flag <= index){
       this.handleMassEditRooms(flag, this.data[flag])
       flag++;
@@ -663,7 +674,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   getEditAbleColumns(gridColumns){
     let cols = []
     gridColumns.filter(column => {
-      if(column.canEdit) {
+      if(column.canEdit && column.dataProperty != 'FdStatus') {
         cols.push(column)
       }
     });
@@ -680,7 +691,17 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.indexes = []
     this.state.massEdit.items = []
   }
-  processMassEdit(){}
+  processMassEdit(column){
+    let value = this.state.massEdit.form[column.dataProperty+'Id'];
+    this.state.massEdit.indexes.filter(index => {
+      let roomRow = this.data[index];
+      roomRow[column.valueProperty] = value;
+      this.updateHouseKeeping(this.data[index].id, roomRow, column.dataProperty, '$'+column.dataProperty);
+    });
+  }
+  clearMassEditField(column){
+    this.state.massEdit.form[column.dataProperty+'Id'] = ''
+  }
   scrolling(){ return true; }
 
 }
