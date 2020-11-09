@@ -45,6 +45,9 @@
             <a href="javascript:void(0)" class="full-btn shake" data-toggle="modal" data-target="#exampleModal_">
               <span class="fa fa-edit"></span> Mass Edit
             </a>
+            <a href="javascript:void(0)" (click)="resetRoomStatus()" class="full-btn" >
+              <span class="fa fa-close"></span> Clear Selection
+            </a>
           </div>
         </div>
       </div>
@@ -328,8 +331,8 @@
           </h3>
           <div class="custom-accordion-content">
             <div class="form-group row" *ngFor="let column of getEditAbleColumns(gridColumns); let index = index">
-              <label class="col-sm-3">{{column.name}}</label>
-              <div class="col-sm-5">
+              <label class="col-lg-3">{{column.name}}</label>
+              <div class="col-lg-5 mb-2">
                 <select id="{{column.dataProperty}}_{{index}}_field"
                         [(ngModel)]="state.massEdit.form[column.dataProperty+'Id']"
                         class="form-control"
@@ -337,18 +340,16 @@
                   <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
                 </select>
               </div>
-              <div class="col-sm-2 text-center">
-                <button type="button" class="btn btn-danger" (click)="clearMassEditField(column)">Clear</button>
-              </div>
-              <div class="col-sm-2 text-center">
-                <button type="button" class="btn btn-primary" (click)="processMassEdit(column)">Save</button>
+              <div class="col-lg-4">
+                <button type="button" class="btn btn-danger mr-2" (click)="clearMassEditField(column)">Clear</button>
+                <button type="button" class="btn btn-success" (click)="processMassEdit(column)">Save</button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="resetRoomStatus()">Cancel Mass Edit</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="resetRoomStatus()">Cancel Mass Edit</button>
       </div>
     </div>
   </div>
