@@ -368,7 +368,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   public updateHouseKeeping(roomId, roomRow, key, editKey) {
     //console.log(roomId, roomRow, key, editKey);
-    this.DHKService.patchRoom('/api2/housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
+    this.DHKService.patchRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
     roomRow[editKey] = false;
   }
 
