@@ -368,6 +368,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   public updateHouseKeeping(roomId, roomRow, key, editKey) {
     //console.log(roomId, roomRow, key, editKey);
+    this.DHKService.patchRoom('/api2/housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
     roomRow[editKey] = false;
   }
 
@@ -693,7 +694,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   processMassEdit(column){
     let value = this.state.massEdit.form[column.dataProperty+'Id'];
     this.state.massEdit.indexes.filter(index => {
-      this.updateHouseKeeping(this.data[index].id, this.data[index], column.dataProperty, '$'+column.dataProperty);
+      let roomRow = this.data[index];
+      roomRow[column.valueProperty] = value;
+      this.updateHouseKeeping(this.data[index].id, roomRow, column.dataProperty, '$'+column.dataProperty);
     });
   }
   clearMassEditField(column){

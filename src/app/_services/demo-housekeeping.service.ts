@@ -54,6 +54,16 @@ export class DemoHousekeepingService {
       )
   }
 
+  public patchRoom(url, body, params) {
+    // /api2/housekeeping/{siteId}/Rooms/{roomId}
+    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
+    return this.http.patch(this.apiBaseUrl+url, body,{
+        params: params,
+        headers: headers
+      }
+    )
+  }
+
   public deleteRoomImage(url, params) {
     let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
     return this.http.patch(this.apiBaseUrl+url, {},{
