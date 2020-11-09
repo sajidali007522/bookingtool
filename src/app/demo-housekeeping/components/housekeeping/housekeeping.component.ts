@@ -639,7 +639,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
     if(this.state.massEdit.lastIndex == -1) return;
     //if($event.shiftKey && $event.altKey) return;
-    let flag = this.state.massEdit.lastIndex;
+    let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
     while(flag <= index){
       this.handleMassEditRooms(flag, this.data[flag])
       flag++;
