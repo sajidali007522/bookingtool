@@ -216,8 +216,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.features =  this.pageFilters.sites;
         this.state.isLoading = false;
-        this.state.loadMetaData = true;
         this.state.pagination.pageNum=1;
+        this.state.loadMetaData = true
+        this.metaDataGroups=[];
         this.ref.detectChanges();
         this.loadRooms();
       },
