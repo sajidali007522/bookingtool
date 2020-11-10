@@ -151,7 +151,7 @@
                                 [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
                                 (focus)= "row['$'+column.dataProperty] = true;"
                                 (focusout)="row['$'+column.dataProperty] = false;"
-                                (change)="updateHouseKeeping(row.id, row, column.dataProperty, '$'+column.dataProperty)">
+                                (change)="updateHouseKeeping(row.roomId, row, column.dataProperty, '$'+column.dataProperty)">
                           <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
                         </select>
                       </span>
@@ -316,6 +316,7 @@
                       <span>{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
                     </td>
                     <td>
+                      <span class="fa fa-spin fa-spinner" *ngIf="row.$processingMassEdit"></span>
                       <a href="javascript:void(0)" (click)="removeSelectedItem(row, index)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a>
                     </td>
                   </tr>

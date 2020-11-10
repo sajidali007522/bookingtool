@@ -367,10 +367,21 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     group.selectAll = true;
     this.loadRooms();
   }
-  public updateHouseKeeping(roomId, roomRow, key, editKey) {
+  public updateHouseKeeping(roomId, roomRow, key, editKey, massEditEntry={}) {
     //console.log(roomId, roomRow, key, editKey);
+    massEditEntry['$processingMassEdit'] = true;
+    roomRow['$processingMassEdit'] = true;
     this.DHKService.patchRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
-    roomRow[editKey] = false;
+      .subscribe(
+        res => { alert("success");console.log(res)},
+        err => { alert("error");console.log(err)},
+        ()=>{
+          massEditEntry['$processingMassEdit'] = false;
+          roomRow[editKey] = false;
+          roomRow['$processingMassEdit'] = false;
+        }
+      )
+      .unsubscribe()
   }
 
   public enableEditMode (row, key, ele) {
@@ -694,10 +705,12 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   processMassEdit(column){
     let value = this.state.massEdit.form[column.dataProperty+'Id'];
+    let i = 0;
     this.state.massEdit.indexes.filter(index => {
       let roomRow = this.data[index];
       roomRow[column.valueProperty] = value;
-      this.updateHouseKeeping(this.data[index].id, roomRow, column.dataProperty, '$'+column.dataProperty);
+      this.updateHouseKeeping(this.data[index].roomId, roomRow, column.dataProperty, '$'+column.dataProperty, this.state.massEdit.items[i]);
+      i++;
     });
   }
   clearMassEditField(column){
