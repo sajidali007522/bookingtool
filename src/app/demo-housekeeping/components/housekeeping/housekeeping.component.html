@@ -90,7 +90,7 @@
 
       <div class="full-btns">
         <a href="javascript:void(0)" class="full-btn" (click)="refreshFilter()" >
-          <span class="fa fa-refresh"></span> Refresh
+          <span class="fa fa-refresh" [ngClass]="{'fa-spin': (state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData) }"></span> Refresh
         </a>
       </div>
 
