@@ -371,6 +371,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     //console.log(roomId, roomRow, key, editKey);
     massEditEntry['$processingMassEdit'] = true;
     roomRow['$processingMassEdit'] = true;
+    delete roomRow.$type;
     this.DHKService.patchRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
       .subscribe(
         res => { alert("success");console.log(res)},
@@ -379,9 +380,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           massEditEntry['$processingMassEdit'] = false;
           roomRow[editKey] = false;
           roomRow['$processingMassEdit'] = false;
+
         }
       )
-      .unsubscribe()
   }
 
   public enableEditMode (row, key, ele) {
