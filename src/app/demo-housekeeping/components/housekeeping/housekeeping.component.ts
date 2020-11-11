@@ -64,6 +64,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   canceler: any;
   state = {
     massEdit: {
+      processing:0,
       formState: false,
       lastIndex: -1,
       items: [],
@@ -260,6 +261,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     })
     item.isSelected = true;
     group.selectAll = false;
+    this.state.pagination.pageNum = 1;
     this.loadRooms();
   }
   public filterBySearchBox(){
@@ -355,6 +357,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     if(group.items.length != selectedItem.length) {
       group.selectAll = false;
     }
+    this.state.pagination.pageNum = 1;
     this.loadRooms();
     //
     /*console.log(item.isSelected, "tr."+group.key+"_"+item.key.split('-').join('_'))
@@ -378,12 +381,17 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     delete roomRow.$type;
     this.DHKService.patchRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
       .subscribe(
-        res => { alert("success");console.log(res)},
-        err => { alert("error");console.log(err)},
+        res => { console.log(res)},
+        err => { console.log(err)},
         ()=>{
           massEditEntry['$processingMassEdit'] = false;
           roomRow[editKey] = false;
           roomRow['$processingMassEdit'] = false;
+          if(this.state.massEdit.processing == this.state.massEdit.indexes.length){
+            this.state.massEdit.processing=0;
+            this.state.message = 'Room Data has been updated!!'
+            this.state.modalTitle = "Success!"
+          }
 
         }
       )
@@ -429,9 +437,14 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       if (elem[0].scrollHeight - elem.scrollTop() <= elem.outerHeight()) {
         if(this.state.isLoading || this.state.isLoadingRooms || this.state.isLoadingMoreRooms) return;
         //console.log("bottom");
-        this.state.pagination.pageNum++;
-        this.state.isLoadingMoreRooms = true;
+        console.log(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize), '<=', this.state.pagination.pageNum, Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum)
+        //if(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum) {
+        if((this.state.pagination.pageNum*this.state.pagination.pageSize) >= this.state.pagination.totalRooms) {
+          return;
+        }
         if(!this.isMobileDevice()) {
+          this.state.pagination.pageNum++;
+          this.state.isLoadingMoreRooms = true;
           this.loadRooms(true);
         }
       }
@@ -527,7 +540,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
 
   public nextPage() {
     console.log(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize), '<=', this.state.pagination.pageNum, Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum)
-    if(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum) {
+    if(this.state.pagination.pageNum>=this.state.pagination.totalRooms ) {
       return;
     }
     this.state.isLoadingMoreRooms = true;
@@ -716,12 +729,15 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.items = []
   }
   processMassEdit(column){
+    if(this.state.massEdit.processing > 0) return;
     let value = this.state.massEdit.form[column.dataProperty+'Id'];
     let i = 0;
+    this.state.massEdit.processing=0;
     this.state.massEdit.indexes.filter(index => {
       let roomRow = this.data[index];
       roomRow[column.valueProperty] = value;
       this.updateHouseKeeping(this.data[index].roomId, roomRow, column.dataProperty, '$'+column.dataProperty, this.state.massEdit.items[i]);
+      this.state.massEdit.processing++
       i++;
     });
   }

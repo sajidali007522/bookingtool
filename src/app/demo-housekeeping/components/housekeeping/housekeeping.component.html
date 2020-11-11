@@ -348,8 +348,10 @@
                 </select>
               </div>
               <div class="col-lg-4">
-                <button type="button" class="btn btn-danger mr-2" (click)="clearMassEditField(column)">Clear</button>
-                <button type="button" class="btn btn-success" (click)="processMassEdit(column)">Save</button>
+                <button type="button" class="btn btn-danger mr-2" (click)="clearMassEditField(column)" [ngClass]="{'disabled': state.massEdit.processing > 0}">
+                  Clear
+                </button>
+                <button type="button" class="btn btn-success" (click)="processMassEdit(column)" [ngClass]="{'disabled': state.massEdit.processing > 0}">Save</button>
               </div>
             </div>
           </div>
