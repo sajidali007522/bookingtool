@@ -117,7 +117,7 @@
                 <h3>Room Status</h3>
               </div>
               <div class="col-7">
-                <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
+                <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
               </div>
             </div>
 
@@ -188,8 +188,7 @@
                 </tr>
                 </tfoot>
               </table>
-
-              <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
+              <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
             </div>
             <ul *ngIf="isMobileDevice()" class="pagination justify-content-center">
               <li class="page-item page-prev">

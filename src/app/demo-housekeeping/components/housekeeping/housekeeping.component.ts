@@ -286,7 +286,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC',
       adminMode: true
     }).subscribe(data => {
-      if(data['success']) {
+      if(data['success'] &&  data['data']['roomStatuses'].length > 0) {
           console.log("processed")
           if (!append) {
             this.data = data['data']['roomStatuses'];
@@ -462,6 +462,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.selectedRoom = room;
     this.imageChangedEvent = event;
     this.state.roomImage.name = "Picture of "+room.roomNumber;
+    this.state.roomImage.description = ''
     console.log(event);
     $(".trigger-image-crop-model").trigger('click');
   }
@@ -525,6 +526,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public nextPage() {
+    console.log(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize), '<=', this.state.pagination.pageNum, Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum)
+    if(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum) {
+      return;
+    }
     this.state.isLoadingMoreRooms = true;
     //if(this.state.pagination.pageNum > this.state.paginatin.totalRecords == this.state.pagination.pageNum)
     this.state.pagination.pageNum = Number(this.state.pagination.pageNum)+1;
