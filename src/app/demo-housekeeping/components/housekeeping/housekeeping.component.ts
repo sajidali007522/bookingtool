@@ -307,7 +307,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         }
         else {
           this.state.alertMessages = data['message']
-        }
+          $(document).find(".reservation-content-area").scrollTop(0);
+      }
 
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
@@ -319,6 +320,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
         this.state.loadMetaData = false;
+        this.state.alertMessages = err['message']
         console.log(err);
       },
       ()=>{
