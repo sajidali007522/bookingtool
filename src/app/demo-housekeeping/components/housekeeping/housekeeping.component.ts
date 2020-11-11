@@ -199,6 +199,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       searchValue: '',
       shifts: []
     }
+    this.state.alertMessages = '';
     this.state.pagination.pageNum=1;
     this.state.loadMetaData = true
     this.metaDataGroups=[];
