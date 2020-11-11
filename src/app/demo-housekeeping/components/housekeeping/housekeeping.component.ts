@@ -288,7 +288,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC',
       adminMode: true
     }).subscribe(data => {
-      if(data['success'] &&  data['data']['roomStatuses'].length > 0) {
+      if(data['success']) {
           console.log("processed")
           if (!append) {
             this.data = data['data']['roomStatuses'];
