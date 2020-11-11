@@ -1038,7 +1038,6 @@ body.menu-fullwidth .reservation-content-area{
 .not-show{
   display: none;
 }
-
 @media(min-width:767px){
   .modal-md{
     max-width: 700px;
