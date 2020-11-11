@@ -168,6 +168,7 @@ h3{
   top: 0;
   width: 100%;
   z-index: 2;
+  z-index: 3;
   height: 60px;
   background: #09425d;
   padding: 0 25px 0 0;
