@@ -5,7 +5,6 @@ import {AlertModalComponent} from "../shared/alert-modal/alert-modal.component";
 import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.component";
 import {ModalComponent} from "./components/modal/modal.component";
 import {AlertComponent} from "../shared/alert/alert.component";
-import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.component";
 
 
 
@@ -14,6 +13,7 @@ import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.compo
     LoaderComponent,
     ModalComponent,
     AlertComponent,
+    AlertModalComponent,
     ConfirmModalComponent
   ],
   imports: [
@@ -23,6 +23,7 @@ import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.compo
     LoaderComponent,
     ModalComponent,
     AlertComponent,
+    AlertModalComponent,
     ConfirmModalComponent
   ]
 })
