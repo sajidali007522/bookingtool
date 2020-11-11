@@ -7,8 +7,6 @@ import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
-import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
-import {AuthGuard} from "./_helpers/auth.guard";
 
 const routes: Routes = [
   {
@@ -27,16 +25,6 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent }
     ]
     //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
-  },
-  {
-    path: 'housekeeping-demo',
-    component: SingleColumnLayoutComponent,
-    canActivate: [AuthGuard],
-    // children: [
-    //   { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
-    //   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
-    // ]
-    loadChildren: () => import('./demo-housekeeping/demo-housekeeping.module').then(m => m.DemoHousekeepingModule)
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },

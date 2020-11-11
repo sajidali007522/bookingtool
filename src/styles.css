@@ -168,7 +168,6 @@ h3{
   top: 0;
   width: 100%;
   z-index: 2;
-  z-index: 3;
   height: 60px;
   background: #09425d;
   padding: 0 25px 0 0;
@@ -340,13 +339,6 @@ h3{
   }
   .popover-content{
     color: #fff;
-  }
-  .reservation-sidebar .popover{
-      top: -4px !important;
-      margin:0 !important;
-  }
-  .reservation-sidebar .popover-content{
-    padding: 3px 4px !important;
   }
 
 
@@ -1028,24 +1020,25 @@ body.menu-fullwidth .reservation-content-area{
     10%, 90% {
       transform: translate3d(-1px, 0, 0);
     }
-    
+
     20%, 80% {
       transform: translate3d(2px, 0, 0);
     }
-  
+
     30%, 50%, 70% {
       transform: translate3d(-4px, 0, 0);
     }
-  
+
     40%, 60% {
       transform: translate3d(4px, 0, 0);
     }
   }
-  
+
 
 .not-show{
   display: none;
 }
+
 @media(min-width:767px){
   .modal-md{
     max-width: 700px;

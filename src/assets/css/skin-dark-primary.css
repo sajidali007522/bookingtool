@@ -192,27 +192,6 @@ body.theme-dark-primary .selection-table.table th h4{
 body.theme-dark-primary .booking-time ul li{
   background: url(../images/reservation/arrow-right-white.svg) right center no-repeat !important;
 }
-body.theme-dark-primary .show-options{
-  color: #fff;
-}
-
-body.theme-dark-primary .reservation-sidebar ::-webkit-scrollbar-track {
-  background: rgba(255,255,255, 0.2) !important;
-}
-body.theme-dark-primary .reservation-sidebar ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255, 0.2) !important;
-}
-body.theme-dark-primary .full-btn{
-  background: #292e32!important;
-  color: #fff;
-  border-color: #292e32!important;
-}
-body.theme-dark-primary .select-field-secondary::-webkit-input-placeholder {color: #fff;}
-body.theme-dark-primary .select-field-secondary:-ms-input-placeholder {color: #fff;}
-body.theme-dark-primary .select-field-secondary::placeholder {color: #fff;}
-body.theme-dark-primary .select-field-secondary option{
-  color:#fff;
-}
 /* SearchResult end */
 
 @media(max-width:991px){
