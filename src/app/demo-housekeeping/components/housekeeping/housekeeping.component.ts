@@ -73,6 +73,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     alertMessages : '',
     gridDropDowns: {},
     message: '',
+    modalTitle: '',
     loadMetaData: true,
     showRoomImages:  false,
     selectedRoom: {roomId: '', roomNumber: ''},
@@ -494,11 +495,13 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           //this.router.navigate(['/house-keeping/'+this.pageFilters.sites+'/room/'+this.state.selectedRoom.roomId]);
           console.log(data);
           this.state.message = "Image has been attached"
+          this.state.modalTitle = "Success"
           this.openModal()
           this.state.selectedRoom['uploading']=false;
         },
         (err) => {
-          this.state.message = "Image has been attached"
+          this.state.message = "There is Some Error, Try Again!"
+          this.state.modalTitle = "Error"
           this.openModal()
           this.state.selectedRoom['uploading']=false;
           this.ref.detectChanges();
