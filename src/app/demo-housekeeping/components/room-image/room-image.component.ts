@@ -18,6 +18,7 @@ export class RoomImageComponent implements OnInit,OnChanges {
   @ViewChild(ConfirmModalComponent) childcomp: ConfirmModalComponent;
   @ViewChild(ModalComponent) modalComp: ModalComponent;
   state={
+    descriptionLimit: 150,
     message: '',
     isLoadingImages:false,
     roomImages: <any>[],
@@ -91,7 +92,7 @@ export class RoomImageComponent implements OnInit,OnChanges {
     this.DHKService.saveRoom('housekeeping/'+this.siteId+'/RoomImage/'+this.room.roomId+'/'+this.state.selectedImage.documentArchiveIndexID, {},
       {
         name: this.state.selectedImage.name,
-        description: this.state.selectedImage.description
+        description: this.state.selectedImage.description.substring(0,150)
       })
     .subscribe(data => {
       this.state.componentState.isViewMode=true;
@@ -127,6 +128,12 @@ export class RoomImageComponent implements OnInit,OnChanges {
   }
 
   closeIt(event){}
+  stripLength() {
+    if(this.state.selectedImage.description.length >150) {
+      this.state.selectedImage.description = this.state.selectedImage.description.substring(0, 150);
+    }
+    this.state.descriptionLimit = 150 - this.state.selectedImage.description.length;
+  }
 
   reset(){
     this.state.componentState.isViewMode=true;

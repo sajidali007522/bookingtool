@@ -1,7 +1,12 @@
 <div class="reservation-detail-wrap">
   <div class="reservation-sidebar">
     <div class="reservation-sidebar-inner">
-      <div class="reset-wrap"><a href="javascript:void(0)" (click)="refreshFilter()" class="btn btn-sm btn-success">Reset</a></div>
+      <div class="reset-wrap">
+        <a href="javascript:void(0)" (click)="refreshFilter()" class="btn btn-sm btn-success">
+          <span class="fa fa-spin fa-refresh" *ngIf="state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData"></span>
+          Reset
+        </a>
+      </div>
 
       <div class="accordion-group group-active">
         <div class="accordon-heading">
@@ -32,10 +37,13 @@
                   </select>
                 </div>
                 <div class="mb-1 mt-1">
-                  <input type="text" [(ngModel)]="pageFilters.searchValue" class="select-field-secondary" placeholder="Search Term">
+                  <input type="text" [(ngModel)]="pageFilters.searchValue" class="select-field-secondary" placeholder="Search Term" (keyup.enter)="filterBySearchBox()">
                 </div>
                 <div class="mb-1 mt-1">
-                  <button class="btn btn-info btn-block" (click)="filterBySearchBox()">Go</button>
+                  <button class="btn btn-info btn-block" (click)="filterBySearchBox()">
+                    <span class="fa fa-spin fa-refresh" *ngIf="state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData"></span>
+                    Go
+                  </button>
                 </div>
               </div>
             </li>
@@ -90,7 +98,7 @@
 
       <div class="full-btns">
         <a href="javascript:void(0)" class="full-btn" (click)="refreshFilter()" >
-          <span class="fa fa-refresh"></span> Refresh
+          <span class="fa fa-refresh" [ngClass]="{'fa-spin': (state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData) }"></span> Refresh
         </a>
       </div>
 
@@ -109,7 +117,7 @@
                 <h3>Room Status</h3>
               </div>
               <div class="col-7">
-                <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
+                <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
               </div>
             </div>
 
@@ -151,7 +159,7 @@
                                 [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
                                 (focus)= "row['$'+column.dataProperty] = true;"
                                 (focusout)="row['$'+column.dataProperty] = false;"
-                                (change)="updateHouseKeeping(row.id, row, column.dataProperty, '$'+column.dataProperty)">
+                                (change)="updateHouseKeeping(row.roomId, row, column.dataProperty, '$'+column.dataProperty)">
                           <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
                         </select>
                       </span>
@@ -180,8 +188,7 @@
                 </tr>
                 </tfoot>
               </table>
-
-              <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{state.pagination.pageNum*state.pagination.pageSize}} of {{state.pagination.totalRooms}}</div>
+              <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
             </div>
             <ul *ngIf="isMobileDevice()" class="pagination justify-content-center">
               <li class="page-item page-prev">
@@ -316,6 +323,7 @@
                       <span>{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
                     </td>
                     <td>
+                      <span class="fa fa-spin fa-spinner" *ngIf="row.$processingMassEdit"></span>
                       <a href="javascript:void(0)" (click)="removeSelectedItem(row, index)" class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"></a>
                     </td>
                   </tr>
@@ -340,8 +348,10 @@
                 </select>
               </div>
               <div class="col-lg-4">
-                <button type="button" class="btn btn-danger mr-2" (click)="clearMassEditField(column)">Clear</button>
-                <button type="button" class="btn btn-success" (click)="processMassEdit(column)">Save</button>
+                <button type="button" class="btn btn-danger mr-2" (click)="clearMassEditField(column)" [ngClass]="{'disabled': state.massEdit.processing > 0}">
+                  Clear
+                </button>
+                <button type="button" class="btn btn-success" (click)="processMassEdit(column)" [ngClass]="{'disabled': state.massEdit.processing > 0}">Save</button>
               </div>
             </div>
           </div>
@@ -354,4 +364,4 @@
   </div>
 </div>
 
-<app-modal [message]="state.message" (closeIt)="closeModal()"></app-modal>
+<app-modal [message]="state.message" [modalTitle]="state.modalTitle" (closeIt)="closeModal()"></app-modal>

@@ -64,6 +64,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   canceler: any;
   state = {
     massEdit: {
+      processing:0,
       formState: false,
       lastIndex: -1,
       items: [],
@@ -73,6 +74,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     alertMessages : '',
     gridDropDowns: {},
     message: '',
+    modalTitle: '',
     loadMetaData: true,
     showRoomImages:  false,
     selectedRoom: {roomId: '', roomNumber: ''},
@@ -199,6 +201,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       searchValue: '',
       shifts: []
     }
+    this.state.alertMessages = '';
     this.state.pagination.pageNum=1;
     this.state.loadMetaData = true
     this.metaDataGroups=[];
@@ -216,8 +219,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.filterConfigs.adminStatuses = data['adminStatuses'];
         this.pageFilters.features =  this.pageFilters.sites;
         this.state.isLoading = false;
-        this.state.loadMetaData = true;
         this.state.pagination.pageNum=1;
+        this.state.loadMetaData = true
+        this.metaDataGroups=[];
         this.ref.detectChanges();
         this.loadRooms();
       },
@@ -257,6 +261,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     })
     item.isSelected = true;
     group.selectAll = false;
+    this.state.pagination.pageNum = 1;
     this.loadRooms();
   }
   public filterBySearchBox(){
@@ -304,7 +309,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         }
         else {
           this.state.alertMessages = data['message']
-        }
+          $(document).find(".reservation-content-area").scrollTop(0);
+      }
 
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
@@ -316,6 +322,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         this.state.isLoadingRooms = false;
         this.state.isLoadingMoreRooms = false;
         this.state.loadMetaData = false;
+        this.state.alertMessages = err['message']
         console.log(err);
       },
       ()=>{
@@ -350,6 +357,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     if(group.items.length != selectedItem.length) {
       group.selectAll = false;
     }
+    this.state.pagination.pageNum = 1;
     this.loadRooms();
     //
     /*console.log(item.isSelected, "tr."+group.key+"_"+item.key.split('-').join('_'))
@@ -366,10 +374,27 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     group.selectAll = true;
     this.loadRooms();
   }
-  public updateHouseKeeping(roomId, roomRow, key, editKey) {
+  public updateHouseKeeping(roomId, roomRow, key, editKey, massEditEntry={}) {
     //console.log(roomId, roomRow, key, editKey);
+    massEditEntry['$processingMassEdit'] = true;
+    roomRow['$processingMassEdit'] = true;
+    delete roomRow.$type;
     this.DHKService.patchRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
-    roomRow[editKey] = false;
+      .subscribe(
+        res => { console.log(res)},
+        err => { console.log(err)},
+        ()=>{
+          massEditEntry['$processingMassEdit'] = false;
+          roomRow[editKey] = false;
+          roomRow['$processingMassEdit'] = false;
+          if(this.state.massEdit.processing == this.state.massEdit.indexes.length){
+            this.state.massEdit.processing=0;
+            this.state.message = 'Room Data has been updated!!'
+            this.state.modalTitle = "Success!"
+          }
+
+        }
+      )
   }
 
   public enableEditMode (row, key, ele) {
@@ -412,9 +437,14 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       if (elem[0].scrollHeight - elem.scrollTop() <= elem.outerHeight()) {
         if(this.state.isLoading || this.state.isLoadingRooms || this.state.isLoadingMoreRooms) return;
         //console.log("bottom");
-        this.state.pagination.pageNum++;
-        this.state.isLoadingMoreRooms = true;
+        console.log(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize), '<=', this.state.pagination.pageNum, Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum)
+        //if(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum) {
+        if((this.state.pagination.pageNum*this.state.pagination.pageSize) >= this.state.pagination.totalRooms) {
+          return;
+        }
         if(!this.isMobileDevice()) {
+          this.state.pagination.pageNum++;
+          this.state.isLoadingMoreRooms = true;
           this.loadRooms(true);
         }
       }
@@ -445,6 +475,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.selectedRoom = room;
     this.imageChangedEvent = event;
     this.state.roomImage.name = "Picture of "+room.roomNumber;
+    this.state.roomImage.description = ''
     console.log(event);
     $(".trigger-image-crop-model").trigger('click');
   }
@@ -480,11 +511,13 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           //this.router.navigate(['/house-keeping/'+this.pageFilters.sites+'/room/'+this.state.selectedRoom.roomId]);
           console.log(data);
           this.state.message = "Image has been attached"
+          this.state.modalTitle = "Success"
           this.openModal()
           this.state.selectedRoom['uploading']=false;
         },
         (err) => {
-          this.state.message = "Image has been attached"
+          this.state.message = "There is Some Error, Try Again!"
+          this.state.modalTitle = "Error"
           this.openModal()
           this.state.selectedRoom['uploading']=false;
           this.ref.detectChanges();
@@ -506,6 +539,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public nextPage() {
+    console.log(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize), '<=', this.state.pagination.pageNum, Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum)
+    if(this.state.pagination.pageNum>=this.state.pagination.totalRooms ) {
+      return;
+    }
     this.state.isLoadingMoreRooms = true;
     //if(this.state.pagination.pageNum > this.state.paginatin.totalRecords == this.state.pagination.pageNum)
     this.state.pagination.pageNum = Number(this.state.pagination.pageNum)+1;
@@ -692,11 +729,16 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.items = []
   }
   processMassEdit(column){
+    if(this.state.massEdit.processing > 0) return;
     let value = this.state.massEdit.form[column.dataProperty+'Id'];
+    let i = 0;
+    this.state.massEdit.processing=0;
     this.state.massEdit.indexes.filter(index => {
       let roomRow = this.data[index];
       roomRow[column.valueProperty] = value;
-      this.updateHouseKeeping(this.data[index].id, roomRow, column.dataProperty, '$'+column.dataProperty);
+      this.updateHouseKeeping(this.data[index].roomId, roomRow, column.dataProperty, '$'+column.dataProperty, this.state.massEdit.items[i]);
+      this.state.massEdit.processing++
+      i++;
     });
   }
   clearMassEditField(column){
