@@ -23,7 +23,6 @@
   justify-content: center;
   width: 100%;
   overflow-y: auto;
-  padding-top: 10px;
 }
 .carousel-thumbnails > div{
   width: 120px;

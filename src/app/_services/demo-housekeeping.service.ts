@@ -9,7 +9,6 @@ import {ConfigService} from "../config.service";
 export class DemoHousekeepingService {
 
   apiBaseUrl = 'https://demo.innfinity.com/productsdemo/api3/'
-  apiBaseUrlV2 = 'https://demo.innfinity.com/productsdemo/api2/'
   constructor(private http: HttpClient, private _auth:AuthService, private appConfigService: ConfigService) {}
 
   public loadRooms(url, body, params={}) {
@@ -28,60 +27,5 @@ export class DemoHousekeepingService {
       headers: headers
     });
     //  .pipe(shareReplay({ bufferSize: 1, refCount: true }));
-  }
-
-  public loadRoomDetails(url, params){
-    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.get(this.apiBaseUrl+url, {
-      params: params,
-      headers: headers
-    })
-  }
-
-  public loadRoomImages(url, params) {
-    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.get(this.apiBaseUrl+url, {
-      params: params,
-      headers: headers
-    })
-  }
-
-  public saveRoom(url, body, params) {
-    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.patch(this.apiBaseUrl+url, {},{
-          params: params,
-          headers: headers
-        }
-      )
-  }
-
-  public patchRoom(url, body, params) {
-    // /api2/housekeeping/{siteId}/Rooms/{roomId}
-    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.patch(this.apiBaseUrlV2+url, body,{
-        params: params,
-        headers: headers
-      }
-    )
-  }
-
-  public deleteRoomImage(url, params) {
-    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.patch(this.apiBaseUrl+url, {},{
-        params: params,
-        headers: headers
-      }
-    )
-  }
-
-  public uploadRoomImage(url, body, params={}){
-    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.post(this.apiBaseUrl+url,
-      body,
-      {
-        params: params,
-        headers: headers
-      }
-      )
   }
 }
