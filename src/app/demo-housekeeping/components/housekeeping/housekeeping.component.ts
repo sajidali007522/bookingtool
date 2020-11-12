@@ -63,6 +63,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   croppedImage: any = '';
   canceler: any;
   state = {
+    descriptionLimit: 150,
     massEdit: {
       processing:0,
       formState: false,
@@ -295,7 +296,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           } else {
             this.data = this.data.concat(data['data']['roomStatuses']);
           }
-          if (this.state.loadMetaData) {
+          if (this.state.loadMetaData && data['data']['metadata']['metadataGroups']) {
             this.metaDataGroups = data['data']['metadata']['metadataGroups'];
             this.gridColumns = data['data']['metadata']['columns'];
             //this.state.filterConfigs.shifts
@@ -745,6 +746,16 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.form[column.dataProperty+'Id'] = ''
   }
   scrolling(){ return true; }
+  stripLength() {
+    if(this.state.roomImage.description.length >150) {
+      this.state.roomImage.description = this.state.roomImage.description.substring(0, 150);
+    }
+    this.state.descriptionLimit = 150 - this.state.roomImage.description.length;
+  }
+  switchFilterBar () {
+    //$(document).find('.header-wrap > .menu-icon ').trigger('click');
+    document.getElementById('widthSwitch').click();
+  }
 
 }
 
