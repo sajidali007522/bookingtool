@@ -1,6 +1,6 @@
 <div class="reservation-detail-wrap">
   <div class="reservation-sidebar">
-    <div class="reservation-sidebar-inner">
+    <div class="reservation-sidebar-inner" [ngClass]="{'table-loader': state.isLoadingConfig && isMobileDevice()}">
       <div class="reset-wrap">
         <a href="javascript:void(0)" (click)="refreshFilter()" class="btn btn-sm btn-success">
           <span class="fa fa-spin fa-refresh" *ngIf="state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData"></span>
@@ -100,6 +100,9 @@
         <a href="javascript:void(0)" class="full-btn" (click)="refreshFilter()" >
           <span class="fa fa-refresh" [ngClass]="{'fa-spin': (state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData) }"></span> Refresh
         </a>
+        <a href="javascript:void(0)" class="full-btn" (click)="switchFilterBar()" *ngIf="isMobileDevice()" >
+          Submit
+        </a>
       </div>
 
     </div>
@@ -165,7 +168,7 @@
                       </span>
                     </td>
                     <!-- <td data-title="Image"></td> -->
-                    <td data-title="Files">
+                    <td data-title="Files" title="Files">
                       <div class="table-btns">
                         <div class="fileUpload" *ngIf="!row.uploading">
                           <label for="file-upload_{{row.roomId}}" class="btn btn-success">Upload</label>
@@ -258,7 +261,8 @@
               </p>
               <p>
                 <label class="control-label">Description</label>
-                <textarea type="text" [(ngModel)]="state.roomImage.description" rows="3" cols="3" class="form-control"></textarea>
+                <textarea type="text" [(ngModel)]="state.roomImage.description" (keyup)="stripLength()" rows="3" cols="3" class="form-control"></textarea>
+                <label class="text-right">{{state.descriptionLimit}} Characters left</label>
               </p>
 
             </div>
