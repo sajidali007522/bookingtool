@@ -26,16 +26,16 @@ const routes: Routes = [
     // ]
     loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
   },
-  {
-    path: 'house-keeping',
-    component: HomeLayoutComponent,
-    canActivate: [AuthGuard],
-    // children: [
-    //   { path: '', component: HouseKeepingComponent },
-    //   { path: 'search-room', component: RoomComponent },
-    // ],
-    loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
-  },
+  // {
+  //   path: 'house-keeping',
+  //   component: HomeLayoutComponent,
+  //   canActivate: [AuthGuard],
+  //   // children: [
+  //   //   { path: '', component: HouseKeepingComponent },
+  //   //   { path: 'search-room', component: RoomComponent },
+  //   // ],
+  //   loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
+  // },
   {
     path: '',
     component: HomeLayoutComponent,
