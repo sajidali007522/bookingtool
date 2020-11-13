@@ -1,7 +1,11 @@
 <div class="reservation-detail-wrap">
   <div class="reservation-sidebar">
     <div class="reservation-sidebar-inner" [ngClass]="{'table-loader': state.isLoadingConfig && isMobileDevice()}">
-      <div class="reset-wrap">
+      <div class="reset-wrap d-flex">
+        <a href="javascript:void(0)" class="btn btn-sm btn-success for-mobile mr-auto">
+          <span class="fa fa-angle-left"></span>
+          Back
+        </a>
         <a href="javascript:void(0)" (click)="refreshFilter()" class="btn btn-sm btn-success">
           <span class="fa fa-spin fa-refresh" *ngIf="state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData"></span>
           Reset
@@ -110,6 +114,11 @@
 
   <div class="reservation-content-area">
     <div class="reservation-content-inner">
+      
+      <div class="filter-btn-wrap for-mobile">
+        <a href="#" class="filters-btn">Filter <span  class="fa fa-angle-right"></span></a>
+      </div>
+
       <app-loader *ngIf="state.isLoading || state.isLoadingConfig "></app-loader>
       <div class="alert alert-danger" *ngIf="state.alertMessages">{{state.alertMessages}}</div>
       <div class="" *ngIf="!state.isLoading">

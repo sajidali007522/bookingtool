@@ -1039,6 +1039,9 @@ body.menu-fullwidth .reservation-content-area{
 .not-show{
   display: none;
 }
+.for-mobile{
+  display: none;
+}
 @media(min-width:767px){
   .modal-md{
     max-width: 700px;
@@ -1110,6 +1113,12 @@ body.menu-fullwidth .reservation-content-area{
   }
 }
 @media(max-width:767px){
+  .for-mobile{
+    display: block;
+  }
+  .for-desktop{
+    display: none;
+  }
   .row-custom .rightcol-content{
     padding-left: 10px;
     padding-right: 10px;
