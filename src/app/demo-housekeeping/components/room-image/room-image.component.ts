@@ -91,8 +91,8 @@ export class RoomImageComponent implements OnInit,OnChanges {
     this.state.isLoadingImages = true;
     this.DHKService.saveRoom('housekeeping/'+this.siteId+'/RoomImage/'+this.room.roomId+'/'+this.state.selectedImage.documentArchiveIndexID, {},
       {
-        name: this.state.selectedImage.name,
-        description: this.state.selectedImage.description.substring(0,150)
+        name: this.state.selectedImage.name || '',
+        description: this.state.selectedImage.description.substring(0,150) || ''
       })
     .subscribe(data => {
       this.state.componentState.isViewMode=true;

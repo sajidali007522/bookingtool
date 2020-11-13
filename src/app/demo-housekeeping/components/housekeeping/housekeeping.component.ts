@@ -211,6 +211,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public reloadConfigs () {
+    if(this.pageFilters.sites == '') return;
     this.state.isLoading=true;
     this.ref.detectChanges();
     this.HKService.loadSiteconfig(this.pageFilters.sites, {featureId : this.pageFilters.features}).subscribe(data => {
