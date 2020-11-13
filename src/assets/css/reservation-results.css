@@ -1031,6 +1031,28 @@
     top: 15px;
     font-size: 18px;
 }
+.filter-btn-wrap{
+    margin: 0 0 15px;
+}
+.filters-btn{
+    color: #333;
+    font-size: 18px;
+    background-color: #fefefe;
+    background-image: linear-gradient(to bottom, #fefefe, #f9f9f9);
+    border: 1px solid #dbdbdb;
+    text-shadow: 0 1px 0 #fff;
+    display: block;
+    padding: 8px 17px 11px;
+    position: relative;
+    border-radius: 10px;
+}
+.filters-btn .fa{
+    position: absolute;
+    right: 17px;
+    top: 50%;
+    margin-top: -15px;
+    font-size: 26px;
+}
 
 @media(max-width:1300px){
     .article-content-booking{
