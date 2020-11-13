@@ -149,6 +149,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   ngOnInit(): void {
+    this.closeFilterBar();
     this.state.isLoadingConfig = true;
     this.HKService.loadInitialConfig().subscribe(data => {
 
@@ -266,7 +267,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.loadRooms();
   }
   public filterBySearchBox(){
-    if(this.pageFilters.searchValue == '' && this.pageFilters.searchBy == '') return;
+    if(this.pageFilters.searchValue == '' || this.pageFilters.searchBy == '') return;
     this.state.pagination.pageNum = 1;
     this.state.loadMetaData = true;
     this.loadRooms();
@@ -753,10 +754,16 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
     this.state.descriptionLimit = 150 - this.state.roomImage.description.length;
   }
-  switchFilterBar () {
+  openFilterBar () {
     //$(document).find('.header-wrap > .menu-icon ').trigger('click');
-    document.getElementById('widthSwitch').click();
+    //document.getElementById('widthSwitch').click();
+    this.renderer.removeClass(document.body, 'menu-fullwidth')
   }
+
+  closeFilterBar(){
+    this.renderer.addClass(document.body, 'menu-fullwidth')
+  }
+
 
 }
 
