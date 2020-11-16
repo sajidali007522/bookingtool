@@ -211,7 +211,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public reloadConfigs () {
-    if(this.pageFilters.sites == '') return;
+    if(this.pageFilters.sites == '00000000-0000-0000-0000-000000000000') return;
     this.state.isLoading=true;
     this.ref.detectChanges();
     this.HKService.loadSiteconfig(this.pageFilters.sites, {featureId : this.pageFilters.features}).subscribe(data => {
