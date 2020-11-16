@@ -20,6 +20,7 @@ export class RoomsComponent implements OnInit,AfterViewInit {
   @Output() endEdit = new EventEmitter<string>();
   @Output() save = new EventEmitter<string>();
 
+
   constructor( private lookupService: LookupService,
                private availService: AvailabilityService,
                public dateParser: DateParser
@@ -74,6 +75,40 @@ export class RoomsComponent implements OnInit,AfterViewInit {
 
   callSave () {
     this.save.emit('save');
+  }
+
+  setMultipleSelect(index, room, $event){
+    console.log("selecting ", index, this.state.massEdit.lastIndex)
+    this.state.massEdit.lastIndex=index;
+
+  }
+
+  completeMultipleSelect(index, room, $event){
+    //console.log("completing", index, this.state.massEdit.lastIndex);
+    if(this.state.massEdit.lastIndex == -1) return;
+    //if($event.shiftKey && $event.altKey) return;
+    let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
+    while(flag <= index){
+      this.handleMassEditRooms(flag, this.remoteData[flag])
+      flag++;
+    }
+    this.state.massEdit.lastIndex = -1;
+    return;
+  }
+
+  handleMassEditRooms (index, room) {
+    if(this.state.massEdit.indexes.indexOf(index) != -1) {
+      this.state.massEdit.indexes.splice(this.state.massEdit.indexes.indexOf(index), 1)
+      this.state.massEdit.items.splice(this.state.massEdit.indexes.indexOf(index), 1)
+      this.remoteData[index]['checked'] = false
+      return;
+    }
+    this.state.massEdit.indexes.push(index)
+    this.state.massEdit.items.push(room)
+    //console.log(index,this.data[index])
+    this.remoteData[index]['checked'] = true
+    if (window.getSelection) {window.getSelection().removeAllRanges();}
+    else if (document.getSelection()) {document.getSelection().empty();}
   }
 
   setCardCellTitle() {

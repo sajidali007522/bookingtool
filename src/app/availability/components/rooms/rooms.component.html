@@ -23,16 +23,17 @@
   </ng-container>
   </thead>
   <tbody>
-  <tr *ngFor="let row of remoteData['data']" [ngClass]="{'edited-tr': state.isEditting}">
+  <tr *ngFor="let row of remoteData['data']; let index = index" [ngClass]="{'edited-tr': state.isEditting, 'selected': row.checked}">
     <td data-title="" *ngIf="state.isMassEditting">
       <input type="checkbox" [(ngModel)]="row.checked" />
     </td>
-    <td data-title="Date">{{dateParser.parseDate(row.date)}}</td>
-    <td data-title="Day">{{row.dayOfWeek}}</td>
-    <td data-title="Total">{{row.total || 0}}</td>
-    <td data-title="Avail">{{row.available || 0}}</td>
-    <td data-title="Pickup">{{row.pickup || 0}}</td>
-    <td data-title="%">{{row.percentage || 0}}</td>
+    <td data-title="Date" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">
+      {{dateParser.parseDate(row.date)}}</td>
+    <td data-title="Day" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.dayOfWeek}}</td>
+    <td data-title="Total" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.total || 0}}</td>
+    <td data-title="Avail" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.available || 0}}</td>
+    <td data-title="Pickup" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.pickup || 0}}</td>
+    <td data-title="%" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.percentage || 0}}</td>
     <ng-container *ngFor="let feature of row.features; let i = index;">
       <td [attr.data-title]="remoteData['features'][i].description">
         {{feature['number'] || 0}}

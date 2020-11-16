@@ -7,7 +7,6 @@ import {ModalComponent} from "./components/modal/modal.component";
 import {AlertComponent} from "../shared/alert/alert.component";
 
 
-
 @NgModule({
   declarations: [
     LoaderComponent,
