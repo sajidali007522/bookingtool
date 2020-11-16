@@ -498,6 +498,9 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
       content: "\f106";
       top: 16px;
     }
+    .custom-accordion > h3.no-icon a::before{
+      display: none;
+    }
   .custom-accordion-content{
     display: none;
     padding: 25px;

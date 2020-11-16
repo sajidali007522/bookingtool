@@ -116,7 +116,7 @@
     <div class="reservation-content-inner">
 
       <div class="filter-btn-wrap for-mobile" >
-        <a href="javascript:void(0)" (click)="openFilterBar()" class="filters-btn">Filter <span  class="fa fa-angle-right"></span></a>
+        <a href="javascript:void(0)" (click)="openFilterBar()" class="filters-btn">Filters <span  class="fa fa-filter"></span></a>
       </div>
 
       <app-loader *ngIf="state.isLoading || state.isLoadingConfig "></app-loader>
@@ -327,7 +327,7 @@
                     <th *ngFor="let column of gridColumns">
                       {{column.name}}
                     </th>
-                    <th></th>
+                    <th>Remove Item</th>
                   </tr>
                 </thead>
                 <tbody class="mobile-slider">

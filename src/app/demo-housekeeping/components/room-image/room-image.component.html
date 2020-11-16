@@ -1,6 +1,6 @@
 <app-loader *ngIf="state.isLoadingImages"></app-loader>
 <div *ngIf="!state.isLoadingImages" class="custom-accordion">
-  <h3 class="active"><a href="javascript:void(0)">Uploaded Photos</a></h3>
+  <h3 class="active no-icon"><a href="javascript:void(0)">Uploaded Photos</a></h3>
   <div class="custom-accordion-content exp">
     <div class="row" *ngIf="state.roomImages.length > 0">
       <div class="col-md-6">
