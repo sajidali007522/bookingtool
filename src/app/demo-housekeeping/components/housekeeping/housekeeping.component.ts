@@ -149,7 +149,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   ngOnInit(): void {
-    this.closeFilterBar();
+    if(this.isMobileDevice()) {
+      this.closeFilterBar();
+    }
     this.state.isLoadingConfig = true;
     this.HKService.loadInitialConfig().subscribe(data => {
 
