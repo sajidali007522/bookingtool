@@ -26,24 +26,24 @@
   <th>Booked</th>
   </thead>
   <tbody>
-  <tr *ngFor="let row of remoteData" [ngClass]="{'edited-tr': state.isEditting}">
+  <tr *ngFor="let row of remoteData; let index = index" [ngClass]="{'edited-tr': state.isEditting,  'selected': row.checked}">
     <td data-title="" *ngIf="state.isMassEditting">
       <input type="checkbox" [(ngModel)]="row.checked" />
     </td>
-    <td data-title="Flight#">{{row.identifier}}</td>
-    <td data-title="Leg">{{row.leg}}</td>
-    <td data-title="Date">{{dateParser.parseDate(row.date)}}</td>
-    <td data-title="Depart">{{dateParser.parseDateToTime(row.startDate)}}</td>
-    <td data-title="Origination">{{row.from}}</td>
+    <td data-title="Flight#" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.identifier}}</td>
+    <td data-title="Leg" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.leg}}</td>
+    <td data-title="Date" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{dateParser.parseDate(row.date)}}</td>
+    <td data-title="Depart" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{dateParser.parseDateToTime(row.startDate)}}</td>
+    <td data-title="Origination" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.from}}</td>
 
-    <td data-title="Arrive">{{dateParser.parseDateToTime(row.endDate)}}</td>
-    <td data-title="Destination">{{row.to}}</td>
+    <td data-title="Arrive" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{dateParser.parseDateToTime(row.endDate)}}</td>
+    <td data-title="Destination" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.to}}</td>
     <td data-title="Total">
       <span *ngIf="!state.isEditting">{{row.total || 0}}</span>
       <input type="text" class="edit-field" [(ngModel)]="row.total" *ngIf="state.isEditting" (blur)="setAsSelected(row)">
     </td>
-    <td data-title="Avail">{{row.available || 0}}</td>
-    <td data-title="Booked">{{row.booked || 0}}</td>
+    <td data-title="Avail" mousedown="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.available || 0}}</td>
+    <td data-title="Booked" (mousedown)="setMultipleSelect(index, row, $event)" (mouseup)="completeMultipleSelect(index, row, $event)">{{row.booked || 0}}</td>
   </tr>
   </tbody>
 </table>

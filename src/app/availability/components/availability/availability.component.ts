@@ -20,6 +20,14 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   remoteData =<any> [];
   remoteDataTemp = <any> [];
   state={
+    massEdit: {
+      processing:0,
+      formState: false,
+      lastIndex: -1,
+      items: [],
+      indexes:[],
+      form: {}
+    },
     mobileContainer: <any>[],
     recordVisible: 0,
     errorMessages: [],
@@ -333,4 +341,40 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       this.remoteData = [this.state.mobileContainer[this.state.recordVisible]];
     }
   }
+  setMultipleSelect(index, room, $event, column){
+    if(column.canEdit && column.dataProperty != 'FdStatus') return;
+    console.log("selecting ", index, this.state.massEdit.lastIndex)
+    this.state.massEdit.lastIndex=index;
+
+  }
+
+  completeMultipleSelect(index, room, $event, column){
+    //console.log("completing", index, this.state.massEdit.lastIndex);
+    if(column.canEdit && column.dataProperty != 'FdStatus') return;
+    if(this.state.massEdit.lastIndex == -1) return;
+    //if($event.shiftKey && $event.altKey) return;
+    let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
+    while(flag <= index){
+      this.handleMassEditRooms(flag, this.remoteData[flag])
+      flag++;
+    }
+    this.state.massEdit.lastIndex = -1;
+    return;
+  }
+
+  handleMassEditRooms (index, room) {
+    if(this.state.massEdit.indexes.indexOf(index) != -1) {
+      this.state.massEdit.indexes.splice(this.state.massEdit.indexes.indexOf(index), 1)
+      this.state.massEdit.items.splice(this.state.massEdit.indexes.indexOf(index), 1)
+      this.remoteData[index]['checked'] = false
+      return;
+    }
+    this.state.massEdit.indexes.push(index)
+    this.state.massEdit.items.push(room)
+    //console.log(index,this.data[index])
+    this.remoteData[index]['checked'] = true
+    if (window.getSelection) {window.getSelection().removeAllRanges();}
+    else if (document.getSelection()) {document.getSelection().empty();}
+  }
+
 }

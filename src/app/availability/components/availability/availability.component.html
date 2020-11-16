@@ -90,9 +90,11 @@
             <a *ngIf="!this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-mass-edit" [ngClass]="{ 'disabled' :  remoteData.length <=0}" (click)="setMassEdit()">Mass Edit</a>
             <a *ngIf="!this.state.isEditting && !this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : remoteData.length <=0}" (click)="setEditMode()">Edit</a>
             <a *ngIf="this.state.isEditting || this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : !state.recordLoaded}" (click)="resetEditMode()">End Edit</a>
-            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" (click)="selectNone()">Select None</a>
-            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" (click)="selectAll()">Select All</a>
-            <a *ngIf="(this.state.isEditting || this.state.isMassEditting) && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-save" [ngClass]="{ 'disabled' : !state.isEditting && !state.isMassEditting}" (click)="saveChanges()"> Save <i class="fa fa-spin fa-spinner" *ngIf="state.loading.save"></i></a>
+
+            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-ref" (click)="selectNone()">Select None</a>
+            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-mass-edit" (click)="selectAll()">Select All</a>
+            <a *ngIf="(this.state.isEditting || this.state.isMassEditting) && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-save" [ngClass]="{ 'disabled' : !state.isEditting && !state.isMassEditting}" (click)="saveChanges()"> Save</a>
+
             <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="btn-ref" (click)="loadRecords()">Refresh <i class="fa fa-spin fa-spinner" *ngIf="state.loading.records || state.resourceTypeValue <= 0"></i> </a>
         </div>
       </div>
