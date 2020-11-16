@@ -387,7 +387,12 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     delete roomRow.$type;
     this.DHKService.patchRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
       .subscribe(
-        res => { console.log(res)},
+        res => {
+          roomRow = res;
+          if(massEditEntry) {
+            massEditEntry = res;
+          }
+        },
         err => { console.log(err)},
         ()=>{
           massEditEntry['$processingMassEdit'] = false;
