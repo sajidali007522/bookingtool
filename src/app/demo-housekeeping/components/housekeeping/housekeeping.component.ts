@@ -44,6 +44,7 @@ import {ModalComponent} from "../../../shared-module/components/modal/modal.comp
 export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
   @ViewChild(ModalComponent) modalComp: ModalComponent;
+  @ViewChild(ConfirmModalComponent) confirmModalComp: ConfirmModalComponent;
   data;
   metaDataGroups = [];
   gridColumns=[];
@@ -380,25 +381,25 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     group.selectAll = true;
     this.loadRooms();
   }
-  public updateHouseKeeping(roomId, roomRow, key, editKey, massEditEntry={}) {
+  public updateHouseKeeping(roomId, roomRow, key, editKey, massEditEntry=false, massEditIndex=-1) {
     //console.log(roomId, roomRow, key, editKey);
-    massEditEntry['$processingMassEdit'] = true;
-    roomRow['$processingMassEdit'] = true;
+    //massEditEntry['$processingMassEdit'] = true;
+    //roomRow['$processingMassEdit'] = true;
+    roomRow['$processing'] = true;
     delete roomRow.$type;
     this.DHKService.patchRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
       .subscribe(
-        res => { console.log(res)},
+        res => {
+          roomRow['$processing'] = false;
+          roomRow = res;
+          if(massEditEntry) {
+            this.setMassEditEntries(massEditIndex, res);
+          }
+        },
         err => { console.log(err)},
         ()=>{
-          massEditEntry['$processingMassEdit'] = false;
           roomRow[editKey] = false;
-          roomRow['$processingMassEdit'] = false;
-          if(this.state.massEdit.processing == this.state.massEdit.indexes.length){
-            this.state.massEdit.processing=0;
-            this.state.message = 'Room Data has been updated!!'
-            this.state.modalTitle = "Success!"
-          }
-
+          roomRow['$processing'] = false;
         }
       )
   }
@@ -427,7 +428,11 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       this.state.pagination.sortOrder = false;
     }
     this.state.pagination.sortBy = sortBy;
-    this.loadRooms();
+    if(this.state.massEdit.items.length > 0 ) {
+      this.openConfirmModal()
+    } else {
+      this.loadRooms();
+    }
     //this.state.pagination.sortOrder = this.state.pagination.sortOrder ? 'asc' : 'desc';
   }
 
@@ -742,11 +747,28 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.indexes.filter(index => {
       let roomRow = this.data[index];
       roomRow[column.valueProperty] = value;
-      this.updateHouseKeeping(this.data[index].roomId, roomRow, column.dataProperty, '$'+column.dataProperty, this.state.massEdit.items[i]);
+      this.state.massEdit.items[i]['$processingMassEdit'] = true;
+      this.updateHouseKeeping(this.data[index].roomId, roomRow, column.dataProperty, '$'+column.dataProperty, true, this.state.massEdit.indexes[i]);
       this.state.massEdit.processing++
       i++;
     });
   }
+
+  setMassEditEntries(massEditIndex, updatedRow) {
+
+    let index = this.state.massEdit.indexes[massEditIndex];
+    // this.state.massEdit.indexes[massEditIndex]['$processingMassEdit'] = true;
+    // this.data[index]['$processingMassEdit'] = true;
+    this.state.massEdit.items[massEditIndex]=updatedRow
+    this.state.massEdit.items[massEditIndex]['$processingMassEdit']= false;
+    this.data[index]= updatedRow;
+    if(this.state.massEdit.processing == this.state.massEdit.indexes.length){
+      this.state.massEdit.processing=0;
+      this.state.message = 'Room Data has been updated!!'
+      this.state.modalTitle = "Success!"
+    }
+  }
+
   clearMassEditField(column){
     this.state.massEdit.form[column.dataProperty+'Id'] = ''
   }
@@ -766,7 +788,22 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   closeFilterBar(){
     this.renderer.addClass(document.body, 'menu-fullwidth')
   }
-
+  openConfirmModal(){
+    this.confirmModalComp.openModal();
+  }
+  warningConfirmed (event) {
+    if(event) {
+      this.state.massEdit = {
+        processing:0,
+          formState: false,
+          lastIndex: -1,
+          items: [],
+          indexes:[],
+          form: {}
+      }
+      this.loadRooms();
+    }
+  }
 
 }
 

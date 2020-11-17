@@ -67,7 +67,7 @@ export class DemoHousekeepingService {
 
   public deleteRoomImage(url, params) {
     let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.patch(this.apiBaseUrl+url, {},{
+    return this.http.delete(this.apiBaseUrl+url,{
         params: params,
         headers: headers
       }
