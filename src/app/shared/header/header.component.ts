@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   ) {
     this.custom_configs = this.appConfigService.ui_configs || {};
     this.currentUser = this.authenticationService.currentUserValue
-    console.log(this.currentUser);
+    //console.log(this.currentUser);
   }
 
   ngOnInit(): void {

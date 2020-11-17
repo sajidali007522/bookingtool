@@ -184,7 +184,8 @@
                           <input style="position: initial" type="file" id="file-upload_{{row.roomId}}" (change)="fileChangeEvent($event, row)" />
                         </div>
                         <span class="fa fa-spin fa-spinner" *ngIf="row.uploading"></span>
-                        <a href="javascript:void(0)"  data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
+                        <span class="fa fa-spin fa-spinner" *ngIf="row.$processing"></span>
+                        <a href="javascript:void(0)" *ngIf="!row.$processing" data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
                           <!--                <a href="javascript:void(0)"  data-toggle="modal" data-target="#imageCropModal" class="btn btn-info" routerLink="{{'/house-keeping/'+this.pageFilters.sites+'/room/'+row.roomId}}">-->
                           Edit
                         </a>
@@ -378,3 +379,4 @@
 </div>
 
 <app-modal [message]="state.message" [modalTitle]="state.modalTitle" (closeIt)="closeModal()"></app-modal>
+<app-confirm-modal [confirmationMessage]="'You will loose your selections on page. do you want to continue'" (isConfirmed)="warningConfirmed($event)"></app-confirm-modal>
