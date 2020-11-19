@@ -364,6 +364,13 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
     background: #3f7892 !important;
     box-shadow: none !important;
   }
+  .btn-success.disabled{
+    background-color: #d8d8d8 !important;
+    border-color: #d8d8d8 !important;
+    color: #979797;
+    cursor: initial;
+    opacity: 1;
+  }
 .btn-primary{
   background: #6f6fb1;
   border-color: #6f6fb1;
@@ -1295,6 +1302,10 @@ body.menu-fullwidth .reservation-content-area{
       left: 12px;
       font-size: 12px;
     }
+  .btns-wrap .btn{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .pagination-arrow{
       position: relative;
       padding: 0 30px;
