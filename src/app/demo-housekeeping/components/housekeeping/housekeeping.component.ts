@@ -274,6 +274,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     if(this.pageFilters.searchValue == '' || this.pageFilters.searchBy == '') return;
     this.state.pagination.pageNum = 1;
     this.state.loadMetaData = true;
+    if(this.isMobileDevice()){
+      this.closeFilterBar();
+    }
     this.loadRooms();
   }
   public loadRooms (append = false) {
@@ -698,9 +701,12 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   handleMassEditRooms (index, room) {
-    if(this.state.massEdit.indexes.indexOf(index) != -1) {
-      this.state.massEdit.indexes.splice(this.state.massEdit.indexes.indexOf(index), 1)
-      this.state.massEdit.items.splice(this.state.massEdit.indexes.indexOf(index), 1)
+    console.log(this.state.massEdit.indexes.indexOf(index));
+    let massEditIndex = this.state.massEdit.indexes.indexOf(index)
+    if(massEditIndex != -1) {
+      console.log(this.state.massEdit.indexes, massEditIndex);
+      this.state.massEdit.indexes.splice(massEditIndex, 1)
+      this.state.massEdit.items.splice(massEditIndex, 1)
       this.data[index]['isSelected'] = false
       return;
     }
