@@ -646,6 +646,13 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           }
         });
         break;
+      case "AdminStatus":
+        this.metaDataGroups.filter(group => {
+          if(group.name == "Admin Status") {
+            selectedGroup = group;
+          }
+        });
+        break;
       case "LinenStatus":
         break;
     }
