@@ -24,7 +24,9 @@ export class AvailabilityService {
     if(
       filterParams.siteID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
       filterParams.businessProfileID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
-      (filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '' && resourceType == 1)
+      ((
+        filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
+        filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' ) && resourceType == 1)
     ) {
 
       if(filterParams.siteID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
@@ -37,6 +39,10 @@ export class AvailabilityService {
 
       if(filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '' && resourceType == 1) {
         this.state.errorMessages.push('Please select Contractor to continue.');
+      }
+
+      if(filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' && resourceType == 1) {
+        this.state.errorMessages.push('Please Select Lodge site to continue.');
       }
 
       return false;
@@ -55,6 +61,10 @@ export class AvailabilityService {
   patchAvailabilityRecord (postBody, siteID, contractId, contractorId, resourceType) {
     ///api2/availability/{siteID}/Allotments/{contractID}/{contractorID}/{resourceTypeID}
     return this._http._patch(`availability/${siteID}/Allotments/${contractId}/${contractorId}/${resourceType}`, postBody);
+  }
+
+  loadRoomFeatures (siteID, resourceType) {
+    return this._http._get(`availability/${siteID}/RoomPrimaryFeature`);
   }
 
 }

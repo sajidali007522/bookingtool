@@ -53,6 +53,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     businessProfiles: [],
     ContractSites: [],
     ContractorList: [],
+    roomTypeList: <any>[],
     filterForm: {
       beginDate:<any> new Date(),
       endDate:<any> new Date(),
@@ -64,7 +65,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       contractorID: '00000000-0000-0000-0000-000000000000',
       includeHolds: false
     },
-    massEditForm: {number: 0 }
+    massEditForm: {number: 0, roomType: '00000000-0000-0000-0000-000000000000' }
   }
   constructor( private renderer: Renderer2,
                private lookupService: LookupService,
@@ -85,7 +86,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    $(".accordion-group .accordon-heading").on('click', function(){
+    $("body").on('click', ".accordion-group .accordon-heading", function(){
       $(this).parents('.accordion-group').toggleClass('group-active')
     })
   }
@@ -242,8 +243,23 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     if(this.remoteData.length <= 0 ) return;
     this.remoteDataTemp = JSON.parse(JSON.stringify(this.remoteData));
     this.state.filterForm.includeHolds = true;
+    //this.state.resourceTypeValue
+    if(this.state.filterForm.includeHolds && this.state.resourceTypeValue == 1) {
+      //loadRoomTypes
+      this.loadRoomFeatures(this.state.resourceTypeValue);
+    }
     this.loadRecords();
     this.state.isMassEditting= true;
+  }
+
+  loadRoomFeatures (resourceType) {
+    this.availService.loadRoomFeatures(this.state.filterForm.ContractSite, resourceType)
+      .subscribe(
+        res=> {
+          this.state.roomTypeList = res;
+        },
+        err => { console.log(err)}
+      )
   }
 
   selectNone(){

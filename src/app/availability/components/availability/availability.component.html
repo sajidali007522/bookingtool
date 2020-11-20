@@ -85,6 +85,16 @@
               <input type="text" class="form-control" [(ngModel)]="state.massEditForm.number" />
             </div>
           </div>
+          <div class="accordion-group group-active" *ngIf="state.resourceTypeValue == 1">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contractor">Room Type</a></div>
+            <div class="accordion-body">
+              <select [(ngModel)]="state.massEditForm.roomType" class="form-control">
+                <option value="00000000-0000-0000-0000-000000000000">None</option>
+                <option value="{{room.id}}" *ngFor="let room of state.roomTypeList">{{room.value}}</option>
+
+              </select>
+            </div>
+          </div>
         </div>
         <div class="resv-btns">
             <a *ngIf="!this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-mass-edit" [ngClass]="{ 'disabled' :  remoteData.length <=0}" (click)="setMassEdit()">Mass Edit</a>
