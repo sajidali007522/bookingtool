@@ -45,7 +45,7 @@ export class RoomImageComponent implements OnInit,OnChanges {
   ngOnInit(): void {}
   ngOnChanges() {
     this.loadRoomImages();
-    console.log(this.appConfigService)
+    //console.log(this.appConfigService)
   }
 
   openModal(){
@@ -73,7 +73,8 @@ export class RoomImageComponent implements OnInit,OnChanges {
           let minutes = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
           r.createDate = d.getFullYear()+"-"+month+"-"+day+" "+hours+":"+minutes;
           this.state.roomImages.push(r);
-        })
+        });
+        this.reset();
         this.state.selectedImage = this.state.roomImages[this.state.roomImages.length-1];
         this.state.selectedIndex = this.state.roomImages.length-1;
         this.state.isLoadingImages = false;
