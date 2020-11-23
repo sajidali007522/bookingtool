@@ -29,7 +29,8 @@ export class HeaderComponent implements OnInit {
     this.switchSkinColor();
     this.switchContainerWidth();
     var ua = navigator.userAgent;
-    if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
+    //console.log(ua, window.innerWidth);
+    if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua) && window.innerWidth <= 767) {
       this.appConfigService['userDevice'] = 'mobile';
     }
     else {
