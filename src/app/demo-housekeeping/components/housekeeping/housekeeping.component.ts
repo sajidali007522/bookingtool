@@ -553,6 +553,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   public nextPage() {
+    if(!this.isMobileDevice()) return;
     console.log(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize), '<=', this.state.pagination.pageNum, Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum)
     if(this.state.pagination.pageNum>=this.state.pagination.totalRooms ) {
       return;
@@ -563,7 +564,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.loadRooms()
   }
   public previousPage() {
-
+    if(!this.isMobileDevice()) return;
     if(this.state.pagination.pageNum == 1){
       return;
     }
