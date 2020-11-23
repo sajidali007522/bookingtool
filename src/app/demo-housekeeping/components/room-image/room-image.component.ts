@@ -138,6 +138,8 @@ export class RoomImageComponent implements OnInit,OnChanges {
 
   reset(){
     this.state.componentState.isViewMode=true;
-    this.state.selectedImage = JSON.parse(JSON.stringify(this.state.componentState.selectedImage));
+    if(this.state.componentState.selectedImage.roomNumber != '') {
+      this.state.selectedImage = JSON.parse(JSON.stringify(this.state.componentState.selectedImage));
+    }
   }
 }
