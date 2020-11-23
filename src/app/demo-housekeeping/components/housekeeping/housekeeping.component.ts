@@ -684,6 +684,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   setMultipleSelect(index, room, $event, column){
+    if(this.isMobileDevice()) return;
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
     //if(!$event.shiftKey) return;
     //if(!$event.shiftKey && $event.altKey) return;
@@ -694,6 +695,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   completeMultipleSelect(index, room, $event, column){
+    if(this.isMobileDevice()) return;
     //console.log("completing", index, this.state.massEdit.lastIndex);
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
     if(this.state.massEdit.lastIndex == -1) return;
@@ -709,6 +711,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   handleMassEditRooms (index, room) {
+    if(this.isMobileDevice()) return;
     console.log(this.state.massEdit.indexes.indexOf(index));
     let massEditIndex = this.state.massEdit.indexes.indexOf(index)
     if(massEditIndex != -1) {
