@@ -341,13 +341,6 @@ h3{
   .popover-content{
     color: #fff;
   }
-  .reservation-sidebar .popover{
-      top: -4px !important;
-      margin:0 !important;
-  }
-  .reservation-sidebar .popover-content{
-    padding: 3px 4px !important;
-  }
 
 
 
@@ -370,6 +363,13 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
   .btn-success:active{
     background: #3f7892 !important;
     box-shadow: none !important;
+  }
+  .btn-success.disabled{
+    background-color: #d8d8d8 !important;
+    border-color: #d8d8d8 !important;
+    color: #979797;
+    cursor: initial;
+    opacity: 1;
   }
 .btn-primary{
   background: #6f6fb1;
@@ -508,6 +508,9 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
     .custom-accordion > h3.active a:before{
       content: "\f106";
       top: 16px;
+    }
+    .custom-accordion > h3.no-icon a::before{
+      display: none;
     }
   .custom-accordion-content{
     display: none;
@@ -996,7 +999,6 @@ body.menu-fullwidth .reservation-content-area{
     margin: 25px;
 }
 /* for reservation-results end */
-<<<<<<< HEAD
 .topinfo-wrap h3{
   margin: 0 0 7px;
   font-size: 23px;
@@ -1042,8 +1044,6 @@ body.menu-fullwidth .reservation-content-area{
   .filter-section .dropdown.dropdown-inline .dropdown-menu{
     width: 100%;
   }
-<<<<<<< HEAD
-=======
 .table-theme th{
   background: #e7f8ff;;
   color:#4e7385;
@@ -1126,22 +1126,25 @@ body.menu-fullwidth .reservation-content-area{
     10%, 90% {
       transform: translate3d(-1px, 0, 0);
     }
-    
+
     20%, 80% {
       transform: translate3d(2px, 0, 0);
     }
-  
+
     30%, 50%, 70% {
       transform: translate3d(-4px, 0, 0);
     }
-  
+
     40%, 60% {
       transform: translate3d(4px, 0, 0);
     }
   }
-  
+
 
 .not-show{
+  display: none;
+}
+.for-mobile{
   display: none;
 }
 @media(min-width:767px){
@@ -1299,6 +1302,10 @@ body.menu-fullwidth .reservation-content-area{
       left: 12px;
       font-size: 12px;
     }
+  .btns-wrap .btn{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .pagination-arrow{
       position: relative;
       padding: 0 30px;

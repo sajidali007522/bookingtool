@@ -2,15 +2,15 @@
     <div class="reservation-sidebar">
       <div class="reservation-sidebar-inner">
         <div *ngIf="!this.state.isMassEditting">
-          <div class="accordion-group">
-            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-site">Site<span *ngIf="state.loading.sites" class="fa fa-spinner fa-spin"></span></a></div>
-            <div class="accordion-body">
-              <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.siteID">
-                <option value="00000000-0000-0000-0000-000000000000"> < None ></option>
-                <option *ngFor="let site of state.sites" value="{{site.value}}">{{site.text}}</option>
-              </select>
-            </div>
-          </div>
+<!--          <div class="accordion-group">-->
+<!--            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-site">Site<span *ngIf="state.loading.sites" class="fa fa-spinner fa-spin"></span></a></div>-->
+<!--            <div class="accordion-body">-->
+<!--              <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.siteID">-->
+<!--                <option value="00000000-0000-0000-0000-000000000000"> < None ></option>-->
+<!--                <option *ngFor="let site of state.sites" value="{{site.value}}">{{site.text}}</option>-->
+<!--              </select>-->
+<!--            </div>-->
+<!--          </div>-->
           <div class="accordion-group group-active">
             <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Resource<span *ngIf="state.loading.resources" class="fa fa-spinner fa-spin"></span></a></div>
             <div class="accordion-body">
@@ -85,14 +85,26 @@
               <input type="text" class="form-control" [(ngModel)]="state.massEditForm.number" />
             </div>
           </div>
+          <div class="accordion-group group-active" *ngIf="state.resourceTypeValue == 1">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contractor">Room Type</a></div>
+            <div class="accordion-body">
+              <select [(ngModel)]="state.massEditForm.roomType" class="form-control">
+                <option value="00000000-0000-0000-0000-000000000000">None</option>
+                <option value="{{room.id}}" *ngFor="let room of state.roomTypeList">{{room.value}}</option>
+
+              </select>
+            </div>
+          </div>
         </div>
         <div class="resv-btns">
             <a *ngIf="!this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-mass-edit" [ngClass]="{ 'disabled' :  remoteData.length <=0}" (click)="setMassEdit()">Mass Edit</a>
             <a *ngIf="!this.state.isEditting && !this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : remoteData.length <=0}" (click)="setEditMode()">Edit</a>
             <a *ngIf="this.state.isEditting || this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : !state.recordLoaded}" (click)="resetEditMode()">End Edit</a>
-            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" (click)="selectNone()">Select None</a>
-            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" (click)="selectAll()">Select All</a>
-            <a *ngIf="(this.state.isEditting || this.state.isMassEditting) && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-save" [ngClass]="{ 'disabled' : !state.isEditting && !state.isMassEditting}" (click)="saveChanges()"> Save <i class="fa fa-spin fa-spinner" *ngIf="state.loading.save"></i></a>
+
+            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-ref" (click)="selectNone()">Select None</a>
+            <a *ngIf="this.state.isMassEditting" href="javascript:void(0)" class="btn-mass-edit" (click)="selectAll()">Select All</a>
+            <a *ngIf="(this.state.isEditting || this.state.isMassEditting) && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-save" [ngClass]="{ 'disabled' : !state.isEditting && !state.isMassEditting}" (click)="saveChanges()"> Save</a>
+
             <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="btn-ref" (click)="loadRecords()">Refresh <i class="fa fa-spin fa-spinner" *ngIf="state.loading.records || state.resourceTypeValue <= 0"></i> </a>
         </div>
       </div>

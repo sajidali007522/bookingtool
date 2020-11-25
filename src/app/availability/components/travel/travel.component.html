@@ -26,7 +26,7 @@
   <th>Booked</th>
   </thead>
   <tbody>
-  <tr *ngFor="let row of remoteData" [ngClass]="{'edited-tr': state.isEditting}">
+  <tr *ngFor="let row of remoteData; let index = index" [ngClass]="{'edited-tr': state.isEditting,  'selected': row.checked}">
     <td data-title="" *ngIf="state.isMassEditting">
       <input type="checkbox" [(ngModel)]="row.checked" />
     </td>

@@ -239,6 +239,11 @@ body.theme-dark-primary .select-field-secondary::placeholder {color: #fff;}
 body.theme-dark-primary .select-field-secondary option{
   color:#fff;
 }
+body.theme-dark-primary .filters-btn{
+  background: linear-gradient(to right, #7F8C8D, #444);
+  border-color: #000;
+  color: #fff;
+}
 /* SearchResult end */
 
 @media(max-width:991px){

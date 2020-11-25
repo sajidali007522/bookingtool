@@ -20,6 +20,7 @@ export class RoomsComponent implements OnInit,AfterViewInit {
   @Output() endEdit = new EventEmitter<string>();
   @Output() save = new EventEmitter<string>();
 
+
   constructor( private lookupService: LookupService,
                private availService: AvailabilityService,
                public dateParser: DateParser

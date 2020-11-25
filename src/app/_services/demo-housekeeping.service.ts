@@ -9,6 +9,7 @@ import {ConfigService} from "../config.service";
 export class DemoHousekeepingService {
 
   apiBaseUrl = 'https://demo.innfinity.com/productsdemo/api3/'
+  apiBaseUrlV2 = 'https://demo.innfinity.com/productsdemo/api2/'
   constructor(private http: HttpClient, private _auth:AuthService, private appConfigService: ConfigService) {}
 
   public loadRooms(url, body, params={}) {
@@ -57,7 +58,7 @@ export class DemoHousekeepingService {
   public patchRoom(url, body, params) {
     // /api2/housekeeping/{siteId}/Rooms/{roomId}
     let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.patch(this.apiBaseUrl+url, body,{
+    return this.http.patch(this.apiBaseUrlV2+url, body,{
         params: params,
         headers: headers
       }
@@ -66,7 +67,7 @@ export class DemoHousekeepingService {
 
   public deleteRoomImage(url, params) {
     let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.patch(this.apiBaseUrl+url, {},{
+    return this.http.delete(this.apiBaseUrl+url,{
         params: params,
         headers: headers
       }

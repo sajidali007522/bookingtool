@@ -5,8 +5,6 @@ import { ModuleWithProviders } from '@angular/core'
 import { HomeComponent } from './components/home/home.component';
 import {LoginComponent} from "./authentication/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
-import {HouseKeepingComponent} from "./house-keeping/components/house-keeping/house-keeping.component";
-import {RoomComponent} from "./house-keeping/components/room/room.component";
 import {ReservationComponent} from "./reservation/components/reservation/reservation.component";
 import {ResultListComponent} from "./reservation/components/result-list/result-list.component";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
@@ -26,16 +24,16 @@ const routes: Routes = [
     // ]
     loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
   },
-  {
-    path: 'house-keeping',
-    component: HomeLayoutComponent,
-    canActivate: [AuthGuard],
-    // children: [
-    //   { path: '', component: HouseKeepingComponent },
-    //   { path: 'search-room', component: RoomComponent },
-    // ],
-    loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
-  },
+  // {
+  //   path: 'house-keeping',
+  //   component: HomeLayoutComponent,
+  //   canActivate: [AuthGuard],
+  //   // children: [
+  //   //   { path: '', component: HouseKeepingComponent },
+  //   //   { path: 'search-room', component: RoomComponent },
+  //   // ],
+  //   loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
+  // },
   {
     path: '',
     component: HomeLayoutComponent,

@@ -234,7 +234,7 @@ tr.selected td { background: #fff0de;}
     min-height: 35px;
   }
   .table-housekeeping-wrap .table-bordered td:before {
-    content: attr(data-title) " :";
+    content: attr(title) " :";
     font-weight: bold;
     position: absolute;
     left: 12px;
