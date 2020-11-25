@@ -390,14 +390,11 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.loadRooms();
   }
   public updateHouseKeeping(roomId, roomRow, key, editKey) {
-    //console.log(roomId, roomRow, key, editKey);
-    //massEditEntry['$processingMassEdit'] = true;
-    //roomRow['$processingMassEdit'] = true;
     roomRow['$processing'] = true;
     let params = {
       roomIDs: roomId,
-      originalValueIDs: '',
-      newValueIDs: roomRow[key],
+      originalValueIDs: roomRow['$'+this.capitalizeFirstLetter(key)+'Id'],
+      newValueIDs: roomRow[this.capitalizeFirstLetter(key)+'Id'],
       updateTypeIDs: this.DHKService.updateTypeIds[key],
     }
     delete roomRow.$type;
@@ -405,7 +402,12 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       .subscribe(
         res => {
           roomRow['$processing'] = false;
-          roomRow = res;
+          if(res['status'] == 500) {
+            this.state.alertMessages = res['message']
+          } else {
+            roomRow = res['data'][0];
+          }
+
         },
         err => { console.log(err)},
         ()=>{
@@ -793,6 +795,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           res['data'].filter((row) => {
             let c = parsedIndex[row.roomId];
             this.data[c.grid] = row;
+            this.data[c.grid]['isSelected'] = true;
             this.state.massEdit.items[c.massEdit] = row;
           });
         },
