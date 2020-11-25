@@ -28,6 +28,7 @@
 .carousel-thumbnails > div{
   width: 120px;
   min-width: 120px;
+  padding: 0 2px;
 }
 .main-photo{
   overflow: hidden;
