@@ -20,13 +20,19 @@
 }
 .carousel-thumbnails{
   display: flex;
-  justify-content: center;
   width: 100%;
   overflow-y: auto;
 }
 .carousel-thumbnails > div{
   width: 120px;
   min-width: 120px;
+  padding: 0 2px;
+}
+.carousel-thumbnails img{
+  max-height: 86px;
+  width: auto;
+  max-width: 100%;
+  height: auto;
 }
 .main-photo{
   overflow: hidden;
