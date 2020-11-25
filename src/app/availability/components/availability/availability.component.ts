@@ -292,22 +292,36 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   saveChanges(){
     if(this.state.loading.save == true) return;
-    var postBody = []
+    if(this.state.isMassEditting && this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000') {
+      return;
+    }
+    let postBody;
     if(this.state.resourceTypeValue == 1) {
       postBody = this.remoteData.data.filter((row)=> {
         var temp = {}
         if(row.checked) {
-          temp = row;
+          //console.log(row.features);
+          temp = JSON.parse(JSON.stringify(row));
           delete temp['$type']
-          temp['features']= [];
+          delete temp['features']
           temp['features'] = row.features.filter((feature) => {
-            if(this.state.isMassEditting) { feature.hold = this.state.massEditForm.number }
-            if(feature.checked) return feature;
+            //console.log(feature, this.state.isMassEditting, this.state.massEditForm.roomType, feature.id);
+            if(this.state.isMassEditting && this.state.massEditForm.roomType == feature.id) {
+              //console.log(this.state.massEditForm.roomType, feature.id, this.state.massEditForm.roomType == feature.id);
+              feature.hold = this.state.massEditForm.number
+              return feature;
+
+            }
+            if(feature.checked && !this.state.isMassEditting) {
+              console.log("here")
+              return feature;
+            }
           })
           return temp;
         }
       });
-    } else {
+    }
+    else {
       postBody = this.remoteData.filter((row)=> {
         if(row.checked) {
           delete row.$type
@@ -316,7 +330,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
         }
       });
     }
-    //console.log(postBody);
+
     this.state.loading.save = true;
     this.availService.patchAvailabilityRecord(postBody, this.state.filterForm.siteID,
       this.state.filterForm.contractID,
