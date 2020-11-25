@@ -143,15 +143,14 @@
             <div class="table-responsive table-housekeeping-wrap"
                  [ngClass]="{'table-loader': state.isLoadingRooms || state.isLoadingMoreRooms}"
             >
-
-              <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
+              <ng-container *ngIf="isMobileDevice()">
+                <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
                      id="room_container"
                      (swipeleft)="nextPage()"
                      (swiperight)="previousPage()"
               >
                 <thead>
                 <tr>
-                  <th *ngIf="state.isTablet"></th>
                   <th class="sort-custom" (click)="setSortingParams(column.sortProperty);" [ngClass]="{
                       'sort-custom-asc' : state.pagination.sortBy == column.sortProperty && !state.pagination.sortOrder,
                       'sort-custom-dsc' : state.pagination.sortBy == column.sortProperty && state.pagination.sortOrder
@@ -164,37 +163,20 @@
                 </thead>
                 <tbody class="mobile-slider">
                   <tr *ngFor="let row of data;let index = index;" [ngClass]="{'selected': row.isSelected}"> <!-- (click)="selectRoom(row, $event, index, column)" -->
-                    <ng-container *ngIf="!state.isTablet">
-                      <td data-title="{{column.name}}" title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
-                        <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
-                        <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
-                          <select id="{{column.dataProperty}}_{{index}}_{{i}}"
-                                  [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
-                                  [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
-                                  (focus)= "row['$'+column.dataProperty] = true;"
-                                  (focusout)="row['$'+column.dataProperty] = false;"
-                                  (change)="updateHouseKeeping(row.roomId, row, column.dataProperty, '$'+column.dataProperty)">
-                            <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
-                          </select>
-                        </span>
-                      </td>
-                    </ng-container>
-                    <ng-container *ngIf="state.isTablet">
-                      <td><input type="checkbox" [(ngModel)]="row.isSelected" (click)="handleMassEditRooms(index, row)"/></td>
-                      <td data-title="{{column.name}}" title="{{column.name}}" *ngFor="let column of gridColumns;let i = index">
-                        <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
-                        <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
-                          <select id="{{column.dataProperty}}_{{index}}_{{i}}"
-                                  [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
-                                  [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
-                                  (focus)= "row['$'+column.dataProperty] = true;"
-                                  (focusout)="row['$'+column.dataProperty] = false;"
-                                  (change)="updateHouseKeeping(row.roomId, row, column.dataProperty, '$'+column.dataProperty)">
-                            <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
-                          </select>
-                        </span>
-                      </td>
-                    </ng-container>
+
+                    <td data-title="{{column.name}}" title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
+                      <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
+                      <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
+                        <select id="{{column.dataProperty}}_{{index}}_{{i}}"
+                                [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
+                                [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
+                                (focus)= "row['$'+column.dataProperty] = true;"
+                                (focusout)="row['$'+column.dataProperty] = false;"
+                                (change)="updateHouseKeeping(row.roomId, row, column.dataProperty, '$'+column.dataProperty)">
+                          <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
+                        </select>
+                      </span>
+                    </td>
                     <!-- <td data-title="Image"></td> -->
                     <td data-title="Files" title="Files">
                       <div class="table-btns">
@@ -220,6 +202,65 @@
                 </tr>
                 </tfoot>
               </table>
+              </ng-container>
+              <ng-container *ngIf="!isMobileDevice()">
+                <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
+                       id="room_container"
+                >
+                  <thead>
+                  <tr>
+                    <th class="sort-custom" (click)="setSortingParams(column.sortProperty);" [ngClass]="{
+                      'sort-custom-asc' : state.pagination.sortBy == column.sortProperty && !state.pagination.sortOrder,
+                      'sort-custom-dsc' : state.pagination.sortBy == column.sortProperty && state.pagination.sortOrder
+                      }" *ngFor="let column of gridColumns">
+                      {{column.name}}
+                    </th>
+                    <th></th>
+                  </tr>
+
+                  </thead>
+                  <tbody class="mobile-slider">
+                  <tr *ngFor="let row of data;let index = index;" [ngClass]="{'selected': row.isSelected}"> <!-- (click)="selectRoom(row, $event, index, column)" -->
+
+                    <td data-title="{{column.name}}" title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
+                      <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
+                      <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
+                        <select id="{{column.dataProperty}}_{{index}}_{{i}}"
+                                [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
+                                [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
+                                (focus)= "row['$'+column.dataProperty] = true;"
+                                (focusout)="row['$'+column.dataProperty] = false;"
+                                (change)="updateHouseKeeping(row.roomId, row, column.dataProperty, '$'+column.dataProperty)">
+                          <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <!-- <td data-title="Image"></td> -->
+                    <td data-title="Files" title="Files">
+                      <div class="table-btns">
+                        <div class="fileUpload" *ngIf="!row.uploading">
+                          <label for="file-upload_{{row.roomId}}" class="btn btn-success">Upload</label>
+                          <input style="position: initial" type="file" id="file-upload_{{row.roomId}}" (change)="fileChangeEvent($event, row)" />
+                        </div>
+                        <span class="fa fa-spin fa-spinner" *ngIf="row.uploading"></span>
+                        <span class="fa fa-spin fa-spinner" *ngIf="row.$processing"></span>
+                        <a href="javascript:void(0)" *ngIf="!row.$processing" data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
+                          <!--                <a href="javascript:void(0)"  data-toggle="modal" data-target="#imageCropModal" class="btn btn-info" routerLink="{{'/house-keeping/'+this.pageFilters.sites+'/room/'+row.roomId}}">-->
+                          Edit
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                  <tfoot *ngIf="state.isLoadingMoreRooms && !isMobileDevice()">
+                  <tr>
+                    <td colspan="10">
+                      <div class="table-loader-bot"></div>
+                    </td>
+                  </tr>
+                  </tfoot>
+                </table>
+              </ng-container>
               <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
             </div>
             <ul *ngIf="isMobileDevice()" class="pagination justify-content-center">
