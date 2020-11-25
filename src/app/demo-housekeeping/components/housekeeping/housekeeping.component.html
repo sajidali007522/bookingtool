@@ -151,6 +151,7 @@
               >
                 <thead>
                 <tr>
+                  <th *ngIf="state.isTablet"></th>
                   <th class="sort-custom" (click)="setSortingParams(column.sortProperty);" [ngClass]="{
                       'sort-custom-asc' : state.pagination.sortBy == column.sortProperty && !state.pagination.sortOrder,
                       'sort-custom-dsc' : state.pagination.sortBy == column.sortProperty && state.pagination.sortOrder
@@ -163,19 +164,37 @@
                 </thead>
                 <tbody class="mobile-slider">
                   <tr *ngFor="let row of data;let index = index;" [ngClass]="{'selected': row.isSelected}"> <!-- (click)="selectRoom(row, $event, index, column)" -->
-                    <td data-title="{{column.name}}" title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
-                      <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
-                      <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
-                        <select id="{{column.dataProperty}}_{{index}}_{{i}}"
-                                [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
-                                [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
-                                (focus)= "row['$'+column.dataProperty] = true;"
-                                (focusout)="row['$'+column.dataProperty] = false;"
-                                (change)="updateHouseKeeping(row.roomId, row, column.dataProperty, '$'+column.dataProperty)">
-                          <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
-                        </select>
-                      </span>
-                    </td>
+                    <ng-container *ngIf="!state.isTablet">
+                      <td data-title="{{column.name}}" title="{{column.name}}" *ngFor="let column of gridColumns;let i = index" (mousedown)="setMultipleSelect(index, row, $event, column)" (mouseup)="completeMultipleSelect(index, row, $event, column)">
+                        <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
+                        <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
+                          <select id="{{column.dataProperty}}_{{index}}_{{i}}"
+                                  [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
+                                  [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
+                                  (focus)= "row['$'+column.dataProperty] = true;"
+                                  (focusout)="row['$'+column.dataProperty] = false;"
+                                  (change)="updateHouseKeeping(row.roomId, row, column.dataProperty, '$'+column.dataProperty)">
+                            <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
+                          </select>
+                        </span>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="state.isTablet">
+                      <td><input type="checkbox" [(ngModel)]="row.isSelected" (click)="handleMassEditRooms(index, row)"/></td>
+                      <td data-title="{{column.name}}" title="{{column.name}}" *ngFor="let column of gridColumns;let i = index">
+                        <span *ngIf="!column.canEdit || (column.canEdit && column.dataProperty == 'FdStatus')">{{row[capitalizeFirstLetter(column.dataProperty)]}}</span>
+                        <span *ngIf="column.canEdit && column.dataProperty != 'FdStatus'">
+                          <select id="{{column.dataProperty}}_{{index}}_{{i}}"
+                                  [(ngModel)]="row[capitalizeFirstLetter(column.dataProperty)+'Id']"
+                                  [ngClass]="{'view-mode': !row['$'+column.dataProperty], 'form-control': row['$'+column.dataProperty]}"
+                                  (focus)= "row['$'+column.dataProperty] = true;"
+                                  (focusout)="row['$'+column.dataProperty] = false;"
+                                  (change)="updateHouseKeeping(row.roomId, row, column.dataProperty, '$'+column.dataProperty)">
+                            <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
+                          </select>
+                        </span>
+                      </td>
+                    </ng-container>
                     <!-- <td data-title="Image"></td> -->
                     <td data-title="Files" title="Files">
                       <div class="table-btns">
@@ -309,7 +328,7 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal_" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel_" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-    <div class="modal-content">
+    <div class="modal-content" [ngClass]="{'table-loader': state.massEdit.processing}">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel_">Mass Edit</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -361,10 +380,10 @@
                 </select>
               </div>
               <div class="col-lg-4">
-                <button type="button" class="btn btn-danger mr-2" (click)="clearMassEditField(column)" [ngClass]="{'disabled': state.massEdit.processing > 0}">
+                <button type="button" class="btn btn-danger mr-2" (click)="clearMassEditField(column)" [ngClass]="{'disabled': state.massEdit.processing}">
                   Clear
                 </button>
-                <button type="button" class="btn btn-success" (click)="processMassEdit(column)" [ngClass]="{'disabled': state.massEdit.processing > 0}">Save</button>
+                <button type="button" class="btn btn-success" (click)="processMassEdit(column)" [ngClass]="{'disabled': state.massEdit.processing}">Save</button>
               </div>
             </div>
           </div>

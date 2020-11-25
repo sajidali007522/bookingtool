@@ -10,6 +10,11 @@ export class DemoHousekeepingService {
 
   apiBaseUrl = 'https://demo.innfinity.com/productsdemo/api3/'
   apiBaseUrlV2 = 'https://demo.innfinity.com/productsdemo/api2/'
+  updateTypeIds = {
+    'HkStatus' : '67947EA1-8963-4EE7-A997-90697D12BA9B',
+    'AdminStatus' : '1D2F9D74-9C29-4078-BB10-2DED99203043',
+    'Housekeeper' : '70715958-92BC-4C3B-AEA5-1563FCAD75CF'
+  }
   constructor(private http: HttpClient, private _auth:AuthService, private appConfigService: ConfigService) {}
 
   public loadRooms(url, body, params={}) {
@@ -48,7 +53,7 @@ export class DemoHousekeepingService {
 
   public saveRoom(url, body, params) {
     let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.patch(this.apiBaseUrl+url, {},{
+    return this.http.patch(this.apiBaseUrl+url, body,{
           params: params,
           headers: headers
         }

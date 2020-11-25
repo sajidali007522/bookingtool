@@ -29,6 +29,7 @@ import {takeWhile} from "rxjs/operators"
 import * as $ from 'jquery';
 import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
+import {DeviceDetectionService} from "../../../_services/device-detection.service";
 
 // const SHIFTS: Shift [] = [
 //   {value: 1, text: "Day", id: 1, name: "Day"},
@@ -64,9 +65,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   croppedImage: any = '';
   canceler: any;
   state = {
+    isTablet: false,
     descriptionLimit: 150,
     massEdit: {
-      processing:0,
+      processing:false,
       formState: false,
       lastIndex: -1,
       items: [],
@@ -131,8 +133,11 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
                private renderer: Renderer2,
                private _http: HttpService,
                private router: Router,
-               private appConfigService: ConfigService
-  ) {}
+               private appConfigService: ConfigService,
+               public ddService: DeviceDetectionService
+  ) {
+    this.state.isTablet = ddService.isTablet();
+  }
 
   ngOnDestroy() {
     this.data = [];
@@ -384,20 +389,23 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     group.selectAll = true;
     this.loadRooms();
   }
-  public updateHouseKeeping(roomId, roomRow, key, editKey, massEditEntry=false, massEditIndex=-1) {
+  public updateHouseKeeping(roomId, roomRow, key, editKey) {
     //console.log(roomId, roomRow, key, editKey);
     //massEditEntry['$processingMassEdit'] = true;
     //roomRow['$processingMassEdit'] = true;
     roomRow['$processing'] = true;
+    let params = {
+      roomIDs: roomId,
+      originalValueIDs: '',
+      newValueIDs: roomRow[key],
+      updateTypeIDs: this.DHKService.updateTypeIds[key],
+    }
     delete roomRow.$type;
-    this.DHKService.patchRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/'+roomId, roomRow, {})
+    this.DHKService.saveRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/MassUpdate', {}, params)
       .subscribe(
         res => {
           roomRow['$processing'] = false;
           roomRow = res;
-          if(massEditEntry) {
-            this.setMassEditEntries(massEditIndex, res);
-          }
         },
         err => { console.log(err)},
         ()=>{
@@ -757,33 +765,45 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.items = []
   }
   processMassEdit(column){
-    if(this.state.massEdit.processing > 0) return;
-    let value = this.state.massEdit.form[column.dataProperty+'Id'];
-    let i = 0;
-    this.state.massEdit.processing=0;
+    if(this.state.massEdit.processing) return;
+    this.state.massEdit.processing=true;
+    let roomIds=[]
+    let originalValueIds = []
+    let parsedIndex = {};
+    let count = 0;
     this.state.massEdit.indexes.filter(index => {
       let roomRow = this.data[index];
-      roomRow[column.valueProperty] = value;
-      this.state.massEdit.items[i]['$processingMassEdit'] = true;
-      this.updateHouseKeeping(this.data[index].roomId, roomRow, column.dataProperty, '$'+column.dataProperty, true, this.state.massEdit.indexes[i]);
-      this.state.massEdit.processing++
-      i++;
+      roomIds.push(roomRow.roomId);
+      originalValueIds.push(roomRow[this.capitalizeFirstLetter(column.dataProperty)+'Id'])
+      parsedIndex[roomRow.roomId] = {grid: index, massEdit: count};
+      count++;
     });
-  }
-
-  setMassEditEntries(massEditIndex, updatedRow) {
-
-    let index = this.state.massEdit.indexes[massEditIndex];
-    // this.state.massEdit.indexes[massEditIndex]['$processingMassEdit'] = true;
-    // this.data[index]['$processingMassEdit'] = true;
-    this.state.massEdit.items[massEditIndex]=updatedRow
-    this.state.massEdit.items[massEditIndex]['$processingMassEdit']= false;
-    this.data[index]= updatedRow;
-    if(this.state.massEdit.processing == this.state.massEdit.indexes.length){
-      this.state.massEdit.processing=0;
-      this.state.message = 'Room Data has been updated!!'
-      this.state.modalTitle = "Success!"
+    let param = {
+      roomIDs: roomIds.join(","),
+      originalValueIDs: originalValueIds.join(","),
+      newValueID: this.state.massEdit.form[column.dataProperty+'Id'],
+      updateTypeID: this.DHKService.updateTypeIds[column.dataProperty],
     }
+
+    this.DHKService.saveRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/MassUpdate', {}, param)
+      .subscribe(
+        res => {
+          this.state.message = 'Room Data has been updated!!'
+          this.state.modalTitle = "Success!"
+          res['data'].filter((row) => {
+            let c = parsedIndex[row.roomId];
+            this.data[c.grid] = row;
+            this.state.massEdit.items[c.massEdit] = row;
+          });
+        },
+        err => { console.log(err)
+          this.state.message = 'There is something wrong with input. Room data is not updated!!'
+          this.state.modalTitle = "Error!"
+        },
+        ()=>{
+          this.state.massEdit.processing=false;
+        }
+      )
   }
 
   clearMassEditField(column){
@@ -811,12 +831,12 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   warningConfirmed (event) {
     if(event) {
       this.state.massEdit = {
-        processing:0,
-          formState: false,
-          lastIndex: -1,
-          items: [],
-          indexes:[],
-          form: {}
+        processing:false,
+        formState: false,
+        lastIndex: -1,
+        items: [],
+        indexes:[],
+        form: {}
       }
       this.loadRooms();
     }

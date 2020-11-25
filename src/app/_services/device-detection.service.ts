@@ -8,16 +8,23 @@ export class DeviceDetectionService {
 
   deviceType = 'desktop'
   constructor(private _http: HttpService) {
-    var ua = navigator.userAgent;
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
-      this.deviceType = 'mobile';
-    }
-    else {
-      this.deviceType = 'desktop';
-    }
+
   }
 
-  public isMobile () {
+  isMobile () {
+    var ua = navigator.userAgent;
+    console.log(ua);
+    if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua) && window.innerWidth <= 767) {
+      this.deviceType['userDevice'] = 'mobile';
+    }
+    else {
+      this.deviceType['userDevice'] = 'desktop';
+    }
     return this.deviceType == 'mobile'
+  }
+
+  isTablet() {
+    var ua = navigator.userAgent;
+    return (/iPad|iPod/i.test(ua) && window.innerWidth > 767)
   }
 }
