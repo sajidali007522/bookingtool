@@ -25,7 +25,7 @@ import {
   HAMMER_GESTURE_CONFIG
 } from "@angular/platform-browser";
 import { fromEvent } from "rxjs";
-import {takeWhile} from "rxjs/operators"
+import {takeWhile, timeout} from "rxjs/operators"
 import * as $ from 'jquery';
 import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
@@ -65,6 +65,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   croppedImage: any = '';
   canceler: any;
   state = {
+    isWrongFile: false,
     isTablet: false,
     descriptionLimit: 150,
     massEdit: {
@@ -496,12 +497,14 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   fileChangeEvent(event: any, room:any): void {
+
     this.state.selectedRoom = room;
     this.imageChangedEvent = event;
+    console.log( event.files);
     this.state.roomImage.name = "Picture of "+room.roomNumber;
     this.state.roomImage.description = ''
-    console.log(event);
     $(".trigger-image-crop-model").trigger('click');
+    console.log("file Change Event");
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
@@ -516,6 +519,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   loadImageFailed() {
     // show message
+    this.state.message = "Invalid format of selected file"
+    this.state.modalTitle = 'Error!'
+    this.state.isWrongFile = true;
+    this.openModal();
     console.log("image loading failed")
   }
 
@@ -604,7 +611,12 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   openModal(){
     this.modalComp.openModal();
   }
-  closeModal (){}
+  closeModal (){
+    if(this.state.isWrongFile) {
+      this.state.isWrongFile = false;
+      $(document).find("#imageCropModal .close").trigger('click');
+    }
+  }
 
   filterList(group, term) {
     if(typeof group.$actual == 'undefined') {
