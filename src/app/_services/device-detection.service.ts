@@ -15,10 +15,10 @@ export class DeviceDetectionService {
     var ua = navigator.userAgent;
     console.log(ua);
     if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua) && window.innerWidth <= 767) {
-      this.deviceType['userDevice'] = 'mobile';
+      this.deviceType = 'mobile';
     }
     else {
-      this.deviceType['userDevice'] = 'desktop';
+      this.deviceType = 'desktop';
     }
     return this.deviceType == 'mobile'
   }

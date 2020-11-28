@@ -306,14 +306,16 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
           delete temp['features']
           temp['features'] = row.features.filter((feature) => {
             //console.log(feature, this.state.isMassEditting, this.state.massEditForm.roomType, feature.id);
+            delete feature['$type']
             if(this.state.isMassEditting && this.state.massEditForm.roomType == feature.id) {
               //console.log(this.state.massEditForm.roomType, feature.id, this.state.massEditForm.roomType == feature.id);
-              feature.hold = this.state.massEditForm.number
+              feature.hold = Number(this.state.massEditForm.number)
               return feature;
 
             }
-            if(feature.checked && !this.state.isMassEditting) {
+            else if(feature.checked && !this.state.isMassEditting) {
               console.log("here")
+              feature.hold = Number(this.state.massEditForm.number)
               return feature;
             }
           })
