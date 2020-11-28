@@ -503,6 +503,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     console.log( event.files);
     this.state.roomImage.name = "Picture of "+room.roomNumber;
     this.state.roomImage.description = ''
+    this.stripLength();
     $(".trigger-image-crop-model").trigger('click');
     console.log("file Change Event");
   }
@@ -523,7 +524,6 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.modalTitle = 'Error!'
     this.state.isWrongFile = true;
     this.openModal();
-    console.log("image loading failed")
   }
 
   doneWithCrop () {
