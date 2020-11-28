@@ -292,46 +292,58 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   saveChanges(){
     if(this.state.loading.save == true) return;
-    if(this.state.isMassEditting && this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000') {
+    if(this.state.isMassEditting && (this.state.resourceTypeValue == 1 && this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000')) {
       return;
     }
     let postBody;
     if(this.state.resourceTypeValue == 1) {
-      postBody = this.remoteData.data.filter((row)=> {
-        var temp = {}
+      postBody = [];
+      for (let index=0; index<this.remoteData.data.length; index++) {
+        let temp = {}
+        let row = this.remoteData.data[index];
         if(row.checked) {
-          //console.log(row.features);
-          temp = JSON.parse(JSON.stringify(row));
-          delete temp['$type']
-          delete temp['features']
-          temp['features'] = row.features.filter((feature) => {
+          temp = {
+            "AvailabilityDate": row.date,
+          }
+          temp['Features'] = row.features.filter((feature) => {
             //console.log(feature, this.state.isMassEditting, this.state.massEditForm.roomType, feature.id);
             delete feature['$type']
             if(this.state.isMassEditting && this.state.massEditForm.roomType == feature.id) {
               //console.log(this.state.massEditForm.roomType, feature.id, this.state.massEditForm.roomType == feature.id);
               feature.hold = Number(this.state.massEditForm.number)
-              return feature;
+              return {
+                "hold": Number(this.state.massEditForm.number),
+                "id": feature.id,
+                "number": feature.number,
+                "checked": feature.checked
+              };
 
             }
             else if(feature.checked && !this.state.isMassEditting) {
               console.log("here")
-              feature.hold = Number(this.state.massEditForm.number)
-              return feature;
+              return {
+                "hold": Number(feature.hold),
+                "id": feature.id,
+                "number": feature.number,
+                "checked": feature.checked
+              };
             }
           })
-          return temp;
+          postBody.push(temp);
         }
-      });
+      }
     }
     else {
       postBody = this.remoteData.filter((row)=> {
         if(row.checked) {
           delete row.$type
+          row.total = Number(row.total)
           if(this.state.isMassEditting) { row.total = this.state.massEditForm.number }
           return row
         }
       });
     }
+    console.log(postBody)
 
     this.state.loading.save = true;
     this.availService.patchAvailabilityRecord(postBody, this.state.filterForm.siteID,

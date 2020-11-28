@@ -13,7 +13,6 @@ export class DeviceDetectionService {
 
   isMobile () {
     var ua = navigator.userAgent;
-    console.log(ua);
     if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua) && window.innerWidth <= 767) {
       this.deviceType = 'mobile';
     }
