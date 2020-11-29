@@ -78,6 +78,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     },
     alertMessages : '',
     gridDropDowns: {},
+    gridValidation:{},
     message: '',
     modalTitle: '',
     loadMetaData: true,
@@ -316,7 +317,19 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
             this.gridColumns = data['data']['metadata']['columns'];
             //this.state.filterConfigs.shifts
             this.gridColumns.filter(column => {
+              //dropdown items
               this.state.gridDropDowns[column.dataProperty] = this.setGridDropDowns(column);
+              this.state.massEdit.form[column.dataProperty+"Id"] = '00000000-0000-0000-0000-000000000000';
+              //set value if can be nullable or add validation check
+              this.state.gridValidation[column.dataProperty] = {'is_required' : true};
+              if(this.state.gridDropDowns[column.dataProperty].length > 0 && (column.canEdit && column.dataProperty != 'FdStatus') ) {
+                for(let index = 0; index < this.state.gridDropDowns[column.dataProperty].length; index++) {
+                  if (this.state.gridDropDowns[column.dataProperty][index].key == '00000000-0000-0000-0000-000000000000') {
+                    this.state.gridValidation[column.dataProperty]['is_required'] = false;
+                    break;
+                  }
+                }
+              }
             });
             //console.log(this.state.gridDropDowns);
           }
@@ -637,6 +650,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     return this.state.gridDropDowns[column.dataProperty];
   }
 
+  getColumnValidation(column){
+    return this.state.gridValidation[column.dataProperty].is_required;
+  }
   setGridDropDowns(column){
     let selectedGroup = {items:[]};
     switch (column.dataProperty) {
@@ -779,6 +795,13 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.items = []
   }
   processMassEdit(column){
+    let isRequired = this.getColumnValidation(column);
+    if(isRequired && this.state.massEdit.form[column.dataProperty+'Id'] == '00000000-0000-0000-0000-000000000000') {
+      this.state.modalTitle = 'Validation Error!';
+      this.state.message = column.name + " is Required Field!";
+      this.openModal();
+      return;
+    }
     if(this.state.massEdit.processing) return;
     this.state.massEdit.processing=true;
     let roomIds=[]
@@ -795,7 +818,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     let param = {
       roomIDs: roomIds.join(","),
       originalValueIDs: originalValueIds.join(","),
-      newValueID: this.state.massEdit.form[column.dataProperty+'Id'],
+      newValueID: (this.state.massEdit.form[column.dataProperty+'Id'] ? this.state.massEdit.form[column.dataProperty+'Id'] : '00000000-0000-0000-0000-000000000000'),
       updateTypeID: this.DHKService.updateTypeIds[column.dataProperty],
     }
 
@@ -804,12 +827,20 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         res => {
           this.state.message = 'Room Data has been updated!!'
           this.state.modalTitle = "Success!"
-          res['data'].filter((row) => {
-            let c = parsedIndex[row.roomId];
-            this.data[c.grid] = row;
-            this.data[c.grid]['isSelected'] = true;
-            this.state.massEdit.items[c.massEdit] = row;
-          });
+          if(typeof res['data'] != 'undefined') {
+            res['data'].filter((row) => {
+              let c = parsedIndex[row.roomId];
+              this.data[c.grid] = row;
+              this.data[c.grid]['isSelected'] = true;
+              this.state.massEdit.items[c.massEdit] = row;
+            });
+          } else {
+            if(res['status'] == 500) {
+              this.state.message = res['message']
+              this.state.modalTitle = "Error!"
+            }
+          }
+          this.openModal();
         },
         err => { console.log(err)
           this.state.message = 'There is something wrong with input. Room data is not updated!!'
@@ -822,7 +853,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   clearMassEditField(column){
-    this.state.massEdit.form[column.dataProperty+'Id'] = ''
+    this.state.massEdit.form[column.dataProperty+'Id'] = '00000000-0000-0000-0000-000000000000'
   }
   scrolling(){ return true; }
   stripLength() {

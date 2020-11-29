@@ -417,6 +417,7 @@
                         [(ngModel)]="state.massEdit.form[column.dataProperty+'Id']"
                         class="form-control"
                 >
+                  <option value="00000000-0000-0000-0000-000000000000">Select</option>
                   <option *ngFor="let status of getGroupItems(column)" [ngValue]="status.key">{{status.name}}</option>
                 </select>
               </div>
