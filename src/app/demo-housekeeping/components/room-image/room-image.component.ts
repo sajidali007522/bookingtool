@@ -84,8 +84,12 @@ export class RoomImageComponent implements OnInit,OnChanges {
       ()=>{this.state.isLoadingImages = false;console.log('completed')});
   }
   editImage(image, index) {
+    if(!this.state.componentState.isViewMode) {
+      this.reset();
+    }
     this.state.selectedImage = image;
     this.state.selectedIndex = index;
+
   }
 
   save(){
