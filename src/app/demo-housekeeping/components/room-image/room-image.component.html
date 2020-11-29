@@ -39,7 +39,7 @@
           <label>Description</label>
           <div class="field-wrap mb-3">
             <textarea cols="5" rows="5" class="form-control"  [disabled]="state.componentState.isViewMode" [(ngModel)]="state.selectedImage.description" (keyup)="stripLength()"></textarea>
-            <label class="text-right">{{state.descriptionLimit}} Characters left</label>
+            <label class="text-right" *ngIf="!state.componentState.isViewMode">{{state.descriptionLimit}} Characters left</label>
           </div>
           <div class="btns-wrap">
             <p>

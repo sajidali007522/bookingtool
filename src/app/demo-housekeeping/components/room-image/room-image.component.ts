@@ -105,6 +105,7 @@ export class RoomImageComponent implements OnInit,OnChanges {
   edit(){
     this.state.componentState.isViewMode=false;
     this.state.componentState.selectedImage = JSON.parse(JSON.stringify(this.state.selectedImage));
+    this.stripLength();
   }
 
   deleteImage(event) {
