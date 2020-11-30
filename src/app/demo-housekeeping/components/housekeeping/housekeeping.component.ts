@@ -811,14 +811,14 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.indexes.filter(index => {
       let roomRow = this.data[index];
       roomIds.push(roomRow.roomId);
-      originalValueIds.push(roomRow[this.capitalizeFirstLetter(column.dataProperty)+'Id'])
+      originalValueIds.push(roomRow[this.capitalizeFirstLetter(column.dataProperty)+'Id'] != '' ? roomRow[this.capitalizeFirstLetter(column.dataProperty)+'Id'] : '00000000-0000-0000-0000-000000000000' )
       parsedIndex[roomRow.roomId] = {grid: index, massEdit: count};
       count++;
     });
     let param = {
       roomIDs: roomIds.join(","),
       originalValueIDs: originalValueIds.join(","),
-      newValueID: (this.state.massEdit.form[column.dataProperty+'Id'] ? this.state.massEdit.form[column.dataProperty+'Id'] : '00000000-0000-0000-0000-000000000000'),
+      newValueIDs: (this.state.massEdit.form[column.dataProperty+'Id'] ? this.state.massEdit.form[column.dataProperty+'Id'] : '00000000-0000-0000-0000-000000000000'),
       updateTypeID: this.DHKService.updateTypeIds[column.dataProperty],
     }
 
