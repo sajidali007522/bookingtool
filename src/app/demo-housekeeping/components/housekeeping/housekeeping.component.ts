@@ -407,7 +407,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     roomRow['$processing'] = true;
     let params = {
       roomIDs: roomId,
-      originalValueIDs: roomRow['$'+this.capitalizeFirstLetter(key)+'Id'],
+      originalValueIDs: (typeof roomRow['$'+this.capitalizeFirstLetter(key)+'Id'] == 'undefined' || '' == roomRow['$'+this.capitalizeFirstLetter(key)+'Id'] ? '00000000-0000-0000-0000-000000000000' : roomRow['$'+this.capitalizeFirstLetter(key)+'Id']),
       newValueIDs: roomRow[this.capitalizeFirstLetter(key)+'Id'],
       updateTypeIDs: this.DHKService.updateTypeIds[key],
     }
@@ -796,7 +796,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
   processMassEdit(column){
     let isRequired = this.getColumnValidation(column);
-    if(isRequired && this.state.massEdit.form[column.dataProperty+'Id'] == '00000000-0000-0000-0000-000000000000') {
+    if(isRequired && (typeof this.state.massEdit.form[column.dataProperty+'Id'] == 'undefined' || this.state.massEdit.form[column.dataProperty+'Id'] == '' || this.state.massEdit.form[column.dataProperty+'Id'] == '00000000-0000-0000-0000-000000000000')) {
       this.state.modalTitle = 'Validation Error!';
       this.state.message = column.name + " is Required Field!";
       this.openModal();
