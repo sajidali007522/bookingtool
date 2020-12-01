@@ -71,4 +71,7 @@ export class TravelComponent implements OnInit {
   setAsSelected (item) {
     item.checked = true;
   }
+  updateRecord (row) {
+
+  }
 }

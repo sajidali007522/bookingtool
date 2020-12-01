@@ -26,7 +26,7 @@
   <th>Booked</th>
   </thead>
   <tbody>
-  <tr *ngFor="let row of remoteData; let index = index" [ngClass]="{'edited-tr': state.isEditting,  'selected': row.checked}">
+  <tr *ngFor="let row of remoteData; let index = index" [ngClass]="{'edited-tr': row.isEditting,  'selected': row.checked}">
     <td data-title="" *ngIf="state.isMassEditting">
       <input type="checkbox" [(ngModel)]="row.checked" />
     </td>
@@ -39,8 +39,10 @@
     <td data-title="Arrive">{{dateParser.parseDateToTime(row.endDate)}}</td>
     <td data-title="Destination">{{row.to}}</td>
     <td data-title="Total">
-      <span *ngIf="!state.isEditting">{{row.total || 0}}</span>
-      <input type="text" class="edit-field" [(ngModel)]="row.total" *ngIf="state.isEditting" (blur)="setAsSelected(row)">
+      <span *ngIf="!row.isEditting" (click)="row.isEditting = !row.isEditting">{{row.total || 0}}</span>
+      <span *ngIf="row.isEditting">
+        <input type="text" class="edit-field" [(ngModel)]="row.total" (blur)="updateRecord(row)">
+      </span>
     </td>
     <td data-title="Avail">{{row.available || 0}}</td>
     <td data-title="Booked">{{row.booked || 0}}</td>

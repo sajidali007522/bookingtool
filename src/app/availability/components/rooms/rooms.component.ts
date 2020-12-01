@@ -85,4 +85,8 @@ export class RoomsComponent implements OnInit,AfterViewInit {
     item.checked = true;
     feature.checked=true;
   }
+
+  updateRecord(row, feature) {
+
+  }
 }

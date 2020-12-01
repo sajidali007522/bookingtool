@@ -193,7 +193,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       {
         beginDate: beginDate,
         endDate: endDate,
-        includeHolds: this.state.filterForm.includeHolds
+        includeHolds: true //this.state.filterForm.includeHolds
       })
       .subscribe(res=> {
         this.state.recordLoaded=true;
@@ -385,6 +385,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       this.remoteData = [this.state.mobileContainer[this.state.recordVisible]];
     }
   }
+
   setMultipleSelect(index, room, $event, column){
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
     console.log("selecting ", index, this.state.massEdit.lastIndex)
