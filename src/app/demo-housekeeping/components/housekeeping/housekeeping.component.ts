@@ -472,7 +472,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
 
     $(".reservation-content-area").scroll((e, arg) => {
       var elem = $(e.currentTarget);
-      if (elem[0].scrollHeight - elem.scrollTop() <= elem.outerHeight()) {
+      if(/Edge/i.test(navigator.userAgent)) {
+
+      }
+      if (elem[0].scrollHeight - elem.scrollTop()-10 <= elem.outerHeight()) {
         if(this.state.isLoading || this.state.isLoadingRooms || this.state.isLoadingMoreRooms) return;
         //console.log("bottom");
         console.log(Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize), '<=', this.state.pagination.pageNum, Math.ceil(this.state.pagination.totalRooms / this.state.pagination.pageSize) <= this.state.pagination.pageNum)
