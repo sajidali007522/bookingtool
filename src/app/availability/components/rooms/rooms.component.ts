@@ -20,7 +20,14 @@ export class RoomsComponent implements OnInit,AfterViewInit {
   @Output() endEdit = new EventEmitter<string>();
   @Output() save = new EventEmitter<string>();
 
+  @Output() startSelection = new EventEmitter<string>();
+  @Output() completeSelection = new EventEmitter<string>();
+  @Output() updateRow = new EventEmitter<string>();
 
+  componentState = {
+    start: -1,
+    limit: -1
+  }
   constructor( private lookupService: LookupService,
                private availService: AvailabilityService,
                public dateParser: DateParser
@@ -77,6 +84,13 @@ export class RoomsComponent implements OnInit,AfterViewInit {
     this.save.emit('save');
   }
 
+  rowSelection (row, index) {
+    this.componentState.start = index;
+    //this.startSelection.emit(JSON.stringify({row: row, index:index}))
+  }
+  rowCompletion (row, index) {
+    this.completeSelection.emit(JSON.stringify({row: row, start:this.componentState.start, limit: index}))
+  }
   setCardCellTitle() {
 
   }
@@ -86,7 +100,7 @@ export class RoomsComponent implements OnInit,AfterViewInit {
     feature.checked=true;
   }
 
-  updateRecord(row, feature) {
-
+  updateRecord(row, feature, index) {
+    this.updateRow.emit(JSON.stringify({row: row, feature: feature, index:index}))
   }
 }

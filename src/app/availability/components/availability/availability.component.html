@@ -123,6 +123,9 @@
                            (edit)="setEditMode($event)"
                            (endEdit)="resetEditMode($event)"
                            (save)="saveCard($event)"
+                           (startSelection)="setMultipleSelect($event)"
+                           (completeSelection)="completeMultipleSelect($event)"
+                           (updateRow)="updateRow($event)"
                 ></app-rooms>
                 <app-travel *ngIf="state.resourceTypeValue == 2 && !remoteData.hasOwnProperty('data') && remoteData.length > 0"
                             [remoteData]="remoteData"
@@ -132,6 +135,9 @@
                             (edit)="setEditMode($event)"
                             (endEdit)="resetEditMode($event)"
                             (save)="saveCard($event)"
+                            (startSelection)="setMultipleSelect($event)"
+                            (completeSelection)="completeMultipleSelect($event)"
+                            (updateRow)="updateRow($event)"
                 ></app-travel>
               </div>
           </div>

@@ -386,14 +386,36 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setMultipleSelect(index, room, $event, column){
+  setMultipleSelect(event){
+    console.log(JSON.parse(event));
+    return;
+    //index, room, $event, column
+    let index, room, $event, column
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
     console.log("selecting ", index, this.state.massEdit.lastIndex)
     this.state.massEdit.lastIndex=index;
 
   }
 
-  completeMultipleSelect(index, room, $event, column){
+  completeMultipleSelect(event){
+    console.log(JSON.parse(event));
+    event = JSON.parse(event);
+    let start = event.start;
+    let limit = event.limit;
+    if(this.state.resourceTypeValue == 1) {
+      for(let index=start; index<=limit; index++) {
+        this.remoteData.data[index]['checked']= this.remoteData.data[index]['checked'] ? false : true;
+      }
+    }
+    else {
+      for(let index=start; index<=limit; index++) {
+        //this.remoteData.filter((row)=> {
+        this.remoteData[index]['checked']= this.remoteData[index]['checked'] ? false : true;
+      }
+    }
+    return;
+    //index, room, $event, column
+    let index, room, $event, column
     //console.log("completing", index, this.state.massEdit.lastIndex);
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
     if(this.state.massEdit.lastIndex == -1) return;
@@ -420,6 +442,11 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.remoteData[index]['checked'] = true
     if (window.getSelection) {window.getSelection().removeAllRanges();}
     else if (document.getSelection()) {document.getSelection().empty();}
+  }
+
+  updateRow(event) {
+    console.log(JSON.parse(event));
+    return;
   }
 
 }

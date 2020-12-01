@@ -21,6 +21,13 @@ export class TravelComponent implements OnInit {
   @Output() endEdit = new EventEmitter<string>();
   @Output() save = new EventEmitter<string>();
 
+  @Output() startSelection = new EventEmitter<string>();
+  @Output() completeSelection = new EventEmitter<string>();
+  @Output() updateRow = new EventEmitter<string>();
+  componentState = {
+    start: -1,
+    limit: -1
+  }
   constructor( private lookupService: LookupService,
                private availService: AvailabilityService,
                public dateParser: DateParser
@@ -65,13 +72,27 @@ export class TravelComponent implements OnInit {
   }
 
   callSave () {
+
     this.save.emit('save');
   }
 
   setAsSelected (item) {
     item.checked = true;
   }
-  updateRecord (row) {
+  rowSelection (row, index) {
+    console.log("mouse down")
+    this.componentState.start = index;
+    //this.startSelection.emit(JSON.stringify({row: row, index:index}))
+  }
+  rowCompletion (row, index) {
+    console.log("mouse up", this.componentState, index);
+    this.completeSelection.emit(JSON.stringify({row: row, start:this.componentState.start, limit: index}))
+  }
+  setCardCellTitle() {
 
+  }
+
+  updateRecord (row, index) {
+    this.updateRow.emit(JSON.stringify({row: row, index:index}))
   }
 }

@@ -27,18 +27,17 @@
     <td data-title="" *ngIf="state.isMassEditting">
       <input type="checkbox" [(ngModel)]="row.checked" />
     </td>
-    <td data-title="Date">
-      {{dateParser.parseDate(row.date)}}</td>
-    <td data-title="Day" >{{row.dayOfWeek}}</td>
-    <td data-title="Total">{{row.total || 0}}</td>
-    <td data-title="Avail">{{row.available || 0}}</td>
-    <td data-title="Pickup">{{row.pickup || 0}}</td>
-    <td data-title="%">{{row.percentage || 0}}</td>
+    <td data-title="Date" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{dateParser.parseDate(row.date)}}</td>
+    <td data-title="Day" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.dayOfWeek}}</td>
+    <td data-title="Total" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.total || 0}}</td>
+    <td data-title="Avail" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.available || 0}}</td>
+    <td data-title="Pickup" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.pickup || 0}}</td>
+    <td data-title="%" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.percentage || 0}}</td>
     <ng-container *ngFor="let feature of row.features; let i = index;">
       <td [attr.data-title]="remoteData['features'][i].description">
         <span *ngIf="!row.isEditting || !feature['isEditting']" (click)="row.isEditting = true; feature['isEditting'] = !feature['isEditting']">{{feature['number'] || 0}}</span>
         <span *ngIf="row.isEditting && feature['isEditting']">
-          <input type="text" class="edit-field" [(ngModel)]="feature['hold']" (blur)="updateRecord(row, feature)" /> <!--setAsSelected(row, feature) -->
+          <input type="text" class="edit-field" [(ngModel)]="feature['hold']" (blur)="updateRecord(row, feature, index)" /> <!--setAsSelected(row, feature) -->
         </span>
       </td>
 <!--      <td [attr.data-title]="remoteData['features'][i].description+' Hold'" *ngIf="state.filterForm.includeHolds">-->
