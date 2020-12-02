@@ -18,7 +18,7 @@
     <th>Pickup</th>
     <th>%</th>
   <ng-container *ngFor="let feature of remoteData['features']">
-    <th>{{feature.description}}</th>
+    <th>{{feature.description}}<span class="fa fa-pencil"></span> </th>
 <!--    <th *ngIf="state.filterForm.includeHolds">{{feature.description}} Hold</th>-->
   </ng-container>
   </thead>
@@ -35,7 +35,7 @@
     <td data-title="%" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.percentage || 0}}</td>
     <ng-container *ngFor="let feature of row.features; let i = index;">
       <td [attr.data-title]="remoteData['features'][i].description">
-        <span *ngIf="!row.isEditting || !feature['isEditting']" (click)="row.isEditting = true; feature['isEditting'] = !feature['isEditting']">{{feature['number'] || 0}}</span>
+        <span *ngIf="!row.isEditting || !feature['isEditting']" (click)="row.isEditting = true; feature['isEditting'] = !feature['isEditting']">{{feature['number'] || 0}}<span class="fa fa-pencil"></span></span>
         <span *ngIf="row.isEditting && feature['isEditting']">
           <input type="text" class="edit-field" [(ngModel)]="feature['hold']" (blur)="updateRecord(row, feature, index)" /> <!--setAsSelected(row, feature) -->
         </span>
