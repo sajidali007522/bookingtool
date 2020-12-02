@@ -406,7 +406,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
         let flag = this.state.massEdit.indexes.indexOf(index);
         if(flag == -1) {
           this.remoteData.data[index]['checked'] = true;
-          this.state.massEdit.items.push(this.remoteData.data['index']);
+          this.state.massEdit.items.push(this.remoteData.data[index]);
+          this.state.massEdit.indexes.push(index);
         } else {
           this.remoteData.data[index]['checked'] = false
           this.state.massEdit.items.splice(flag, 1);
@@ -417,11 +418,11 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     else {
       for(let index=start; index<=limit; index++) {
         //this.remoteData.filter((row)=> {
-        this.remoteData[index]['checked']= this.remoteData[index]['checked'] ? false : true;
         let flag = this.state.massEdit.indexes.indexOf(index);
         if(flag == -1) {
           this.remoteData[index]['checked'] = true;
-          this.state.massEdit.items.push(this.remoteData.data['index']);
+          this.state.massEdit.items.push(this.remoteData[index]);
+          this.state.massEdit.indexes.push(index);
         } else {
           this.remoteData[index]['checked'] = false
           this.state.massEdit.items.splice(flag, 1);
@@ -434,39 +435,23 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   resetMassEdit() {
     if(this.state.resourceTypeValue == 1) {
-      for(let index=0; index<=this.state.massEdit.indexes.length; index++) {
-        let gridIndex = this.state.massEdit.indexes[index];
-        this.remoteData.data[gridIndex]['checked'] = false
-        this.state.massEdit.items.splice(index, 1);
-        this.state.massEdit.indexes.splice(index, 1);
-      }
+      this.state.massEdit.indexes.filter(index => {
+        this.remoteData.data[index]['checked'] = false
+      });
     }
     else {
-      for(let index=0; index<=this.state.massEdit.indexes.length; index++) {
-        //this.remoteData.filter((row)=> {
-        this.remoteData[index]['checked']= this.remoteData[index]['checked'] ? false : true;
-        let flag = this.state.massEdit.indexes.indexOf(index);
-        let gridIndex = this.state.massEdit.indexes[index];
-        this.remoteData[gridIndex]['checked'] = false
-        this.state.massEdit.items.splice(index, 1);
-        this.state.massEdit.indexes.splice(index, 1);
-      }
+      this.state.massEdit.indexes.filter(index => {
+        this.remoteData[index]['checked'] = false
+      })
     }
+    this.state.massEdit.items= [];
+    this.state.massEdit.indexes= []
+    this.state.isMassEditting=false;
     return;
   }
-  handleMassEditRooms (index, room) {
-    if(this.state.massEdit.indexes.indexOf(index) != -1) {
-      this.state.massEdit.indexes.splice(this.state.massEdit.indexes.indexOf(index), 1)
-      this.state.massEdit.items.splice(this.state.massEdit.indexes.indexOf(index), 1)
-      this.remoteData[index]['checked'] = false
-      return;
-    }
-    this.state.massEdit.indexes.push(index)
-    this.state.massEdit.items.push(room)
-    //console.log(index,this.data[index])
-    this.remoteData[index]['checked'] = true
-    if (window.getSelection) {window.getSelection().removeAllRanges();}
-    else if (document.getSelection()) {document.getSelection().empty();}
+
+  processMassEdit () {
+    //this.state.isMassEditting = false;
   }
 
   updateRow(event) {

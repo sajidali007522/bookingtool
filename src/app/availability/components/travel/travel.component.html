@@ -26,9 +26,9 @@
   <th>Booked</th>
   </thead>
   <tbody>
-  <tr *ngFor="let row of remoteData; let index = index" [ngClass]="{'edited-tr': row.isEditting,  'selected': row.checked}">
-    <td data-title="" *ngIf="state.isMassEditting">
-      <input type="checkbox" [(ngModel)]="row.checked" />
+  <tr *ngFor="let row of remoteData; let index = index" [ngClass]="{'edited-tr': row.isEditting,  'selected': row.checked,  'hide': state.isMassEditting && !row.checked}">
+    <td data-title="Remove" *ngIf="state.isMassEditting">
+      <span class="fa fa-trash" (click)="removeFromMassEdit(row, index)"></span>
     </td>
     <td data-title="Flight#" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.identifier}}</td>
     <td data-title="Leg" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.leg}}</td>

@@ -89,6 +89,7 @@ export class RoomsComponent implements OnInit,AfterViewInit {
     //this.startSelection.emit(JSON.stringify({row: row, index:index}))
   }
   rowCompletion (row, index) {
+    if(this.state.isMassEditting) return;
     this.completeSelection.emit(JSON.stringify({row: row, start:this.componentState.start, limit: index}))
   }
   setCardCellTitle() {
@@ -102,5 +103,10 @@ export class RoomsComponent implements OnInit,AfterViewInit {
 
   updateRecord(row, feature, index) {
     this.updateRow.emit(JSON.stringify({row: row, feature: feature, index:index}))
+  }
+
+  removeFromMassEdit(row, index) {
+    alert("over here room");
+    this.completeSelection.emit(JSON.stringify({row: row, start: index, limit: index}))
   }
 }

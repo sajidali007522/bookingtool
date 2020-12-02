@@ -85,8 +85,14 @@ export class TravelComponent implements OnInit {
     //this.startSelection.emit(JSON.stringify({row: row, index:index}))
   }
   rowCompletion (row, index) {
+    if(this.state.isMassEditting) return;
     console.log("mouse up", this.componentState, index);
     this.completeSelection.emit(JSON.stringify({row: row, start:this.componentState.start, limit: index}))
+  }
+
+  removeFromMassEdit(row, index) {
+    //alert("over here travel");
+    this.completeSelection.emit(JSON.stringify({row: row, start: index, limit: index}))
   }
   setCardCellTitle() {
 
