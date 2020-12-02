@@ -106,7 +106,6 @@ export class RoomsComponent implements OnInit,AfterViewInit {
   }
 
   removeFromMassEdit(row, index) {
-    alert("over here room");
     this.completeSelection.emit(JSON.stringify({row: row, start: index, limit: index}))
   }
 }
