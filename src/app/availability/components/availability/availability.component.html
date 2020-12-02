@@ -97,6 +97,14 @@
           </div>
         </div>
         <div class="resv-btns">
+          <div class="mb-1 mt-1" *ngIf="state.massEdit.items.length > 0">
+            <a href="javascript:void(0)" class="full-btn shake">
+              <span class="fa fa-edit"></span> Mass Edit
+            </a>
+            <a href="javascript:void(0)" (click)="resetMassEdit()" class="full-btn" >
+              <span class="fa fa-close"></span> Clear Selection
+            </a>
+          </div>
             <!-- <a *ngIf="!this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-mass-edit" [ngClass]="{ 'disabled' :  remoteData.length <=0}" (click)="setMassEdit()">Mass Edit</a>
             <a *ngIf="!this.state.isEditting && !this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : remoteData.length <=0}" (click)="setEditMode()">Edit</a>
             <a *ngIf="this.state.isEditting || this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : !state.recordLoaded}" (click)="resetEditMode()">End Edit</a>

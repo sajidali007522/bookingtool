@@ -398,37 +398,62 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   completeMultipleSelect(event){
-    console.log(JSON.parse(event));
     event = JSON.parse(event);
     let start = event.start;
     let limit = event.limit;
     if(this.state.resourceTypeValue == 1) {
       for(let index=start; index<=limit; index++) {
-        this.remoteData.data[index]['checked']= this.remoteData.data[index]['checked'] ? false : true;
+        let flag = this.state.massEdit.indexes.indexOf(index);
+        if(flag == -1) {
+          this.remoteData.data[index]['checked'] = true;
+          this.state.massEdit.items.push(this.remoteData.data['index']);
+        } else {
+          this.remoteData.data[index]['checked'] = false
+          this.state.massEdit.items.splice(flag, 1);
+          this.state.massEdit.indexes.splice(flag, 1);
+        }
       }
     }
     else {
       for(let index=start; index<=limit; index++) {
         //this.remoteData.filter((row)=> {
         this.remoteData[index]['checked']= this.remoteData[index]['checked'] ? false : true;
+        let flag = this.state.massEdit.indexes.indexOf(index);
+        if(flag == -1) {
+          this.remoteData[index]['checked'] = true;
+          this.state.massEdit.items.push(this.remoteData.data['index']);
+        } else {
+          this.remoteData[index]['checked'] = false
+          this.state.massEdit.items.splice(flag, 1);
+          this.state.massEdit.indexes.splice(flag, 1);
+        }
       }
     }
     return;
-    //index, room, $event, column
-    let index, room, $event, column
-    //console.log("completing", index, this.state.massEdit.lastIndex);
-    if(column.canEdit && column.dataProperty != 'FdStatus') return;
-    if(this.state.massEdit.lastIndex == -1) return;
-    //if($event.shiftKey && $event.altKey) return;
-    let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
-    while(flag <= index){
-      this.handleMassEditRooms(flag, this.remoteData[flag])
-      flag++;
-    }
-    this.state.massEdit.lastIndex = -1;
-    return;
   }
 
+  resetMassEdit() {
+    if(this.state.resourceTypeValue == 1) {
+      for(let index=0; index<=this.state.massEdit.indexes.length; index++) {
+        let gridIndex = this.state.massEdit.indexes[index];
+        this.remoteData.data[gridIndex]['checked'] = false
+        this.state.massEdit.items.splice(index, 1);
+        this.state.massEdit.indexes.splice(index, 1);
+      }
+    }
+    else {
+      for(let index=0; index<=this.state.massEdit.indexes.length; index++) {
+        //this.remoteData.filter((row)=> {
+        this.remoteData[index]['checked']= this.remoteData[index]['checked'] ? false : true;
+        let flag = this.state.massEdit.indexes.indexOf(index);
+        let gridIndex = this.state.massEdit.indexes[index];
+        this.remoteData[gridIndex]['checked'] = false
+        this.state.massEdit.items.splice(index, 1);
+        this.state.massEdit.indexes.splice(index, 1);
+      }
+    }
+    return;
+  }
   handleMassEditRooms (index, room) {
     if(this.state.massEdit.indexes.indexOf(index) != -1) {
       this.state.massEdit.indexes.splice(this.state.massEdit.indexes.indexOf(index), 1)
