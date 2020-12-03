@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpService} from "../http.service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {AuthService} from "../auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AvailabilityService {
   state = {
     errorMessages: []
   }
-  constructor(private _http: HttpService, private http: HttpClient) { }
+  constructor(private _http: HttpService, private http: HttpClient, private _auth:AuthService) { }
 
   public loadRecords (siteId, contractID, resourceTypeID, contractorId, params) {
     return this._http._get('availability/'+siteId+'/Allotments/'+contractID+"/"+contractorId+"/"+resourceTypeID, params);
@@ -62,7 +63,10 @@ export class AvailabilityService {
   patchAvailabilityRecord (postBody, siteID, contractId, contractorId, resourceType) {
     ///api2/availability/{siteID}/Allotments/{contractID}/{contractorID}/{resourceTypeID}
     ///api3/availability/{siteID}/Allotments/{contractID}/{contractorID}/{resourceTypeID}
-    return this.http.patch(`${this.baseUrl}availability/${siteID}/Allotments/${contractId}/${contractorId}/${resourceType}`, postBody);
+    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
+    return this.http.patch(`${this.baseUrl}availability/${siteID}/Allotments/${contractId}/${contractorId}/${resourceType}`, postBody, {
+      headers: headers
+    });
   }
 
   loadRoomFeatures (siteID, resourceType) {
