@@ -132,7 +132,7 @@
         </div>
       </div>
     </div><!-- reservation-sidebar -->
-    <div class="reservation-content-area">
+    <div class="reservation-content-area availability-component">
         <div class="reservation-content-inner">
           <app-loader *ngIf="state.loading.records || state.resourceTypeValue <= 0"></app-loader>
           <div class="table-editable-wrap table-datatitle-wrap" *ngIf="!state.loading.records && state.resourceTypeValue > 0">
