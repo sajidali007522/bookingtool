@@ -39,8 +39,9 @@
     <td data-title="Arrive" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{dateParser.parseDateToTime(row.endDate)}}</td>
     <td data-title="Destination" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.to}}</td>
     <td data-title="Total" >
-      <span class="text-desc-edit" *ngIf="!row.isEditting" (click)="row.isEditting = !row.isEditting">{{row.total || 0}}<span class="fa fa-pencil"></span></span>
-      <span *ngIf="row.isEditting">
+      <span class="text-desc-edit" *ngIf="!row.isEditting" (click)="row.isEditting = !state.isMassEditting ? !row.isEditting : false">{{row.total || 0}}
+        <span *ngIf="!state.isMassEditting" class="fa fa-pencil"></span></span>
+      <span *ngIf="!state.isMassEditting && row.isEditting">
         <input type="text" class="edit-field" [(ngModel)]="row.total" (blur)="updateRecord(row, index)">
       </span>
     </td>

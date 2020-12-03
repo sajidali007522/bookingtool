@@ -35,8 +35,10 @@
     <td data-title="%" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.percentage || 0}}</td>
     <ng-container *ngFor="let feature of row.features; let i = index;">
       <td [attr.data-title]="remoteData['features'][i].description">
-        <span class="text-desc-edit" *ngIf="!row.isEditting || !feature['isEditting']" (click)="row.isEditting = true; feature['isEditting'] = !feature['isEditting']">{{feature['number'] || 0}}<span class="fa fa-pencil"></span></span>
-        <span *ngIf="row.isEditting && feature['isEditting']">
+        <span class="text-desc-edit" *ngIf="!state.isMassEditting && (!row.isEditting || !feature['isEditting'])" (click)="row.isEditting = !state.isMassEditting ? true : false; feature['isEditting'] = !feature['isEditting']">{{feature['number'] || 0}}
+          <span *ngIf="!state.isMassEditting" class="fa fa-pencil"></span>
+        </span>
+        <span *ngIf="!state.isMassEditting && row.isEditting && feature['isEditting']">
           <input type="text" class="edit-field" [(ngModel)]="feature['hold']" (blur)="updateRecord(row, feature, index)" /> <!--setAsSelected(row, feature) -->
         </span>
       </td>

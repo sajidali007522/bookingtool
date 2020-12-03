@@ -123,6 +123,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.availService.getAvailabilityType(this.state.filterForm.resourceTypeID)
       .subscribe((res:any)=>{
         this.state.resourceTypeValue = res
+        this.state.isMassEditting = false
+        this.resetMassEdit();
       })
   }
 
@@ -141,6 +143,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   resetFilter() {
     this.remoteData = [];
     this.remoteDataTemp = [];
+    this.state.isMassEditting = false;
     this.state.filterForm.businessProfileID = '00000000-0000-0000-0000-000000000000';
     this.state.filterForm.contractID = '00000000-0000-0000-0000-000000000000';
     this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
@@ -461,6 +464,12 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       //row: row, feature: feature, index:index
     if(this.state.resourceTypeValue == 1) {
       this.remoteData.data[data['index']]['checked'] = true;
+      this.remoteData.data[data['index']].features.filter(feature => {
+        feature.checked = false;
+        if(feature.id == data['feature'].id) {
+          feature.checked = true
+        }
+      })
     }
     else {
       this.state.massEdit.indexes.filter(index => {
