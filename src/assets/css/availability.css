@@ -33,6 +33,6 @@
     }
 
 /* Skins changes start */
-tr.selected td { background: #fff0de;}
-.theme-dark tr.selected td{background: #fff0de !important;}
+.availability-component tr.selected td { background: #fff0de;}
+.theme-dark .availability-component tr.selected td{background: #fff0de !important;}
 /* Skins changes end */
