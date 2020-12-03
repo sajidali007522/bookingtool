@@ -58,7 +58,7 @@ const routes: Routes = [
     loadChildren: () => import('./availability/availability.module').then(m => m.AvailabilityModule)
   },
   {
-    path: 'housekeeping-demo',
+    path: 'housekeeping',
     component: SingleColumnLayoutComponent,
     canActivate: [AuthGuard],
     // children: [
