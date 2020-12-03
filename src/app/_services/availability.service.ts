@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpService} from "../http.service";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AvailabilityService {
-
+  baseUrl = 'https://demo.innfinity.com/productsdemo/api3/'
   state = {
     errorMessages: []
   }
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService, private http: HttpClient) { }
 
   public loadRecords (siteId, contractID, resourceTypeID, contractorId, params) {
     return this._http._get('availability/'+siteId+'/Allotments/'+contractID+"/"+contractorId+"/"+resourceTypeID, params);
@@ -60,7 +61,8 @@ export class AvailabilityService {
 
   patchAvailabilityRecord (postBody, siteID, contractId, contractorId, resourceType) {
     ///api2/availability/{siteID}/Allotments/{contractID}/{contractorID}/{resourceTypeID}
-    return this._http._patch(`availability/${siteID}/Allotments/${contractId}/${contractorId}/${resourceType}`, postBody);
+    ///api3/availability/{siteID}/Allotments/{contractID}/{contractorID}/{resourceTypeID}
+    return this.http.patch(`${this.baseUrl}availability/${siteID}/Allotments/${contractId}/${contractorId}/${resourceType}`, postBody);
   }
 
   loadRoomFeatures (siteID, resourceType) {

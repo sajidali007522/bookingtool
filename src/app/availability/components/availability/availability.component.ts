@@ -452,10 +452,21 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   processMassEdit () {
     //this.state.isMassEditting = false;
+    this.saveChanges();
   }
 
   updateRow(event) {
     console.log(JSON.parse(event));
+    let data = JSON.parse(event)
+      //row: row, feature: feature, index:index
+    if(this.state.resourceTypeValue == 1) {
+      this.remoteData.data[data['index']]['checked'] = true;
+    }
+    else {
+      this.state.massEdit.indexes.filter(index => {
+        this.remoteData[data['index']]['checked'] = true
+      })
+    }
     return;
   }
 
