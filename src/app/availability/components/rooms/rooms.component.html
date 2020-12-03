@@ -25,7 +25,7 @@
   <tbody>
   <tr *ngFor="let row of remoteData['data']; let index = index" [ngClass]="{'edited-tr': row.isEditting, 'selected': row.checked, 'hide': state.isMassEditting && !row.checked}">
     <td data-title="Remove" *ngIf="state.isMassEditting">
-      <span class="fa fa-trash" (click)="removeFromMassEdit(row, index)"></span>
+      <a class="close-sm" popover="Remove" triggers="mouseenter:mouseleave" (click)="removeFromMassEdit(row, index)"></a>
     </td>
     <td data-title="Date" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{dateParser.parseDate(row.date)}}</td>
     <td data-title="Day" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.dayOfWeek}}</td>
@@ -38,9 +38,10 @@
         <span class="text-desc-edit" *ngIf="!state.isMassEditting && (!row.isEditting || !feature['isEditting'])" (click)="row.isEditting = !state.isMassEditting ? true : false; feature['isEditting'] = !feature['isEditting']">{{feature['number'] || 0}}
           <span *ngIf="!state.isMassEditting" class="fa fa-pencil"></span>
         </span>
-        <span *ngIf="!state.isMassEditting && row.isEditting && feature['isEditting']">
-          <input type="text" class="edit-field" [(ngModel)]="feature['hold']" (blur)="updateRecord(row, feature, index)" /> <!--setAsSelected(row, feature) -->
-        </span>
+        <div class="cancel-iputwrap" *ngIf="!state.isMassEditting && row.isEditting && feature['isEditting']">
+          <input type="text" class="edit-field" [(ngModel)]="feature['hold']" (blur)="updateRecord(row, feature, index)">
+          <a href="javascript:void(0);" class="fa fa-close" (click)="row.isEditting = false"></a>
+        </div>
       </td>
 <!--      <td [attr.data-title]="remoteData['features'][i].description+' Hold'" *ngIf="state.filterForm.includeHolds">-->
 <!--        <input type="text" class="edit-field" [(ngModel)]="feature['hold']" (blur)="setAsSelected(row, feature)" />-->

@@ -1,6 +1,13 @@
 <div class="reservation-detail-wrap">
     <div class="reservation-sidebar">
       <div class="reservation-sidebar-inner">
+        <div class="reset-wrap d-flex">
+          <a href="javascript:void(0)"  class="btn btn-sm btn-success for-mobile mr-auto">
+            <span class="fa fa-angle-left"></span>
+            Back
+          </a>
+
+        </div>
         <div *ngIf="!this.state.isMassEditting">
 <!--          <div class="accordion-group">-->
 <!--            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-site">Site<span *ngIf="state.loading.sites" class="fa fa-spinner fa-spin"></span></a></div>-->
@@ -107,10 +114,10 @@
           </div>
           <div class="mb-1 mt-1" *ngIf="state.massEdit.items.length > 0 && state.isMassEditting">
             <a href="javascript:void(0)" class="full-btn shake" (click)="state.isMassEditting=false">
-              <span class="fa fa-edit"></span> Cancel
+              <span class="fa fa-close"></span> Cancel
             </a>
             <a href="javascript:void(0)" (click)="processMassEdit()" class="full-btn" >
-              <span class="fa fa-close"></span> Save
+              <span class="fa fa-download"></span> Save
             </a>
           </div>
             <!-- <a *ngIf="!this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-mass-edit" [ngClass]="{ 'disabled' :  remoteData.length <=0}" (click)="setMassEdit()">Mass Edit</a>

@@ -28,7 +28,7 @@
   <tbody>
   <tr *ngFor="let row of remoteData; let index = index" [ngClass]="{'edited-tr': row.isEditting,  'selected': row.checked,  'hide': state.isMassEditting && !row.checked}">
     <td data-title="Remove" *ngIf="state.isMassEditting">
-      <span class="fa fa-trash" (click)="removeFromMassEdit(row, index)"></span>
+      <a class="close-sm" popover="Remove" triggers="mouseenter:mouseleave" (click)="removeFromMassEdit(row, index)"></a>
     </td>
     <td data-title="Flight#" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.identifier}}</td>
     <td data-title="Leg" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.leg}}</td>
@@ -40,10 +40,13 @@
     <td data-title="Destination" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.to}}</td>
     <td data-title="Total" >
       <span class="text-desc-edit" *ngIf="!row.isEditting" (click)="row.isEditting = !state.isMassEditting ? !row.isEditting : false">{{row.total || 0}}
-        <span *ngIf="!state.isMassEditting" class="fa fa-pencil"></span></span>
-      <span *ngIf="!state.isMassEditting && row.isEditting">
-        <input type="text" class="edit-field" [(ngModel)]="row.total" (blur)="updateRecord(row, index)">
+        <span *ngIf="!state.isMassEditting" class="fa fa-pencil"></span>
       </span>
+
+      <div class="cancel-iputwrap" *ngIf="!state.isMassEditting && row.isEditting">
+        <input type="text" class="edit-field" [(ngModel)]="row.total" (blur)="updateRecord(row, index)">
+        <a href="javascript:void(0);" class="fa fa-close" (click)="row.isEditting = false"></a>
+      </div>
     </td>
     <td data-title="Avail" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.available || 0}}</td>
     <td data-title="Booked" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.booked || 0}}</td>
