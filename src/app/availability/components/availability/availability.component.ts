@@ -196,7 +196,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       {
         beginDate: beginDate,
         endDate: endDate,
-        includeHolds: true //this.state.filterForm.includeHolds
+        includeHolds: this.state.filterForm.includeHolds
       })
       .subscribe(res=> {
         this.state.recordLoaded=true;
