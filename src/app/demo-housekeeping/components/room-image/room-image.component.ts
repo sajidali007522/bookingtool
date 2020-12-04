@@ -5,7 +5,8 @@ import {AuthenticationService} from "../../../_services/authentication.service";
 import {ConfigService} from "../../../config.service";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
 import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
-import { Lightbox } from 'ngx-lightbox';
+import {Lightbox, LightboxEvent, LIGHTBOX_EVENT} from 'ngx-lightbox';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-room-image',
@@ -18,6 +19,8 @@ export class RoomImageComponent implements OnInit,OnChanges {
   @Input() room;
   @ViewChild(ConfirmModalComponent) childcomp: ConfirmModalComponent;
   @ViewChild(ModalComponent) modalComp: ModalComponent;
+
+  private _subscription: Subscription;
   state={
     descriptionLimit: 150,
     message: '',
@@ -42,7 +45,8 @@ export class RoomImageComponent implements OnInit,OnChanges {
               private ref: ChangeDetectorRef,
               private appConfigService: ConfigService,
               private DHKService: DemoHousekeepingService,
-              private _lightbox: Lightbox) {}
+              private _lightbox: Lightbox,
+              private _lightboxEvent: LightboxEvent) {}
 
   ngOnInit(): void {}
   ngOnChanges() {
@@ -162,10 +166,29 @@ export class RoomImageComponent implements OnInit,OnChanges {
   open(index: number): void {
     // open lightbox
     this._lightbox.open(this.state.roomImages, index);
+    this._subscription = this._lightboxEvent.lightboxEvent$
+      .subscribe(event => this._onReceivedEvent(event));
   }
 
   close(): void {
     // close lightbox programmatically
     this._lightbox.close();
+  }
+
+  private _onReceivedEvent(event: any): void {
+    // remember to unsubscribe the event when lightbox is closed
+    if (event.id === LIGHTBOX_EVENT.CLOSE) {
+      // event CLOSED is fired
+      this._subscription.unsubscribe();
+    }
+
+    if (event.id === LIGHTBOX_EVENT.OPEN) {
+      // event OPEN is fired
+    }
+
+    if (event.id === LIGHTBOX_EVENT.CHANGE_PAGE) {
+      // event change page is fired
+      console.log(event.data); // -> image index that lightbox is switched to
+    }
   }
 }
