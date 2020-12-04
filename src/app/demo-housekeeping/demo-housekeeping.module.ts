@@ -6,6 +6,7 @@ import {
   HammerGestureConfig,
   HammerModule,
 } from '@angular/platform-browser';
+import { LightboxModule } from 'ngx-lightbox';
 import * as Hammer from 'hammerjs';
 
 import {routing} from "./demo-housekeeping.routing";
@@ -43,6 +44,7 @@ export class MyHammerConfig extends HammerGestureConfig {
     AutocompleteLibModule,
     SharedModuleModule,
     NgxBootstrapMultiselectModule,
+    LightboxModule,
     PopoverModule.forRoot()
   ]
 })

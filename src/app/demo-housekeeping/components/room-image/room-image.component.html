@@ -8,7 +8,7 @@
           <div class="carousel-preview" *ngIf="state.selectedImage.urlPath">
             <div>
               <div class="main-photo">
-                <img src="{{state.selectedImage.urlPath}}" alt="">
+                <img src="{{state.selectedImage.urlPath}}" (click)="open(state.selectedIndex)"alt="">
               </div>
             </div>
           </div>
@@ -16,7 +16,7 @@
           <div class="carousel-thumbnails clearfix">
             <div *ngFor="let image of state.roomImages; let index = index;">
               <div class="carousel-thumbnail" (click)="editImage(image, index)">
-                <a href="javascript:void(0)"><img src="{{image.urlPath}}" alt=""></a>
+                <a href="javascript:void(0)" ><img src="{{getThumbnailUrl(image.urlPath)}}" alt=""></a>
               </div>
             </div>
 

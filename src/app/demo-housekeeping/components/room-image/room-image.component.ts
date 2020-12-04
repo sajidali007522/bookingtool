@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../../_services/authentication.service";
 import {ConfigService} from "../../../config.service";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
 import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
+import { Lightbox } from 'ngx-lightbox';
 
 @Component({
   selector: 'app-room-image',
@@ -40,7 +41,8 @@ export class RoomImageComponent implements OnInit,OnChanges {
   constructor(private _http: HttpService,
               private ref: ChangeDetectorRef,
               private appConfigService: ConfigService,
-              private DHKService: DemoHousekeepingService) {}
+              private DHKService: DemoHousekeepingService,
+              private _lightbox: Lightbox) {}
 
   ngOnInit(): void {}
   ngOnChanges() {
@@ -72,6 +74,9 @@ export class RoomImageComponent implements OnInit,OnChanges {
           let hours = d.getHours() < 10 ? '0'+d.getHours() : d.getHours();
           let minutes = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
           r.createDate = d.getFullYear()+"-"+month+"-"+day+" "+hours+":"+minutes;
+          r.src = r.urlPath;
+          r.caption = r.name
+          r.thumb = this.getThumbnailUrl(r.urlPath)
           this.state.roomImages.push(r);
         });
         this.reset();
@@ -146,5 +151,21 @@ export class RoomImageComponent implements OnInit,OnChanges {
     if(this.state.componentState.selectedImage.roomNumber != '') {
       this.state.selectedImage = JSON.parse(JSON.stringify(this.state.componentState.selectedImage));
     }
+  }
+  getThumbnailUrl(src) {
+    let temp = src.split(".");
+    temp[temp.length-2] = temp[temp.length-2]+'_100';
+    return temp.join(".");
+  }
+
+
+  open(index: number): void {
+    // open lightbox
+    this._lightbox.open(this.state.roomImages, index);
+  }
+
+  close(): void {
+    // close lightbox programmatically
+    this._lightbox.close();
   }
 }
