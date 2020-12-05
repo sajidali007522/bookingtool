@@ -401,6 +401,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   completeMultipleSelect(event){
+    if(this.state.filterForm.includeHolds) return;
     event = JSON.parse(event);
     let start = event.start;
     let limit = event.limit;
