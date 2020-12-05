@@ -867,7 +867,8 @@ input[type="file"] {
   }
   .sure-wrap{
     text-align: center;
-    font-size: 27px;
+    font-size: 20px;
+    word-break: break-word;
     line-height: 1.1;
   }
   .sure-wrap h2{
@@ -876,7 +877,7 @@ input[type="file"] {
     margin: 0 0 20px;
   }
   .sure-wrap p{
-    line-height: 1.1;
+    line-height: 1.3;
   }
 
 
