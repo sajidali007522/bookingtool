@@ -8,7 +8,8 @@
     </ul>
   </div>
 </div>
-<table class="table table-sm table-editable"  (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
+<div class="table-responsive" [ngClass]="{'table-loader': state.loading.save}">
+  <table class="table table-sm table-editable"  (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
   <thead>
     <th *ngIf="state.isMassEditting"></th>
     <th>Date </th>
@@ -49,6 +50,7 @@
   </tr>
   </tbody>
 </table>
+</div>
 
 
 <div class="for-mobile">

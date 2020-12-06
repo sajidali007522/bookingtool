@@ -170,6 +170,7 @@
     </div><!-- reservation-content-area -->
   </div><!-- reservation-detail-wrap -->
 <app-alert-modal [messages]="state.errorMessages" (closeIt)="closeAlertModal()" ></app-alert-modal>
+<app-modal [message]="state.modal.message" [modalTitle]="state.modal.title" (closeIt)="closeModal()"></app-modal>
 
 
 

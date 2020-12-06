@@ -7,6 +7,7 @@ import {DateParser} from "../../../_helpers/dateParser";
 import {AlertModalComponent} from "../../../shared/alert-modal/alert-modal.component";
 import {DeviceDetectionService} from "../../../_services/device-detection.service";
 import {RoomsComponent} from "../rooms/rooms.component";
+import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
 
 @Component({
   selector: 'app-availability',
@@ -15,11 +16,16 @@ import {RoomsComponent} from "../rooms/rooms.component";
 })
 export class AvailabilityComponent implements OnInit, AfterViewInit {
   @ViewChild(AlertModalComponent) childcomp: AlertModalComponent;
+  @ViewChild(ModalComponent) modalComp: ModalComponent;
 
   bsConfig: Partial<BsDatepickerConfig>;
   remoteData =<any> [];
   remoteDataTemp = <any> [];
   state={
+    modal:{
+      title: '',
+      message: ''
+    },
     massEdit: {
       processing:0,
       formState: false,
@@ -185,7 +191,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       this.childcomp.openAlertModal()
       return;
     }
-
+    this.resetMassEdit()
     let beginDate = this.dateParser.formatDate(this.state.filterForm.beginDate);
     let endDate = this.dateParser.formatDate(this.state.filterForm.endDate);
     this.state.loading.records = true;
@@ -355,11 +361,22 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       this.state.filterForm.resourceTypeID)
       .subscribe(res=>{
         console.log(res)
-          this.state.loading.save = false;
+        this.state.loading.save = false;
+        if(res['success']){
+          this.state.modal.title ="Success!";
+          this.state.modal.message ="Record has been updated";
+        } else {
+          this.state.modal.title ="Error!";
+          this.state.modal.message =res['message'];
+        }
+        this.modalComp.openModal();
       },
         err=> {
         console.log(err)
           this.state.loading.save = false;
+          this.state.modal.title ="Error!";
+          this.state.modal.message = "Something went wrong, please try again!";
+          this.modalComp.openModal();
         })
   }
 
@@ -460,24 +477,55 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   updateRow(event) {
+    if(this.state.loading.save) return;
     console.log(JSON.parse(event));
     let data = JSON.parse(event)
       //row: row, feature: feature, index:index
+    let postBody = [];
+
     if(this.state.resourceTypeValue == 1) {
-      this.remoteData.data[data['index']]['checked'] = true;
-      this.remoteData.data[data['index']].features.filter(feature => {
-        feature.checked = false;
-        if(feature.id == data['feature'].id) {
-          feature.checked = true
-        }
-      })
+      postBody = [{
+        "AvailabilityDate": this.remoteData.data[data['index']].date,
+        "Features" : [
+          {
+            "hold": data['feature'].hold,
+            "id": data['feature'].id,
+            "number": data['feature'].number,
+            "checked": data['feature'].checked
+          }
+        ],
+      }]
     }
     else {
-      this.state.massEdit.indexes.filter(index => {
-        this.remoteData[data['index']]['checked'] = true
-      })
+      postBody = [this.remoteData[data['index']]];
     }
+    this.state.loading.save = true;
+    this.availService.patchAvailabilityRecord(postBody, this.state.filterForm.siteID,
+      this.state.filterForm.contractID,
+      this.state.filterForm.contractorID,
+      this.state.filterForm.resourceTypeID)
+      .subscribe(res=>{
+          this.state.loading.save = false;
+          if(res['success']){
+            this.state.modal.title ="Success!";
+            this.state.modal.message ="Record has been updated";
+          } else {
+            this.state.modal.title ="Error";
+            this.state.modal.message =res['message'];
+          }
+          this.modalComp.openModal();
+        },
+        err=> {
+          this.state.loading.save = false;
+          this.state.modal.title ="Error!";
+          this.state.modal.message = "Something went wrong, please try again!";
+          this.modalComp.openModal();
+        })
     return;
+  }
+
+  closeModal(){
+    this.modalComp.state.open=false;
   }
 
 }
