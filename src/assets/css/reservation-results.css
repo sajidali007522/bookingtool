@@ -1031,6 +1031,9 @@
     top: 15px;
     font-size: 18px;
 }
+.full-btn .fa-spinner{
+    position: static;
+}
 .filter-btn-wrap{
     margin: 0 0 15px;
 }
