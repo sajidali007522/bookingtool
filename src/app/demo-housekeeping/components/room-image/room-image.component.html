@@ -16,7 +16,7 @@
           <div class="carousel-thumbnails clearfix">
             <div *ngFor="let image of state.roomImages; let index = index;">
               <div class="carousel-thumbnail" (click)="editImage(image, index)">
-                <a href="javascript:void(0)" (click)="open(index)"><img src="{{getThumbnailUrl(image.urlPath)}}" alt=""></a>
+                <a href="javascript:void(0)"><img src="{{getThumbnailUrl(image.urlPath)}}" alt=""></a>
               </div>
             </div>
 
