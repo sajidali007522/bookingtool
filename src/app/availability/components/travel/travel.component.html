@@ -4,7 +4,7 @@
   </div>
   <div class="for-mobile">
     <ul class="pagination justify-content-center">
-      <li>Showing {{(this.state.recordVisible+1)}} of {{this.state.mobileContainer.length}} Records</li>
+      <li>Showing {{(this.state.recordVisible + 1)}} of {{this.state.mobileContainer.length}} Records</li>
     </ul>
   </div>
 </div>
@@ -12,8 +12,9 @@
        (swipeleft)="swipeNext()"
        (swiperight)="swipePrev()">
   <thead>
+  <tr>
   <th *ngIf="state.isMassEditting"></th>
-  <th>Flight# </th>
+  <th>Flight#</th>
   <th>Leg</th>
   <th>Date</th>
   <th>Depart</th>
@@ -24,30 +25,42 @@
   <th>Total</th>
   <th>Avail</th>
   <th>Booked</th>
+  </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let row of remoteData; let index = index" [ngClass]="{'edited-tr': row.isEditting,  'selected': row.checked,  'hide': state.isMassEditting && !row.checked}">
+  <tr *ngFor="let row of remoteData; let index = index"
+      [ngClass]="{'edited-tr': row.isEditting,  'selected': row.checked,  'hide': state.isMassEditting && !row.checked}">
     <td data-title="Remove" *ngIf="state.isMassEditting">
-      <a class="close-sm" popover="Remove" triggers="mouseenter:mouseleave" (click)="removeFromMassEdit(row, index)"></a>
+      <a class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"
+         (click)="removeFromMassEdit(row, index)"></a>
     </td>
-    <td data-title="Flight#" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.identifier}}</td>
+    <td data-title="Flight#" (mousedown)="rowSelection(row, index)"
+        (mouseup)="rowCompletion(row, index)">{{row.identifier}}</td>
     <td data-title="Leg" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.leg}}</td>
-    <td data-title="Date" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{dateParser.parseDate(row.date)}}</td>
-    <td data-title="Depart" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{dateParser.parseDateToTime(row.startDate)}}</td>
-    <td data-title="Origination" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.from}}</td>
+    <td data-title="Date" (mousedown)="rowSelection(row, index)"
+        (mouseup)="rowCompletion(row, index)">{{dateParser.parseDate(row.date)}}</td>
+    <td data-title="Depart" (mousedown)="rowSelection(row, index)"
+        (mouseup)="rowCompletion(row, index)">{{dateParser.parseDateToTime(row.startDate)}}</td>
+    <td data-title="Origination" (mousedown)="rowSelection(row, index)"
+        (mouseup)="rowCompletion(row, index)">{{row.from}}</td>
 
-    <td data-title="Arrive" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{dateParser.parseDateToTime(row.endDate)}}</td>
-    <td data-title="Destination" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.to}}</td>
-    <td data-title="Total" >
-      <span class="text-desc-edit" *ngIf="!state.filterForm.includeHolds" (click)="row.isEditting = !state.isMassEditting ? !row.isEditting : false">{{row.total || 0}}
+    <td data-title="Arrive" (mousedown)="rowSelection(row, index)"
+        (mouseup)="rowCompletion(row, index)">{{dateParser.parseDateToTime(row.endDate)}}</td>
+    <td data-title="Destination" (mousedown)="rowSelection(row, index)"
+        (mouseup)="rowCompletion(row, index)">{{row.to}}</td>
+    <td data-title="Total">
+      <span class="text-desc-edit" *ngIf="!state.filterForm.includeHolds"
+            (click)="row.isEditting = !state.isMassEditting ? !row.isEditting : false">{{row.total || 0}}
       </span>
 
       <div class="cancel-iputwrap" *ngIf="state.filterForm.includeHolds">
         <input type="text" class="edit-field" [(ngModel)]="row.total" (blur)="updateRecord(row, index)">
       </div>
     </td>
-    <td data-title="Avail" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.available || 0}}</td>
-    <td data-title="Booked" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.booked || 0}}</td>
+    <td data-title="Avail" (mousedown)="rowSelection(row, index)"
+        (mouseup)="rowCompletion(row, index)">{{row.available || 0}}</td>
+    <td data-title="Booked" (mousedown)="rowSelection(row, index)"
+        (mouseup)="rowCompletion(row, index)">{{row.booked || 0}}</td>
   </tr>
   </tbody>
 </table>
@@ -59,13 +72,17 @@
       </a>
     </li>
     <li>
-      <button *ngIf="!state.isEditting" (click)="setEdit()" class="btn btn-default btn-success btn-inarrow"> Edit </button>
-      <button *ngIf="state.isEditting" (click)="resetEdit()" class="btn btn-default btn-secondary btn-inarrow">End Edit</button>
-      <button *ngIf="state.isEditting" (click)="callSave()" class="btn btn-default btn-success btn-inarrow">Save</button>
+      <button *ngIf="!state.isEditting" (click)="setEdit()" class="btn btn-default btn-success btn-inarrow"> Edit
+      </button>
+      <button *ngIf="state.isEditting" (click)="resetEdit()" class="btn btn-default btn-secondary btn-inarrow">End
+        Edit
+      </button>
+      <button *ngIf="state.isEditting" (click)="callSave()" class="btn btn-default btn-success btn-inarrow">Save
+      </button>
     </li>
     <li class="page-item page-next">
       <a href="javascript:void(0)" (click)="swipeNext()" class="page-link">
-      <span>Next</span>
-    </a></li>
+        <span>Next</span>
+      </a></li>
   </ul>
 </div>

@@ -137,7 +137,7 @@
     <div class="reservation-content-area availability-component">
         <div class="reservation-content-inner">
           <app-loader *ngIf="state.loading.records || state.resourceTypeValue <= 0"></app-loader>
-          <div class="table-editable-wrap table-datatitle-wrap" *ngIf="!state.loading.records && state.resourceTypeValue > 0">
+          <div class="table-editable-wrap table-datatitle-wrap" *ngIf="!state.loading.records && state.resourceTypeValue > 0" [ngClass]="{'table-loader': state.loading.save}">
               <div *ngIf="remoteData.length <= 0"> <div class="norecord"><h3 class="text-center">No Record Found</h3></div> </div>
               <div *ngIf="remoteData">
                 <app-rooms *ngIf="state.resourceTypeValue == 1 && remoteData.hasOwnProperty('data') && remoteData['data'].length > 0"

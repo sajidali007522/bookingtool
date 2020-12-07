@@ -8,9 +8,10 @@
     </ul>
   </div>
 </div>
-<div class="table-responsive" [ngClass]="{'table-loader': state.loading.save}">
+<div class="table-responsive">
   <table class="table table-sm table-editable"  (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
   <thead>
+  <tr>
     <th *ngIf="state.isMassEditting"></th>
     <th>Date </th>
     <th>Day</th>
@@ -22,6 +23,7 @@
     <th>{{feature.description}} </th>
     <th *ngIf="state.filterForm.includeHolds">{{feature.description}} Hold</th>
   </ng-container>
+  </tr>
   </thead>
   <tbody>
   <tr *ngFor="let row of remoteData['data']; let index = index" [ngClass]="{'edited-tr': row.isEditting, 'selected': row.checked, 'hide': state.isMassEditting && !row.checked}">
