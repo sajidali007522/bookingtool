@@ -13,27 +13,23 @@
        (swiperight)="swipePrev()">
   <thead>
   <tr>
-  <th *ngIf="state.isMassEditting"></th>
-  <th>Flight#</th>
-  <th>Leg</th>
-  <th>Date</th>
-  <th>Depart</th>
-  <th>Origination</th>
+    <th>Flight#</th>
+    <th>Leg</th>
+    <th>Date</th>
+    <th>Depart</th>
+    <th>Origination</th>
 
-  <th>Arrive</th>
-  <th>Destination</th>
-  <th>Total</th>
-  <th>Avail</th>
-  <th>Booked</th>
+    <th>Arrive</th>
+    <th>Destination</th>
+    <th>Total</th>
+    <th>Avail</th>
+    <th>Booked</th>
+    <th *ngIf="state.isMassEditting"></th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let row of remoteData; let index = index"
       [ngClass]="{'edited-tr': row.isEditting,  'selected': row.checked,  'hide': state.isMassEditting && !row.checked}">
-    <td data-title="Remove" *ngIf="state.isMassEditting">
-      <a class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"
-         (click)="removeFromMassEdit(row, index)"></a>
-    </td>
     <td data-title="Flight#" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index)">{{row.identifier}}</td>
     <td data-title="Leg" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.leg}}</td>
@@ -61,6 +57,10 @@
         (mouseup)="rowCompletion(row, index)">{{row.available || 0}}</td>
     <td data-title="Booked" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index)">{{row.booked || 0}}</td>
+    <td data-title="Remove" *ngIf="state.isMassEditting">
+      <a class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"
+         (click)="removeFromMassEdit(row, index)"></a>
+    </td>
   </tr>
   </tbody>
 </table>
