@@ -79,7 +79,6 @@ export class RoomImageComponent implements OnInit,OnChanges {
           let minutes = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
           r.createDate = d.getFullYear()+"-"+month+"-"+day+" "+hours+":"+minutes;
           r.src = r.urlPath;
-          r.caption = r.name
           r.thumb = this.getThumbnailUrl(r.urlPath)
           this.state.roomImages.push(r);
         });
