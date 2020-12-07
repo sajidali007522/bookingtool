@@ -217,7 +217,6 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
             this.state.mobileContainer = res;
           }
         }
-
       },
       err=>{
         console.log(err)
