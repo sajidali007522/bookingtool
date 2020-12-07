@@ -129,7 +129,7 @@
             <a *ngIf="(this.state.isEditting || this.state.isMassEditting) && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-save" [ngClass]="{ 'disabled' : !state.isEditting && !state.isMassEditting}" (click)="saveChanges()"> Save</a>
             -->
             <a *ngIf="state.filterForm.includeHolds" href="javascript:void(0)" class="btn-ref" (click)="loadRecords()">Refresh <i class="fa fa-spin fa-spinner" *ngIf="state.loading.records || state.resourceTypeValue <= 0"></i> </a>
-            <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="btn-ref" (click)="state.filterForm.includeHolds= false; loadRecords()"> {{ state.filterForm.includeHolds ? 'Cancel' : 'View'}} <i class="fa fa-spin fa-spinner" *ngIf="state.loading.records || state.resourceTypeValue <= 0"></i> </a>
+            <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="btn-ref" (click)="state.filterForm.includeHolds= false; loadRecords()"> {{ state.filterForm.includeHolds ? 'Cancel' : 'Refresh'}} <i class="fa fa-spin fa-spinner" *ngIf="state.loading.records || state.resourceTypeValue <= 0"></i> </a>
             <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="btn-ref" (click)="state.filterForm.includeHolds=true; loadRecords()">Edit <i class="fa fa-spin fa-spinner" *ngIf="state.loading.records || state.resourceTypeValue <= 0"></i> </a>
         </div>
       </div>
