@@ -527,4 +527,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.modalComp.state.open=false;
   }
 
+  closeFilterBar(){
+    this.renderer.addClass(document.body, 'menu-fullwidth')
+  }
+
 }
