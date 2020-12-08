@@ -842,6 +842,10 @@ input[type="file"] {
 .modal{
   background:rgba(0,0,0, 0.7);
 }
+.modal-body{
+  max-height: 70vh;
+  overflow-y: auto;
+}
   .modal-header .close {
     display: inline-block;
     background: url(/assets/images/cancel-icon.png) no-repeat;
