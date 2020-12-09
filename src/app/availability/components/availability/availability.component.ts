@@ -8,6 +8,7 @@ import {AlertModalComponent} from "../../../shared/alert-modal/alert-modal.compo
 import {DeviceDetectionService} from "../../../_services/device-detection.service";
 import {RoomsComponent} from "../rooms/rooms.component";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
+import {type} from "os";
 
 @Component({
   selector: 'app-availability',
@@ -363,6 +364,13 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       this.state.filterForm.contractorID,
       this.state.filterForm.resourceTypeID)
       .subscribe(res=>{
+        if(typeof res == 'string') {
+          this.state.modal.title ="Error!";
+          this.state.modal.message = "Invalid format of response";
+          this.modalComp.openModal();
+          return;
+        }
+
         console.log(res)
         this.state.loading.save = false;
         if(res['success']){
@@ -375,7 +383,14 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
         this.modalComp.openModal();
       },
         err=> {
-        console.log(err)
+
+          console.log(err)
+          if(typeof err == 'string') {
+            this.state.modal.title ="Error!";
+            this.state.modal.message = "Invalid format of response";
+            this.modalComp.openModal();
+            return;
+          }
           this.state.loading.save = false;
           this.state.modal.title ="Error!";
           this.state.modal.message = "Something went wrong, please try again!";
