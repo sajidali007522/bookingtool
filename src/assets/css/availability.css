@@ -36,3 +36,10 @@
 .availability-component tr.selected td { background: #fff0de;}
 .theme-dark .availability-component tr.selected td{background: #fff0de !important;}
 /* Skins changes end */
+
+
+@media(max-width:767px){
+    .text-desc-edit{
+        padding-left: 0;
+    }
+}
