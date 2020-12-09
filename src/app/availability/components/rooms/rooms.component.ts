@@ -102,6 +102,7 @@ export class RoomsComponent implements OnInit,AfterViewInit {
   }
 
   updateRecord(row, feature, index) {
+    console.log("emitting update record")
     this.updateRow.emit(JSON.stringify({row: row, feature: feature, index:index}))
   }
 

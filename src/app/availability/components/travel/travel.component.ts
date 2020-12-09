@@ -24,6 +24,7 @@ export class TravelComponent implements OnInit {
   @Output() startSelection = new EventEmitter<string>();
   @Output() completeSelection = new EventEmitter<string>();
   @Output() updateRow = new EventEmitter<string>();
+
   componentState = {
     start: -1,
     limit: -1

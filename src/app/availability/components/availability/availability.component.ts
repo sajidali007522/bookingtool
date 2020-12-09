@@ -8,7 +8,6 @@ import {AlertModalComponent} from "../../../shared/alert-modal/alert-modal.compo
 import {DeviceDetectionService} from "../../../_services/device-detection.service";
 import {RoomsComponent} from "../rooms/rooms.component";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
-import {type} from "os";
 
 @Component({
   selector: 'app-availability',
@@ -91,6 +90,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.loadResources();
     this.loadBusinessProfiles();
   }
+
+  ngOnDestroy
 
   ngAfterViewInit() {
     $("body").on('click', ".accordion-group .accordon-heading", function(){
@@ -495,6 +496,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   updateRow(event) {
+    console.log(this.state.loading.save, event)
     if(this.state.loading.save) return;
     console.log(JSON.parse(event));
     let data = JSON.parse(event)
@@ -506,7 +508,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
         "AvailabilityDate": this.remoteData.data[data['index']].date,
         "Features" : [
           {
-            "hold": data['feature'].hold,
+            "hold": Number(data['feature'].hold),
             "id": data['feature'].id,
             "number": data['feature'].number,
             "checked": data['feature'].checked
