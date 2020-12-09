@@ -147,6 +147,9 @@
     </div><!-- reservation-sidebar -->
     <div class="reservation-content-area availability-component">
         <div class="reservation-content-inner">
+          <div class="filter-btn-wrap for-mobile" >
+            <a href="javascript:void(0)" (click)="openFilterBar()" class="filters-btn">Filters <span  class="fa fa-filter"></span></a>
+          </div>
           <app-loader *ngIf="state.loading.records || state.resourceTypeValue <= 0"></app-loader>
           <div class="table-editable-wrap table-datatitle-wrap" *ngIf="!state.loading.records && state.resourceTypeValue > 0" [ngClass]="{'table-loader': state.loading.save}">
               <div *ngIf="remoteData.length <= 0"> <div class="norecord"><h3 class="text-center">No Record Found</h3></div> </div>

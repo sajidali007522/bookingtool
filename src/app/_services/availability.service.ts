@@ -49,6 +49,11 @@ export class AvailabilityService {
 
       return false;
     }
+
+    if(filterParams.beginDate.getTime() > filterParams.endDate.getTime()){
+      this.state.errorMessages.push('End date must be greater than begin date')
+      return;
+    }
     return true;
   }
 

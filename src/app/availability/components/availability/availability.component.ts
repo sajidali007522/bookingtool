@@ -192,8 +192,12 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
       return;
     }
     this.resetMassEdit()
+    if(this.dvcService.isMobile()){
+      this.closeFilterBar();
+    }
     let beginDate = this.dateParser.formatDate(this.state.filterForm.beginDate);
     let endDate = this.dateParser.formatDate(this.state.filterForm.endDate);
+
     this.state.loading.records = true;
     this.availService.loadRecords(this.state.filterForm.siteID,
       this.state.filterForm.contractID,
@@ -529,6 +533,11 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   closeFilterBar(){
     this.renderer.addClass(document.body, 'menu-fullwidth')
+  }
+  openFilterBar () {
+    //$(document).find('.header-wrap > .menu-icon ').trigger('click');
+    //document.getElementById('widthSwitch').click();
+    this.renderer.removeClass(document.body, 'menu-fullwidth')
   }
 
 }
