@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {LookupService} from "../../../_services/lookupService";
 import * as $ from 'jquery'
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
@@ -14,7 +14,7 @@ import {ModalComponent} from "../../../shared-module/components/modal/modal.comp
   templateUrl: './availability.component.html',
   styleUrls: ['./availability.component.css']
 })
-export class AvailabilityComponent implements OnInit, AfterViewInit {
+export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   @ViewChild(AlertModalComponent) childcomp: AlertModalComponent;
   @ViewChild(ModalComponent) modalComp: ModalComponent;
 
@@ -22,6 +22,18 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   remoteData =<any> [];
   remoteDataTemp = <any> [];
   state={
+    resources:{
+      lookup: <any> '',
+      resourceType: <any> '',
+      businessProfile: <any> '',
+      contracts: <any> '',
+      contractSites: <any> '',
+      contractorList: <any> '',
+      loadRecords: <any> '',
+      roomFeatures: <any> '',
+      patchReq: <any> '',
+
+    },
     modal:{
       title: '',
       message: ''
@@ -91,7 +103,18 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.loadBusinessProfiles();
   }
 
-  ngOnDestroy
+  ngOnDestroy(){
+    this.resetFilter();
+    this.state.resources.lookup && this.state.resources.lookup.unsubscribe();
+    this.state.resources.resourceType && this.state.resources.resourceType.unsubscribe();
+    this.state.resources.businessProfile && this.state.resources.businessProfile.unsubscribe();
+    this.state.resources.contracts && this.state.resources.contracts.unsubscribe();
+    this.state.resources.contractSites && this.state.resources.contractSites.unsubscribe();
+    this.state.resources.contractorList && this.state.resources.contractorList.unsubscribe();
+    this.state.resources.loadRecords && this.state.resources.loadRecords.unsubscribe();
+    this.state.resources.roomFeatures && this.state.resources.roomFeatures.unsubscribe();
+    this.state.resources.patchReq && this.state.resources.patchReq.unsubscribe();
+  }
 
   ngAfterViewInit() {
     $("body").on('click', ".accordion-group .accordon-heading", function(){
@@ -115,7 +138,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   loadResources () {
     this.state.loading.resources = true;
-    this.lookupService.loadResources()
+    this.state.resources.lookup = this.lookupService.loadResources()
       .subscribe((res)=>{
         this.state.loading.resources = false;
         this.state.resourceTypes = res['data']['results'];
@@ -128,7 +151,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   setResourceType () {
-    this.availService.getAvailabilityType(this.state.filterForm.resourceTypeID)
+    this.state.resources.resourceType = this.availService.getAvailabilityType(this.state.filterForm.resourceTypeID)
       .subscribe((res:any)=>{
         this.state.resourceTypeValue = res
         this.state.isMassEditting = false
@@ -138,7 +161,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   loadBusinessProfiles() {
     this.state.loading.ruleBag=true;
-    this.lookupService.loadBusinessProfile()
+    this.state.resources.businessProfile = this.lookupService.loadBusinessProfile()
       .subscribe(res=> {
         this.state.loading.ruleBag=false;
         this.state.businessProfiles=res['data']['results'];
@@ -152,6 +175,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     this.remoteData = [];
     this.remoteDataTemp = [];
     this.state.isMassEditting = false;
+    this.resetMassEdit();
     this.state.filterForm.businessProfileID = '00000000-0000-0000-0000-000000000000';
     this.state.filterForm.contractID = '00000000-0000-0000-0000-000000000000';
     this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
@@ -160,7 +184,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   loadContracts() {
     this.state.loading.contract = true;
-    this.lookupService.loadContracts({criteria: this.state.filterForm.businessProfileID})
+    this.state.resources.contracts = this.lookupService.loadContracts({criteria: this.state.filterForm.businessProfileID})
       .subscribe((res)=>{
         this.state.loading.contract = false;
         this.state.contracts = res['data']['results'];
@@ -169,7 +193,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   loadContractSites() {
     this.state.loading.ContractSite = true;
-    this.lookupService.loadContractSites({criteria: this.state.filterForm.contractID})
+    this.state.resources.contractSites = this.lookupService.loadContractSites({criteria: this.state.filterForm.contractID})
       .subscribe((res)=>{
         this.state.loading.ContractSite = false;
         this.state.ContractSites = res['data']['results'];
@@ -178,7 +202,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   loadContractorList () {
     this.state.loading.ContractorList = true;
-    this.lookupService.loadContractorList({criteria: this.state.filterForm.businessProfileID})
+    this.state.resources.contractorList = this.lookupService.loadContractorList({criteria: this.state.filterForm.businessProfileID})
       .subscribe((res)=>{
         this.state.loading.ContractorList = false;
         this.state.ContractorList = res['data']['results'];
@@ -201,7 +225,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     let endDate = this.dateParser.formatDate(this.state.filterForm.endDate);
 
     this.state.loading.records = true;
-    this.availService.loadRecords(this.state.filterForm.siteID,
+    this.state.resources.loadRecords = this.availService.loadRecords(this.state.filterForm.siteID,
       this.state.filterForm.contractID,
       this.state.filterForm.resourceTypeID,
       this.state.filterForm.contractorID,
@@ -254,6 +278,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   setMassEdit(){
+    this.loadRoomFeatures(this.state.resourceTypeValue);
+    return;
     if(this.remoteData.length <= 0 ) return;
     this.remoteDataTemp = JSON.parse(JSON.stringify(this.remoteData));
     this.state.filterForm.includeHolds = true;
@@ -267,7 +293,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
   }
 
   loadRoomFeatures (resourceType) {
-    this.availService.loadRoomFeatures(this.state.filterForm.ContractSite, resourceType)
+    this.state.resources.roomFeatures = this.availService.loadRoomFeatures(this.state.filterForm.ContractSite, resourceType)
       .subscribe(
         res=> {
           this.state.roomTypeList = res;
@@ -331,7 +357,6 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
                 "number": feature.number,
                 "checked": feature.checked
               };
-
             }
             else if(feature.checked && !this.state.isMassEditting) {
               console.log("here")
@@ -360,7 +385,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
     console.log(postBody)
 
     this.state.loading.save = true;
-    this.availService.patchAvailabilityRecord(postBody, this.state.filterForm.siteID,
+    this.state.resources.patchReq = this.availService.patchAvailabilityRecord(postBody, this.state.filterForm.siteID,
       this.state.filterForm.contractID,
       this.state.filterForm.contractorID,
       this.state.filterForm.resourceTypeID)
@@ -492,6 +517,25 @@ export class AvailabilityComponent implements OnInit, AfterViewInit {
 
   processMassEdit () {
     //this.state.isMassEditting = false;
+    if(this.state.resourceTypeValue == 1 && (this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000' || this.state.massEditForm.number <= 0)) {
+        let message = [];
+        if(this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000'){
+          message.push("please select Room Type before proceed")
+        }
+        if(this.state.massEditForm.number <= 0){
+          message.push("number should be greater than 0")
+        }
+        this.state.modal.title = "Validation Error!"
+        this.state.modal.message = message.join("\n");
+        this.modalComp.openModal();
+        return false;
+    }
+    else if(this.state.resourceTypeValue == 2 && this.state.massEditForm.number <= 0){
+      this.state.modal.title = "Validation Error!"
+      this.state.modal.message = "number should be greater than 0"
+      this.modalComp.openModal();
+      return false;
+    }
     this.saveChanges();
   }
 
