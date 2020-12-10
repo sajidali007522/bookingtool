@@ -8,7 +8,7 @@
           <div class="carousel-preview" *ngIf="state.selectedImage.urlPath">
             <div>
               <div class="main-photo">
-                <img src="{{state.selectedImage.urlPath}}" (click)="open(state.selectedIndex)"alt="">
+                <img [src]="state.selectedImage.urlPath" (click)="open(state.selectedIndex)" alt="">
               </div>
             </div>
           </div>
