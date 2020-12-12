@@ -47,7 +47,7 @@ export class AvailabilityService {
         this.state.errorMessages.push('Please Select Lodge site to continue.');
       }
     }
-    console.log(filterParams);
+    //console.log(filterParams);
     if(filterParams.beginDate == null) {
       this.state.errorMessages.push('Begin date can not be empty.');
     }
