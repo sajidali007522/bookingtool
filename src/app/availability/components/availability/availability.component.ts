@@ -209,7 +209,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       })
   }
 
-  loadRecords (avtiveIndex= 0) {
+  loadRecords (avtiveIndex= 0, includeHolds=false) {
     if(this.state.loading.records == true) return;
     this.availService.resetErrors();
     if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue)){
@@ -223,7 +223,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     }
     let beginDate = this.dateParser.formatDate(this.state.filterForm.beginDate);
     let endDate = this.dateParser.formatDate(this.state.filterForm.endDate);
-
+    this.state.filterForm.includeHolds= includeHolds;
     this.state.loading.records = true;
     this.state.resources.loadRecords = this.availService.loadRecords(this.state.filterForm.siteID,
       this.state.filterForm.contractID,

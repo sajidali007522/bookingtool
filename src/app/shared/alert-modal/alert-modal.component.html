@@ -8,7 +8,7 @@
       </div>
       <div class="modal-body">
         <div class="sure-wrap">
-          <h2 class="text-error text-danger">Please see following errors</h2>
+          <h2 class="text-error text-danger">Please see following error{{messages.length > 1 ? 's': ''}}</h2>
           <p *ngFor="let message of messages">{{message}}</p>
         </div>
       </div>

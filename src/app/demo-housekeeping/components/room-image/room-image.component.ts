@@ -78,8 +78,8 @@ export class RoomImageComponent implements OnInit,OnChanges {
           let hours = d.getHours() < 10 ? '0'+d.getHours() : d.getHours();
           let minutes = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
           r.createDate = d.getFullYear()+"-"+month+"-"+day+" "+hours+":"+minutes;
-          r.src = r.urlPath;
-          r.thumb = this.getThumbnailUrl(r.urlPath)
+          r.src = this.getThumbnailUrl(r.urlPath, 1000);
+          r.thumb = this.getThumbnailUrl(r.urlPath, 100)
           this.state.roomImages.push(r);
         });
         this.reset();
@@ -155,9 +155,10 @@ export class RoomImageComponent implements OnInit,OnChanges {
       this.state.selectedImage = JSON.parse(JSON.stringify(this.state.componentState.selectedImage));
     }
   }
-  getThumbnailUrl(src) {
+
+  getThumbnailUrl(src, size=100) {
     let temp = src.split(".");
-    temp[temp.length-2] = temp[temp.length-2]+'_100';
+    temp[temp.length-2] = temp[temp.length-2]+'_'+size;
     return temp.join(".");
   }
 

@@ -46,15 +46,22 @@ export class AvailabilityService {
       if(filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' && resourceType == 1) {
         this.state.errorMessages.push('Please Select Lodge site to continue.');
       }
-
-      return false;
+    }
+    console.log(filterParams);
+    if(filterParams.beginDate == null) {
+      this.state.errorMessages.push('Begin date can not be empty.');
+    }
+    if(filterParams.endDate == null) {
+      this.state.errorMessages.push('End date can not be empty');
+    }
+    if(filterParams.beginDate && filterParams.endDate) {
+      if (filterParams.beginDate.getTime() > filterParams.endDate.getTime()) {
+        this.state.errorMessages.push('End date must be greater than begin date')
+      }
     }
 
-    if(filterParams.beginDate.getTime() > filterParams.endDate.getTime()){
-      this.state.errorMessages.push('End date must be greater than begin date')
-      return;
-    }
-    return true;
+    return this.state.errorMessages.length <= 0;
+
   }
 
   resetErrors(){
