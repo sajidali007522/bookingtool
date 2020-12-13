@@ -24,16 +24,16 @@ export class AvailabilityService {
 
   public validateFilters (filterParams, resourceType) {
     if(
-      filterParams.siteID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
+      //filterParams.siteID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
       filterParams.businessProfileID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
       ((
         filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
         filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' ) && resourceType == 1)
     ) {
 
-      if(filterParams.siteID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
+      /*if(filterParams.siteID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
         this.state.errorMessages.push('Site ID can not be null');
-      }
+      }*/
 
       if(filterParams.businessProfileID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
         this.state.errorMessages.push('Select Business Profile before continue.');
