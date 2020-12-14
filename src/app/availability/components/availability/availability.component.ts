@@ -91,7 +91,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
                public dateParser: DateParser,
                public dvcService:DeviceDetectionService
   ) {
-    this.bsConfig = Object.assign({}, { dateInputFormat: 'MM/DD/YYYY' });
+    this.bsConfig = Object.assign({}, { dateInputFormat: 'MM/DD/YYYY',  showWeekNumbers: false });
     let date = new Date();
     this.state.filterForm.beginDate = new Date(date.setDate(date.getDate()))
     this.state.filterForm.endDate = new Date(date.setDate(date.getDate()+30))
