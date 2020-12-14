@@ -140,7 +140,7 @@
             </a>
             <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="full-btn" (click)=" loadRecords(0,true)">
               <span class="fa fa-edit"></span>
-              Edit <i class="fa fa-spin fa-spinner" *ngIf="state.filterForm.includeHolds && (state.loading.records || state.resourceTypeValue <= 0)"></i>
+              Show Hold <i class="fa fa-spin fa-spinner" *ngIf="state.filterForm.includeHolds && (state.loading.records || state.resourceTypeValue <= 0)"></i>
             </a>
         </div>
       </div>
