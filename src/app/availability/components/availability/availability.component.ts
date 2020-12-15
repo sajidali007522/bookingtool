@@ -540,11 +540,19 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   updateRow(event) {
-    console.log(this.state.loading.save, event)
-    if(this.state.loading.save) return;
-    console.log(JSON.parse(event));
+
     let data = JSON.parse(event)
       //row: row, feature: feature, index:index
+    if(this.state.resourceTypeValue == 1) {
+      if(this.remoteData.data[data['index']]['$processing_'+data['property']]) return;
+      this.remoteData.data[data['index']]['$processing_'+data['property']] = true;
+      this.remoteData.data[data['index']]['$old_'+data['property']] = this.remoteData.data[data['index']][data['property']]
+    }
+    else {
+      if(this.remoteData[data['index']]['$processing_'+data['property']]) return;
+      this.remoteData[data['index']]['$processing_'+data['property']] = true;
+      this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']][data['property']];
+    }
     let postBody = [];
 
     if(this.state.resourceTypeValue == 1) {
@@ -561,9 +569,14 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       }]
     }
     else {
+      /*let temp = JSON.parse(JSON.stringify(this.remoteData[data['index']]));
+      delete temp['$type'];
+      temp[data['property']] = Number(temp[data['property']]);*/
+      this.remoteData[data['index']][data['property']] = Number(this.remoteData[data['index']][data['property']]);
       postBody = [this.remoteData[data['index']]];
     }
-    this.state.loading.save = true;
+
+
     this.availService.patchAvailabilityRecord(postBody, this.state.filterForm.siteID,
       this.state.filterForm.contractID,
       this.state.filterForm.contractorID,
@@ -573,6 +586,18 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
           if(res['success']){
             this.state.modal.title ="Success!";
             this.state.modal.message ="Record has been updated";
+            if(this.state.resourceTypeValue == 1) {
+              this.remoteData.data[data['index']]['$processing_'+data['property']] = false;
+              setTimeout(()=>{
+                this.remoteData.data[data['index']]['$old_'+data['property']] = null
+              }, 15000);
+            }
+            else {
+              this.remoteData[data['index']]['$processing_'+data['property']] = false;
+              setTimeout(()=>{
+                this.remoteData[data['index']]['$old_'+data['property']] = null
+              }, 15000);
+            }
           } else {
             this.state.modal.title ="Error";
             this.state.modal.message =res['message'];
@@ -580,7 +605,17 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
           this.modalComp.openModal();
         },
         err=> {
-          this.state.loading.save = false;
+          if(this.state.resourceTypeValue == 1) {
+            this.remoteData.data[data['index']]['$processing_'+data['property']] = false;
+            this.remoteData.data[data['index']]['$old_'+data['property']] = null
+            this.remoteData.data[data['index']][data['property']] = this.remoteData.data[data['index']]['$old_'+data['property']]
+
+          }
+          else {
+            this.remoteData[data['index']]['$processing_'+data['property']] = false;
+            this.remoteData[data['index']]['$old'+data['property']] = null;
+            this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']];
+          }
           this.state.modal.title ="Error!";
           this.state.modal.message = "Something went wrong, please try again!";
           this.modalComp.openModal();
