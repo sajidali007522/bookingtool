@@ -544,9 +544,9 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     let data = JSON.parse(event)
       //row: row, feature: feature, index:index
     if(this.state.resourceTypeValue == 1) {
-      if(this.remoteData.data[data['index']]['$processing_'+data['property']]) return;
-      this.remoteData.data[data['index']]['$processing_'+data['property']] = true;
-      this.remoteData.data[data['index']]['$old_'+data['property']] = this.remoteData.data[data['index']][data['property']]
+      if(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']]) return;
+      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
+      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]
     }
     else {
       if(this.remoteData[data['index']]['$processing_'+data['property']]) return;
@@ -587,9 +587,9 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
             this.state.modal.title ="Success!";
             this.state.modal.message ="Record has been updated";
             if(this.state.resourceTypeValue == 1) {
-              this.remoteData.data[data['index']]['$processing_'+data['property']] = false;
+              this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = false;
               setTimeout(()=>{
-                this.remoteData.data[data['index']]['$old_'+data['property']] = null
+                this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = null
               }, 15000);
             }
             else {
@@ -599,28 +599,33 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
               }, 15000);
             }
           } else {
+            this.handleErrorResponse(data);
             this.state.modal.title ="Error";
             this.state.modal.message =res['message'];
           }
           this.modalComp.openModal();
         },
         err=> {
-          if(this.state.resourceTypeValue == 1) {
-            this.remoteData.data[data['index']]['$processing_'+data['property']] = false;
-            this.remoteData.data[data['index']]['$old_'+data['property']] = null
-            this.remoteData.data[data['index']][data['property']] = this.remoteData.data[data['index']]['$old_'+data['property']]
-
-          }
-          else {
-            this.remoteData[data['index']]['$processing_'+data['property']] = false;
-            this.remoteData[data['index']]['$old'+data['property']] = null;
-            this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']];
-          }
+          this.handleErrorResponse(data);
           this.state.modal.title ="Error!";
           this.state.modal.message = "Something went wrong, please try again!";
           this.modalComp.openModal();
         })
     return;
+  }
+
+  handleErrorResponse (data) {
+    if(this.state.resourceTypeValue == 1) {
+      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = false;
+      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = null
+      this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]
+
+    }
+    else {
+      this.remoteData[data['index']]['$processing_'+data['property']] = false;
+      this.remoteData[data['index']]['$old'+data['property']] = null;
+      this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']];
+    }
   }
 
   closeModal(){

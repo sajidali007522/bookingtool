@@ -101,9 +101,9 @@ export class RoomsComponent implements OnInit,AfterViewInit {
     feature.checked=true;
   }
 
-  updateRecord(row, feature, index) {
+  updateRecord(row, feature, index, featureIndex) {
     console.log("emitting update record")
-    this.updateRow.emit(JSON.stringify({row: row, feature: feature, index:index}))
+    this.updateRow.emit(JSON.stringify({row: row, feature: feature, index:index, featureIndex:featureIndex, property: 'hold'}))
   }
 
   removeFromMassEdit(row, index) {
