@@ -495,6 +495,9 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         }
       }
     }
+    if(this.state.massEdit.items.length <= 0){
+      this.resetMassEdit();
+    }
     return;
   }
 
