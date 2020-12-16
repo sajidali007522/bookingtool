@@ -563,7 +563,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           this.state.selectedRoom['uploading']=false;
         },
         (err) => {
-          this.state.message = "There is Some Error, Try Again!"
+          this.state.message = "There has been an error, Please try Again"
           this.state.modalTitle = "Error"
           this.openModal()
           this.state.selectedRoom['uploading']=false;

@@ -546,12 +546,12 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     if(this.state.resourceTypeValue == 1) {
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']]) return;
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
-      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]
+      //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]
     }
     else {
       if(this.remoteData[data['index']]['$processing_'+data['property']]) return;
       this.remoteData[data['index']]['$processing_'+data['property']] = true;
-      this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']][data['property']];
+      //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']][data['property']];
     }
     let postBody = [];
 
@@ -588,15 +588,19 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
             this.state.modal.message ="Record has been updated";
             if(this.state.resourceTypeValue == 1) {
               this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = false;
+              this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = true;
               setTimeout(()=>{
                 this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = null
-              }, 15000);
+                this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = false;
+              }, 10000);
             }
             else {
               this.remoteData[data['index']]['$processing_'+data['property']] = false;
+              this.remoteData[data['index']]['$processed_'+data['property']] = true;
               setTimeout(()=>{
                 this.remoteData[data['index']]['$old_'+data['property']] = null
-              }, 15000);
+                this.remoteData[data['index']]['$processed_'+data['property']] = false;
+              }, 10000);
             }
           } else {
             this.handleErrorResponse(data);
@@ -617,14 +621,14 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   handleErrorResponse (data) {
     if(this.state.resourceTypeValue == 1) {
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = false;
-      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = null
       this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]
+      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = null
 
     }
     else {
       this.remoteData[data['index']]['$processing_'+data['property']] = false;
-      this.remoteData[data['index']]['$old'+data['property']] = null;
       this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']];
+      this.remoteData[data['index']]['$old'+data['property']] = null;
     }
   }
 

@@ -50,9 +50,9 @@
       </span>
 
       <div class="cancel-iputwrap" *ngIf="state.filterForm.includeHolds">
-        <input type="text" class="edit-field" [(ngModel)]="row['total']" (blur)="updateRecord(row, index, 'total')">
+        <input type="text" class="edit-field" [(ngModel)]="row['total']" (focusin)="row['$old_total']=row['total']" (blur)="updateRecord(row, index, 'total')">
         <span class="fa fa-refresh fa-spin" *ngIf="row['$processing_total']"></span>
-        <span class="fa fa-undo" *ngIf="!row['$processing_total'] && row['$old_total']" (click)="row['total'] = row['$old_total']; updateRecord(row, index, 'total')"></span>
+        <span class="fa fa-undo" *ngIf="row['$processed_total']" (click)="row['total'] = row['$old_total']; updateRecord(row, index, 'total')"></span>
       </div>
     </td>
     <td data-title="Avail" (mousedown)="rowSelection(row, index)"
