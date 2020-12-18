@@ -561,6 +561,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
           this.state.modalTitle = "Success"
           this.openModal()
           this.state.selectedRoom['uploading']=false;
+          this.state.selectedRoom = {roomId: '', roomNumber: ''}
         },
         (err) => {
           this.state.message = "There has been an error, Please try Again"
@@ -583,6 +584,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   cancelImageCrop () {
     this.imageChangedEvent = null;
     this.croppedImage = null;
+    this.state.selectedRoom = {roomId: '', roomNumber: ''}
   }
 
   public nextPage() {

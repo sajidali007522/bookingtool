@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HttpService} from "../../../http.service";
 import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal.component";
 import {AuthenticationService} from "../../../_services/authentication.service";
@@ -7,6 +7,7 @@ import {ModalComponent} from "../../../shared-module/components/modal/modal.comp
 import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
 import {Lightbox, LightboxEvent, LIGHTBOX_EVENT} from 'ngx-lightbox';
 import {Subscription} from "rxjs";
+import {DateParser} from "../../../_helpers/dateParser";
 
 @Component({
   selector: 'app-room-image',
@@ -14,7 +15,7 @@ import {Subscription} from "rxjs";
   styleUrls: ['./room-image.component.css']
 })
 
-export class RoomImageComponent implements OnInit,OnChanges {
+export class RoomImageComponent implements OnInit, OnChanges, OnDestroy {
   @Input() siteId;
   @Input() room;
   @ViewChild(ConfirmModalComponent) childcomp: ConfirmModalComponent;
@@ -46,12 +47,19 @@ export class RoomImageComponent implements OnInit,OnChanges {
               private appConfigService: ConfigService,
               private DHKService: DemoHousekeepingService,
               private _lightbox: Lightbox,
-              private _lightboxEvent: LightboxEvent) {}
+              private _lightboxEvent: LightboxEvent,
+              private dateParser: DateParser) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log("init")
+  }
   ngOnChanges() {
     this.loadRoomImages();
-    //console.log(this.appConfigService)
+    console.log(this.appConfigService)
+  }
+  ngOnDestroy() {
+    this.state.roomImages = [];
+    this.room = {};
   }
 
   openModal(){
@@ -72,12 +80,13 @@ export class RoomImageComponent implements OnInit,OnChanges {
         this.state.roomImages = [];
         data.filter(r=> {
           //createDate
-          let d = new Date(Date.parse(r.createDate))
-          let month = (d.getMonth()+1) < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1;
-          let day = d.getDay() < 10 ? '0'+d.getDay() : d.getDay();
-          let hours = d.getHours() < 10 ? '0'+d.getHours() : d.getHours();
-          let minutes = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
-          r.createDate = d.getFullYear()+"-"+month+"-"+day+" "+hours+":"+minutes;
+          // let d = new Date(Date.parse(r.createDate))
+          // let month = (d.getMonth()+1) < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1;
+          // let day = d.getDay() < 10 ? '0'+d.getDay() : d.getDay();
+          // let hours = d.getHours() < 10 ? '0'+d.getHours() : d.getHours();
+          // let minutes = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
+          r.createDate = this.dateParser.parseDateStringToDate(r.createDate)
+          //d.getFullYear()+"-"+month+"-"+day+" "+hours+":"+minutes;
           r.src = this.getThumbnailUrl(r.urlPath, 1000);
           r.thumb = this.getThumbnailUrl(r.urlPath, 100)
           this.state.roomImages.push(r);
@@ -111,7 +120,11 @@ export class RoomImageComponent implements OnInit,OnChanges {
       this.state.componentState.isViewMode=true;
     },
       error => { console.log(error)},
-    ()=>{this.state.isLoadingImages = false;console.log('completed'); this.ref.detectChanges();});
+    ()=>{
+      this.state.isLoadingImages = false;
+      console.log('completed');
+      this.ref.detectChanges();
+    });
   }
 
   edit(){
