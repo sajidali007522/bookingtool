@@ -8,15 +8,17 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { RoomsComponent } from './components/rooms/rooms.component';
 import { TravelComponent } from './components/travel/travel.component';
+import {PopoverModule} from "ngx-bootstrap/popover";
 
 @NgModule({
   declarations: [AvailabilityComponent, RoomsComponent, TravelComponent],
-    imports: [
-      CommonModule,
-      FormsModule,
-      routing,
-      BsDatepickerModule.forRoot(),
-      SharedModuleModule
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    routing,
+    BsDatepickerModule.forRoot(),
+    SharedModuleModule,
+    PopoverModule.forRoot()
+  ]
 })
 export class AvailabilityModule { }

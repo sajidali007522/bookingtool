@@ -8,6 +8,7 @@ import {AlertModalComponent} from "../../../shared/alert-modal/alert-modal.compo
 import {DeviceDetectionService} from "../../../_services/device-detection.service";
 import {RoomsComponent} from "../rooms/rooms.component";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-availability',
@@ -89,7 +90,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
                private lookupService: LookupService,
                private availService: AvailabilityService,
                public dateParser: DateParser,
-               public dvcService:DeviceDetectionService
+               public dvcService:DeviceDetectionService,
+               private toastr: ToastrService
   ) {
     this.bsConfig = Object.assign({}, { dateInputFormat: 'MM/DD/YYYY',  showWeekNumbers: false });
     let date = new Date();
@@ -548,11 +550,13 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       //row: row, feature: feature, index:index
     if(this.state.resourceTypeValue == 1) {
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']]) return;
+      if(this.remoteData[data['index']][data['property']] == this.remoteData[data['index']]['$old_'+data['property']]) return;
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
       //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]
     }
     else {
       if(this.remoteData[data['index']]['$processing_'+data['property']]) return;
+      if(this.remoteData[data['index']]['$old_'+data['property']] == this.remoteData[data['index']][data['property']]) return;
       this.remoteData[data['index']]['$processing_'+data['property']] = true;
       //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']][data['property']];
     }
@@ -587,8 +591,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       .subscribe(res=>{
           this.state.loading.save = false;
           if(res['success']){
-            this.state.modal.title ="Success!";
-            this.state.modal.message ="Record has been updated";
+            this.toastr.success('Record has been updated', 'Success!');
             if(this.state.resourceTypeValue == 1) {
               this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = false;
               this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = true;
@@ -609,13 +612,15 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
             this.handleErrorResponse(data);
             this.state.modal.title ="Error";
             this.state.modal.message =res['message'];
+            this.toastr.error(res['message'], 'Error!');
           }
-          this.modalComp.openModal();
+          //this.modalComp.openModal();
         },
         err=> {
           this.handleErrorResponse(data);
           this.state.modal.title ="Error!";
           this.state.modal.message = "Something went wrong, please try again!";
+          this.toastr.error("Something went wrong, please try again!", 'Error!');
           this.modalComp.openModal();
         })
     return;

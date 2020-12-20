@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 //import {AuthenticationModule} from "./authentication/authentication.module";
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from "./shared/header/header.component";
@@ -51,7 +52,10 @@ import {DateParser} from "./_helpers/dateParser";
     ReactiveFormsModule,
     AuthenticationModule,
     SharedModuleModule,
-    HammerModule
+    HammerModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    }),
 //    AuthenticationModule
   ],
   providers: [
