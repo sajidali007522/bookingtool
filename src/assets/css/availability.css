@@ -31,6 +31,15 @@
         border-radius: 50%;
         line-height: 18px;
     }
+.editable-fieldwrap{
+    width: 55px;
+}
+.editable-fieldwrap .form-control{
+    text-align: center;
+}
+.has-icon{
+    width: 95px;
+}
 
 /* Skins changes start */
 .availability-component tr.selected td { background: #fff0de;}

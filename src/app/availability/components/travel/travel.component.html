@@ -49,7 +49,16 @@
             (click)="row.isEditting = !state.isMassEditting ? !row.isEditting : false">{{row.total || 0}}
       </span>
 
-      <div class="input-group" style="width: 70px;" *ngIf="state.filterForm.includeHolds">
+
+
+      <!-- <div class="input-group editable-fieldwrap has-icon" *ngIf="state.filterForm.includeHolds">
+        <input type="text" class="form-control" [disabled]="row['$processing_total']" class="edit-field" [(ngModel)]="row['total']" (focusin)="row['$old_total']=row['total']" (blur)="updateRecord(row, index, 'total')">
+        <div class="input-group-append" *ngIf="row['$processing_total'] || (row['$processed_total'] && row['$old_total'])">
+          <span class="input-group-text" id="basic-addon2"> <span class="fa fa-refresh"></span> </span>
+        </div>
+      </div> -->
+
+      <div class="input-group editable-fieldwrap" [ngClass]="{'has-icon':(row['$processing_total'] || row['$processed_total'])}" *ngIf="state.filterForm.includeHolds">
         <input type="text" class="form-control" [disabled]="row['$processing_total']" class="edit-field" [(ngModel)]="row['total']" (focusin)="row['$old_total']=row['total']" (blur)="updateRecord(row, index, 'total')" placeholder="111" aria-describedby="111">
         <div class="input-group-append" *ngIf="row['$processing_total'] || (row['$processed_total'] && row['$old_total'])">
           <span class="input-group-text" id="basic-addon2">
