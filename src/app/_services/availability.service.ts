@@ -23,6 +23,9 @@ export class AvailabilityService {
   }
 
   public validateFilters (filterParams, resourceType) {
+    if(filterParams.resourceTypeID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
+      this.state.errorMessages.push('Select resource type before continue.');
+    }
     if(
       //filterParams.siteID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
       filterParams.businessProfileID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
