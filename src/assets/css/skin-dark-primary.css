@@ -1,6 +1,9 @@
 .theme-dark-primary{
   background: #1f2227;
 }
+.theme-dark-primary .skin-txt{
+  color:#fff;
+}
 .theme-dark-primary .btn-success{
   background: #15191c;
   border-color: #15191c;
