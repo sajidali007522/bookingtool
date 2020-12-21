@@ -40,6 +40,9 @@
 .has-icon{
     width: 95px;
 }
+.availability-component .table-editable-wrap .table td{
+    overflow: visible;
+}
 
 /* Skins changes start */
 .availability-component tr.selected td { background: #fff0de;}
