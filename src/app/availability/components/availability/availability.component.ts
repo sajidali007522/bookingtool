@@ -379,7 +379,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         if(row.checked) {
           delete row.$type
           row.total = Number(row.total)
-          if(this.state.isMassEditting) { row.total = this.state.massEditForm.number }
+          if(this.state.isMassEditting) { row.total = Number(this.state.massEditForm.number) }
           return row
         }
       });
@@ -527,7 +527,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         if(this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000'){
           message.push("please select Room Type before proceed")
         }
-        if(this.state.massEditForm.number <= 0){
+        if(Number(this.state.massEditForm.number) < 0){
           message.push("number should be greater than 0")
         }
         this.state.modal.title = "Validation Error!"
@@ -535,7 +535,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         this.modalComp.openModal();
         return false;
     }
-    else if(this.state.resourceTypeValue == 2 && this.state.massEditForm.number <= 0){
+    else if(this.state.resourceTypeValue == 2 && Number(this.state.massEditForm.number) < 0){
       this.state.modal.title = "Validation Error!"
       this.state.modal.message = "number should be greater than 0"
       this.modalComp.openModal();
