@@ -62,8 +62,8 @@
         <input type="text" class="form-control" [disabled]="row['$processing_total']" [(ngModel)]="row['total']" (focusin)="row['$old_total']=row['total']" (blur)="updateRecord(row, index, 'total')" placeholder="111" aria-describedby="111">
         <div class="input-group-append" *ngIf="row['$processing_total'] || (row['$processed_total'] && row['$old_total'])">
           <span class="input-group-text" id="basic-addon2">
-            <span class="fa fa-refresh fa-spin" [popover]="'processing'" placement="right" triggers="mouseenter:mouseleave" *ngIf="row['$processing_total']"></span>
-            <span class="fa fa-undo" [popover]="'Undo'" placement="right" triggers="mouseenter:mouseleave" *ngIf="row['$processed_total'] && row['$old_total']" (click)="row['total'] = row['$old_total'];row['$old_total']=null; updateRecord(row, index, 'total')"></span>
+            <span class="fa fa-refresh fa-spin" [popover]="'processing'" triggers="mouseenter:mouseleave" *ngIf="row['$processing_total']"></span>
+            <span class="fa fa-undo" [popover]="'Undo'" triggers="mouseenter:mouseleave" *ngIf="row['$processed_total'] && row['$old_total']" (click)="row['total'] = row['$old_total'];row['$old_total']=null; updateRecord(row, index, 'total')"></span>
           </span>
         </div>
       </div>
