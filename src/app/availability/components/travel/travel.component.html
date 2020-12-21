@@ -49,6 +49,14 @@
             (click)="row.isEditting = !state.isMassEditting ? !row.isEditting : false">{{row.total || 0}}
       </span>
 
+      <!-- <div class="input-group" style="width: 70px;">
+        <input type="text" class="form-control" placeholder="111" aria-describedby="111">
+        <div class="input-group-append">
+          <span class="input-group-text" id="basic-addon2"> <span class="fa fa-refresh"></span> </span>
+        </div>
+      </div> -->
+      
+
       <div class="cancel-iputwrap" *ngIf="state.filterForm.includeHolds">
         <input type="text" class="edit-field" [(ngModel)]="row['total']" (focusin)="row['$old_total']=row['total']" (blur)="updateRecord(row, index, 'total')">
         <span class="fa fa-refresh fa-spin" [popover]="'processing'" triggers="mouseenter:mouseleave" *ngIf="row['$processing_total']"></span>
