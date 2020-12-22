@@ -408,7 +408,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     let params = {
       roomIDs: roomId,
       originalValueIDs: (typeof roomRow['$'+this.capitalizeFirstLetter(key)+'Id'] == 'undefined' || '' == roomRow['$'+this.capitalizeFirstLetter(key)+'Id'] ? '00000000-0000-0000-0000-000000000000' : roomRow['$'+this.capitalizeFirstLetter(key)+'Id']),
-      newValueIDs: roomRow[this.capitalizeFirstLetter(key)+'Id'],
+      newValueID: roomRow[this.capitalizeFirstLetter(key)+'Id'],
       updateTypeIDs: this.DHKService.updateTypeIds[key],
     }
     delete roomRow.$type;
@@ -823,7 +823,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     let param = {
       roomIDs: roomIds.join(","),
       originalValueIDs: originalValueIds.join(","),
-      newValueIDs: (this.state.massEdit.form[column.dataProperty+'Id'] ? this.state.massEdit.form[column.dataProperty+'Id'] : '00000000-0000-0000-0000-000000000000'),
+      newValueID: (this.state.massEdit.form[column.dataProperty+'Id'] ? this.state.massEdit.form[column.dataProperty+'Id'] : '00000000-0000-0000-0000-000000000000'),
       updateTypeID: this.DHKService.updateTypeIds[column.dataProperty],
     }
 

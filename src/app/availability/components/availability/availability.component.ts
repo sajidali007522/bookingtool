@@ -503,7 +503,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     return;
   }
 
-  resetMassEdit() {
+  resetMassEdit() {console.log(this.state.massEdit)
     if(this.state.resourceTypeValue == 1) {
       this.state.massEdit.indexes.filter(index => {
         this.remoteData.data[index]['checked'] = false
