@@ -594,7 +594,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
             this.toastr.success('Record has been updated', 'Success!');
             if(this.state.resourceTypeValue == 1) {
               this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = false;
-              this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = true;
+              this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] != null;
               setTimeout(()=>{
                 this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = null
                 this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = false;
@@ -602,7 +602,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
             }
             else {
               this.remoteData[data['index']]['$processing_'+data['property']] = false;
-              this.remoteData[data['index']]['$processed_'+data['property']] = true;
+              this.remoteData[data['index']]['$processed_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] != null;
               setTimeout(()=>{
                 this.remoteData[data['index']]['$old_'+data['property']] = null
                 this.remoteData[data['index']]['$processed_'+data['property']] = false;
