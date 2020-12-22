@@ -174,10 +174,10 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   resetFilter() {
+    this.resetMassEdit();
     this.remoteData = [];
     this.remoteDataTemp = [];
     this.state.isMassEditting = false;
-    this.resetMassEdit();
     this.state.filterForm.businessProfileID = '00000000-0000-0000-0000-000000000000';
     this.state.filterForm.contractID = '00000000-0000-0000-0000-000000000000';
     this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
@@ -263,7 +263,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   setEditMode(event:any={}){
-    console.log("setting edit mode");
+    //console.log("setting edit mode");
     if((this.state.resourceTypeValue == 2 && this.remoteData.length <= 0) || (this.state.resourceTypeValue == 1 && this.remoteData['data'].length <= 0) ) return;
     this.remoteDataTemp = JSON.parse(JSON.stringify(this.remoteData));
     this.state.isEditting= true;
@@ -354,16 +354,15 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
               //console.log(this.state.massEditForm.roomType, feature.id, this.state.massEditForm.roomType == feature.id);
               feature.hold = Number(this.state.massEditForm.number)
               return {
-                "hold": Number(this.state.massEditForm.number),
+                "hold": Math.round(Number(this.state.massEditForm.number)),
                 "id": feature.id,
                 "number": feature.number,
                 "checked": feature.checked
               };
             }
             else if(feature.checked && !this.state.isMassEditting) {
-              console.log("here")
               return {
-                "hold": Number(feature.hold),
+                "hold": Math.round(Number(feature.hold)),
                 "id": feature.id,
                 "number": feature.number,
                 "checked": feature.checked
@@ -503,13 +502,14 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     return;
   }
 
-  resetMassEdit() {console.log(this.state.massEdit)
+  resetMassEdit() {
     if(this.state.resourceTypeValue == 1) {
       this.state.massEdit.indexes.filter(index => {
         this.remoteData.data[index]['checked'] = false
       });
     }
     else {
+      //console.log(this.remoteData)
       this.state.massEdit.indexes.filter(index => {
         this.remoteData[index]['checked'] = false
       })
@@ -567,7 +567,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         "AvailabilityDate": this.remoteData.data[data['index']].date,
         "Features" : [
           {
-            "hold": Number(data['feature'].hold),
+            "hold": Math.round(Number(data['feature'].hold)),
             "id": data['feature'].id,
             "number": data['feature'].number,
             "checked": data['feature'].checked
@@ -579,7 +579,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       /*let temp = JSON.parse(JSON.stringify(this.remoteData[data['index']]));
       delete temp['$type'];
       temp[data['property']] = Number(temp[data['property']]);*/
-      this.remoteData[data['index']][data['property']] = Number(this.remoteData[data['index']][data['property']]);
+      this.remoteData[data['index']][data['property']] = Math.round(Number(this.remoteData[data['index']][data['property']]));
       postBody = [this.remoteData[data['index']]];
     }
 
