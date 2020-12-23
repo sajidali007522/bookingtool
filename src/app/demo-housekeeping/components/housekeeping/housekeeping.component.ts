@@ -30,6 +30,7 @@ import * as $ from 'jquery';
 import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.service";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
 import {DeviceDetectionService} from "../../../_services/device-detection.service";
+import {ToastrService} from "ngx-toastr";
 
 // const SHIFTS: Shift [] = [
 //   {value: 1, text: "Day", id: 1, name: "Day"},
@@ -136,7 +137,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
                private _http: HttpService,
                private router: Router,
                private appConfigService: ConfigService,
-               public ddService: DeviceDetectionService
+               public ddService: DeviceDetectionService,
+               private toastr: ToastrService
   ) {
     this.state.isTablet = ddService.isTablet();
   }
@@ -802,9 +804,14 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   processMassEdit(column){
     let isRequired = this.getColumnValidation(column);
     if(isRequired && (typeof this.state.massEdit.form[column.dataProperty+'Id'] == 'undefined' || this.state.massEdit.form[column.dataProperty+'Id'] == '' || this.state.massEdit.form[column.dataProperty+'Id'] == '00000000-0000-0000-0000-000000000000')) {
-      this.state.modalTitle = 'Validation Error!';
-      this.state.message = column.name + " is Required Field!";
-      this.openModal();
+      //this.state.modalTitle = 'Validation Error!';
+      //this.state.message = column.name + " is Required Field!";
+      this.toastr.error(column.name + " is Required Field!", 'Validation Error!');
+      //this.openModal();
+      return;
+    }
+    if(this.state.massEdit.indexes.length <= 0 ) {
+      this.toastr.error("Select some rooms to continue.", 'Error!');
       return;
     }
     if(this.state.massEdit.processing) return;

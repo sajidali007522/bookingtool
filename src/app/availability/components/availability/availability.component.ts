@@ -153,6 +153,10 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   setResourceType () {
+    if(this.state.filterForm.resourceTypeID == '00000000-0000-0000-0000-000000000000'){
+      this.resetFilter();
+      return;
+    }
     this.state.resources.resourceType = this.availService.getAvailabilityType(this.state.filterForm.resourceTypeID)
       .subscribe((res:any)=>{
         this.state.resourceTypeValue = res
