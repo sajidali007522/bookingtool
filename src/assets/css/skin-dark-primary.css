@@ -145,7 +145,7 @@
 .theme-dark-primary .table-skin{
   color:#fff;
 }
-.theme-dark-primary .table-skin select{
+.theme-dark-primary .table-skin select.view-mode{
   color:#fff;
 }
 .theme-dark-primary .table-skin option{
