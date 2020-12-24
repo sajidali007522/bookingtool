@@ -31,6 +31,7 @@ import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.serv
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
 import {DeviceDetectionService} from "../../../_services/device-detection.service";
 import {ToastrService} from "ngx-toastr";
+import any = jasmine.any;
 
 // const SHIFTS: Shift [] = [
 //   {value: 1, text: "Day", id: 1, name: "Day"},
@@ -514,8 +515,21 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     return script;
   }
 
-  fileChangeEvent(event: any, room:any): void {
+  resetFileObject($event, roomId) {
+    console.log("here")
+    document.getElementById("file-upload_"+roomId).value = null;
+    return;
+    //document.getElementById(roomId).value = null;
+    this.state.selectedRoom = <any>{};
+    this.imageChangedEvent = <any>'';
+    this.state.roomImage.name = "";
+    this.state.roomImage.description = ''
 
+    $("body").find("#imageCropModal .close").trigger('click');
+  }
+
+  fileChangeEvent(event: any, room:any): void {
+    console.log("aaaaaa");
     this.state.selectedRoom = room;
     this.imageChangedEvent = event;
     console.log( event.files);

@@ -181,7 +181,7 @@
                     <td data-title="Files" title="Files">
                       <div class="table-btns">
                         <div class="fileUpload" *ngIf="!row.uploading">
-                          <label for="file-upload_{{row.roomId}}" class="btn btn-success">Upload</label>
+                          <label for="file-upload_{{row.roomId}}" (click)="resetFileObject($event, row.roomId)" class="btn btn-success">Upload</label>
                           <input style="position: initial" type="file" id="file-upload_{{row.roomId}}" (change)="fileChangeEvent($event, row)" />
                         </div>
                         <span class="fa fa-spin fa-spinner" *ngIf="row.uploading"></span>
@@ -240,7 +240,7 @@
                       <div class="table-btns">
                         <div class="fileUpload" *ngIf="!row.uploading">
                           <label for="file-upload_{{row.roomId}}" class="btn btn-success">Upload</label>
-                          <input style="position: initial" type="file" id="file-upload_{{row.roomId}}" (change)="fileChangeEvent($event, row)" />
+                          <input style="position: initial" type="file"  (click)="resetFileObject($event, row.roomId)" id="file-upload_{{row.roomId}}" (change)="fileChangeEvent($event, row)" />
                         </div>
                         <span class="fa fa-spin fa-spinner color-skin" *ngIf="row.uploading"></span>
                         <span class="fa fa-spin fa-spinner color-skin" *ngIf="row.$processing"></span>
