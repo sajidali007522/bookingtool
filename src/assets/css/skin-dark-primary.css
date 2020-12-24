@@ -152,7 +152,10 @@
   color:#000;
 }
 .theme-dark-primary tr.selected td{
-  background:#7b1b17 !important;
+  background:#3e7792 !important;
+}
+.theme-dark-primary .color-skin{
+  color: #fff !important;
 }
 
 /* background's */
