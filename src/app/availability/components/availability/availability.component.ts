@@ -526,12 +526,12 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
 
   processMassEdit () {
     //this.state.isMassEditting = false;
-    if(this.state.resourceTypeValue == 1 && (this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000' || this.state.massEditForm.number <= 0)) {
+    if(this.state.resourceTypeValue == 1 && (this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000' || Number(this.state.massEditForm.number) <= 0)) {
         let message = [];
         if(this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000'){
           message.push("please select Room Type before proceed")
         }
-        if(Number(this.state.massEditForm.number) < 0){
+        if(Number(this.state.massEditForm.number) <= 0){
           message.push("number should be greater than 0")
         }
         this.state.modal.title = "Validation Error!"
