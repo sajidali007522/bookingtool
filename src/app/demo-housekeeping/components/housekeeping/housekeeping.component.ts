@@ -779,6 +779,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.data[this.state.massEdit.indexes[index]]['isSelected'] = false
     this.state.massEdit.items.splice(index, 1)
     this.state.massEdit.indexes.splice(index, 1)
+    if(this.state.massEdit.indexes.length <= 0) {
+      $("body").find("#exampleModal_ .close").trigger('click');
+      this.toastr.warning("there is no room selected for mass edit operation", 'Warning!');
+    }
   }
 
   getEditAbleColumns(gridColumns){
