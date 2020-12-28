@@ -794,7 +794,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.massEdit.indexes.splice(index, 1)
     if(this.state.massEdit.indexes.length <= 0) {
       $("body").find("#exampleModal_ .close").trigger('click');
-      this.toastr.warning("there is no room selected for mass edit operation", 'Warning!');
+      this.toastr.warning("There is no room selected for mass edit operation", 'Warning!');
     }
   }
 

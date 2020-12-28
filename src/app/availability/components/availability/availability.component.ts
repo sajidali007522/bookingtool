@@ -338,9 +338,16 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
 
   saveChanges(){
     if(this.state.loading.save == true) return;
-    if(this.state.isMassEditting && (this.state.resourceTypeValue == 1 && this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000')) {
+
+    if(Number(this.state.massEditForm.number) === NaN){
+      this.toastr.error('field should contain number');
       return;
     }
+    if(this.state.isMassEditting && (this.state.resourceTypeValue == 1 && this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000')) {
+      this.toastr.error('Select room type to continue');
+      return;
+    }
+
     let postBody;
     if(this.state.resourceTypeValue == 1) {
       postBody = [];
@@ -563,6 +570,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       }
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] == (this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]) ) return;
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
+      clearTimeout(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$timeout']);
       //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]
     }
     else {
@@ -576,6 +584,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       }
       if((this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]) == this.remoteData[data['index']][data['property']]) return;
       this.remoteData[data['index']]['$processing_'+data['property']] = true;
+      clearTimeout(this.remoteData[data['index']]['$timeout'])
       //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']][data['property']];
     }
     let postBody = [];
@@ -614,18 +623,20 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
               this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = false;
               this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] != null;
               this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
-              setTimeout(()=>{
+              this.remoteData.data[data['index']]['features'][data['featureIndex']]['$timeout'] = setTimeout(()=>{
                 this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = null
                 this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = false;
+                clearTimeout(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$timeout']);
               }, 10000);
             }
             else {
               this.remoteData[data['index']]['$processing_'+data['property']] = false;
               this.remoteData[data['index']]['$processed_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] != null;
               this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]
-              setTimeout(()=>{
+              this.remoteData[data['index']]['$timeout'] = setTimeout(()=>{
                 this.remoteData[data['index']]['$old_'+data['property']] = null
                 this.remoteData[data['index']]['$processed_'+data['property']] = false;
+                clearTimeout(this.remoteData[data['index']]['$timeout'])
               }, 10000);
             }
           } else {
