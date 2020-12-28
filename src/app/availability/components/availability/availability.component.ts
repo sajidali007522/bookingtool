@@ -554,27 +554,27 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       //row: row, feature: feature, index:index
     if(this.state.resourceTypeValue == 1) {
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']]) return;
-      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
+      //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
       //check on string
       if(Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]) == NaN ) {
         this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
         this.toastr.error('field should contain number');
         return;
       }
-      if(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] == this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]) return;
+      if(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] == (this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]) ) return;
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
       //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]
     }
     else {
       if(this.remoteData[data['index']]['$processing_'+data['property']]) return;
-      this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]
+      //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]
       //
       if(Number(this.remoteData[data['index']][data['property']]) == NaN ) {
         this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']];
         this.toastr.error('field should contain number');
         return;
       }
-      if(this.remoteData[data['index']]['$old_'+data['property']] == this.remoteData[data['index']][data['property']]) return;
+      if((this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]) == this.remoteData[data['index']][data['property']]) return;
       this.remoteData[data['index']]['$processing_'+data['property']] = true;
       //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']][data['property']];
     }
@@ -613,6 +613,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
             if(this.state.resourceTypeValue == 1) {
               this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = false;
               this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] != null;
+              this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
               setTimeout(()=>{
                 this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = null
                 this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = false;
@@ -621,6 +622,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
             else {
               this.remoteData[data['index']]['$processing_'+data['property']] = false;
               this.remoteData[data['index']]['$processed_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] != null;
+              this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]
               setTimeout(()=>{
                 this.remoteData[data['index']]['$old_'+data['property']] = null
                 this.remoteData[data['index']]['$processed_'+data['property']] = false;
@@ -647,13 +649,13 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   handleErrorResponse (data) {
     if(this.state.resourceTypeValue == 1) {
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = false;
-      this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]
+      this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = null
 
     }
     else {
       this.remoteData[data['index']]['$processing_'+data['property']] = false;
-      this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']];
+      this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']];
       this.remoteData[data['index']]['$old'+data['property']] = null;
     }
   }
