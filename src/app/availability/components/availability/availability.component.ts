@@ -554,12 +554,26 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       //row: row, feature: feature, index:index
     if(this.state.resourceTypeValue == 1) {
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']]) return;
+      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
+      //check on string
+      if(Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]) == NaN ) {
+        this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
+        this.toastr.error('field should contain number');
+        return;
+      }
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] == this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]) return;
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
       //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]
     }
     else {
       if(this.remoteData[data['index']]['$processing_'+data['property']]) return;
+      this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]
+      //
+      if(Number(this.remoteData[data['index']][data['property']]) == NaN ) {
+        this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']];
+        this.toastr.error('field should contain number');
+        return;
+      }
       if(this.remoteData[data['index']]['$old_'+data['property']] == this.remoteData[data['index']][data['property']]) return;
       this.remoteData[data['index']]['$processing_'+data['property']] = true;
       //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']][data['property']];
