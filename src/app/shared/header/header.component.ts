@@ -15,13 +15,15 @@ export class HeaderComponent implements OnInit {
   custom_configs;
   userDevice;
   currentUser={};
+  page;
   constructor( private renderer: Renderer2,
                public router: Router,
                private authenticationService: AuthenticationService,
                private appConfigService: ConfigService
   ) {
     this.custom_configs = this.appConfigService.ui_configs || {};
-    this.currentUser = this.authenticationService.currentUserValue
+    this.currentUser = this.authenticationService.currentUserValue;
+    this.page = this.router.url
     //console.log(this.currentUser);
   }
 
