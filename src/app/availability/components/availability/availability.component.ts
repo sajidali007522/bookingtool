@@ -339,7 +339,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   saveChanges(){
     if(this.state.loading.save == true) return;
 
-    if(Number(this.state.massEditForm.number) === NaN){
+    if(!Number(this.state.massEditForm.number)){
       this.toastr.error('field should contain number');
       return;
     }
@@ -537,7 +537,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
 
   processMassEdit () {
     //this.state.isMassEditting = false;
-    if(this.state.resourceTypeValue == 1 && (this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000' || Number(this.state.massEditForm.number) <= 0)) {
+    if(this.state.resourceTypeValue == 1 && (this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000' || Number(this.state.massEditForm.number) <= 0 || Number(this.state.massEditForm.number) == NaN)) {
         let message = [];
         if(this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000'){
           message.push("please select Room Type before proceed")
@@ -545,6 +545,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         if(Number(this.state.massEditForm.number) <= 0){
           message.push("number should be greater than 0")
         }
+
         this.state.modal.title = "Validation Error!"
         this.state.modal.message = message.join("\n");
         this.modalComp.openModal();
@@ -567,8 +568,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']]) return;
       //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
       //check on string
-      if(Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]) == NaN ) {
-        this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
+      if(!Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]) ) {
+        this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
         this.toastr.error('field should contain number');
         return;
       }
@@ -576,14 +577,15 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
       clearTimeout(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$timeout']);
       delete this.remoteData.data[data['index']]['features'][data['featureIndex']]['$timeout'];
+      this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] = false;
       //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]
     }
     else {
       if(this.remoteData[data['index']]['$processing_'+data['property']]) return;
       //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]
       //
-      if(Number(this.remoteData[data['index']][data['property']]) == NaN ) {
-        this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']];
+      if(!Number(this.remoteData[data['index']][data['property']]) ) {
+        this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']];
         this.toastr.error('field should contain number');
         return;
       }
@@ -591,6 +593,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       this.remoteData[data['index']]['$processing_'+data['property']] = true;
       clearTimeout(this.remoteData[data['index']]['$timeout'])
       delete this.remoteData[data['index']]['$timeout'];
+      this.remoteData[data['index']]['$processed_'+data['property']] = false;
       //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']][data['property']];
     }
     let postBody = [];
