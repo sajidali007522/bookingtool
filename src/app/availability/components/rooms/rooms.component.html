@@ -44,7 +44,7 @@
           <div class="input-group-append" *ngIf="feature['$processing_hold'] || feature['$processed_hold']">
             <span class="input-group-text" id="basic-addon2">
               <span class="fa fa-refresh fa-spin" popover="Processing" triggers="mouseenter:mouseleave" *ngIf="feature['$processing_hold']"></span>
-              <span class="fa fa-undo" popover="Undo" triggers="mouseenter:mouseleave" *ngIf="feature['$processed_hold']" (click)="feature['$processed_hold']= false; feature['hold'] = feature['$old_hold'] == -1 ? null : feature['$old_hold'];  feature['$old_hold']=null; updateRecord(row, feature, index, i)"></span>
+              <span class="fa fa-undo" popover="Undo" triggers="mouseenter:mouseleave" *ngIf="feature['$timeout']" (click)="feature['hold'] = feature['$old_hold'] == -1 ? null : feature['$old_hold'];  feature['$old_hold']=null; updateRecord(row, feature, index, i)"></span>
             </span>
           </div>
         </div>
