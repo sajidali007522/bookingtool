@@ -31,19 +31,19 @@
   <tr *ngFor="let row of remoteData; let index = index"
       [ngClass]="{'edited-tr': row.isEditting,  'selected': row.checked,  'hide': state.isMassEditting && !row.checked}">
     <td data-title="Flight#" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index)">{{row.identifier}}</td>
-    <td data-title="Leg" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index)">{{row.leg}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">{{row.identifier}}</td>
+    <td data-title="Leg" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.leg}}</td>
     <td data-title="Date" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index)">{{dateParser.parseDate(row.date)}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDate(row.date)}}</td>
     <td data-title="Depart" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index)">{{dateParser.parseDateToTime(row.startDate)}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDateToTime(row.startDate)}}</td>
     <td data-title="Origination" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index)">{{row.from}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">{{row.from}}</td>
 
     <td data-title="Arrive" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index)">{{dateParser.parseDateToTime(row.endDate)}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDateToTime(row.endDate)}}</td>
     <td data-title="Destination" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index)">{{row.to}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">{{row.to}}</td>
     <td data-title="Total">
       <span class="text-desc-edit" *ngIf="!state.filterForm.includeHolds"
             (click)="row.isEditting = !state.isMassEditting ? !row.isEditting : false">{{row.total || 0}}
@@ -77,9 +77,9 @@
       </div>-->
     </td>
     <td data-title="Avail" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index)">{{row.available || 0}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">{{row.available || 0}}</td>
     <td data-title="Booked" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index)">{{row.booked || 0}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">{{row.booked || 0}}</td>
     <td data-title="Remove" *ngIf="state.isMassEditting">
       <a class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"
          (click)="removeFromMassEdit(row, index)"></a>

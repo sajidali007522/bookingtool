@@ -478,6 +478,9 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     event = JSON.parse(event);
     let start = event.start;
     let limit = event.limit;
+    let shiftKey = event.shiftKey;
+    start = shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : start;
+    //let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
     if(this.state.resourceTypeValue == 1) {
       for(let index=start; index<=limit; index++) {
         let flag = this.state.massEdit.indexes.indexOf(index);
@@ -493,6 +496,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       }
     }
     else {
+      //start = shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : start;
       for(let index=start; index<=limit; index++) {
         //this.remoteData.filter((row)=> {
         let flag = this.state.massEdit.indexes.indexOf(index);

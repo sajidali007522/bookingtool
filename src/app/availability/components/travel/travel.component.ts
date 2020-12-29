@@ -85,10 +85,11 @@ export class TravelComponent implements OnInit {
     this.componentState.start = index;
     //this.startSelection.emit(JSON.stringify({row: row, index:index}))
   }
-  rowCompletion (row, index) {
+  rowCompletion (row, index, $event) {
     if(this.state.isMassEditting) return;
     console.log("mouse up", this.componentState, index);
-    this.completeSelection.emit(JSON.stringify({row: row, start:this.componentState.start, limit: index}))
+    //let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
+    this.completeSelection.emit(JSON.stringify({row: row, start:this.componentState.start, limit: index, shiftKey: $event.shiftKey}))
   }
 
   removeFromMassEdit(row, index) {

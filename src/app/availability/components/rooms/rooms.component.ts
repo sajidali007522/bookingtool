@@ -88,9 +88,9 @@ export class RoomsComponent implements OnInit,AfterViewInit {
     this.componentState.start = index;
     //this.startSelection.emit(JSON.stringify({row: row, index:index}))
   }
-  rowCompletion (row, index) {
+  rowCompletion (row, index, $event) {
     if(this.state.isMassEditting) return;
-    this.completeSelection.emit(JSON.stringify({row: row, start:this.componentState.start, limit: index}))
+    this.completeSelection.emit(JSON.stringify({row: row, start:this.componentState.start, limit: index, shiftKey: $event.shiftKey}))
   }
   setCardCellTitle() {
 
