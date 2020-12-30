@@ -4,6 +4,7 @@ import {LookupService} from "../../../_services/lookupService";
 import {AvailabilityService} from "../../../_services/availability.service";
 import {DateParser} from "../../../_helpers/dateParser";
 import 'hammerjs'
+import {ConfigService} from "../../../config.service";
 
 @Component({
   selector: 'app-travel',
@@ -31,6 +32,7 @@ export class TravelComponent implements OnInit {
   }
   constructor( private lookupService: LookupService,
                private availService: AvailabilityService,
+               private appConfigService: ConfigService,
                public dateParser: DateParser
   ) {}
 
@@ -79,6 +81,9 @@ export class TravelComponent implements OnInit {
 
   setAsSelected (item) {
     item.checked = true;
+  }
+  isMobileDevice(){
+    return this.appConfigService['userDevice'] == 'mobile';
   }
   rowSelection (row, index) {
     console.log("mouse down")

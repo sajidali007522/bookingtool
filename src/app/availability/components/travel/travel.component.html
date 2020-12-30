@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<table *ngIf="remoteData.length > 0" class="table table-editable {{state.gridView}}"
+<table *ngIf="remoteData.length > 0" class="table table-editable {{state.gridView}}" [ngClass]="{'disable-touch' : !isMobileDevice()}"
        (swipeleft)="swipeNext()"
        (swiperight)="swipePrev()">
   <thead>

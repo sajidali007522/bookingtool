@@ -1,3 +1,6 @@
 tr.hide {
   display: none;
 }
+.disable-touch {
+  touch-action: auto !important;
+}
