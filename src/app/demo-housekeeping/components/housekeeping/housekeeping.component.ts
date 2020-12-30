@@ -302,8 +302,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       //featureId : this.pageFilters.features,
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
-      searchBy:this.pageFilters.searchBy,
-      searchValue:this.pageFilters.searchValue,
+      searchBy: (this.pageFilters.searchValue && this.pageFilters.searchBy) ? this.pageFilters.searchBy : '',
+      searchValue:(this.pageFilters.searchValue && this.pageFilters.searchBy) ? this.pageFilters.searchValue : '',
       sortBy: this.state.pagination.sortBy,
       sortOrder: this.state.pagination.sortOrder ? 'DESC' : 'ASC',
       adminMode: true
