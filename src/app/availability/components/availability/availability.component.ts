@@ -476,10 +476,19 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   completeMultipleSelect(event){
     if(!this.state.filterForm.includeHolds) return;
     event = JSON.parse(event);
+
     let start = event.start;
     let limit = event.limit;
     let shiftKey = event.shiftKey;
+    if(shiftKey && event.start > event.limit) {
+      start = event.limit;
+      limit = event.start;
+    }
     start = shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : start;
+    if(shiftKey && start > event.limit) {
+      start = event.limit;
+      limit = this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]-1;
+    }
     //let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
     if(this.state.resourceTypeValue == 1) {
       for(let index=start; index<=limit; index++) {
