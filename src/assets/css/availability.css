@@ -44,6 +44,51 @@
     overflow: visible;
 }
 
+.table-info-top{
+    margin: 0 0 10px;
+  }
+  .view-selection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+  }
+    .view-selection label{
+      font-size: 12px;
+      margin: 0 10px 0 0;
+      color: #616161;
+    }
+    .view-articles{
+      display: flex;
+      flex-wrap: wrap;
+      background: #fff;
+      border: 1px solid #e2e2e2;
+      position: relative;
+    }
+    .view-articles:before{
+      content: " ";
+      width: 1px;
+      height: 100%;
+      background: #e2e2e2;
+      position: absolute;
+      left: 50%;
+      top: 0;
+    }
+    .view-articles a{
+      display: inline-block;
+      height: 13px;
+      width: 13px;
+      line-height: 1;
+      text-decoration: none;
+      margin: 6px 10px;
+    }
+    .view-normal {background: url(../images/view-normal.svg) no-repeat;}
+    .view-normal.active {background: url(../images/view-normal-active.svg) no-repeat;}
+    .view-condensed {background: url(../images/view-condensed.svg) no-repeat;}
+    .view-condensed.active {background: url(../images/view-condensed-active.svg) no-repeat;}
+
+.theme-dark-primary .view-selection label{ color: #fff;}
+.theme-dark-primary .view-articles{ background: #999;}
 /* Skins changes start */
 .availability-component tr.selected td { background: #fff0de;}
 .theme-dark .availability-component tr.selected td{background: #fff0de !important;}

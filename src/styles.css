@@ -356,6 +356,11 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
   border:1px solid #999;
   padding: 5px 10px;
 }
+.cursor-grabbing{
+  cursor: grabbing;
+}
+
+
 .btn-success{
   background: #09425d;
   border-color: #09425d;

@@ -8,6 +8,17 @@
     </ul>
   </div>
 </div>
+
+<div class="table-info-top for-desktop">
+  <div class="view-selection">
+    <label>Normal View</label>
+    <div class="view-articles">
+      <a href="#" class="view-normal active"></a>
+      <a href="#" class="view-condensed"></a>
+    </div>
+  </div>
+</div>
+
 <table *ngIf="remoteData.length > 0" class="table table-editable"
        (swipeleft)="swipeNext()"
        (swiperight)="swipePrev()">
