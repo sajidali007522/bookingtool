@@ -8,8 +8,17 @@
     </ul>
   </div>
 </div>
+<div class="table-info-top for-desktop">
+  <div class="view-selection">
+    <label>Normal View</label>
+    <div class="view-articles">
+      <a href="javascript:void(0)" (click)="state.gridView=''" class="view-normal" [ngClass]="{'active': state.gridView !='table-sm'}"></a>
+      <a href="javascript:void(0)" (click)="state.gridView='table-sm'" class="view-condensed" [ngClass]="{'active': state.gridView=='table-sm'}"></a>
+    </div>
+  </div>
+</div>
 <div class="table-responsive">
-  <table class="table table-sm table-editable"  (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
+  <table class="table table-sm table-editable {{state.gridView}}"  (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
   <thead>
   <tr>
     <th>Date </th>
@@ -27,12 +36,12 @@
   </thead>
   <tbody>
   <tr *ngFor="let row of remoteData['data']; let index = index" [ngClass]="{'edited-tr': row.isEditting, 'selected': row.checked, 'hide': state.isMassEditting && !row.checked}">
-    <td data-title="Date" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDate(row.date)}}</td>
-    <td data-title="Day" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.dayOfWeek}}</td>
-    <td data-title="Total" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.total || 0}}</td>
-    <td data-title="Avail" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.available || 0}}</td>
-    <td data-title="Pickup" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.pickup || 0}}</td>
-    <td data-title="%" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.percentage || 0}}</td>
+    <td class="cursor-grabbing" data-title="Date" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDate(row.date)}}</td>
+    <td class="cursor-grabbing" data-title="Day" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.dayOfWeek}}</td>
+    <td class="cursor-grabbing" data-title="Total" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.total || 0}}</td>
+    <td class="cursor-grabbing" data-title="Avail" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.available || 0}}</td>
+    <td class="cursor-grabbing" data-title="Pickup" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.pickup || 0}}</td>
+    <td class="cursor-grabbing" data-title="%" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.percentage || 0}}</td>
     <ng-container *ngFor="let feature of row.features; let i = index;">
       <td [attr.data-title]="remoteData['features'][i].description">
         <span class="text-desc-edit" (click)="row.isEditting = !state.isMassEditting ? true : false; feature['isEditting'] = !feature['isEditting']">{{feature['number'] || 0}}
