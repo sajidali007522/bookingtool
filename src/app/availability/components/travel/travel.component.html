@@ -41,19 +41,19 @@
   <tbody>
   <tr *ngFor="let row of remoteData; let index = index"
       [ngClass]="{'edited-tr': row.isEditting,  'selected': row.checked,  'hide': state.isMassEditting && !row.checked}">
-    <td class="cursor-grabbing" data-title="Flight#" (mousedown)="rowSelection(row, index)"
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Flight#" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{row.identifier}}</td>
-    <td class="cursor-grabbing" data-title="Leg" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.leg}}</td>
-    <td class="cursor-grabbing" data-title="Date" (mousedown)="rowSelection(row, index)"
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Leg" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.leg}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Date" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDate(row.date)}}</td>
-    <td class="cursor-grabbing" data-title="Depart" (mousedown)="rowSelection(row, index)"
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Depart" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDateToTime(row.startDate)}}</td>
-    <td class="cursor-grabbing" data-title="Origination" (mousedown)="rowSelection(row, index)"
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Origination" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{row.from}}</td>
 
-    <td class="cursor-grabbing" data-title="Arrive" (mousedown)="rowSelection(row, index)"
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Arrive" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDateToTime(row.endDate)}}</td>
-    <td class="cursor-grabbing" data-title="Destination" (mousedown)="rowSelection(row, index)"
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Destination" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{row.to}}</td>
     <td data-title="Total">
       <span class="text-desc-edit" *ngIf="!state.filterForm.includeHolds"
@@ -86,9 +86,9 @@
         <span class="fa fa-undo" [popover]="'Undo change'" triggers="mouseenter:mouseleave" *ngIf="row['$processed_total'] && row['$old_total']" (click)="row['total'] = row['$old_total'];row['$old_total']=null; updateRecord(row, index, 'total')"></span>
       </div>-->
     </td>
-    <td class="cursor-grabbing" data-title="Avail" (mousedown)="rowSelection(row, index)"
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Avail" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{row.available || 0}}</td>
-    <td class="cursor-grabbing" data-title="Booked" (mousedown)="rowSelection(row, index)"
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Booked" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{row.booked || 0}}</td>
     <td data-title="Remove" *ngIf="state.isMassEditting">
       <a class="close-sm" popover="Remove" triggers="mouseenter:mouseleave"

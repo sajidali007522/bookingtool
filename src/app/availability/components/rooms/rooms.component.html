@@ -36,12 +36,12 @@
   </thead>
   <tbody>
   <tr *ngFor="let row of remoteData['data']; let index = index" [ngClass]="{'edited-tr': row.isEditting, 'selected': row.checked, 'hide': state.isMassEditting && !row.checked}">
-    <td class="cursor-grabbing" data-title="Date" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDate(row.date)}}</td>
-    <td class="cursor-grabbing" data-title="Day" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.dayOfWeek}}</td>
-    <td class="cursor-grabbing" data-title="Total" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.total || 0}}</td>
-    <td class="cursor-grabbing" data-title="Avail" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.available || 0}}</td>
-    <td class="cursor-grabbing" data-title="Pickup" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.pickup || 0}}</td>
-    <td class="cursor-grabbing" data-title="%" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.percentage || 0}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Date" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDate(row.date)}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Day" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.dayOfWeek}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Total" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.total || 0}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Avail" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.available || 0}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Pickup" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.pickup || 0}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="%" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.percentage || 0}}</td>
     <ng-container *ngFor="let feature of row.features; let i = index;">
       <td [attr.data-title]="remoteData['features'][i].description">
         <span class="text-desc-edit" (click)="row.isEditting = !state.isMassEditting ? true : false; feature['isEditting'] = !feature['isEditting']">{{feature['number'] || 0}}
