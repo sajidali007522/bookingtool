@@ -10,7 +10,7 @@
 </div>
 <div class="table-info-top for-desktop">
   <div class="view-selection">
-    <label>Normal View</label>
+    <label>{{state.gridView == 'table-sm' ? 'Condensed View': 'Normal View'}}</label>
     <div class="view-articles">
       <a href="javascript:void(0)" (click)="state.gridView=''" class="view-normal" [ngClass]="{'active': state.gridView !='table-sm'}"></a>
       <a href="javascript:void(0)" (click)="state.gridView='table-sm'" class="view-condensed" [ngClass]="{'active': state.gridView=='table-sm'}"></a>
