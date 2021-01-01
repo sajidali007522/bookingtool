@@ -339,7 +339,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   saveChanges(){
     if(this.state.loading.save == true) return;
 
-    if(!Number(this.state.massEditForm.number)){
+    if(isNaN(Number(this.state.massEditForm.number))){
       this.toastr.error('field should contain number');
       return;
     }
@@ -577,12 +577,13 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']]) return;
       //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
       //check on string
-      if(!Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']]) ) {
+      if(!this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] &&
+        isNaN(Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']])) ) {
         this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
         this.toastr.error('field should contain number');
         return;
       }
-      if(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] == (this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]) ) return;
+      if(!data['forceRedo'] && this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] == (this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]) ) return;
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
       clearTimeout(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$timeout']);
       delete this.remoteData.data[data['index']]['features'][data['featureIndex']]['$timeout'];
@@ -593,12 +594,13 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       if(this.remoteData[data['index']]['$processing_'+data['property']]) return;
       //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]
       //
-      if(!Number(this.remoteData[data['index']][data['property']]) ) {
+      if(!this.remoteData[data['index']]['$processed_'+data['property']] &&
+        isNaN(Number(this.remoteData[data['index']][data['property']])) ) {
         this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']];
         this.toastr.error('field should contain number');
         return;
       }
-      if((this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]) == this.remoteData[data['index']][data['property']]) return;
+      if(!data['forceRedo'] && (this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]) == this.remoteData[data['index']][data['property']]) return;
       this.remoteData[data['index']]['$processing_'+data['property']] = true;
       clearTimeout(this.remoteData[data['index']]['$timeout'])
       delete this.remoteData[data['index']]['$timeout'];
