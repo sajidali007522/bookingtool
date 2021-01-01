@@ -754,11 +754,16 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
 
   completeMultipleSelect(index, room, $event, column){
     if(this.isMobileDevice()) return;
-    //console.log("completing", index, this.state.massEdit.lastIndex);
+    console.log("completing", index, this.state.massEdit.lastIndex, this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]);
     if(column.canEdit && column.dataProperty != 'FdStatus') return;
     if(this.state.massEdit.lastIndex == -1) return;
     //if($event.shiftKey && $event.altKey) return;
     let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
+    if($event.shiftKey && this.state.massEdit.indexes[this.state.massEdit.indexes.length-1] > index) {
+      flag = index;
+      index = this.state.massEdit.indexes[this.state.massEdit.indexes.length-1];
+    }
+    console.log(flag, index)
     while(flag <= index){
       this.handleMassEditRooms(flag, this.data[flag])
       flag++;
