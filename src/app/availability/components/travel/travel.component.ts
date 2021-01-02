@@ -105,7 +105,7 @@ export class TravelComponent implements OnInit {
 
   }
 
-  updateRecord (row, index, property, forceRedo) {
+  updateRecord (row, index, property, forceRedo=false) {
     this.updateRow.emit(JSON.stringify({row: row, index:index, property: property, forceRedo:forceRedo}))
   }
 }
