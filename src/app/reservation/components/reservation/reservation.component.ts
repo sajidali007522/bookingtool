@@ -51,7 +51,9 @@ export class ReservationComponent implements OnInit,AfterViewInit {
     TimePropertyID: "00000000-0000-0000-0000-000000000000",
     SearchIndex: 0,
     SelectedItems: [],
-    bookingID: ''
+    bookingID: '',
+    hotelName: '',
+    hotelChain: ''
   };
   constructor(private DFService: DateFormatsService,
               private _http: HttpService,
