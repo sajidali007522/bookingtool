@@ -43,8 +43,8 @@
     <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Pickup" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.pickup || 0}}</td>
     <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="%" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.percentage || 0}}</td>
     <ng-container *ngFor="let feature of row.features; let i = index;">
-      <td [attr.data-title]="remoteData['features'][i].description">
-        <span class="text-desc-edit" (click)="row.isEditting = !state.isMassEditting ? true : false; feature['isEditting'] = !feature['isEditting']">{{feature['number'] || 0}}
+      <td [attr.data-title]="remoteData['features'][i].description" [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">
+        <span class="text-desc-edit" >{{feature['number'] || 0}}
           </span>
       </td>
       <td [attr.data-title]="remoteData['features'][i].description+' Hold'" *ngIf="state.filterForm.includeHolds">
