@@ -423,8 +423,12 @@ export class ReservationComponent implements OnInit,AfterViewInit {
     this._http._get("Booking/Start")
       .subscribe(data => {
         console.log(data);
-        this.ruleBags = data['ruleBags'];
-        this.form.bookingID = data['bookingID'];
+        if(data['ruleBags']) {
+          this.ruleBags = data['ruleBags'];
+        }
+        if(data['bookingID']) {
+          this.form.bookingID = data['bookingID'];
+        }
         this.state.initiateBooking = false;
       });
   }
