@@ -120,6 +120,11 @@
               <span class="fa fa-download"></span> Save
             </a>
           </div>
+          <a *ngIf="state.massEdit.items.length > 0" href="javascript:void(0)" class="full-btn" (click)=" resetMassEdit();loadRecords(0,true)">
+            <span class="fa fa-refresh"></span>
+            Refresh
+            <i class="fa fa-spin fa-spinner" *ngIf="!state.filterForm.includeHolds && (state.loading.records || state.resourceTypeValue <= 0)"></i>
+          </a>
             <!-- <a *ngIf="!this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-mass-edit" [ngClass]="{ 'disabled' :  remoteData.length <=0}" (click)="setMassEdit()">Mass Edit</a>
             <a *ngIf="!this.state.isEditting && !this.state.isMassEditting && ((remoteData.hasOwnProperty('data') && remoteData['data'].length) || (!remoteData.hasOwnProperty('data') && remoteData.length))" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : remoteData.length <=0}" (click)="setEditMode()">Edit</a>
             <a *ngIf="this.state.isEditting || this.state.isMassEditting" href="javascript:void(0)" class="btn-edit" [ngClass]="{ 'disabled' : !state.recordLoaded}" (click)="resetEditMode()">End Edit</a>
