@@ -256,7 +256,7 @@
             <div class="custom-content tabs-content" id="content-2" style="display: block;">
               <div class="book-time-wrap">
                 <div class="row">
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-12">
                     <h3>Location*</h3>
                     <div class="field-wrap-outer field-gray-wrap">
                       <div class="field-wrap">
@@ -306,6 +306,24 @@
                 <div class="row">
                   <div class="col-md-6 col-6">
                     <div class="field-wrap-outer">
+                      <label>Single/Double Occupancy</label>
+                      <div class="field-wrap">
+                        <input type="text" value="1" class="form-control no-icon">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-6">
+                    <div class="field-wrap-outer time-picker-wrap">
+                      <label>Number of Rooms</label>
+                      <div class="field-wrap">
+                        <input type="text"  value="1" class="form-control no-icon">
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="row">
+                  <div class="col-md-6 col-6">
+                    <div class="field-wrap-outer">
                       <label>Arrival Date*</label>
                       <div class="field-wrap">
                         <input type="text"
@@ -347,7 +365,7 @@
                                [(ngModel)]="form.hotelName"
                                placeholder="Hotel Name"
                                name="hotel_name"
-                               class="form-control">
+                               class="form-control no-icon">
                       </div>
                     </div>
                   </div>
@@ -355,11 +373,7 @@
                     <div class="field-wrap-outer time-picker-wrap">
                       <label>Hotel Chain</label>
                       <div class="field-wrap">
-                        <input type="text"
-                               [(ngModel)]="form.hotelChain"
-                               placeholder="Hotel Name"
-                               name="hotel_name"
-                               class="form-control">
+                        <input type="text" [(ngModel)]="form.hotelChain" placeholder="Hotel Name" name="hotel_name" class="form-control no-icon">
                       </div>
                       </div>
                     </div>
@@ -393,7 +407,7 @@
                           [debounceTime]="400"
                           [isLoading]="isLoadingResult"
                           [minQueryLength]="3"
-                          placeHolder="Search Departure."
+                          placeHolder="Pickup Location"
                           name="departure"
                         >
                         </ng-autocomplete>
@@ -436,7 +450,7 @@
                           [debounceTime]="400"
                           [isLoading]="isLoadingArrival"
                           [minQueryLength]="3"
-                          placeHolder="Search Destination."
+                          placeHolder="DropOff Location"
                           name="arrival"
                         >
                         </ng-autocomplete>
@@ -529,6 +543,175 @@
                 </div>
               </div>
               <button type="submit" class="btn btn-success btn-block" (click)="submitIt()" [disabled]="state.processing">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="tab == 'bundle'">
+            <div class="custom-content tabs-content" id="content-4" style="display: block;">
+              <div class="book-time-wrap">
+                
+                <div class="tabs-secondary">
+                  <ul>
+                    <li class="active"><a href="javascript:void(0);"> <span class="icon-flight-hotel"></span> Flight + Hotel</a></li>
+                    <li><a href="javascript:void(0);">Flight + Car</a></li>
+                    <li><a href="javascript:void(0);">Flight + Car + Hotel</a></li>
+                    <li><a href="javascript:void(0);">Bundle</a></li>
+                  </ul>
+                </div>
+                <div class="secondary-content-wrap">
+                  <div class="secondary-content" id="tab-1">
+
+                    <div class="accordion accordion-sm custom-accordion" id="accordionExample">
+                      <div class="mb-3">
+                        <div class="card-header" id="headingOne">
+                          <h2 class="accordion-link" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true"> Commercial Flight</h2>
+                        </div>
+                    
+                        <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
+                          <div class="box box-lr">
+
+                            <div class="row">
+                              <div class="col-md-7 col-5">
+                                <div class="field-wrap-outer">
+                                  <label>Departure Date*</label>
+                                  <div class="field-wrap">
+                                    <input type="text"
+                                           [(ngModel)]="form.BeginDate"
+                                           bsDatepicker
+                                           [bsConfig]="bsConfig"
+                                           (ngModelChange)="setDateTo()"
+                                           [minDate]="minDateFrom"
+                                           placeholder="Departure Date"
+                                           name="departure_date"
+                                           class="form-control">
+                                    <span class="fa fa-calendar-o"></span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-5 col-7">
+                                <div class="field-wrap-outer">
+                                  <label>Departure Time</label>
+                                  <div class="field-wrap time-picker-wrap">
+                                    <timepicker [(ngModel)]="form.BeginTime"
+                                                [mousewheel]="true"
+                                                [arrowkeys]="true"
+                                    ></timepicker>
+                                    <!--                        <input type="text" placeholder="" class="form-control">-->
+                                    <!--                        <span class="fa fa-clock-o"></span>-->
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div class="row">
+                              <div class="col-md-6 col-6">
+                                <div class="field-wrap-outer field-gray-wrap">
+                                  <div class="field-wrap">
+                                    <ng-autocomplete
+                                      [data]="departureList"
+                                      [searchKeyword]="keyword"
+                                      (selected)='selectDeparture($event)'
+                                      (inputChanged)='getServerResponse($event, "departure-list")'
+                                      (inputFocused)='onFocused($event)'
+                                      [itemTemplate]="departureListTemplate"
+                                      (inputCleared)="searchCleared('departure-list')"
+                                      [notFoundTemplate]="notFoundTemplate"
+                                      [debounceTime]="400"
+                                      [isLoading]="isLoadingResult"
+                                      [minQueryLength]="3"
+                                      placeHolder="Departure"
+                                      name="departure"
+                                    >
+                                    </ng-autocomplete>
+            
+                                    <ng-template #departureListTemplate let-item>
+                                      <a href="javascript:void(0)">
+                                        <div class="auto-txtwrap">
+                                          <div class="autoicon">
+                                            <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>
+                                          </div>
+                                          <div class="autotxt">
+                                            <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
+                                          </div>
+                                        </div>
+                                      </a>
+                                    </ng-template>
+            
+                                    <ng-template #notFoundTemplate let-notFound>
+                                      {{errorMsg}}
+                                    </ng-template>
+                                    <div class="" *ngIf="error">
+                                      <label class="error">{{error.message}}</label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6 col-6">
+                                <div class="field-wrap-outer">
+                                  <div class="field-wrap time-picker-wrap field-gray-wrap">
+                                    <ng-autocomplete
+                                      [data]="arrivalList"
+                                      [searchKeyword]="keyword"
+                                      (selected)='selectArrival($event)'
+                                      (inputChanged)='getServerResponse($event, "arrival-list")'
+                                      (inputFocused)='onFocused($event)'
+                                      [itemTemplate]="itemTemplateRemote_"
+                                      (inputCleared)="searchCleared('arrival-list')"
+                                      [notFoundTemplate]="notFoundTemplate_"
+                                      [debounceTime]="400"
+                                      [isLoading]="isLoadingArrival"
+                                      [minQueryLength]="3"
+                                      placeHolder="Arrival"
+                                      name="arrival"
+                                    >
+                                    </ng-autocomplete>
+            
+                                    <ng-template #itemTemplateRemote_ let-item>
+                                      <a href="javascript:void(0)">
+                                        <div class="auto-txtwrap">
+                                          <div class="autoicon">
+                                            <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>
+                                          </div>
+                                          <div class="autotxt">
+                                            <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
+                                          </div>
+                                        </div>
+                                      </a>
+                                    </ng-template>
+            
+                                    <ng-template #notFoundTemplate_ let-notFound>
+                                      {{errorMsg}}
+                                    </ng-template>
+                                    <div class="" *ngIf="error">
+                                      <label class="error">{{error.message}}</label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion accordion-sm custom-accordion">
+                      <div class="mb-3">
+                        <div class="card-header">
+                          <h2 class="accordion-link" data-toggle="collapse" data-target="#collaps-2" aria-expanded="true">
+                            Title come here
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    
+
+                  </div><!-- tab-1 -->
+                </div><!-- secondary-content-wrap -->
+
+              </div>
+              <button type="submit" class="btn btn-info btn-block" (click)="submitIt()" [disabled]="state.processing">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
             </div>
           </ng-container>
     </div>
