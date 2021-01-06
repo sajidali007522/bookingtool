@@ -21,7 +21,7 @@
           <div class="accordion-group group-active">
             <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Resource<span *ngIf="state.loading.resources" class="fa fa-spinner fa-spin"></span></a></div>
             <div class="accordion-body">
-              <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.resourceTypeID" (change)="setResourceType(); resetFilter()">
+              <select class="select-field" name="resourceTypeId"  triggers="mouseenter:mouseleave" [popover]="state.filterLabel.resourceTypeID"  [(ngModel)]="state.filterForm.resourceTypeID" (change)="setResourceType(); resetFilter(); setToolTipValue('resourceTypeID', 'resourceTypes')">
                 <option value="00000000-0000-0000-0000-000000000000"> < None ></option>
                 <option *ngFor="let resource of state.resourceTypes" value="{{resource.value}}">{{resource.text}}</option>
               </select>
@@ -30,7 +30,7 @@
           <div class="accordion-group group-active">
             <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-profile">Business Profiles<span *ngIf="state.loading.ruleBag" class="fa fa-spinner fa-spin"></span></a></div>
             <div class="accordion-body">
-              <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.businessProfileID" (change)="loadContracts();  loadContractorList()">
+              <select class="select-field" name="resourceTypeId" [(ngModel)]="state.filterForm.businessProfileID" triggers="mouseenter:mouseleave" [popover]="state.filterLabel.businessProfileID" (change)="loadContracts();  loadContractorList(); setToolTipValue('businessProfileID', 'businessProfiles')">
                 <option value="00000000-0000-0000-0000-000000000000"> < None ></option>
                 <option *ngFor="let site of state.businessProfiles" value="{{site.value}}">{{site.text}}</option>
               </select>
@@ -59,16 +59,18 @@
           <div class="accordion-group group-active">
             <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contact">Contract<span *ngIf="state.loading.contract" class="fa fa-spinner fa-spin"></span></a></div>
             <div class="accordion-body">
-                <select class="select-field" [(ngModel)]="state.filterForm.contractID" (change)="loadContractSites()">
+                <select class="select-field" [(ngModel)]="state.filterForm.contractID" triggers="mouseenter:mouseleave" [popover]="state.filterLabel.contractID"  (change)="loadContractSites();setToolTipValue('contractID', 'contracts')">
                   <option value="00000000-0000-0000-0000-000000000000">None</option>
                   <option *ngFor="let contract of state.contracts" value="{{contract.value}}">{{contract.text}}</option>
                 </select>
             </div>
           </div>
           <div class="accordion-group">
-            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-lodge">Lodge<span *ngIf="state.loading.ContractSite" class="fa fa-spinner fa-spin"></span></a></div>
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-lodge">Lodge<span *ngIf="state.loading.ContractSite" class="fa fa-spinner fa-spin"></span></a>
+            </div>
             <div class="accordion-body">
-              <select class="select-field" [(ngModel)]="state.filterForm.ContractSite">
+              <select class="select-field" [(ngModel)]="state.filterForm.ContractSite" triggers="mouseenter:mouseleave" [popover]="state.filterLabel.ContractSite" (change)="setToolTipValue('ContractSite', 'ContractSites')" >
                 <option value="00000000-0000-0000-0000-000000000000">None</option>
                 <option *ngFor="let lodge of state.ContractSites" value="{{lodge.value}}">{{lodge.text}}</option>
               </select>
@@ -78,7 +80,7 @@
           <div class="accordion-group">
             <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contractor">Contractor<span *ngIf="state.loading.ContractorList" class="fa fa-spinner fa-spin"></span></a></div>
             <div class="accordion-body">
-              <select class="select-field" [(ngModel)]="state.filterForm.contractorID" [disabled]="state.resourceTypeValue == 2">
+              <select class="select-field" [(ngModel)]="state.filterForm.contractorID" [disabled]="state.resourceTypeValue == 2"  triggers="mouseenter:mouseleave" [popover]="state.filterLabel.contractorID" (change)="setToolTipValue('contractorID', 'ContractorList')">
                 <option value="00000000-0000-0000-0000-000000000000">None</option>
                 <option *ngFor="let contractor of state.ContractorList" value="{{contractor.value}}">{{contractor.text}}</option>
               </select>
