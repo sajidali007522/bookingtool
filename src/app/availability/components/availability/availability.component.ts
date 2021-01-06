@@ -10,6 +10,7 @@ import {RoomsComponent} from "../rooms/rooms.component";
 import {ModalComponent} from "../../../shared-module/components/modal/modal.component";
 import {ToastrService} from "ngx-toastr";
 
+
 @Component({
   selector: 'app-availability',
   templateUrl: './availability.component.html',
@@ -84,6 +85,17 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       contractorID: '00000000-0000-0000-0000-000000000000',
       includeHolds: false
     },
+    filterLabel: {
+      beginDate:<any> new Date(),
+      endDate:<any> new Date(),
+      siteID: 'None',
+      businessProfileID: 'None',
+      resourceTypeID: 'None',
+      contractID: 'None',
+      ContractSite: 'None',
+      contractorID: 'None',
+      includeHolds: false
+    },
     massEditForm: {number: 0, roomType: '00000000-0000-0000-0000-000000000000' }
   }
   constructor( private renderer: Renderer2,
@@ -145,6 +157,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         this.state.loading.resources = false;
         this.state.resourceTypes = res['data']['results'];
         this.state.filterForm.resourceTypeID = res['data']['results'][0].value;
+        this.setToolTipValue('resourceTypeID', 'resourceTypes')
         this.setResourceType();
         this.state.filterForm.businessProfileID = '00000000-0000-0000-0000-000000000000';
         this.state.filterForm.contractorID = '00000000-0000-0000-0000-000000000000';
@@ -706,6 +719,14 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     //$(document).find('.header-wrap > .menu-icon ').trigger('click');
     //document.getElementById('widthSwitch').click();
     this.renderer.removeClass(document.body, 'menu-fullwidth')
+  }
+
+  setToolTipValue( model, list) {
+    this.state[list].filter((item)=>{
+      if(item.value == this.state.filterForm[model]){
+        this.state.filterLabel[model] = item.text;
+      }
+    })
   }
 
 }

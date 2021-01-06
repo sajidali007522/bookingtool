@@ -761,7 +761,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     let flag = $event.shiftKey ? this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]+1 : this.state.massEdit.lastIndex;
     if($event.shiftKey && this.state.massEdit.indexes[this.state.massEdit.indexes.length-1] > index) {
       flag = index;
-      index = this.state.massEdit.indexes[this.state.massEdit.indexes.length-1];
+      index = this.state.massEdit.indexes[this.state.massEdit.indexes.length-1]-1;
     }
     //console.log(flag, index)
     while(flag <= index){
