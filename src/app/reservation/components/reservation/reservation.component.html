@@ -569,27 +569,487 @@
                 <div class="secondary-content-wrap">
                   <ng-container *ngIf="bundle == 1">
                     <div class="secondary-content" id="tab-1">
-
-                      Flight + hotel Content
+                      <div class="row">
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>From</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                                [data]="departureList"
+                                [searchKeyword]="keyword"
+                                (selected)='selectDeparture($event)'
+                                (inputChanged)='getServerResponse($event, "departure-list")'
+                                (inputFocused)='onFocused($event)'
+                                [itemTemplate]="departureListTemplate"
+                                (inputCleared)="searchCleared('departure-list')"
+                                [notFoundTemplate]="notFoundTemplate"
+                                [debounceTime]="400"
+                                [isLoading]="isLoadingResult"
+                                [minQueryLength]="3"
+                                placeHolder="From*"
+                                name="departure"
+                              >
+                              </ng-autocomplete>
+      
+                              <ng-template #departureListTemplate let-item>
+                                <a href="javascript:void(0)">
+                                  <div class="auto-txtwrap">
+                                    <div class="autoicon">
+                                      <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>
+                                    </div>
+                                    <div class="autotxt">
+                                      <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
+                                    </div>
+                                  </div>
+                                </a>
+                              </ng-template>
+      
+                              <ng-template #notFoundTemplate let-notFound>
+                                {{errorMsg}}
+                              </ng-template>
+                              <div class="" *ngIf="error">
+                                <label class="error">{{error.message}}</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer">
+                            <label>To</label>
+                            <div class="field-wrap time-picker-wrap field-gray-wrap">
+                              <ng-autocomplete
+                                [data]="arrivalList"
+                                [searchKeyword]="keyword"
+                                (selected)='selectArrival($event)'
+                                (inputChanged)='getServerResponse($event, "arrival-list")'
+                                (inputFocused)='onFocused($event)'
+                                [itemTemplate]="itemTemplateRemote_"
+                                (inputCleared)="searchCleared('arrival-list')"
+                                [notFoundTemplate]="notFoundTemplate_"
+                                [debounceTime]="400"
+                                [isLoading]="isLoadingArrival"
+                                [minQueryLength]="3"
+                                placeHolder="To*"
+                                name="arrival"
+                              >
+                              </ng-autocomplete>
+      
+                              <ng-template #itemTemplateRemote_ let-item>
+                                <a href="javascript:void(0)">
+                                  <div class="auto-txtwrap">
+                                    <div class="autoicon">
+                                      <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>
+                                    </div>
+                                    <div class="autotxt">
+                                      <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
+                                    </div>
+                                  </div>
+                                </a>
+                              </ng-template>
+      
+                              <ng-template #notFoundTemplate_ let-notFound>
+                                {{errorMsg}}
+                              </ng-template>
+                              <div class="" *ngIf="error">
+                                <label class="error">{{error.message}}</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>Hotel Name</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                                placeHolder="Hotel Name"
+                              >
+                              </ng-autocomplete>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>Hotel Chain</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                                placeHolder="Hotel Chain"
+                              >
+                              </ng-autocomplete>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>Single/Double Occupancy</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                              value="1"
+                              >
+                              </ng-autocomplete>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>Number of Rooms</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                                value="1"
+                              >
+                              </ng-autocomplete>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-7 col-5">
+                          <div class="field-wrap-outer">
+                            <label>Departure Date*</label>
+                            <div class="field-wrap">
+                              <input type="text"
+                                     [(ngModel)]="form.BeginDate"
+                                     bsDatepicker
+                                     [bsConfig]="bsConfig"
+                                     (ngModelChange)="setDateTo()"
+                                     [minDate]="minDateFrom"
+                                     placeholder="Departure Date"
+                                     name="departure_date"
+                                     class="form-control">
+                              <span class="fa fa-calendar-o"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-5 col-7">
+                          <div class="field-wrap-outer">
+                            <label>Departure Start Time</label>
+                            <div class="field-wrap time-picker-wrap">
+                              <timepicker [(ngModel)]="form.BeginTime"
+                                          [mousewheel]="true"
+                                          [arrowkeys]="true"
+                              ></timepicker>
+                              <!--                        <input type="text" placeholder="" class="form-control">-->
+                              <!--                        <span class="fa fa-clock-o"></span>-->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-7 col-5">
+                          <div class="field-wrap-outer">
+                            <label>Return Date*</label>
+                            <div class="field-wrap">
+                                <input type="text"
+                                       [(ngModel)]="form.EndDate"
+                                       bsDatepicker
+                                       [minDate]="form.BeginDate"
+                                       [bsConfig]="bsConfig"
+                                       placeholder="Return Date"
+                                       name="arrival_date"
+                                       class="form-control">
+                                <span class="fa fa-calendar-o"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-5 col-7">
+                          <div class="field-wrap-outer time-picker-wrap">
+                            <label>Return End Time</label>
+                            <div class="field-wrap">
+                                <timepicker [(ngModel)]="form.EndTime" [mousewheel]="true" [arrowkeys]="true"></timepicker>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
                     </div><!-- tab-1 -->
                   </ng-container>
                   <ng-container *ngIf="bundle == 2">
-                    <div class="secondary-content" id="tab-1">
+                    <div class="secondary-content" id="tab-2">
 
-                      Flight + Car Content
+                      <div class="row">
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>From</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                                placeHolder="From*"
+                              >
+                              </ng-autocomplete>
+    
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer">
+                            <label>To</label>
+                            <div class="field-wrap time-picker-wrap field-gray-wrap">
+                              <ng-autocomplete
+                                placeHolder="To*"
+                              >
+                              </ng-autocomplete>
 
-                    </div><!-- tab-1 -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 col-12">
+                          <div class="field-wrap-outer">
+                            <label>Departure*</label>
+                            <div class="field-wrap">
+                              <input type="text"
+                                     [(ngModel)]="form.BeginDate"
+                                     bsDatepicker
+                                     [bsConfig]="bsConfig"
+                                     (ngModelChange)="setDateTo()"
+                                     [minDate]="minDateFrom"
+                                     placeholder="Departure Date"
+                                     name="departure_date"
+                                     class="form-control">
+                              <span class="fa fa-calendar-o"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                          <div class="field-wrap-outer">
+                            <label>Return Date*</label>
+                            <div class="field-wrap">
+                                <input type="text"
+                                       [(ngModel)]="form.EndDate"
+                                       bsDatepicker
+                                       [minDate]="form.BeginDate"
+                                       [bsConfig]="bsConfig"
+                                       placeholder="Return Date"
+                                       name="arrival_date"
+                                       class="form-control">
+                                <span class="fa fa-calendar-o"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+
+                    </div><!-- tab-2 -->
                   </ng-container>
                   <ng-container *ngIf="bundle == 3">
-                    <div class="secondary-content" id="tab-1">
+                    <div class="secondary-content" id="tab-3">
 
-                      Flight + hotel + car Content
+                      <div class="row">
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>From</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                                [data]="departureList"
+                                [searchKeyword]="keyword"
+                                (selected)='selectDeparture($event)'
+                                (inputChanged)='getServerResponse($event, "departure-list")'
+                                (inputFocused)='onFocused($event)'
+                                [itemTemplate]="departureListTemplate"
+                                (inputCleared)="searchCleared('departure-list')"
+                                [notFoundTemplate]="notFoundTemplate"
+                                [debounceTime]="400"
+                                [isLoading]="isLoadingResult"
+                                [minQueryLength]="3"
+                                placeHolder="From*"
+                                name="departure"
+                              >
+                              </ng-autocomplete>
+      
+                              <ng-template #departureListTemplate let-item>
+                                <a href="javascript:void(0)">
+                                  <div class="auto-txtwrap">
+                                    <div class="autoicon">
+                                      <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>
+                                    </div>
+                                    <div class="autotxt">
+                                      <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
+                                    </div>
+                                  </div>
+                                </a>
+                              </ng-template>
+      
+                              <ng-template #notFoundTemplate let-notFound>
+                                {{errorMsg}}
+                              </ng-template>
+                              <div class="" *ngIf="error">
+                                <label class="error">{{error.message}}</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer">
+                            <label>To</label>
+                            <div class="field-wrap time-picker-wrap field-gray-wrap">
+                              <ng-autocomplete
+                                [data]="arrivalList"
+                                [searchKeyword]="keyword"
+                                (selected)='selectArrival($event)'
+                                (inputChanged)='getServerResponse($event, "arrival-list")'
+                                (inputFocused)='onFocused($event)'
+                                [itemTemplate]="itemTemplateRemote_"
+                                (inputCleared)="searchCleared('arrival-list')"
+                                [notFoundTemplate]="notFoundTemplate_"
+                                [debounceTime]="400"
+                                [isLoading]="isLoadingArrival"
+                                [minQueryLength]="3"
+                                placeHolder="To*"
+                                name="arrival"
+                              >
+                              </ng-autocomplete>
+      
+                              <ng-template #itemTemplateRemote_ let-item>
+                                <a href="javascript:void(0)">
+                                  <div class="auto-txtwrap">
+                                    <div class="autoicon">
+                                      <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>
+                                    </div>
+                                    <div class="autotxt">
+                                      <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
+                                    </div>
+                                  </div>
+                                </a>
+                              </ng-template>
+      
+                              <ng-template #notFoundTemplate_ let-notFound>
+                                {{errorMsg}}
+                              </ng-template>
+                              <div class="" *ngIf="error">
+                                <label class="error">{{error.message}}</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>Hotel Name</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                                placeHolder="Hotel Name"
+                              >
+                              </ng-autocomplete>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>Hotel Chain</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                                placeHolder="Hotel Chain"
+                              >
+                              </ng-autocomplete>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>Single/Double Occupancy</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                              value="1"
+                              >
+                              </ng-autocomplete>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-6">
+                          <div class="field-wrap-outer field-gray-wrap">
+                            <label>Number of Rooms</label>
+                            <div class="field-wrap">
+                              <ng-autocomplete
+                                value="1"
+                              >
+                              </ng-autocomplete>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-7 col-5">
+                          <div class="field-wrap-outer">
+                            <label>Departure Date*</label>
+                            <div class="field-wrap">
+                              <input type="text"
+                                     [(ngModel)]="form.BeginDate"
+                                     bsDatepicker
+                                     [bsConfig]="bsConfig"
+                                     (ngModelChange)="setDateTo()"
+                                     [minDate]="minDateFrom"
+                                     placeholder="Departure Date"
+                                     name="departure_date"
+                                     class="form-control">
+                              <span class="fa fa-calendar-o"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-5 col-7">
+                          <div class="field-wrap-outer">
+                            <label>Departure Start Time</label>
+                            <div class="field-wrap time-picker-wrap">
+                              <timepicker [(ngModel)]="form.BeginTime"
+                                          [mousewheel]="true"
+                                          [arrowkeys]="true"
+                              ></timepicker>
+                              <!--                        <input type="text" placeholder="" class="form-control">-->
+                              <!--                        <span class="fa fa-clock-o"></span>-->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-7 col-5">
+                          <div class="field-wrap-outer">
+                            <label>Return Date*</label>
+                            <div class="field-wrap">
+                                <input type="text"
+                                       [(ngModel)]="form.EndDate"
+                                       bsDatepicker
+                                       [minDate]="form.BeginDate"
+                                       [bsConfig]="bsConfig"
+                                       placeholder="Return Date"
+                                       name="arrival_date"
+                                       class="form-control">
+                                <span class="fa fa-calendar-o"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-5 col-7">
+                          <div class="field-wrap-outer time-picker-wrap">
+                            <label>Return End Time</label>
+                            <div class="field-wrap">
+                                <timepicker [(ngModel)]="form.EndTime" [mousewheel]="true" [arrowkeys]="true"></timepicker>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-                    </div><!-- tab-1 -->
+                    </div><!-- tab-3 -->
                   </ng-container>
                   <ng-container *ngIf="bundle == 4">
-                    <div class="secondary-content" id="tab-1">
+                    <div class="secondary-content" id="tab-4">
+
+                      <div class="input-group mb-4">
+                        <select class="custom-select custom-select-normal" id="inputGroupSelect04">
+                          <option value="1">Commercial Flight</option>
+                          <option value="2">Hotel</option>
+                          <option value="3">Rental Car</option>
+                        </select>
+                        <div class="input-group-append">
+                          <button class="btn btn-success" type="button"> <span class="fa fa-plus"></span> Add</button>
+                        </div>
+                      </div>
+                      
 
                     <div class="accordion accordion-sm custom-accordion" id="accordionExample">
                       <div class="mb-3">

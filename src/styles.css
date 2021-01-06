@@ -965,6 +965,11 @@ body .ng5-slider .ng5-slider-bubble{
   width: 30px;
   height: 30px;
 }
+.custom-select-normal{
+  background: #fff;
+  color: #495057;
+  border-radius: 0;
+}
 
 
 /* for reservation-results */
