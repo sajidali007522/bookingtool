@@ -29,6 +29,7 @@ export class ReservationComponent implements OnInit,AfterViewInit {
   departureList;
   keyword="text";
   tab = 'flight';
+  bundle = 1;
   bsConfig: Partial<BsDatepickerConfig>;
   chosenDateFormat;
   minDateFrom: Date;

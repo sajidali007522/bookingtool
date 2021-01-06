@@ -549,24 +549,54 @@
           <ng-container *ngIf="tab == 'bundle'">
             <div class="custom-content tabs-content" id="content-4" style="display: block;">
               <div class="book-time-wrap">
-                
+
                 <div class="tabs-secondary">
                   <ul>
-                    <li class="active"><a href="javascript:void(0);"> <span class="icon-flight-hotel"></span> Flight + Hotel</a></li>
-                    <li><a href="javascript:void(0);">Flight + Car</a></li>
-                    <li><a href="javascript:void(0);">Flight + Car + Hotel</a></li>
-                    <li><a href="javascript:void(0);">Bundle</a></li>
+                    <li [ngClass]="{'active': bundle == 1}">
+                      <a href="javascript:void(0);" (click)="bundle = 1" > <span class="icon-flight-hotel"></span> Flight + Hotel</a>
+                    </li>
+                    <li [ngClass]="{'active': bundle == 2}">
+                      <a href="javascript:void(0);" (click)="bundle = 2">Flight + Car</a>
+                    </li>
+                    <li [ngClass]="{'active': bundle == 3}">
+                      <a href="javascript:void(0);"  (click)="bundle = 3">Flight + Car + Hotel</a>
+                    </li>
+                    <li [ngClass]="{'active': bundle == 4}">
+                      <a href="javascript:void(0);" (click)="bundle = 4">Bundle</a>
+                    </li>
                   </ul>
                 </div>
                 <div class="secondary-content-wrap">
-                  <div class="secondary-content" id="tab-1">
+                  <ng-container *ngIf="bundle == 1">
+                    <div class="secondary-content" id="tab-1">
+
+                      Flight + hotel Content
+
+                    </div><!-- tab-1 -->
+                  </ng-container>
+                  <ng-container *ngIf="bundle == 2">
+                    <div class="secondary-content" id="tab-1">
+
+                      Flight + Car Content
+
+                    </div><!-- tab-1 -->
+                  </ng-container>
+                  <ng-container *ngIf="bundle == 3">
+                    <div class="secondary-content" id="tab-1">
+
+                      Flight + hotel + car Content
+
+                    </div><!-- tab-1 -->
+                  </ng-container>
+                  <ng-container *ngIf="bundle == 4">
+                    <div class="secondary-content" id="tab-1">
 
                     <div class="accordion accordion-sm custom-accordion" id="accordionExample">
                       <div class="mb-3">
                         <div class="card-header" id="headingOne">
                           <h2 class="accordion-link" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true"> Commercial Flight</h2>
                         </div>
-                    
+
                         <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
                           <div class="box box-lr">
 
@@ -602,7 +632,7 @@
                                 </div>
                               </div>
                             </div>
-                            
+
                             <div class="row">
                               <div class="col-md-6 col-6">
                                 <div class="field-wrap-outer field-gray-wrap">
@@ -623,7 +653,7 @@
                                       name="departure"
                                     >
                                     </ng-autocomplete>
-            
+
                                     <ng-template #departureListTemplate let-item>
                                       <a href="javascript:void(0)">
                                         <div class="auto-txtwrap">
@@ -636,7 +666,7 @@
                                         </div>
                                       </a>
                                     </ng-template>
-            
+
                                     <ng-template #notFoundTemplate let-notFound>
                                       {{errorMsg}}
                                     </ng-template>
@@ -665,7 +695,7 @@
                                       name="arrival"
                                     >
                                     </ng-autocomplete>
-            
+
                                     <ng-template #itemTemplateRemote_ let-item>
                                       <a href="javascript:void(0)">
                                         <div class="auto-txtwrap">
@@ -678,7 +708,7 @@
                                         </div>
                                       </a>
                                     </ng-template>
-            
+
                                     <ng-template #notFoundTemplate_ let-notFound>
                                       {{errorMsg}}
                                     </ng-template>
@@ -689,7 +719,7 @@
                                 </div>
                               </div>
                             </div>
-                            
+
 
                           </div>
                         </div>
@@ -704,10 +734,11 @@
                         </div>
                       </div>
                     </div>
-                    
-                    
+
+
 
                   </div><!-- tab-1 -->
+                  </ng-container>
                 </div><!-- secondary-content-wrap -->
 
               </div>
