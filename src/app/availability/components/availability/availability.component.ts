@@ -535,6 +535,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     }
     if(this.state.massEdit.items.length <= 0){
       this.resetMassEdit();
+      this.toastr.warning("There is no record selected for mass edit operation", 'Warning!');
     }
     return;
   }
