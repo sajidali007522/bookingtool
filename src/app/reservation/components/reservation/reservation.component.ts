@@ -39,7 +39,11 @@ export class ReservationComponent implements OnInit,AfterViewInit {
   state={
     initiateBooking: false,
     processing:false,
-    errors: ''
+    errors: '',
+    bundle:{
+      resourceType: 0,
+      template: []
+    }
   };
   form = {
     BeginDate: new Date(),
@@ -428,6 +432,26 @@ export class ReservationComponent implements OnInit,AfterViewInit {
         this.form.bookingID = data['bookingID'];
         this.state.initiateBooking = false;
       });
+  }
+
+  pushItemToBundle() {
+    if(this.state.bundle.template.length > 0 ) {
+      this.state.bundle.template.filter(item => {
+        item.isOpen = false;
+      })
+    }
+    //alert(this.state.bundle.resourceType)
+    switch (Number(this.state.bundle.resourceType)) {
+      case 1:
+        this.state.bundle.template.push({'type': 'chartered-flight', title: 'Chartered Flight', 'isOpen':true})
+        break;
+      case 2:
+        this.state.bundle.template.push({'type': 'hotel', title: 'Hotel', 'isOpen':true})
+        break;
+      case 3:
+        this.state.bundle.template.push({'type': 'car', title: 'Car', 'isOpen':true})
+        break;
+    }
   }
 
   loadBusinessProfiles () {

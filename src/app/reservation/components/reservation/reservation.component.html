@@ -83,11 +83,11 @@
             <div class="trip-radio-wrap">
               <div class="custom-control custom-radio custom-control-inline">
                   <input type="radio" id="Roundtrip" name="trip" class="custom-control-input">
-                  <label class="custom-control-label" value="1" (click)="setTripType(1)" [(ngModel)]="form.tripType" for="Roundtrip">Roundtrip</label>
+                  <label class="custom-control-label" value="1" (click)="setTripType(1)" for="Roundtrip">Roundtrip</label>
               </div>
               <div class="custom-control custom-radio custom-control-inline">
                   <input type="radio" id="oneWay" value="2" [(ngModel)]="form.tripType"  name="trip" class="custom-control-input">
-                  <label class="custom-control-label"  (click)="setTripType(2)"for="oneWay">One-Way</label>
+                  <label class="custom-control-label"  (click)="setTripType(2)" for="oneWay">One-Way</label>
               </div>
               <div class="custom-control custom-radio custom-control-inline">
                   <input type="radio" id="multiCity"  value="3" [(ngModel)]="form.tripType" name="trip" class="custom-control-input">
@@ -590,7 +590,7 @@
                                 name="departure"
                               >
                               </ng-autocomplete>
-      
+
                               <ng-template #departureListTemplate let-item>
                                 <a href="javascript:void(0)">
                                   <div class="auto-txtwrap">
@@ -603,7 +603,7 @@
                                   </div>
                                 </a>
                               </ng-template>
-      
+
                               <ng-template #notFoundTemplate let-notFound>
                                 {{errorMsg}}
                               </ng-template>
@@ -633,7 +633,7 @@
                                 name="arrival"
                               >
                               </ng-autocomplete>
-      
+
                               <ng-template #itemTemplateRemote_ let-item>
                                 <a href="javascript:void(0)">
                                   <div class="auto-txtwrap">
@@ -646,7 +646,7 @@
                                   </div>
                                 </a>
                               </ng-template>
-      
+
                               <ng-template #notFoundTemplate_ let-notFound>
                                 {{errorMsg}}
                               </ng-template>
@@ -657,7 +657,7 @@
                           </div>
                         </div>
                       </div>
-                      
+
                       <div class="row">
                         <div class="col-md-6 col-6">
                           <div class="field-wrap-outer field-gray-wrap">
@@ -779,7 +779,7 @@
                                 placeHolder="From*"
                               >
                               </ng-autocomplete>
-    
+
                             </div>
                           </div>
                         </div>
@@ -831,7 +831,7 @@
                           </div>
                         </div>
                       </div>
-                      
+
 
                     </div><!-- tab-2 -->
                   </ng-container>
@@ -859,7 +859,7 @@
                                 name="departure"
                               >
                               </ng-autocomplete>
-      
+
                               <ng-template #departureListTemplate let-item>
                                 <a href="javascript:void(0)">
                                   <div class="auto-txtwrap">
@@ -872,7 +872,7 @@
                                   </div>
                                 </a>
                               </ng-template>
-      
+
                               <ng-template #notFoundTemplate let-notFound>
                                 {{errorMsg}}
                               </ng-template>
@@ -902,7 +902,7 @@
                                 name="arrival"
                               >
                               </ng-autocomplete>
-      
+
                               <ng-template #itemTemplateRemote_ let-item>
                                 <a href="javascript:void(0)">
                                   <div class="auto-txtwrap">
@@ -915,7 +915,7 @@
                                   </div>
                                 </a>
                               </ng-template>
-      
+
                               <ng-template #notFoundTemplate_ let-notFound>
                                 {{errorMsg}}
                               </ng-template>
@@ -926,7 +926,7 @@
                           </div>
                         </div>
                       </div>
-                      
+
                       <div class="row">
                         <div class="col-md-6 col-6">
                           <div class="field-wrap-outer field-gray-wrap">
@@ -1040,24 +1040,25 @@
                     <div class="secondary-content" id="tab-4">
 
                       <div class="input-group mb-4">
-                        <select class="custom-select custom-select-normal" id="inputGroupSelect04">
+                        <select class="custom-select custom-select-normal" [(ngModel)]="state.bundle.resourceType">
+                          <option value="0">None</option>
                           <option value="1">Commercial Flight</option>
                           <option value="2">Hotel</option>
                           <option value="3">Rental Car</option>
                         </select>
                         <div class="input-group-append">
-                          <button class="btn btn-success" type="button"> <span class="fa fa-plus"></span> Add</button>
+                          <button class="btn btn-success" type="button" (click)="pushItemToBundle()"> <span class="fa fa-plus"></span> Add</button>
                         </div>
                       </div>
-                      
 
-                    <div class="accordion accordion-sm custom-accordion" id="accordionExample">
+
+                    <div class="accordion accordion-sm custom-accordion" id="accordionExample_{{i}}" *ngFor="let item of state.bundle.template; let i=index">
                       <div class="mb-3">
                         <div class="card-header" id="headingOne">
-                          <h2 class="accordion-link" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true"> Commercial Flight</h2>
+                          <h2 class="accordion-link" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'"> {{item.title}}</h2>
                         </div>
 
-                        <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
+                        <div id="collaps-{{i}}" class="collapse" [ngClass]="{'show': item.isOpen}" [attr.data-parent]="'#accordionExample_'+i">
                           <div class="box box-lr">
 
                             <div class="row">
@@ -1179,23 +1180,10 @@
                                 </div>
                               </div>
                             </div>
-
-
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="accordion accordion-sm custom-accordion">
-                      <div class="mb-3">
-                        <div class="card-header">
-                          <h2 class="accordion-link" data-toggle="collapse" data-target="#collaps-2" aria-expanded="true">
-                            Title come here
-                          </h2>
-                        </div>
-                      </div>
-                    </div>
-
-
 
                   </div><!-- tab-1 -->
                   </ng-container>
