@@ -1058,16 +1058,16 @@
                       </div>
 
 
-                    <div class="accordion accordion-sm custom-accordion" id="accordionExample_{{i}}" *ngFor="let item of state.bundle.template; let i=index">
-                      <div class="mb-3">
-                        <div class="card-header" id="headingOne">
-                          <h2 class="accordion-link" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'" (click)="closeOthers(i)">
-                            {{item.title}} - {{item.isOpen}}
+                    <div class="accordion accordion-sm custom-accordion" id="accordionExample">
+                      <div class="mb-3" id="accordion_{{i}}" *ngFor="let item of state.bundle.template; let i=index">
+                        <div class="card-header" id="heading_{{i}}">
+                          <h2 class="accordion-link" aria-expanded="false" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'">
+                            {{item.title}}
                             <a href="javascript:void(0)" (click)="removeBlock(i)" class="fa fa-trash-o remove-accordion"></a>
                           </h2>
                         </div>
 
-                        <div id="collaps-{{i}}" class="" [ngClass]="{'show': item.isOpen, 'collapse ': !item.isOpen}" [attr.data-parent]="'#accordionExample_'+i">
+                        <div id="collaps-{{i}}" class="collapse" [ngClass]="{'show': item.isOpen}" [attr.data-parent]="'#accordionExample'">
                           <div class="box box-lr">
 
                             <div class="row">
