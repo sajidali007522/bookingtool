@@ -535,18 +535,6 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
   .accordion > .card{
     border:none;
   }
-.accordion-sm{
-}
-  .accordion-sm .accordion-link{
-    font-size: 15px;
-    padding:14px 20px 15px;
-  }
-  .accordion-sm .accordion-link:before{
-    font-size: 22px;
-    top: 14px;
-  }
-  .accordion-sm{
-  }
 .form-primary{
 }
   .form-primary label{
@@ -1198,7 +1186,7 @@ body.menu-fullwidth .reservation-content-area{
 .tabs-secondary a{
   display: block;
   font-size: 15px;
-  padding:14px 5px 20px;
+  padding:25px 5px;
   font-weight: bold;
   text-align: center;
   text-decoration: none;

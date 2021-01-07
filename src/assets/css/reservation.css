@@ -1,6 +1,7 @@
 body{
     background: url(../images/login/banner-2.jpg) center top no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 .overlay-bg{
     position: fixed;
@@ -31,12 +32,9 @@ img{
     }
 .custom-section{
     background: #fff;
-    display: flex;
-    flex-wrap: wrap;
 }
 .custom-sidebar{
-    width: 230px;
-    border-right: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
 }
     .custom-nav ul,
     .custom-nav li{
@@ -44,10 +42,17 @@ img{
         margin: 0;
         padding: 0;
     }
+    .custom-nav ul{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .custom-nav ul li{
+        width: 25%;
+    }
     .custom-nav a{
         display: block;
         font-size: 17px;
-        padding: 47px 20px 48px;
+        padding: 20px 20px 15px;
         color: #111;
         text-decoration: none;
     }
@@ -66,8 +71,6 @@ img{
         background-image: linear-gradient(#09425d, #3f7892);
     }
 .custom-main{
-    width: calc(100% - 230px);
-    margin-left: auto;
     padding: 35px;
     min-height: 376px;
 }
@@ -158,6 +161,26 @@ img{
     font-size: 16px;
     padding: 12px 14px;
 }
+
+.accordion-sm{
+}
+  .accordion-sm .accordion-link{
+    font-size: 15px;
+    padding:14px 20px 15px;
+  }
+  .accordion-sm .accordion-link:before{
+    font-size: 22px;
+    top: 13px;
+    right: 40px;
+  }
+  .accordion-sm  .accordion-link .remove-accordion{
+    position: absolute;
+    right: 15px;
+    top: 13x;
+    font-size: 19px;
+    color: #fff;
+    text-decoration: none;
+  }
 
 @media(max-width: 991px){
     .custom-section-wrap{
