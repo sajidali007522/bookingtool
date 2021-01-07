@@ -57,9 +57,9 @@
                         class="testing"
                         name="traveler"
                       >
-    
+
                       </ng-autocomplete>
-    
+
                       <ng-template #itemTemplateProfiles let-item>
                         <a href="javascript:void(0)">
                           <div class="auto-txtwrap">
@@ -72,7 +72,7 @@
                           </div>
                         </a>
                       </ng-template>
-    
+
                       <ng-template #notFoundProfilesTemplate let-notFound>
                         {{errorMsg}}
                       </ng-template>
@@ -1061,13 +1061,13 @@
                     <div class="accordion accordion-sm custom-accordion" id="accordionExample_{{i}}" *ngFor="let item of state.bundle.template; let i=index">
                       <div class="mb-3">
                         <div class="card-header" id="headingOne">
-                          <h2 class="accordion-link" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'">
-                            {{item.title}}
-                            <a href="javascript:void(0)" class="fa fa-trash-o remove-accordion"></a>
+                          <h2 class="accordion-link" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'" (click)="closeOthers(i)">
+                            {{item.title}} - {{item.isOpen}}
+                            <a href="javascript:void(0)" (click)="removeBlock(i)" class="fa fa-trash-o remove-accordion"></a>
                           </h2>
                         </div>
 
-                        <div id="collaps-{{i}}" class="collapse" [ngClass]="{'show': item.isOpen}" [attr.data-parent]="'#accordionExample_'+i">
+                        <div id="collaps-{{i}}" class="" [ngClass]="{'show': item.isOpen, 'collapse ': !item.isOpen}" [attr.data-parent]="'#accordionExample_'+i">
                           <div class="box box-lr">
 
                             <div class="row">

@@ -457,6 +457,19 @@ export class ReservationComponent implements OnInit,AfterViewInit {
         break;
     }
   }
+  removeBlock(index) {
+    this.state.bundle.template.splice(index, 1);
+  }
+  closeOthers(index) {
+    let i=0;
+    //this.state.bundle.template[index].isOpen = !this.state.bundle.template[index].isOpen
+    for(let i =0; i< this.state.bundle.template.length; i++) {
+      if (i != index) {
+        console.log(i, '!=', index, i != index);
+        this.state.bundle.template[i].isOpen = false
+      }
+    }
+  }
 
   loadBusinessProfiles () {
     //https://demo.innfinity.com/productsdemo/api2/lookup/ProfileTypeLookupSearch
