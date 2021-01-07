@@ -1218,6 +1218,10 @@ body.menu-fullwidth .reservation-content-area{
   -webkit-box-shadow: 0 10px 20px rgba(0,0,0, 0.19);
   box-shadow: 0 10px 20px rgba(0,0,0, 0.19);
 }
+.reservation-detail-wrap .popover-content{
+  padding-left: 30px;
+  padding-right: 30px;
+}
 
 
 .shake{
