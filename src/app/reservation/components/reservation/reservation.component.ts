@@ -40,7 +40,9 @@ export class ReservationComponent implements OnInit,AfterViewInit {
     initiateBooking: false,
     processing:false,
     errors: '',
+    templateList: [],
     bundle:{
+      templateId:'00000000-0000-0000-0000-000000000000',
       resourceType: 0,
       template: []
     }
@@ -433,8 +435,24 @@ export class ReservationComponent implements OnInit,AfterViewInit {
         }
         if(data['bookingID']) {
           this.form.bookingID = data['bookingID'];
+          this.loadTemplates();
         }
         this.state.initiateBooking = false;
+      });
+  }
+
+  loadTemplates () {
+    //booking/82b5e218-6549-493d-a5b1-b29137a8c23c/Templates
+    this._http._get("booking/"+this.form.bookingID+"/Templates")
+      .subscribe(data => {
+        this.state.templateList = data['templates'];
+      });
+  }
+
+  loadTemplateDefinition(){
+    this._http._get("booking/"+this.form.bookingID+"/SearchCriteriaDefinition", {templateID: this.state.bundle.templateId})
+      .subscribe(data => {
+        console.log(data)
       });
   }
 

@@ -1045,7 +1045,13 @@
                   <ng-container *ngIf="bundle == 4">
                     <div class="secondary-content" id="tab-4">
 
-                      <div class="input-group mb-4">
+                      <div class="mb-4">
+                        <select class="custom-select custom-select-normal" [(ngModel)]="state.bundle.templateId" (change)="loadTemplateDefinition()">
+                          <option value="{{template.id || '00000000-0000-0000-0000-000000000000'}}" *ngFor="let template of state.templateList">{{template.name}}</option>
+                        </select>
+                      </div>
+
+                      <div class="input-group mb-4" *ngIf=" state.bundle.templateId == '879340fd-382e-4c63-8f2d-489b57e7e134'">
                         <select class="custom-select custom-select-normal" [(ngModel)]="state.bundle.resourceType">
                           <option value="0">None</option>
                           <option value="1">Commercial Flight</option>
