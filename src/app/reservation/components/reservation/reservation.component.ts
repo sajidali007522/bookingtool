@@ -4,6 +4,7 @@ import {DateFormatsService} from "../../../_services/date-formats.service";
 import {HttpService} from "../../../http.service";
 import {Router} from "@angular/router";
 import * as $ from 'jquery';
+import {TemplateService} from "../../../_services/template.service";
 
 @Component({
   selector: 'app-reservation',
@@ -64,7 +65,8 @@ export class ReservationComponent implements OnInit,AfterViewInit {
   };
   constructor(private DFService: DateFormatsService,
               private _http: HttpService,
-              private router: Router
+              private router: Router,
+              public template: TemplateServices
   ) {
     this.apiEndPoint='CommercialAirportSearch';
     this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true }
