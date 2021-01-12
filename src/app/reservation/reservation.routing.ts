@@ -8,6 +8,7 @@ import {ReservationNewComponent} from "./components/reservation-new/reservation-
 
 export const routes: Routes = [
   { path: '', component:ReservationNewComponent, canActivate: [AuthGuard]  }, // default route of the module
+  { path: 'old', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
 ]
 
