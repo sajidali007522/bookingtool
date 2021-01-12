@@ -5,6 +5,7 @@ import {HttpService} from "../../../http.service";
 import {Router} from "@angular/router";
 import * as $ from 'jquery';
 import {TemplateService} from "../../../_services/template.service";
+import {ReservationService} from "../../../_services/reservation.service";
 
 @Component({
   selector: 'app-reservation',
@@ -66,7 +67,8 @@ export class ReservationComponent implements OnInit,AfterViewInit {
   constructor(private DFService: DateFormatsService,
               private _http: HttpService,
               private router: Router,
-              public template: TemplateServices
+              public template: TemplateService,
+              public resService: ReservationService
   ) {
     this.apiEndPoint='CommercialAirportSearch';
     this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true }
@@ -437,9 +439,17 @@ export class ReservationComponent implements OnInit,AfterViewInit {
         }
         if(data['bookingID']) {
           this.form.bookingID = data['bookingID'];
-          this.loadTemplates();
+          this.loadSingleResources()
+          //this.loadTemplates();
         }
         this.state.initiateBooking = false;
+      });
+  }
+
+  loadSingleResources() {
+    this.resService.loadSingleResource(this.form.bookingID)
+      .subscribe(data => {
+        this.state.templateList = data['templates'];
       });
   }
 

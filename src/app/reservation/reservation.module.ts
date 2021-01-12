@@ -10,13 +10,15 @@ import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {SharedModuleModule} from "../shared-module/shared-module.module";
+import { ReservationNewComponent } from './components/reservation-new/reservation-new.component';
 
 
 
 @NgModule({
   declarations: [
     ReservationComponent,
-    ResultListComponent
+    ResultListComponent,
+    ReservationNewComponent
   ],
   imports: [
     CommonModule,
