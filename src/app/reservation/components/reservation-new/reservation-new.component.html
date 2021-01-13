@@ -1,0 +1,67 @@
+<link type="text/css" rel="stylesheet" href="/assets/css/reservation.css" />
+
+<div class="overlay-bg"></div>
+<div class="custom-section-wrap">
+  <h1>Book</h1>
+  <div class="custom-section">
+    <div class="custom-sidebar">
+      <div class="custom-nav" id="tabsCustom">
+        <ul>
+          <li *ngFor="let group of state.templateGroups" [ngClass]="{'active': state.tab == group.name}">
+            <a href="javascript:void(0)" (click)="setTemplateGroup(group)"><em class="fa fa-plane"></em> <span>{{group.name}}</span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="custom-main">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="field-wrap-outer">
+            <label>Business Profile*</label>
+            <div class="field-wrap">
+              <select class="form-control" name="resourceTypeID" [(ngModel)]="form.ResourceTypeID">
+                <option value="{{type.value}}" *ngFor="let type of ruleBags">{{type.text}}</option>
+              </select>
+              <span class="globel-world-icon" *ngIf="!state.initiateBooking"></span>
+              <span class="fa fa-spin fa-spinner" *ngIf="state.initiateBooking"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="field-wrap-outer">
+            <label>Traveler*</label>
+
+          </div>
+        </div>
+      </div>
+      <ng-container>
+        <div class="trip-radio-wrap" *ngIf="state.selectedGroup['buildGroup'] == true">
+          <div class="custom-control custom-radio custom-control-inline" *ngFor="let template of state.selectedGroup['templates']; let index=index">
+            <input type="radio" id="template_{{index}}" [(ngModel)]="form.template" value="{{template.templateID}}" name="template" class="custom-control-input">
+            <label class="custom-control-label" (click)="loadTemplate(template.templateID)" for="template_{{index}}">{{template.name}}</label>
+          </div>
+        </div>
+        <div class="custom-content tabs-content" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']">
+          <div class="book-time-wrap">
+            <div class="row">
+              <div class="col-md-6 col-6" *ngFor="let field of resource['searchFields']">
+                <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
+                <div class="field-wrap-outer field-gray-wrap">
+                  <div class="field-wrap">
+                    <input type="text"
+                           [(ngModel)]="field.defaultValue"
+                           placeholder="{{field.fieldRelation }}"
+                           name="{{field.name}}"
+                           class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+  </div>
+</div>
+
+
+<script src="/assets/js/reservation.js" defer></script>

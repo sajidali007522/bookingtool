@@ -4,6 +4,8 @@ import {DateFormatsService} from "../../../_services/date-formats.service";
 import {HttpService} from "../../../http.service";
 import {Router} from "@angular/router";
 import * as $ from 'jquery';
+import {TemplateService} from "../../../_services/template.service";
+import {ReservationService} from "../../../_services/reservation.service";
 
 @Component({
   selector: 'app-reservation',
@@ -40,7 +42,9 @@ export class ReservationComponent implements OnInit,AfterViewInit {
     initiateBooking: false,
     processing:false,
     errors: '',
+    templateList: [],
     bundle:{
+      templateId:'00000000-0000-0000-0000-000000000000',
       resourceType: 0,
       template: []
     }
@@ -62,7 +66,9 @@ export class ReservationComponent implements OnInit,AfterViewInit {
   };
   constructor(private DFService: DateFormatsService,
               private _http: HttpService,
-              private router: Router
+              private router: Router,
+              public template: TemplateService,
+              public resService: ReservationService
   ) {
     this.apiEndPoint='CommercialAirportSearch';
     this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true }
@@ -433,8 +439,32 @@ export class ReservationComponent implements OnInit,AfterViewInit {
         }
         if(data['bookingID']) {
           this.form.bookingID = data['bookingID'];
+          this.loadSingleResources()
+          //this.loadTemplates();
         }
         this.state.initiateBooking = false;
+      });
+  }
+
+  loadSingleResources() {
+    this.resService.loadSingleResource(this.form.bookingID)
+      .subscribe(data => {
+        this.state.templateList = data['templates'];
+      });
+  }
+
+  loadTemplates () {
+    //booking/82b5e218-6549-493d-a5b1-b29137a8c23c/Templates
+    this._http._get("booking/"+this.form.bookingID+"/Templates")
+      .subscribe(data => {
+        this.state.templateList = data['templates'];
+      });
+  }
+
+  loadTemplateDefinition(){
+    this._http._get("booking/"+this.form.bookingID+"/SearchCriteriaDefinition", {templateID: this.state.bundle.templateId})
+      .subscribe(data => {
+        console.log(data)
       });
   }
 
@@ -457,6 +487,10 @@ export class ReservationComponent implements OnInit,AfterViewInit {
         break;
     }
   }
+  removeBlock(index) {
+    this.state.bundle.template.splice(index, 1);
+  }
+
 
   loadBusinessProfiles () {
     //https://demo.innfinity.com/productsdemo/api2/lookup/ProfileTypeLookupSearch

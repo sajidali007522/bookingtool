@@ -58,9 +58,9 @@
                         class="testing"
                         name="traveler"
                       >
-    
+
                       </ng-autocomplete>
-    
+
                       <ng-template #itemTemplateProfiles let-item>
                         <a href="javascript:void(0)">
                           <div class="auto-txtwrap">
@@ -73,7 +73,7 @@
                           </div>
                         </a>
                       </ng-template>
-    
+
                       <ng-template #notFoundProfilesTemplate let-notFound>
                         {{errorMsg}}
                       </ng-template>
@@ -1046,7 +1046,13 @@
                   <ng-container *ngIf="bundle == 4">
                     <div class="secondary-content" id="tab-4">
 
-                      <div class="input-group mb-4">
+                      <div class="mb-4">
+                        <select class="custom-select custom-select-normal" [(ngModel)]="state.bundle.templateId" (change)="loadTemplateDefinition()">
+                          <option value="{{template.id || '00000000-0000-0000-0000-000000000000'}}" *ngFor="let template of state.templateList">{{template.name}}</option>
+                        </select>
+                      </div>
+
+                      <div class="input-group mb-4" *ngIf=" state.bundle.templateId == '879340fd-382e-4c63-8f2d-489b57e7e134'">
                         <select class="custom-select custom-select-normal" [(ngModel)]="state.bundle.resourceType">
                           <option value="0">None</option>
                           <option value="1">Commercial Flight</option>
@@ -1059,16 +1065,16 @@
                       </div>
 
 
-                    <div class="accordion accordion-sm custom-accordion" id="accordionExample_{{i}}" *ngFor="let item of state.bundle.template; let i=index">
-                      <div class="mb-3">
-                        <div class="card-header" id="headingOne">
-                          <h2 class="accordion-link" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'">
+                    <div class="accordion accordion-sm custom-accordion" id="accordionExample">
+                      <div class="mb-3" id="accordion_{{i}}" *ngFor="let item of state.bundle.template; let i=index">
+                        <div class="card-header" id="heading_{{i}}">
+                          <h2 class="accordion-link" aria-expanded="false" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'">
                             {{item.title}}
-                            <a href="javascript:void(0)" class="fa fa-trash-o remove-accordion"></a>
+                            <a href="javascript:void(0)" (click)="removeBlock(i)" class="fa fa-trash-o remove-accordion"></a>
                           </h2>
                         </div>
 
-                        <div id="collaps-{{i}}" class="collapse" [ngClass]="{'show': item.isOpen}" [attr.data-parent]="'#accordionExample_'+i">
+                        <div id="collaps-{{i}}" class="collapse" [ngClass]="{'show': item.isOpen}" [attr.data-parent]="'#accordionExample'">
                           <div class="box box-lr">
 
                             <div class="row">
