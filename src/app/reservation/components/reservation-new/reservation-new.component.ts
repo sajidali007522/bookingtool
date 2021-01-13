@@ -20,6 +20,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     template: ''
   }
   state={
+    loadingTemplate: false,
+    loadingGroups: false,
     selectedGroup: {},
     initiateBooking: false,
     processing:false,
@@ -82,21 +84,29 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   loadTemplateGroups() {
+    if(this.state.loadingGroups) return
+    this.state.loadingGroups = true;
     this.resService.loadSingleResource(this.form.bookingID)
       .subscribe(data => {
         //console.log(data['data']);
         this.state.templateGroups = data['data']['templateGroups'];
         this.state.selectedGroup = data['data']['templateGroups'][0]
         this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID']);
-      });
+        this.state.loadingGroups = false;
+      },
+        err => {this.state.loadingGroups=false});
   }
 
   loadTemplate (templateId){
+    if(this.state.loadingTemplate) return
+    this.state.loadingTemplate = true;
     this.form.template = templateId;
     this._http._get("booking/"+this.form.bookingID+"/SearchCriteriaDefinition", {templateID: templateId})
       .subscribe(data => {
         this.state.selectedTemplate= data;
-      });
+        this.state.loadingTemplate = false;
+      },
+        error => {this.state.loadingTemplate = false;});
   }
 
   setSearchParams (tab) {
