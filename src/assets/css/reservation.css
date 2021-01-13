@@ -181,6 +181,14 @@ img{
     color: #fff;
     text-decoration: none;
   }
+.icon-flight-hotel{
+    display: block;
+    background: url(../images/icons/icon-flight2.png) no-repeat;
+    background-size: 100% auto;
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 10px;
+}
 
 @media(max-width: 991px){
     .custom-section-wrap{
