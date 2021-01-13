@@ -7,7 +7,7 @@
     <div class="custom-sidebar">
       <div class="custom-nav" id="tabsCustom">
         <ul>
-          <li *ngFor="let group of state.templateGroups" [ngClass]="{'active': state.tab == group.name}">
+          <li *ngFor="let group of state.templateGroups" [ngClass]="{'active': group.name == state.selectedGroup['name']}">
             <a href="javascript:void(0)" (click)="setTemplateGroup(group)"><em class="fa fa-plane"></em> <span>{{group.name}}</span></a>
           </li>
         </ul>
