@@ -27,7 +27,7 @@
       </div>
       <div class="accordion-group group-active">
         <div class="accordon-heading">
-          <a href="javascript:void(0)">Search</a>
+          <a href="javascript:void(0)">Search {{pageFilters.searchBy}}</a>
         </div>
         <div class="accordion-body">
           <ul>
@@ -37,7 +37,7 @@
                 <div class="mb-1 mt-1">
                   <select class="select-field-secondary" [(ngModel)]="pageFilters.searchBy">
                     <option value="">Select</option>
-                    <option value="{{column.dataProperty}}" *ngFor="let column of gridColumns">{{column.name}}</option>
+                    <option value="{{column.dataProperty}}" [ngValue]="column.dataProperty" *ngFor="let column of gridColumns">{{column.name}}</option>
                   </select>
                 </div>
                 <div class="mb-1 mt-1">
