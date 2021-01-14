@@ -300,6 +300,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
 
     this.ref.detectChanges();
+    this.state.alertMessages = ''
     this.state.pagination.pageSize = this.isMobileDevice() ? 1 : 25;
     this.canceler = this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:this.getMetaDataGroup()},{
       includeMetadata: this.state.loadMetaData,
