@@ -66,9 +66,10 @@ img{
         display: block;
     }
     .custom-nav li.active a{
-        color: #fff;
         background: #09425d;
-        background-image: linear-gradient(#09425d, #3f7892);
+        /* background-image: linear-gradient(#09425d, #3f7892); */
+        background-image: linear-gradient(to bottom, #f3f4f6, #e8e9ed);
+        color: #424242;
     }
 .custom-main{
     padding: 35px;
@@ -188,6 +189,34 @@ img{
     width: 32px;
     height: 32px;
     margin: 0 auto 10px;
+}
+.plane-icon{
+    display: inline-block;
+    background: url(../images/reservation/flight.png) no-repeat;
+    background-size: 100% auto;
+    width: 32px;
+    height: 32px;
+}
+.hotel-icon{
+    display: inline-block;
+    background: url(../images/reservation/hotel-icon.png) no-repeat;
+    background-size: 100% auto;
+    width: 32px;
+    height: 32px;
+}
+.car-icon{
+    display: inline-block;
+    background: url(../images/reservation/car-icon.png) no-repeat;
+    background-size: 100% auto;
+    width: 32px;
+    height: 32px;
+}
+.template-icon{
+    display: inline-block;
+    background: url(../images/reservation/template-icon.png) no-repeat;
+    background-size: 100% auto;
+    width: 32px;
+    height: 32px;
 }
 
 @media(max-width: 991px){
