@@ -281,6 +281,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.loadRooms();
   }
   public filterBySearchBox(){
+    if(this.pageFilters.sites == '00000000-0000-0000-0000-000000000000'){
+      this.toastr.error("Please select a site to continue!", 'Error!');
+      return;
+    }
     if(this.pageFilters.searchValue == '' || this.pageFilters.searchBy == '') return;
     this.state.pagination.pageNum = 1;
     this.state.loadMetaData = true;
