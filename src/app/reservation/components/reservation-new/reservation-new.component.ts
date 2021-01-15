@@ -65,7 +65,11 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   setTemplateGroup (group) {
     this.state.selectedGroup = group
-    this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID']);
+    this.state.selectedTemplate= {};
+
+    if(typeof this.state.selectedGroup['templates'][0]['templateID'] !== 'undefined') {
+      this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID']);
+    }
   }
 
   StartBooking () {
@@ -91,7 +95,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         //console.log(data['data']);
         this.state.templateGroups = data['data']['templateGroups'];
         this.state.selectedGroup = data['data']['templateGroups'][0]
-        this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID']);
+        if(typeof this.state.selectedGroup['templates'][0]['templateID'] !== 'undefined') {
+          this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID']);
+        }
         this.state.loadingGroups = false;
       },
         err => {this.state.loadingGroups=false});

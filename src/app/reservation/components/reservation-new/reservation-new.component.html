@@ -41,27 +41,38 @@
           <div class="table-loader">Processing...</div>
         </ng-container>
         <ng-container *ngIf="!state.loadingTemplate">
-          <div class="trip-radio-wrap" *ngIf="state.selectedGroup['buildGroup'] == true">
-            <div class="custom-control custom-radio custom-control-inline" *ngFor="let template of state.selectedGroup['templates']; let index=index">
-              <input type="radio" id="template_{{index}}" [(ngModel)]="form.template" value="{{template.templateID}}" name="template" class="custom-control-input">
-              <label class="custom-control-label" (click)="loadTemplate(template.templateID)" for="template_{{index}}">{{template.name}}</label>
-            </div>
-          </div>
-          <div class="custom-content tabs-content" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']">
-            <div class="book-time-wrap">
-              <div class="row">
-                <div class="col-md-6 col-6" *ngFor="let field of resource['searchFields']">
-                  <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
-                  <div class="field-wrap-outer field-gray-wrap">
-                    <div class="field-wrap">
-                      <input type="text"
-                             [(ngModel)]="field.defaultValue"
-                             placeholder="{{field.fieldRelation }}"
-                             name="{{field.name}}"
-                             class="form-control no-icon">
-                    </div>
+          <ng-container *ngIf="state.selectedGroup['buildGroup'] != true">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="field-wrap-outer">
+                  <label>Template*</label>
+                  <div class="field-wrap">
+                    <select class="form-control" name="resourceTypeID" [(ngModel)]="form.template" (change)="loadTemplate(form.template)">
+                      <option [ngValue]="template.templateID" *ngFor="let template of state.selectedGroup['templates']">{{template.name}}</option>
+                    </select>
+                    <span class="globel-world-icon" *ngIf="!state.initiateBooking"></span>
+                    <span class="fa fa-spin fa-spinner" *ngIf="state.initiateBooking"></span>
                   </div>
                 </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="state.selectedGroup['buildGroup'] == true">
+            <div class="trip-radio-wrap">
+              <div class="custom-control custom-radio custom-control-inline" *ngFor="let template of state.selectedGroup['templates']; let index=index">
+                <input type="radio" id="template_{{index}}" [(ngModel)]="form.template" value="{{template.templateID}}" name="template" class="custom-control-input">
+                <label class="custom-control-label" (click)="loadTemplate(template.templateID)" for="template_{{index}}">{{template.name}}</label>
+              </div>
+            </div>
+          </ng-container>
+          <div class="custom-content tabs-content" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
+            <div class="book-time-wrap">
+              <div class="row">
+                <app-form-builder class="col-md-6 col-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
+                                  [resourceType]="resource['resourceTypeID']"
+                                  [index]="i+'_'+j"
+                                  [bookingID] = "form.bookingID"
+                ></app-form-builder>
               </div>
             </div>
           </div>

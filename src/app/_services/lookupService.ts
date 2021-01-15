@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import {HttpService} from "../http.service";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {AuthService} from "../auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LookupService {
-
-  constructor(private _http: HttpService) { }
+  baseUrl = 'https://demo.innfinity.com/productsdemo/api3/'
+  constructor(private _http: HttpService,private http: HttpClient, private _auth:AuthService) { }
 
   private hitLookup (lookup, params) {
     return this._http._get('lookup/'+lookup, params);
@@ -34,6 +36,15 @@ export class LookupService {
 
   public loadContractorList (params =  {}) {
     return this.hitLookup('RuleBagContractor', params)
+  }
+
+  public findResults(bookingId, postBody={}, params={}){
+    //console.log(bookingId, postBody, params)
+    let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
+    return this.http.post(`${this.baseUrl}booking/${bookingId}/SearchCriteriaOptions`, postBody, {
+      headers: headers,
+      params: params
+    })
   }
 
 }
