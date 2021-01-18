@@ -36,7 +36,7 @@ export class FormBuilderComponent implements OnInit {
     console.log(this.field['keyword'])
     let params = {searchTerm: event};
     //console.log(this.bookingID)
-    this.lookupService.findResults(this.bookingID, {}, {
+    this.lookupService.findResults(this.bookingID, [{}], {
       definitionType: 0,
       resourceTypeID: this.resourceType,
       searchCriteriaID: this.field['searchCriteriaID'],
