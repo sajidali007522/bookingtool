@@ -14,7 +14,15 @@ import {ReservationService} from "../../../_services/reservation.service";
 })
 export class ReservationNewComponent implements OnInit,AfterViewInit {
   ruleBags = []
+  bsConfig: Partial<BsDatepickerConfig>;
+  minDateFrom: Date;
+  minDateTo: Date;
+  dateFormats;
   form = {
+    BeginDate: new Date(),
+    EndDate: new Date(),
+    BeginTime: '',
+    EndTime: '',
     bookingID: '',
     ResourceTypeID:'',
     template: ''
@@ -43,7 +51,16 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
               public template: TemplateService,
               public resService: ReservationService
   ) {
+    this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true }
+    this.dateFormats = this.DFService.dateFormats;
+    this.form.BeginDate = new Date();
+    this.form.BeginDate.setDate(this.form.BeginDate.getDate());
+    this.form.EndDate = new Date();
+    this.form.EndDate.setDate(this.form.EndDate.getDate()+1);
+  }
 
+  setDateTo () {
+    this.form.EndDate = this.form.BeginDate;
   }
 
   ngOnInit(): void {

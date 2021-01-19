@@ -68,6 +68,64 @@
           <div class="custom-content tabs-content" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
             <div class="book-time-wrap">
               <div class="row">
+                <div class="" [ngClass]="{'col-6 col-md-6': resource.canSearchByTime, 'col-12 col-md-12': !resource.canSearchByTime}">
+                  <div class="field-wrap-outer">
+                    <label>Departure Date*</label>
+                    <div class="field-wrap">
+                      <input type="text"
+                             [(ngModel)]="form.BeginDate"
+                             bsDatepicker
+                             [bsConfig]="bsConfig"
+                             (ngModelChange)="setDateTo()"
+                             [minDate]="minDateFrom"
+                             placeholder="Departure Date"
+                             name="departure_date"
+                             class="form-control">
+                      <span class="fa fa-calendar-o"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-6" *ngIf="resource.canSearchByTime">
+                  <div class="field-wrap-outer">
+                    <label>Departure Time</label>
+                    <div class="field-wrap time-picker-wrap">
+                      <timepicker [(ngModel)]="form.BeginTime"
+                                  [mousewheel]="true"
+                                  [arrowkeys]="true"
+                      ></timepicker>
+                      <!--                        <input type="text" placeholder="" class="form-control">-->
+                      <!--                        <span class="fa fa-clock-o"></span>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="resource.requiresEndDate">
+                <div class="col-md-6 col-6" [ngClass]="{'col-6 col-md-6': resource.canSearchByTime, 'col-12 col-md-12': !resource.canSearchByTime}">
+                  <div class="field-wrap-outer">
+                    <label>Return Date*</label>
+                    <div class="field-wrap">
+                      <input type="text"
+                             [(ngModel)]="form.EndDate"
+                             bsDatepicker
+                             [minDate]="form.BeginDate"
+                             [bsConfig]="bsConfig"
+                             placeholder="Return Date"
+                             name="arrival_date"
+                             class="form-control">
+                      <span class="fa fa-calendar-o"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-6" *ngIf="resource.canSearchByTime">
+                  <div class="field-wrap-outer time-picker-wrap">
+                    <label>Return Time</label>
+                    <div class="field-wrap">
+                      <timepicker [(ngModel)]="form.EndTime" [mousewheel]="true" [arrowkeys]="true"></timepicker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <app-form-builder class="col-md-6 col-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
                                   [resourceType]="resource['resourceTypeID']"
                                   [index]="i+'_'+j"
