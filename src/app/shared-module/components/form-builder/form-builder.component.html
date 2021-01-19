@@ -1,4 +1,4 @@
-<ng-container *ngIf="field.searchCriteriaID != ''">
+<ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric">
   <div class="col-md-12 col-12" >
     <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
     <div class="field-wrap-outer field-gray-wrap">
@@ -38,6 +38,24 @@
       </ng-template>
       <div class="" *ngIf="error">
         <label class="error">{{error['message']}}</label>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="field.searchCriteriaID != '' && field.numeric">
+  <div class="col-md-12 col-12" >
+    <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
+    <div class="field-wrap-outer field-gray-wrap">
+      <div class="field-wrap">
+        <input type="number"
+               [(ngModel)]="field.defaultValue"
+               placeholder="{{field.fieldRelation }}"
+               name="{{field.name}}"
+               [max]="field.numberic.maximumValue"
+               [min]="field.numberic.minimumValue"
+               class="form-control no-icon"
+        >
       </div>
     </div>
   </div>
