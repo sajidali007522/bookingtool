@@ -68,7 +68,7 @@
           <div class="custom-content tabs-content" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
             <div class="book-time-wrap">
               <div class="row">
-                <div class="" [ngClass]="{'col-6 col-md-6': resource.canSearchByTime, 'col-12 col-md-12': !resource.canSearchByTime}">
+                <div class="col-6 col-md-6">
                   <div class="field-wrap-outer">
                     <label>Departure Date*</label>
                     <div class="field-wrap">
@@ -98,9 +98,8 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="row" *ngIf="resource.requiresEndDate">
-                <div class="col-md-6 col-6" [ngClass]="{'col-6 col-md-6': resource.canSearchByTime, 'col-12 col-md-12': !resource.canSearchByTime}">
+
+                <div class="col-md-6 col-6">
                   <div class="field-wrap-outer">
                     <label>Return Date*</label>
                     <div class="field-wrap">

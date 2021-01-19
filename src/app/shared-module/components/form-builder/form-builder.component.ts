@@ -16,13 +16,17 @@ export class FormBuilderComponent implements OnInit {
 
   remoteList = []
   error= {}
-  keyword="";
+  keyword="text";
+  templateId = 'itemTemplateRemote_'
+  notFoundTemplate = 'notFoundTemplate_'
   isLoadingResult=false;
 
   public errorMsg;
   ngOnInit(): void {
     //console.log(this.bookingID)
     this.field['keyword'] = ''
+    this.templateId=this.templateId+this.index;
+    this.notFoundTemplate=this.notFoundTemplate+this.index;
   }
 
 
@@ -31,6 +35,7 @@ export class FormBuilderComponent implements OnInit {
   }
 
   getServerResponse(event) {
+    console.log(event)
     this.error = {};
     this.field['processing'] = true;
     let params = {searchTerm: event};
@@ -39,7 +44,7 @@ export class FormBuilderComponent implements OnInit {
       definitionType: 0,
       resourceTypeID: this.resourceType,
       searchCriteriaID: this.field['searchCriteriaID'],
-      filter: this.field['keyword']
+      filter: event
     })
       .subscribe(
         res=>{
