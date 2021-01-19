@@ -89,10 +89,13 @@
                   <div class="field-wrap-outer">
                     <label>Departure Time</label>
                     <div class="field-wrap time-picker-wrap">
-                      <timepicker [(ngModel)]="form.BeginTime"
-                                  [mousewheel]="true"
-                                  [arrowkeys]="true"
-                      ></timepicker>
+                      <select class="form-control no-icon">
+                        <option value="">9:30 AM</option>
+                      </select>
+<!--                      <timepicker [(ngModel)]="form.BeginTime"-->
+<!--                                  [mousewheel]="true"-->
+<!--                                  [arrowkeys]="true"-->
+<!--                      ></timepicker>-->
                       <!--                        <input type="text" placeholder="" class="form-control">-->
                       <!--                        <span class="fa fa-clock-o"></span>-->
                     </div>
@@ -119,7 +122,10 @@
                   <div class="field-wrap-outer time-picker-wrap">
                     <label>Return Time</label>
                     <div class="field-wrap">
-                      <timepicker [(ngModel)]="form.EndTime" [mousewheel]="true" [arrowkeys]="true"></timepicker>
+                      <select class="form-control no-icon">
+                        <option value="">9:30 AM</option>
+                      </select>
+<!--                      <timepicker [(ngModel)]="form.EndTime" [mousewheel]="true" [arrowkeys]="true"></timepicker>-->
                     </div>
                   </div>
                 </div>
