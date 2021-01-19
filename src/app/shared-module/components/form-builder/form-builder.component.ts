@@ -33,10 +33,9 @@ export class FormBuilderComponent implements OnInit {
   getServerResponse(event) {
     this.error = {};
     this.field['processing'] = true;
-    console.log(this.field['keyword'])
     let params = {searchTerm: event};
     //console.log(this.bookingID)
-    this.lookupService.findResults(this.bookingID, [{}], {
+    this.lookupService.findResults(this.bookingID, [], {
       definitionType: 0,
       resourceTypeID: this.resourceType,
       searchCriteriaID: this.field['searchCriteriaID'],
@@ -45,6 +44,8 @@ export class FormBuilderComponent implements OnInit {
       .subscribe(
         res=>{
           this.field['processing'] = false;
+          this.remoteList = res['data']['results']
+          console.log(this.remoteList)
         },
         err=>{
           this.field['processing'] = false;
