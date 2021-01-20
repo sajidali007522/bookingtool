@@ -1,76 +1,78 @@
-<div *ngIf="field.searchCriteriaID != '' && !field.numeric">
-  <div class="col-md-12 col-12" >
-    <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
-    <div class="field-wrap-outer field-gray-wrap">
-      <ng-autocomplete
-        [data]="remoteList"
-        [searchKeyword]="keyword"
-        (selected)='selectItem($event)'
-        (inputChanged)='getServerResponse($event)'
-        (inputFocused)='onFocused($event)'
-        itemTemplate="{{templateId}}"
-        (inputCleared)="searchCleared()"
-        notFoundTemplate="{{notFoundTemplate}}"
-        [debounceTime]="400"
-        [isLoading]="field['processing']"
-        [minQueryLength]="3"
-        placeHolder="Search ..."
-        name="search"
-      >
-      </ng-autocomplete>
-
-      <ng-template id="itemTemplateRemote_" let-item>
-        <a href="javascript:void(0)">
-          <div class="auto-txtwrap">
-            <div class="autoicon" *ngIf="item.glyph">
-              <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>
-            </div>
-            <div class="autotxt">
-              <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
-            </div>
-          </div>
-        </a>
-      </ng-template>
-
-      <ng-template id="notFoundTemplate_" let-notFound>
-        {{errorMsg}}
-      </ng-template>
-      <div class="" *ngIf="error">
-        <label class="error">{{error['message']}}</label>
-      </div>
-    </div>
-  </div>
-</div>
-
-<ng-container *ngIf="field.searchCriteriaID != '' && field.numeric">
-  <div class="col-md-12 col-12" >
-    <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
-    <div class="field-wrap-outer field-gray-wrap">
-      <div class="field-wrap">
-        <input type="number"
-               [(ngModel)]="field.defaultValue"
-               placeholder="{{field.fieldRelation }}"
-               name="{{field.name}}"
-               [max]="field.numberic.maximumValue"
-               [min]="field.numberic.minimumValue"
-               class="form-control no-icon"
+<div class="row">
+  <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric">
+    <div class="col-md-12 col-12" >
+      <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
+      <div class="field-wrap-outer field-gray-wrap">
+        <ng-autocomplete
+          [data]="remoteList"
+          [searchKeyword]="keyword"
+          (selected)='selectItem($event)'
+          (inputChanged)='getServerResponse($event)'
+          (inputFocused)='onFocused($event)'
+          itemTemplate="{{templateId}}"
+          (inputCleared)="searchCleared()"
+          notFoundTemplate="{{notFoundTemplate}}"
+          [debounceTime]="400"
+          [isLoading]="field['processing']"
+          [minQueryLength]="3"
+          placeHolder="Search ..."
+          name="search"
         >
-      </div>
-    </div>
-  </div>
-</ng-container>
+        </ng-autocomplete>
 
-<ng-container *ngIf="field.searchCriteriaID == ''">
-  <div class="col-md-12 col-12" >
-    <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
-    <div class="field-wrap-outer field-gray-wrap">
-      <div class="field-wrap">
-        <input type="text"
-               [(ngModel)]="field.defaultValue"
-               placeholder="{{field.fieldRelation }}"
-               name="{{field.name}}"
-               class="form-control no-icon">
+        <ng-template id="itemTemplateRemote_" let-item>
+          <a href="javascript:void(0)">
+            <div class="auto-txtwrap">
+              <div class="autoicon" *ngIf="item.glyph">
+                <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>
+              </div>
+              <div class="autotxt">
+                <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
+              </div>
+            </div>
+          </a>
+        </ng-template>
+
+        <ng-template id="notFoundTemplate_" let-notFound>
+          {{errorMsg}}
+        </ng-template>
+        <div class="" *ngIf="error">
+          <label class="error">{{error['message']}}</label>
+        </div>
       </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="field.searchCriteriaID != '' && field.numeric">
+    <div class="col-md-12 col-12" >
+      <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
+      <div class="field-wrap-outer field-gray-wrap">
+        <div class="field-wrap">
+          <input type="number"
+                 [(ngModel)]="field.defaultValue"
+                 placeholder="{{field.fieldRelation }}"
+                 name="{{field.name}}"
+                 [max]="field.numberic.maximumValue"
+                 [min]="field.numberic.minimumValue"
+                 class="form-control no-icon"
+          >
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="field.searchCriteriaID == ''">
+    <div class="col-md-12 col-12" >
+      <h3>{{field.name}}{{field.isRequired ? '*' : ''}}</h3>
+      <div class="field-wrap-outer field-gray-wrap">
+        <div class="field-wrap">
+          <input type="text"
+                 [(ngModel)]="field.defaultValue"
+                 placeholder="{{field.fieldRelation }}"
+                 name="{{field.name}}"
+                 class="form-control no-icon">
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

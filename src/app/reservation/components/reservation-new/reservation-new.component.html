@@ -16,7 +16,7 @@
           </ul>
         </div>
       </div>
-      <div class="custom-main">
+      <div class="custom-main template-outer">
         <div class="row">
           <div class="col-md-6">
             <div class="field-wrap-outer">
@@ -65,7 +65,7 @@
               </div>
             </div>
           </ng-container>
-          <div class="custom-content tabs-content" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
+          <div class="custom-content tabs-content template-wrap" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
             <div class="book-time-wrap">
               <div class="row">
                 <div class="col-6 col-md-6">
@@ -130,7 +130,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row template-fields" >
                 <app-form-builder class="col-md-6 col-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
                                   [resourceType]="resource['resourceTypeID']"
                                   [index]="i+'_'+j"
