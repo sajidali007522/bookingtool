@@ -50,7 +50,7 @@ export class FormBuilderComponent implements OnInit {
         res=>{
           this.field['processing'] = false;
           this.remoteList = res['data']['results']
-          console.log(this.remoteList)
+          //console.log(this.remoteList)
         },
         err=>{
           this.field['processing'] = false;
