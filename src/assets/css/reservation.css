@@ -125,6 +125,9 @@ img{
         left: 17px;
         top: 17px;
     }
+    .field-wrap .clockicon{
+        left: 22px;
+    }
     .trip-radio-wrap{
         text-align: left;
         padding: 0 0 15px;
@@ -217,6 +220,13 @@ img{
     background-size: 100% auto;
     width: 32px;
     height: 32px;
+}
+
+.field-gray-wrap{
+    padding-bottom: 25px;
+}
+.template-wrap{
+    padding-bottom: 25px;
 }
 
 @media(max-width: 991px){
