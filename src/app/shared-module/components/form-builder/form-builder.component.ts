@@ -27,6 +27,9 @@ export class FormBuilderComponent implements OnInit {
     this.field['keyword'] = ''
     this.templateId=this.templateId+this.index;
     this.notFoundTemplate=this.notFoundTemplate+this.index;
+    if(!this.field.minSearchCharacters){
+      this.getServerResponse('')
+    }
   }
 
 
@@ -34,7 +37,7 @@ export class FormBuilderComponent implements OnInit {
 
   }
 
-  getServerResponse(event) {
+  getServerResponse(event= '') {
     console.log(event)
     this.error = {};
     this.field['processing'] = true;

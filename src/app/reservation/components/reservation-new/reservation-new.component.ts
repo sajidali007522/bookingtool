@@ -14,10 +14,14 @@ import {ReservationService} from "../../../_services/reservation.service";
 })
 export class ReservationNewComponent implements OnInit,AfterViewInit {
   ruleBags = []
+  travelerList = []
+  defaultSelection;
   bsConfig: Partial<BsDatepickerConfig>;
   minDateFrom: Date;
   minDateTo: Date;
   dateFormats;
+  profileTypeSelected;
+  keyword="text";
   form = {
     BeginDate: new Date(),
     EndDate: new Date(),
@@ -28,6 +32,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     template: ''
   }
   state={
+    error: {message: ''},
+    errorMsg: '',
+    isLoadingTraveler:false,
     loadingTemplate: false,
     loadingGroups: false,
     selectedGroup: {},
@@ -57,6 +64,28 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     this.form.BeginDate.setDate(this.form.BeginDate.getDate());
     this.form.EndDate = new Date();
     this.form.EndDate.setDate(this.form.EndDate.getDate()+1);
+  }
+  selectTraveler ($event) {
+
+  }
+  searchCleared(type) {
+    this.travelerList =[];
+  }
+  getloadProfiles (event) {
+    let params = {searchTerm: event};
+    params['criteria'] = this.profileTypeSelected;
+    this.travelerList =[];
+    this.state.isLoadingTraveler =true;
+    this._http._get("lookup/ProfileLookupSearch", params)
+      .subscribe(data => {
+        this.defaultSelection = data['data']['defaultValue'];
+        this.travelerList = data['data']['results'];
+        this.state.isLoadingTraveler = false;
+
+      },error => {
+        this.state.error = error;
+        this.state.isLoadingTraveler = false;
+      });
   }
 
   setDateTo () {

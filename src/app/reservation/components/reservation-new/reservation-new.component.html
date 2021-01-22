@@ -10,7 +10,7 @@
       <div class="custom-sidebar">
         <div class="custom-nav" id="tabsCustom">
           <ul>
-            <li *ngFor="let group of state.templateGroups" [ngClass]="{'active': group.name == state.selectedGroup['name']}">
+            <li *ngFor="let group of state.templateGroups" class="{{group.cssClass.split('.').join('')}}" [ngClass]="{'active': group.name == state.selectedGroup['name']}">
               <a href="javascript:void(0)" (click)="setTemplateGroup(group)"><em class="fa fa-plane"></em> <span>{{group.name}}</span></a>
             </li>
           </ul>
@@ -33,7 +33,49 @@
           <div class="col-md-6">
             <div class="field-wrap-outer">
               <label>Traveler*</label>
+              <div class="field-wrap field-gray-wrap traveler-field">
+                <span class="user"></span>
+                <ng-autocomplete
+                  [data]="travelerList"
+                  [searchKeyword]="keyword"
+                  (selected)='selectTraveler($event)'
+                  (inputChanged)='getloadProfiles($event)'
+                  (inputFocused)='onFocused($event)'
+                  [itemTemplate]="itemTemplateProfiles"
+                  (inputCleared)="searchCleared('traveler-list')"
+                  [notFoundTemplate]="notFoundProfilesTemplate"
+                  [debounceTime]="400"
+                  [isLoading]="state.isLoadingTraveler"
+                  [minQueryLength]="3"
+                  placeHolder="{{form.ResourceTypeID == '' ? 'Select Business Profile first' : 'Search Traveler.'}}"
+                  class="testing"
+                  name="traveler"
+                >
 
+                </ng-autocomplete>
+
+                <ng-template #itemTemplateProfiles let-item>
+                  <a href="javascript:void(0)">
+                    <div class="auto-txtwrap">
+                      <div class="autoicon">
+                        <span class="fa" [ngClass]="{'fa-plane': item['glyph'] == 'airport', 'fa-map-marker': item['glyph'] == 'locality' }"></span>
+                      </div>
+                      <div class="autotxt">
+                        <strong [innerHTML]="item.description"></strong><span>({{item.text}})</span>
+                      </div>
+                    </div>
+                  </a>
+                </ng-template>
+
+                <ng-template #notFoundProfilesTemplate let-notFound>
+                  {{state.errorMsg}}
+                </ng-template>
+                <div class="" *ngIf="state.error">
+                  <label class="error">{{state.error['message']}}</label>
+                </div>
+                <!--                  <input type="text" placeholder="Select Business Profile First" class="form-control">-->
+                <!--                  <span class="fa fa-paper-plane-o"></span>-->
+              </div>
             </div>
           </div>
         </div>
@@ -68,6 +110,9 @@
           <div class="custom-content tabs-content template-wrap" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
             <div class="book-time-wrap">
               <div class="row">
+                <div class="col-sm-12">{{resource.resourceItems[0].text}}</div>
+              </div>
+              <div class="row" *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
                 <div class="col-6 col-md-6">
                   <div class="field-wrap-outer">
                     <label>Departure Date*</label>

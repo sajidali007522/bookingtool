@@ -1,5 +1,5 @@
 <div class="row">
-  <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric">
+  <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && field.minSearchCharacters">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
       <div class="field-wrap-outer field-gray-wrap">
@@ -14,7 +14,7 @@
           [notFoundTemplate]="notFoundTemplate_"
           [debounceTime]="400"
           [isLoading]="field['processing']"
-          [minQueryLength]="3"
+          [minQueryLength]="field.minSearchCharacters"
           placeHolder="Search ..."
           name="search"
         >
@@ -42,7 +42,14 @@
       </div>
     </div>
   </ng-container>
-
+  <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && !field.minSearchCharacters">
+    <div class="col-md-12 col-12" >
+      <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
+      <select class="form-control no-icon" [(ngModel)]="field.defaultValue">
+        <option value="{{option.value}}" [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
+      </select>
+    </div>
+  </ng-container>
   <ng-container *ngIf="field.searchCriteriaID != '' && field.numeric">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
@@ -52,8 +59,8 @@
                  [(ngModel)]="field.defaultValue"
                  placeholder="{{field.fieldRelation }}"
                  name="{{field.name}}"
-                 [max]="field.numberic.maximumValue"
-                 [min]="field.numberic.minimumValue"
+                 [max]="field.numeric.maximumValue"
+                 [min]="field.numeric.minimumValue"
                  class="form-control no-icon"
           >
         </div>
