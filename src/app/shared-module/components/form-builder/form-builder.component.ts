@@ -11,6 +11,7 @@ export class FormBuilderComponent implements OnInit {
   @Input() resourceType
   @Input() index
   @Input() bookingID
+  @Input() form;
 
   constructor (public lookupService:LookupService) { }
 
@@ -34,16 +35,31 @@ export class FormBuilderComponent implements OnInit {
 
 
   selectItem (item) {
-
+    this.field['selectedValue'] = item;
+    this.form[this.field['name'].split(' ').join('_')] = item;
   }
 
   getServerResponse(event= '') {
     console.log(event)
     this.error = {};
     this.field['processing'] = true;
+    let body =[]
+
+    if(this.field.fieldRelation.indexOf('Arrival') != -1 ) {
+      console.log(this.form)
+      if(this.form['Departure']) {
+        body.push({
+          "relation": "DepartureAirport",
+          "selection": this.form['Departure'].value,
+          "type": 1,
+          "selectionText": this.form['Departure'].text
+        })
+      }
+    }
+
     let params = {searchTerm: event};
     //console.log(this.bookingID)
-    this.lookupService.findResults(this.bookingID, [], {
+    this.lookupService.findResults(this.bookingID, body, {
       definitionType: 0,
       resourceTypeID: this.resourceType,
       searchCriteriaID: this.field['searchCriteriaID'],
@@ -51,8 +67,9 @@ export class FormBuilderComponent implements OnInit {
     })
       .subscribe(
         res=>{
+          console.log(res['data'].results)
           this.field['processing'] = false;
-          this.remoteList = res['data']['results']
+          this.remoteList = res['data'].results
           //console.log(this.remoteList)
         },
         err=>{
