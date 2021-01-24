@@ -4,3 +4,11 @@ tr.hide {
 .disable-touch {
   touch-action: auto !important;
 }
+.full-text {display: block;}
+.short-text {display: none;}
+.table-sm .short-text {
+  display: block;
+}
+.table-sm .full-text {
+  display: none;
+}

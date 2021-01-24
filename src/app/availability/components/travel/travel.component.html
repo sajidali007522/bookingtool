@@ -49,12 +49,18 @@
     <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Depart" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDateToTime(row.startDate)}}</td>
     <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Origination" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index, $event)">{{row.from}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">
+      <span class="full-text">{{row.from}}</span>
+      <span class="short-text">{{row.fromCode}}</span>
+    </td>
 
     <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Arrive" (mousedown)="rowSelection(row, index)"
         (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDateToTime(row.endDate)}}</td>
     <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Destination" (mousedown)="rowSelection(row, index)"
-        (mouseup)="rowCompletion(row, index, $event)">{{row.to}}</td>
+        (mouseup)="rowCompletion(row, index, $event)">
+      <span class="full-text">{{row.to}}</span>
+      <span class="short-text">{{row.toCode}}</span>
+    </td>
     <td data-title="Total">
       <span class="text-desc-edit" *ngIf="!state.filterForm.includeHolds"
             (click)="row.isEditting = !state.isMassEditting ? !row.isEditting : false">{{row.total || 0}}
