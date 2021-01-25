@@ -185,7 +185,8 @@ img{
     color: #fff;
     text-decoration: none;
   }
-.icon-flight-hotel{
+.icon-flight-hotel,
+.template-group-flight{
     display: block;
     background: url(../images/icons/icon-flight2.png) no-repeat;
     background-size: 100% auto;
@@ -200,21 +201,24 @@ img{
     width: 32px;
     height: 32px;
 }
-.hotel-icon{
+.hotel-icon,
+.template-group-hotel{
     display: inline-block;
     background: url(../images/reservation/hotel-icon.png) no-repeat;
     background-size: 100% auto;
     width: 32px;
     height: 32px;
 }
-.car-icon{
+.car-icon,
+.template-group-car{
     display: inline-block;
     background: url(../images/reservation/car-icon.png) no-repeat;
     background-size: 100% auto;
     width: 32px;
     height: 32px;
 }
-.template-icon{
+.template-icon,
+.template-group-templates{
     display: inline-block;
     background: url(../images/reservation/template-icon.png) no-repeat;
     background-size: 100% auto;
