@@ -110,7 +110,9 @@
           <div class="custom-content tabs-content template-wrap" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
             <div class="book-time-wrap">
               <div class="row">
-                <div class="col-sm-12">{{resource.resourceItems[0].text}}</div>
+                <div class="col-sm-12">
+                  <h3>{{resource.resourceItems[0].text}}</h3>
+                </div>
               </div>
               <div class="row" *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
                 <div class="col-6 col-md-6">

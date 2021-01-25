@@ -45,9 +45,13 @@
   <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && !field.minSearchCharacters">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
-      <select class="form-control no-icon" [(ngModel)]="field.defaultValue">
-        <option value="{{option.value}}" [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
-      </select>
+      <div class="field-wrap-outer field-gray-wrap">
+        <div class="field-wrap">
+          <select class="form-control no-icon" [(ngModel)]="field.defaultValue">
+            <option value="{{option.value}}" [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
+          </select>
+        </div>
+      </div>
     </div>
   </ng-container>
   <ng-container *ngIf="field.searchCriteriaID != '' && field.numeric">
