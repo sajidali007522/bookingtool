@@ -71,7 +71,7 @@ export class ReservationComponent implements OnInit,AfterViewInit {
               public resService: ReservationService
   ) {
     this.apiEndPoint='CommercialAirportSearch';
-    this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true }
+    this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true,  showWeekNumbers: false  }
     this.dateFormats = this.DFService.dateFormats;
     this.form.BeginDate = new Date();
     this.form.BeginDate.setDate(this.form.BeginDate.getDate());
