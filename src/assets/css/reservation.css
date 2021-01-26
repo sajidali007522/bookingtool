@@ -26,13 +26,40 @@ img{
     .custom-section-wrap h1{
         color: #fff;
         background: rgba(9,66,93, 0.5);
-        padding: 15px 10px 17px;
-        font-size: 28px;
-        margin: 0 0 10px;
+        padding: 10px 35px;
+        font-size: 24px;
+        line-height: 1.4;
+        margin: 0;
+    }
+    .custom-section-wrap .inline-block{
+        display: inline-block;
+    }
+    .custom-section-wrap h1 .custom-logo{
+        display: inline-block;
+        vertical-align: middle;
+        margin: 5px 15px 5px 0;
+        font-size: 36px;
     }
 .custom-section{
     background: #fff;
 }
+.custom-top-section{
+    text-align: left;
+    padding: 35px 35px 5px;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 0 7px rgba(0,0,0, 0.2);
+    position: relative;
+}
+    .custom-top-section .tagtop{
+        background: rgba(9,66,93, 0.8);
+        color:#fff;
+        font-size: 20px;
+        display: inline-block;
+        padding: 10px 20px 11px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
 .custom-sidebar{
     border-bottom: 1px solid #e7e7e7;
 }
@@ -247,9 +274,12 @@ img{
         padding-bottom: 30px;
     }
     .custom-section-wrap h1{
-        font-size: 24px;
+        display: block;
+        font-size: 20px;
         padding: 12px 10px 15px;
-        margin: 0 0 25px;
+    }
+    .custom-section-wrap h1 .custom-logo{
+        display: block;
     }
     .custom-section{
         display: block;

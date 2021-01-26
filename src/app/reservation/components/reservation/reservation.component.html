@@ -3,8 +3,80 @@
 
 <div class="overlay-bg"></div>
 <div class="custom-section-wrap">
-  <h1>Book</h1>
+  <!-- <h1>Book</h1> -->
+  <h1 class="inline-block">
+    <span class="custom-logo">ようこそ</span>
+    <span class="custom-desc">Welcome Bienvenue Marhaba</span>
+  </h1>
   <div class="custom-section">
+
+    <div class="custom-top-section">
+      <div class="tagtop">Book</div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="field-wrap-outer">
+            <label>Business Profile*</label>
+              <div class="field-wrap">
+                  <select class="form-control" name="resourceTypeID" [(ngModel)]="form.ResourceTypeID">
+                      <option value="{{type.value}}" *ngFor="let type of ruleBags">{{type.text}}</option>
+                  </select>
+                  <span class="globel-world-icon" *ngIf="!state.initiateBooking"></span>
+                  <span class="fa fa-spin fa-spinner" *ngIf="state.initiateBooking"></span>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="field-wrap-outer">
+            <label>Traveler*</label>
+              <div class="field-wrap field-gray-wrap traveler-field mb-0">
+                  <span class="user"></span>
+                  <ng-autocomplete
+                    [data]="travelerList"
+                    [searchKeyword]="keyword"
+                    (selected)='selectTraveler($event)'
+                    (inputChanged)='getloadProfiles($event)'
+                    (inputFocused)='onFocused($event)'
+                    [itemTemplate]="itemTemplateProfiles"
+                    (inputCleared)="searchCleared('traveler-list')"
+                    [notFoundTemplate]="notFoundProfilesTemplate"
+                    [debounceTime]="400"
+                    [isLoading]="isLoadingTraveler"
+                    [minQueryLength]="3"
+                    placeHolder="{{form.ResourceTypeID == '' ? 'Select Business Profile first' : 'Search Traveler.'}}"
+                    class="testing"
+                    name="traveler"
+                  >
+  
+                  </ng-autocomplete>
+  
+                  <ng-template #itemTemplateProfiles let-item>
+                    <a href="javascript:void(0)">
+                      <div class="auto-txtwrap">
+                        <div class="autoicon">
+                          <span class="fa" [ngClass]="{'fa-plane': item['glyph'] == 'airport', 'fa-map-marker': item['glyph'] == 'locality' }"></span>
+                        </div>
+                        <div class="autotxt">
+                          <strong [innerHTML]="item.description"></strong><span>({{item.text}})</span>
+                        </div>
+                      </div>
+                    </a>
+                  </ng-template>
+  
+                  <ng-template #notFoundProfilesTemplate let-notFound>
+                    {{errorMsg}}
+                  </ng-template>
+                  <div class="" *ngIf="error">
+                    <label class="error">{{error.message}}</label>
+                  </div>
+  <!--                  <input type="text" placeholder="Select Business Profile First" class="form-control">-->
+  <!--                  <span class="fa fa-paper-plane-o"></span>-->
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
     <div class="custom-sidebar">
       <div class="custom-nav" id="tabsCustom">
         <ul>
@@ -24,68 +96,6 @@
       </div>
     </div>
     <div class="custom-main">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="field-wrap-outer">
-                <label>Business Profile*</label>
-                  <div class="field-wrap">
-                      <select class="form-control" name="resourceTypeID" [(ngModel)]="form.ResourceTypeID">
-                          <option value="{{type.value}}" *ngFor="let type of ruleBags">{{type.text}}</option>
-                      </select>
-                      <span class="globel-world-icon" *ngIf="!state.initiateBooking"></span>
-                      <span class="fa fa-spin fa-spinner" *ngIf="state.initiateBooking"></span>
-                  </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="field-wrap-outer">
-                <label>Traveler*</label>
-                  <div class="field-wrap field-gray-wrap traveler-field">
-                      <span class="user"></span>
-                      <ng-autocomplete
-                        [data]="travelerList"
-                        [searchKeyword]="keyword"
-                        (selected)='selectTraveler($event)'
-                        (inputChanged)='getloadProfiles($event)'
-                        (inputFocused)='onFocused($event)'
-                        [itemTemplate]="itemTemplateProfiles"
-                        (inputCleared)="searchCleared('traveler-list')"
-                        [notFoundTemplate]="notFoundProfilesTemplate"
-                        [debounceTime]="400"
-                        [isLoading]="isLoadingTraveler"
-                        [minQueryLength]="3"
-                        placeHolder="{{form.ResourceTypeID == '' ? 'Select Business Profile first' : 'Search Traveler.'}}"
-                        class="testing"
-                        name="traveler"
-                      >
-
-                      </ng-autocomplete>
-
-                      <ng-template #itemTemplateProfiles let-item>
-                        <a href="javascript:void(0)">
-                          <div class="auto-txtwrap">
-                            <div class="autoicon">
-                              <span class="fa" [ngClass]="{'fa-plane': item['glyph'] == 'airport', 'fa-map-marker': item['glyph'] == 'locality' }"></span>
-                            </div>
-                            <div class="autotxt">
-                              <strong [innerHTML]="item.description"></strong><span>({{item.text}})</span>
-                            </div>
-                          </div>
-                        </a>
-                      </ng-template>
-
-                      <ng-template #notFoundProfilesTemplate let-notFound>
-                        {{errorMsg}}
-                      </ng-template>
-                      <div class="" *ngIf="error">
-                        <label class="error">{{error.message}}</label>
-                      </div>
-    <!--                  <input type="text" placeholder="Select Business Profile First" class="form-control">-->
-    <!--                  <span class="fa fa-paper-plane-o"></span>-->
-                  </div>
-              </div>
-            </div>
-          </div>
           <ng-container *ngIf="tab == 'flight'">
             <div class="trip-radio-wrap">
               <div class="custom-control custom-radio custom-control-inline">
