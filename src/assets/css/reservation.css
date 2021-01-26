@@ -252,6 +252,27 @@ img{
     width: 32px;
     height: 32px;
 }
+    .flight-hotel{
+        display: inline-block;
+        background: url(../images/reservation/flight-hotel.png) no-repeat;
+        background-size: 100% auto;
+        width: 55px;
+        height: 45px;
+    }
+    .flight-car{
+        display: inline-block;
+        background: url(../images/reservation/flight-car.png) no-repeat;
+        background-size: 100% auto;
+        width: 55px;
+        height: 45px;
+    }
+    .flight-car-hotel{
+        display: inline-block;
+        background: url(../images/reservation/flight-car-hotel.png) no-repeat;
+        background-size: 100% auto;
+        width: 80px;
+        height: 45px;
+    }
 
 .field-gray-wrap{
     padding-bottom: 25px;
