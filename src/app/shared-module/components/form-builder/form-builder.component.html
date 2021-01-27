@@ -47,8 +47,8 @@
       <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
       <div class="field-wrap-outer field-gray-wrap">
         <div class="field-wrap">
-          <select class="form-control no-icon" [(ngModel)]="field.defaultValue">
-            <option value="{{option.value}}" [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
+          <select class="form-control no-icon" [(ngModel)]="field.model">
+            <option [ngValue]="option" *ngFor="let option of remoteList">{{option.text}}</option>
           </select>
         </div>
       </div>
@@ -59,14 +59,10 @@
       <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
       <div class="field-wrap-outer field-gray-wrap">
         <div class="field-wrap">
-          <input type="number"
-                 [(ngModel)]="field.defaultValue"
-                 placeholder="{{field.fieldRelation }}"
-                 name="{{field.name}}"
-                 [max]="field.numeric.maximumValue"
-                 [min]="field.numeric.minimumValue"
-                 class="form-control no-icon"
-          >
+          <select class="form-control no-icon" [(ngModel)]="field.model">
+            <option [ngValue]="'00000000-0000-0000-0000-000000000000'">Select</option>
+            <option [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
+          </select>
         </div>
       </div>
     </div>
@@ -78,7 +74,7 @@
       <div class="field-wrap-outer field-gray-wrap">
         <div class="field-wrap">
           <input type="text"
-                 [(ngModel)]="field.defaultValue"
+                 [(ngModel)]="field.model"
                  placeholder="{{field.fieldRelation }}"
                  name="{{field.name}}"
                  class="form-control no-icon">

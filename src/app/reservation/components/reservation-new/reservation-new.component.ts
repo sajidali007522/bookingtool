@@ -17,7 +17,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   travelerList = []
   defaultSelection;
   bsConfig: Partial<BsDatepickerConfig>;
-  minDateFrom: Date;
+  minDateFrom= new Date();
   minDateTo: Date;
   dateFormats;
   profileTypeSelected;
@@ -58,12 +58,13 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
               public template: TemplateService,
               public resService: ReservationService
   ) {
-    this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true }
+    this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true, showPreviousMonth: false }
     this.dateFormats = this.DFService.dateFormats;
-    this.form.BeginDate = new Date();
-    this.form.BeginDate.setDate(this.form.BeginDate.getDate());
-    this.form.EndDate = new Date();
-    this.form.EndDate.setDate(this.form.EndDate.getDate()+1);
+
+    // this.form.BeginDate = new Date();
+    // this.form.BeginDate.setDate(this.form.BeginDate.getDate());
+    // this.form.EndDate = new Date();
+    // this.form.EndDate.setDate(this.form.EndDate.getDate()+1);
   }
   selectTraveler ($event) {
 
@@ -88,8 +89,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       });
   }
 
-  setDateTo () {
-    this.form.EndDate = this.form.BeginDate;
+  setDateTo (resourceIndex) {
+    this.state.selectedTemplate['resources'][resourceIndex].EndDate = this.state.selectedTemplate['resources'][resourceIndex].BeginDate;
   }
 
   ngOnInit(): void {
@@ -112,6 +113,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   setTemplateGroup (group) {
     this.state.selectedGroup = group
     this.state.selectedTemplate= {};
+    this.form.template= '000000000-0000-0000-0000-000000000000';
 
     if(typeof this.state.selectedGroup['templates'][0]['templateID'] !== 'undefined') {
       this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID']);
@@ -150,6 +152,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   loadTemplate (templateId){
+    if(typeof templateId == 'undefined' || templateId == '00000000-0000-0000-0000-000000000000') return;
     if(this.state.loadingTemplate) return
     this.state.loadingTemplate = true;
     this.form.template = templateId;
@@ -159,6 +162,77 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         this.state.loadingTemplate = false;
       },
         error => {this.state.loadingTemplate = false;});
+  }
+
+  startBookingSearch () {
+
+    let postBody = [{
+      "sessionID": "undefined",
+      'bookingID': this.form.bookingID,
+      'resultsToBook': this.renderResources(),
+      'resourceIndex': null,
+      'resourceTypeID': null,
+      'requireInOrder': false,
+      'addItems': false
+    }]
+    this._http._post("Booking/"+this.form.bookingID+"/Book", postBody)
+      .subscribe(data => {
+          this.state.processing=false;
+          console.log(data)
+          //this.router.navigate(['/reservation/'+this.form.bookingID+'/search/'+data['resourceTypeID']]);
+        },
+        error => {
+          console.log(error);
+          this.state.processing=false;
+          this.state.errors = error;
+        });
+  }
+
+  renderResources () {
+    let resources=[];
+    if(this.state.selectedTemplate['resources'].length > 0) {
+      for (let index = 0; index < this.state.selectedTemplate['resources'].length; index++) {
+        let resource = this.state.selectedTemplate['resources'][index]
+        let resourceBody = {}
+        let departure;
+        let arrival;
+        if (this.state.selectedTemplate['isDynamic']) {
+          departure = new Date(resource['BeginDate']);
+          arrival = new Date(resource['EndDate']);
+        } else {
+          departure = new Date(this.state.selectedTemplate['resources'][0]['BeginDate']);
+          arrival = new Date(this.state.selectedTemplate['resources'][0]['EndDate']);
+        }
+
+        resources.push({
+          "BeginDate": departure.getFullYear() + '-' + (departure.getMonth() + 1) + "-" + departure.getDate(),
+          "EndDate": arrival.getFullYear() + '-' + (arrival.getMonth() + 1) + "-" + arrival.getDate(),
+          "ResourceTypeID": resource['resourceTypeID'],
+          "TimePropertyID": resource['timePropertyID'],
+          "IsReturn": resource['IsReturn'],
+          "SearchIndex": 0,
+          "SelectedItems": this.renderResouceFields(resource),
+          "IsDynamic": this.state.selectedTemplate['isDynamic']
+        });
+      }
+    }
+    return resources;
+  }
+
+  renderResouceFields (resource) {
+    let fields = [];
+    if(resource.searchFields.length > 0 ){
+      for(let index=0; index<resource.searchFields.length; index++){
+        let field = resource.searchFields[index];
+        fields.push({
+          "Relation": field['fieldRelation'],
+          "Selection": field['model']['value'],
+          "SelectionText": field['model']['text'],
+          "Type": field['type']
+        })
+      }
+    }
+    return fields;
   }
 
   setSearchParams (tab) {

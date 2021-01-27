@@ -28,25 +28,33 @@ export class FormBuilderComponent implements OnInit {
     this.field['keyword'] = ''
     this.templateId=this.templateId+this.index;
     this.notFoundTemplate=this.notFoundTemplate+this.index;
-    if(!this.field.minSearchCharacters){
+    if(!this.field.minSearchCharacters && !this.field.numeric){
       this.getServerResponse('')
+    }
+    if(this.field.numeric) {
+      this.field['model'] = '00000000-0000-0000-0000-000000000000'
+      this.remoteList = [];
+      for (let index=this.field.numeric.minimumValue; index<=this.field.numeric.maximumValue; index++){
+        this.remoteList.push({value: index, text: index})
+      }
     }
   }
 
 
   selectItem (item) {
     this.field['selectedValue'] = item;
+    this.field['model'] = item;
     this.form[this.field['name'].split(' ').join('_')] = item;
   }
 
   getServerResponse(event= '') {
-    console.log(event)
+    //console.log(event)
     this.error = {};
     this.field['processing'] = true;
     let body =[]
 
     if(this.field.fieldRelation.indexOf('Arrival') != -1 ) {
-      console.log(this.form)
+      //console.log(this.form)
       if(this.form['Departure']) {
         body.push({
           "relation": "DepartureAirport",
@@ -67,7 +75,7 @@ export class FormBuilderComponent implements OnInit {
     })
       .subscribe(
         res=>{
-          console.log(res['data'].results)
+          //console.log(res['data'].results)
           this.field['processing'] = false;
           this.remoteList = res['data'].results
           //console.log(this.remoteList)

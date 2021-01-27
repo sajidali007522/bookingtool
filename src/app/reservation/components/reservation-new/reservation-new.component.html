@@ -90,7 +90,7 @@
                   <label>Template*</label>
                   <div class="field-wrap">
                     <select class="form-control" name="resourceTypeID" [(ngModel)]="form.template" (change)="loadTemplate(form.template)">
-                      <option [ngValue]="template.templateID" *ngFor="let template of state.selectedGroup['templates']">{{template.name}}</option>
+                      <option [ngValue]="template.templateID || '00000000-0000-0000-0000-000000000000'" *ngFor="let template of state.selectedGroup['templates']">{{template.name}}</option>
                     </select>
                     <span class="globel-world-icon" *ngIf="!state.initiateBooking"></span>
                     <span class="fa fa-spin fa-spinner" *ngIf="state.initiateBooking"></span>
@@ -120,10 +120,10 @@
                     <label>Departure Date*</label>
                     <div class="field-wrap">
                       <input type="text"
-                             [(ngModel)]="form.BeginDate"
+                             [(ngModel)]="resource['BeginDate']"
                              bsDatepicker
                              [bsConfig]="bsConfig"
-                             (ngModelChange)="setDateTo()"
+                             (ngModelChange)="setDateTo(i)"
                              [minDate]="minDateFrom"
                              placeholder="Departure Date"
                              name="departure_date"
@@ -136,7 +136,7 @@
                   <div class="field-wrap-outer">
                     <label>Departure Time</label>
                     <div class="field-wrap time-picker-wrap">
-                      <select class="form-control">
+                      <select class="form-control" [(ngModel)]="resource['BeginTime']">
                         <option value="">9:30 AM</option>
                       </select>
                       <span class="fa fa-clock-o clockicon"></span>
@@ -155,9 +155,9 @@
                     <label>Return Date*</label>
                     <div class="field-wrap">
                       <input type="text"
-                             [(ngModel)]="form.EndDate"
+                             [(ngModel)]="resource['EndDate']"
                              bsDatepicker
-                             [minDate]="form.BeginDate"
+                             [minDate]="resource['BeginDate']"
                              [bsConfig]="bsConfig"
                              placeholder="Return Date"
                              name="arrival_date"
@@ -170,7 +170,7 @@
                   <div class="field-wrap-outer time-picker-wrap">
                     <label>Return Time</label>
                     <div class="field-wrap">
-                      <select class="form-control">
+                      <select class="form-control" [(ngModel)]="resource['BeginTime']">
                         <option value="">9:30 AM</option>
                       </select>
                       <span class="fa fa-clock-o clockicon"></span>
@@ -191,7 +191,7 @@
           </div>
         </ng-container>
         <br/>
-        <button type="submit" class="btn btn-info btn-block" [disabled]="state.processing">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+        <button type="submit" class="btn btn-info btn-block" [disabled]="state.processing" (click)="startBookingSearch()">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
 
       </div>
     </ng-container>
