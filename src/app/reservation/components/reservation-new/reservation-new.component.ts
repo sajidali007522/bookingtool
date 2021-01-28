@@ -106,8 +106,12 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   setDateFrom(resourceIndex) {
-    if(this.state.selectedTemplate['resources'][resourceIndex].BeginDate > this.state.selectedTemplate['resources'][resourceIndex].EndDate) return;
-    this.state.selectedTemplate['resources'][resourceIndex].BeginDate = this.state.selectedTemplate['resources'][resourceIndex].EndDate;
+    // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate) > new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate))
+    // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate))
+    // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate))
+    if(new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate) > new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate)) {
+      this.state.selectedTemplate['resources'][resourceIndex].BeginDate = this.state.selectedTemplate['resources'][resourceIndex].EndDate;
+    }
   }
 
   ngOnInit(): void {
