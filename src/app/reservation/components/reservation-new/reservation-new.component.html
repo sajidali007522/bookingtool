@@ -22,7 +22,7 @@
             <div class="field-wrap-outer">
               <label>Business Profile*</label>
               <div class="field-wrap">
-                <select class="form-control" name="resourceTypeID" [(ngModel)]="form.ResourceTypeID">
+                <select class="form-control" name="resourceTypeID" [(ngModel)]="form.ResourceTypeID" (ngModelChange)="assignRuleBag()">
                   <option value="{{type.value}}" *ngFor="let type of ruleBags">{{type.text}}</option>
                 </select>
                 <span class="globel-world-icon" *ngIf="!state.initiateBooking"></span>
@@ -157,8 +157,9 @@
                       <input type="text"
                              [(ngModel)]="resource['EndDate']"
                              bsDatepicker
-                             [minDate]="resource['BeginDate']"
+                             [minDate]="minDateFrom"
                              [bsConfig]="bsConfig"
+                             (ngModelChange)="setDateFrom(i)"
                              placeholder="Return Date"
                              name="arrival_date"
                              class="form-control">

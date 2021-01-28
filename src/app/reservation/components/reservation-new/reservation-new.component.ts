@@ -72,6 +72,18 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   searchCleared(type) {
     this.travelerList =[];
   }
+
+  assignRuleBag () {
+    ///api2/booking/{bookingID}/RuleBag
+    this._http._get("booking/"+this.form.bookingID+"/RuleBag", {'ruleBagID': this.form.ResourceTypeID})
+      .subscribe(data => {
+        console.log(data)
+      },error => {
+        console.log(error)
+        this.state.error = error;
+        this.state.isLoadingTraveler = false;
+      });
+  }
   getloadProfiles (event) {
     let params = {searchTerm: event};
     params['criteria'] = this.profileTypeSelected;
@@ -91,6 +103,11 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   setDateTo (resourceIndex) {
     this.state.selectedTemplate['resources'][resourceIndex].EndDate = this.state.selectedTemplate['resources'][resourceIndex].BeginDate;
+  }
+
+  setDateFrom(resourceIndex) {
+    if(this.state.selectedTemplate['resources'][resourceIndex].BeginDate > this.state.selectedTemplate['resources'][resourceIndex].EndDate) return;
+    this.state.selectedTemplate['resources'][resourceIndex].BeginDate = this.state.selectedTemplate['resources'][resourceIndex].EndDate;
   }
 
   ngOnInit(): void {
@@ -165,8 +182,10 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   startBookingSearch () {
-
-    let postBody = [{
+    if(!this.form.ResourceTypeID) {
+      return;
+    }
+    let postBody = {
       "sessionID": "undefined",
       'bookingID': this.form.bookingID,
       'resultsToBook': this.renderResources(),
@@ -174,12 +193,16 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       'resourceTypeID': null,
       'requireInOrder': false,
       'addItems': false
-    }]
-    this._http._post("Booking/"+this.form.bookingID+"/Book", postBody)
+    }
+    this._http._post("Booking/"+this.form.bookingID+"/Book", postBody['resultsToBook'], {'bookingID': this.form.bookingID})
       .subscribe(data => {
           this.state.processing=false;
           console.log(data)
-          //this.router.navigate(['/reservation/'+this.form.bookingID+'/search/'+data['resourceTypeID']]);
+          if(data.toString().indexOf('BusinessProfile') == -1) {
+            this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['resourceTypeID']]);
+          } else {
+            this.router.navigate(['/reservation/' + this.form.bookingID + '/business-profile/']);
+          }
         },
         error => {
           console.log(error);
@@ -205,6 +228,10 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         }
 
         resources.push({
+          "resultID": "",
+          "searchID": "00000000-0000-0000-0000-000000000000",
+          "searchIndex": 0,
+          "priceID": "",
           "BeginDate": departure.getFullYear() + '-' + (departure.getMonth() + 1) + "-" + departure.getDate(),
           "EndDate": arrival.getFullYear() + '-' + (arrival.getMonth() + 1) + "-" + arrival.getDate(),
           "ResourceTypeID": resource['resourceTypeID'],

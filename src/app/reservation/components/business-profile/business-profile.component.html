@@ -1,0 +1,32 @@
+<link type="text/css" rel="stylesheet" href="/assets/css/reservation.css" />
+
+<div class="overlay-bg"></div>
+
+<div class="custom-section-wrap" >
+  <h1>Business Profile</h1>
+  <div class="custom-section">
+    <app-loader *ngIf="state.processing"></app-loader>
+    <ng-container>
+      <div class="custom-main template-outer">
+        <ng-container *ngIf="state.processing">
+          <div class="table-loader">Processing...</div>
+        </ng-container>
+        <ng-container *ngIf="!state.processing">
+          <div class="custom-content tabs-content template-wrap" id="content-1" style="display: block;">
+            <div class="book-time-wrap">
+              <div class="row" *ngFor="let field of formFields; let i = index">
+                <div class="col-md-12 col-12">
+                  <div class="field-wrap-outer">
+                    <app-form-builder [field]="field" [form]="form" [resourceType]="'00'" [index]="i" [bookingID]="state.bookingID"></app-form-builder>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <br/>
+        <button type="submit" class="btn btn-info btn-block" [disabled]="state.processing">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+      </div>
+    </ng-container>
+  </div>
+</div>

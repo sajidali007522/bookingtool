@@ -11,6 +11,7 @@ import {TimepickerModule} from "ngx-bootstrap/timepicker";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { ReservationNewComponent } from './components/reservation-new/reservation-new.component';
+import {BusinessProfileComponent} from "./components/business-profile/business-profile.component";
 
 
 
@@ -18,7 +19,8 @@ import { ReservationNewComponent } from './components/reservation-new/reservatio
   declarations: [
     ReservationComponent,
     ResultListComponent,
-    ReservationNewComponent
+    ReservationNewComponent,
+    BusinessProfileComponent
   ],
   imports: [
     CommonModule,
