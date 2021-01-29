@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import * as $ from 'jquery';
 import {TemplateService} from "../../../_services/template.service";
 import {ReservationService} from "../../../_services/reservation.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-reservation-new',
@@ -56,7 +57,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
               private _http: HttpService,
               private router: Router,
               public template: TemplateService,
-              public resService: ReservationService
+              public resService: ReservationService,
+              private toastr: ToastrService
   ) {
     this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true, showPreviousMonth: false }
     this.dateFormats = this.DFService.dateFormats;
@@ -187,6 +189,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   startBookingSearch () {
     if(!this.form.ResourceTypeID) {
+      this.toastr.error('Please set Business Profile to continue.', 'Error!')
       return;
     }
     let postBody = {

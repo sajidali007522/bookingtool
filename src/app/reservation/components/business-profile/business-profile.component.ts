@@ -13,6 +13,7 @@ import {ReservationService} from "../../../_services/reservation.service";
 export class BusinessProfileComponent implements OnInit,AfterViewInit {
 
   formFields = <any>[];
+  definition = <any>[]
   form = {}
   state={
     processing: false,
@@ -56,6 +57,20 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit {
     //​/api2​/booking​/{bookingID}​/Reporting
     this.state.processing = true;
     this._http._get('booking/'+this.state.bookingID+'/Reporting', {})
+      .subscribe(data => {
+        this.state.processing=false;
+        console.log(data)
+        this.formFields = data;
+        //this.loadFields();
+      }, error => {
+        console.log(error)
+        this.state.processing=false;
+      })
+  }
+  loadFields() {
+    ///api2/booking/{bookingID}/AllSearchCriteriaOptions
+    this.state.processing = true;
+    this._http._post('booking/'+this.state.bookingID+'/AllSearchCriteriaOptions', {'selectedItems': [], 'lookupSearchCriterias': this.definition })
       .subscribe(data => {
         this.state.processing=false;
         console.log(data)
