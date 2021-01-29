@@ -12,6 +12,7 @@ export class FormBuilderComponent implements OnInit {
   @Input() index
   @Input() bookingID
   @Input() form;
+  @Input() definitionType=0
 
   constructor (public lookupService:LookupService) { }
 
@@ -68,7 +69,7 @@ export class FormBuilderComponent implements OnInit {
     let params = {searchTerm: event};
     //console.log(this.bookingID)
     this.lookupService.findResults(this.bookingID, body, {
-      definitionType: 0,
+      definitionType: this.definitionType,
       resourceTypeID: this.resourceType,
       searchCriteriaID: this.field['searchCriteriaID'],
       filter: event
