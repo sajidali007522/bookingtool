@@ -104,14 +104,23 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   setDateTo (resourceIndex) {
-    this.state.selectedTemplate['resources'][resourceIndex].EndDate = this.state.selectedTemplate['resources'][resourceIndex].BeginDate;
+    let beginDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate);
+    let endDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate);
+
+    if(beginDate > endDate) {
+      this.state.selectedTemplate['resources'][resourceIndex].EndDate = this.state.selectedTemplate['resources'][resourceIndex].BeginDate;
+    }
   }
 
   setDateFrom(resourceIndex) {
     // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate) > new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate))
-    // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate))
+    // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate), typeof new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate))
     // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate))
-    if(new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate) > new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate)) {
+    // console.log(this.state.selectedTemplate['resources'][resourceIndex].BeginDate == '')
+    let beginDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate);
+    let endDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate);
+
+    if(this.state.selectedTemplate['resources'][resourceIndex].BeginDate == '' || beginDate > endDate) {
       this.state.selectedTemplate['resources'][resourceIndex].BeginDate = this.state.selectedTemplate['resources'][resourceIndex].EndDate;
     }
   }
@@ -183,10 +192,18 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       .subscribe(data => {
         this.state.selectedTemplate= data;
         this.state.loadingTemplate = false;
+        this.setResourcesDate();
       },
         error => {this.state.loadingTemplate = false;});
   }
-
+  setResourcesDate () {
+    for (let index =0; index<this.state.selectedTemplate['resources'].length; index++) {
+      this.state.selectedTemplate['resources'][index]['BeginDate'] = new Date();
+      //this.state.selectedTemplate['resources'][index]['BeginDate'].setDate(this.state.selectedTemplate['resources'][index]['BeginDate']);
+      this.state.selectedTemplate['resources'][index]['EndDate'] = new Date();
+      //this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate']);
+    }
+  }
   startBookingSearch () {
     if(!this.form.ResourceTypeID) {
       this.toastr.error('Please set Business Profile to continue.', 'Error!')
