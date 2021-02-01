@@ -2,7 +2,7 @@
   <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && field.minSearchCharacters">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
-      <div class="field-wrap-outer field-gray-wrap">
+      <div class="{{wrapClasses}}">
         <ng-autocomplete
           [data]="remoteList"
           [searchKeyword]="keyword"
@@ -45,7 +45,7 @@
   <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && !field.minSearchCharacters">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
-      <div class="field-wrap-outer field-gray-wrap">
+      <div class="{{wrapClasses}}">
         <div class="field-wrap">
           <select class="form-control no-icon" [(ngModel)]="field.model">
             <option [ngValue]="option" *ngFor="let option of remoteList">{{option.text}}</option>
@@ -57,7 +57,7 @@
   <ng-container *ngIf="field.searchCriteriaID != '' && field.numeric">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
-      <div class="field-wrap-outer field-gray-wrap">
+      <div class="{{wrapClasses}}">
         <div class="field-wrap">
           <select class="form-control no-icon" [(ngModel)]="field.model">
             <option [ngValue]="'00000000-0000-0000-0000-000000000000'">Select</option>
@@ -71,7 +71,7 @@
   <ng-container *ngIf="field.searchCriteriaID == ''">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
-      <div class="field-wrap-outer field-gray-wrap">
+      <div class="{{wrapClasses}}">
         <div class="field-wrap">
           <input type="text"
                  [(ngModel)]="field.model"

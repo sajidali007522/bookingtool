@@ -13,6 +13,7 @@ export class FormBuilderComponent implements OnInit {
   @Input() bookingID
   @Input() form;
   @Input() definitionType=0
+  @Input() wrapClasses='field-wrap-outer field-gray-wrap'
 
   constructor (public lookupService:LookupService) { }
 
