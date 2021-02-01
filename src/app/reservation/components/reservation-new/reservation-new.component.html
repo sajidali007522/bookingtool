@@ -50,6 +50,7 @@
                   placeHolder="{{form.ResourceTypeID == '' ? 'Select Business Profile first' : 'Search Traveler.'}}"
                   class="testing"
                   name="traveler"
+                  autocomplete="off"
                 >
 
                 </ng-autocomplete>
@@ -127,6 +128,7 @@
                              [minDate]="minDateFrom"
                              placeholder="Departure Date"
                              name="departure_date"
+                             autocomplete="off"
                              class="form-control">
                       <span class="fa fa-calendar-o"></span>
                     </div>
@@ -161,6 +163,7 @@
                              [bsConfig]="bsConfig"
                              (ngModelChange)="setDateFrom(i)"
                              placeholder="Return Date"
+                             autocomplete="off"
                              name="arrival_date"
                              class="form-control">
                       <span class="fa fa-calendar-o"></span>
