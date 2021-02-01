@@ -15,7 +15,7 @@
           <div class="custom-content tabs-content template-wrap" id="content-1" style="display: block;">
             <div class="book-time-wrap">
               <div class="row" *ngFor="let field of formFields; let i = index">
-                <div class="col-md-12 col-12">
+                <div class="col-md-6 col-12">
                   <div class="field-wrap-outer">
                     <app-form-builder [field]="field" [definitionType]="1" [form]="form" [resourceType]="'00000000-0000-0000-0000-000000000000'" [index]="i" [bookingID]="state.bookingID"></app-form-builder>
                   </div>
