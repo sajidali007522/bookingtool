@@ -108,6 +108,23 @@
               </div>
             </div>
           </ng-container>
+          <ng-container *ngIf="state.selectedTemplate['isDynamic']">
+            <div class="row" >
+              <div class="col-md-8">
+                <div class="field-wrap-outer">
+                  <div class="field-wrap no-icon">
+                    <select class="form-control" name="dynamicResource" [(ngModel)]="state.selectedResource">
+                      <option value="">Select Resource</option>
+                      <option [ngValue]="resource" *ngFor="let resource of state.selectedTemplate['$resources']">{{resource['resourceItems'][0].text}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-primary btn-block" (click)="addResourceToTemplate()">Add</button>
+              </div>
+            </div>
+          </ng-container>
           <div class="custom-content tabs-content template-wrap" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
             <div class="book-time-wrap">
               <div class="row">
@@ -170,7 +187,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-6" *ngIf="resource.canSearchByTime">
+                <div class="col-md-6 col-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
                   <div class="field-wrap-outer time-picker-wrap">
                     <label>Return Time</label>
                     <div class="field-wrap">

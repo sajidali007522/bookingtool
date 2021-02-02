@@ -43,6 +43,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     processing:false,
     errors: '',
     templateGroups: [],
+    selectedResource: '',
     templateList: [],
     selectedTemplate: {},
     tab: '',
@@ -191,6 +192,10 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     this._http._get("booking/"+this.form.bookingID+"/SearchCriteriaDefinition", {templateID: templateId})
       .subscribe(data => {
         this.state.selectedTemplate= data;
+        if(this.state.selectedTemplate['isDynamic']) {
+          this.state.selectedTemplate['$resources'] =this.state.selectedTemplate['resources'];
+          this.state.selectedTemplate['resources'] = [];
+        }
         this.state.loadingTemplate = false;
         this.setResourcesDate();
       },
@@ -284,6 +289,16 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       }
     }
     return fields;
+  }
+
+  addResourceToTemplate () {
+    if(this.state.selectedResource == '') return
+    let temp = JSON.parse(JSON.stringify(this.state.selectedResource));
+    temp['BeginDate'] = new Date();
+    temp['EndDate'] = new Date();
+    this.state.selectedTemplate['resources'].push(temp)
+    this.state.selectedResource = ''
+    temp = {};
   }
 
   setSearchParams (tab) {
