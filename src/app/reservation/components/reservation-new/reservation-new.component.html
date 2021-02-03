@@ -109,19 +109,14 @@
             </div>
           </ng-container>
           <ng-container *ngIf="state.selectedTemplate['isDynamic']">
-            <div class="row" >
-              <div class="col-md-8">
-                <div class="field-wrap-outer">
-                  <div class="field-wrap no-icon">
-                    <select class="form-control" name="dynamicResource" [(ngModel)]="state.selectedResource">
-                      <option value="">Select Resource</option>
-                      <option [ngValue]="resource" *ngFor="let resource of state.selectedTemplate['$resources']">{{resource['resourceItems'][0].text}}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-primary btn-block" (click)="addResourceToTemplate()">Add</button>
+
+            <div class="input-group mb-3 field-wrap">
+              <select class="form-control no-icon" name="dynamicResource" [(ngModel)]="state.selectedResource">
+                <option value="">Select Resource</option>
+                <option [ngValue]="resource" *ngFor="let resource of state.selectedTemplate['$resources']">{{resource['resourceItems'][0].text}}</option>
+              </select>
+              <div class="input-group-append">
+                <button class="btn btn-info" type="button" (click)="addResourceToTemplate()">Add  <span class="fa fa-plus position-static font-14 ml-2"></span> </button>
               </div>
             </div>
           </ng-container>
