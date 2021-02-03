@@ -19,6 +19,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   defaultSelection;
   bsConfig: Partial<BsDatepickerConfig>;
   minDateFrom= new Date();
+  maxDateFrom= new Date();
   minDateTo: Date;
   dateFormats;
   profileTypeSelected;
@@ -61,9 +62,15 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
               public resService: ReservationService,
               private toastr: ToastrService
   ) {
-    this.bsConfig = { containerClass: 'theme-dark-blue', isAnimated: true, showPreviousMonth: false }
-    this.dateFormats = this.DFService.dateFormats;
+    this.bsConfig = {
+      containerClass: 'theme-dark-blue',
+      isAnimated: true,
+      showPreviousMonth: false,
+      showWeekNumbers:false
+    }
 
+    this.dateFormats = this.DFService.dateFormats;
+    this.maxDateFrom.setDate(5*365)
     // this.form.BeginDate = new Date();
     // this.form.BeginDate.setDate(this.form.BeginDate.getDate());
     // this.form.EndDate = new Date();
@@ -192,6 +199,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     this._http._get("booking/"+this.form.bookingID+"/SearchCriteriaDefinition", {templateID: templateId})
       .subscribe(data => {
         this.state.selectedTemplate= data;
+        if(this.state.selectedTemplate['resources'].length>0) {
+          this.state.selectedTemplate['resources'][this.state.selectedTemplate['resources'].length-1].isOpen = true;
+        }
         if(this.state.selectedTemplate['isDynamic']) {
           this.state.selectedTemplate['$resources'] =this.state.selectedTemplate['resources'];
           this.state.selectedTemplate['resources'] = [];
@@ -294,13 +304,22 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   addResourceToTemplate () {
     if(this.state.selectedResource == '') return
     let temp = JSON.parse(JSON.stringify(this.state.selectedResource));
+    if(this.state.selectedTemplate['resources'].length > 0 ) {
+      this.state.selectedTemplate['resources'].filter(res => {
+        res['isOpen'] = false;
+      })
+    }
     temp['BeginDate'] = new Date();
     temp['EndDate'] = new Date();
+    temp['isOpen'] = true;
     this.state.selectedTemplate['resources'].push(temp)
     this.state.selectedResource = ''
     temp = {};
   }
-
+  removeResource(index){
+    if(!this.state.selectedTemplate['isDynamic']) return;
+    this.state.selectedTemplate['resources'].splice(index,1)
+  }
   setSearchParams (tab) {
     this.state.tab = tab;
     //this.setApiEndPoint(tab);

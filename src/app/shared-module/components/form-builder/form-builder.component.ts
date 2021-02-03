@@ -30,7 +30,7 @@ export class FormBuilderComponent implements OnInit {
     this.field['keyword'] = ''
     this.templateId=this.templateId+this.index;
     this.notFoundTemplate=this.notFoundTemplate+this.index;
-    if(!this.field.minSearchCharacters && !this.field.numeric){
+    if(!this.field.minSearchCharacters && !this.field.numeric && !this.field.allowFreeText){
       this.getServerResponse('')
     }
     if(this.field.numeric) {

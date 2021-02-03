@@ -120,88 +120,95 @@
               </div>
             </div>
           </ng-container>
-          <div class="custom-content tabs-content template-wrap" id="content-1" style="display: block;" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
-            <div class="book-time-wrap">
-              <div class="row">
-                <div class="col-sm-12">
-                  <h3>{{resource.resourceItems[0].text}}</h3>
-                </div>
+          <div class="accordion accordion-sm custom-accordion" id="accordionExample">
+            <div class="mb-3" id="accordion_{{i}}" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
+              <div class="card-header" id="heading_{{i}}">
+                <h2 class="accordion-link" aria-expanded="false" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'">
+                  {{resource.resourceItems[0].text}}
+                  <a *ngIf="state.selectedTemplate['isDynamic']" href="javascript:void(0)" (click)="removeResource(i)" class="fa fa-trash-o remove-accordion"></a>
+                </h2>
               </div>
-              <div class="row" *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
-                <div class="col-6 col-md-6">
-                  <div class="field-wrap-outer">
-                    <label>Departure Date*</label>
-                    <div class="field-wrap">
-                      <input type="text"
-                             [(ngModel)]="resource['BeginDate']"
-                             bsDatepicker
-                             [bsConfig]="bsConfig"
-                             (ngModelChange)="setDateTo(i)"
-                             [minDate]="minDateFrom"
-                             placeholder="Departure Date"
-                             name="departure_date"
-                             autocomplete="off"
-                             class="form-control">
-                      <span class="fa fa-calendar-o"></span>
+              <div id="collaps-{{i}}" class="collapse" [ngClass]="{'show': resource.isOpen}" [attr.data-parent]="'#accordionExample'">
+                <div class="box box-lr">
+                  <div class="row" *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
+                    <div class="col-6 col-md-6">
+                      <div class="field-wrap-outer">
+                        <label>Departure Date*</label>
+                        <div class="field-wrap">
+                          <input type="text"
+                                 [(ngModel)]="resource['BeginDate']"
+                                 bsDatepicker
+                                 [bsConfig]="bsConfig"
+                                 (ngModelChange)="setDateTo(i)"
+                                 [minDate]="minDateFrom"
+                                 [maxDate]="maxDateFrom"
+                                 placeholder="Departure Date"
+                                 name="departure_date"
+                                 autocomplete="off"
+                                 class="form-control">
+                          <span class="fa fa-calendar-o"></span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-6" *ngIf="resource.canSearchByTime">
-                  <div class="field-wrap-outer">
-                    <label>Departure Time</label>
-                    <div class="field-wrap time-picker-wrap">
-                      <select class="form-control" [(ngModel)]="resource['BeginTime']">
-                        <option value="">9:30 AM</option>
-                      </select>
-                      <span class="fa fa-clock-o clockicon"></span>
-<!--                      <timepicker [(ngModel)]="form.BeginTime"-->
-<!--                                  [mousewheel]="true"-->
-<!--                                  [arrowkeys]="true"-->
-<!--                      ></timepicker>-->
-                      <!--                        <input type="text" placeholder="" class="form-control">-->
-                      <!--                        <span class="fa fa-clock-o"></span>-->
+                    <div class="col-md-6 col-6" *ngIf="resource.canSearchByTime">
+                      <div class="field-wrap-outer">
+                        <label>Departure Time</label>
+                        <div class="field-wrap time-picker-wrap">
+                          <select class="form-control" [(ngModel)]="resource['BeginTime']">
+                            <option value="">9:30 AM</option>
+                          </select>
+                          <span class="fa fa-clock-o clockicon"></span>
+                          <!--                      <timepicker [(ngModel)]="form.BeginTime"-->
+                          <!--                                  [mousewheel]="true"-->
+                          <!--                                  [arrowkeys]="true"-->
+                          <!--                      ></timepicker>-->
+                          <!--                        <input type="text" placeholder="" class="form-control">-->
+                          <!--                        <span class="fa fa-clock-o"></span>-->
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
 
-                <div class="col-md-6 col-6" *ngIf="resource.requiresEndDate">
-                  <div class="field-wrap-outer">
-                    <label>Return Date*</label>
-                    <div class="field-wrap">
-                      <input type="text"
-                             [(ngModel)]="resource['EndDate']"
-                             bsDatepicker
-                             [minDate]="minDateFrom"
-                             [bsConfig]="bsConfig"
-                             (ngModelChange)="setDateFrom(i)"
-                             placeholder="Return Date"
-                             autocomplete="off"
-                             name="arrival_date"
-                             class="form-control">
-                      <span class="fa fa-calendar-o"></span>
+                    <div class="col-md-6 col-6" *ngIf="resource.requiresEndDate">
+                      <div class="field-wrap-outer">
+                        <label>Return Date*</label>
+                        <div class="field-wrap">
+                          <input type="text"
+                                 [(ngModel)]="resource['EndDate']"
+                                 bsDatepicker
+                                 [minDate]="minDateFrom"
+                                 [maxDate]="maxDateFrom"
+                                 [bsConfig]="bsConfig"
+                                 (ngModelChange)="setDateFrom(i)"
+                                 placeholder="Return Date"
+                                 autocomplete="off"
+                                 name="arrival_date"
+                                 class="form-control">
+                          <span class="fa fa-calendar-o"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
+                      <div class="field-wrap-outer time-picker-wrap">
+                        <label>Return Time</label>
+                        <div class="field-wrap">
+                          <select class="form-control" [(ngModel)]="resource['BeginTime']">
+                            <option value="">9:30 AM</option>
+                          </select>
+                          <span class="fa fa-clock-o clockicon"></span>
+                          <!--                      <timepicker [(ngModel)]="form.EndTime" [mousewheel]="true" [arrowkeys]="true"></timepicker>-->
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-6 col-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
-                  <div class="field-wrap-outer time-picker-wrap">
-                    <label>Return Time</label>
-                    <div class="field-wrap">
-                      <select class="form-control" [(ngModel)]="resource['BeginTime']">
-                        <option value="">9:30 AM</option>
-                      </select>
-                      <span class="fa fa-clock-o clockicon"></span>
-<!--                      <timepicker [(ngModel)]="form.EndTime" [mousewheel]="true" [arrowkeys]="true"></timepicker>-->
-                    </div>
+                  <div class="row template-fields" >
+                    <app-form-builder class="col-md-6 col-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
+                                      [resourceType]="resource['resourceTypeID']"
+                                      [index]="i+'_'+j"
+                                      [bookingID] = "form.bookingID"
+                                      [form] = "form"
+                    ></app-form-builder>
                   </div>
                 </div>
-              </div>
-              <div class="row template-fields" >
-                <app-form-builder class="col-md-6 col-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
-                                  [resourceType]="resource['resourceTypeID']"
-                                  [index]="i+'_'+j"
-                                  [bookingID] = "form.bookingID"
-                                  [form] = "form"
-                ></app-form-builder>
               </div>
             </div>
           </div>
