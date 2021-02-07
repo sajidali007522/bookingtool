@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LookupService} from "../../../_services/lookupService";
 
 @Component({
@@ -9,11 +9,14 @@ import {LookupService} from "../../../_services/lookupService";
 export class FormBuilderComponent implements OnInit {
   @Input() field
   @Input() resourceType
-  @Input() index
+  @Input() index=-1
+  @Input() fieldIndex=-1
   @Input() bookingID
   @Input() form;
   @Input() definitionType=0
   @Input() wrapClasses='field-wrap-outer field-gray-wrap'
+
+  @Output() fieldBinding = new EventEmitter<string>();
 
   constructor (public lookupService:LookupService) { }
 
@@ -30,6 +33,8 @@ export class FormBuilderComponent implements OnInit {
     this.field['keyword'] = ''
     this.templateId=this.templateId+this.index;
     this.notFoundTemplate=this.notFoundTemplate+this.index;
+    this.field['model'] = ''
+    this.field['visible'] = true;
     if(!this.field.minSearchCharacters && !this.field.numeric && !this.field.allowFreeText){
       this.getServerResponse('')
     }
@@ -50,7 +55,7 @@ export class FormBuilderComponent implements OnInit {
   }
 
   getServerResponse(event= '') {
-    //console.log(event)
+    console.log(event)
     this.error = {};
     this.field['processing'] = true;
     let body =[]
@@ -68,7 +73,7 @@ export class FormBuilderComponent implements OnInit {
     }
 
     let params = {searchTerm: event};
-    //console.log(this.bookingID)
+    console.log(this.bookingID)
     this.lookupService.findResults(this.bookingID, body, {
       definitionType: this.definitionType,
       resourceTypeID: this.resourceType,
@@ -80,6 +85,13 @@ export class FormBuilderComponent implements OnInit {
           //console.log(res['data'].results)
           this.field['processing'] = false;
           this.remoteList = res['data'].results
+          if(res['data'].results.length == 0 && (!this.field.minSearchCharacters && !this.field.allowFreeText)){
+            this.field['visible'] = this.field.isRequired == true
+            this.setField();
+          }
+          if(this.remoteList.length == 1) {
+            this.field['model'] =this.remoteList[0]
+          }
           //console.log(this.remoteList)
         },
         err=>{
@@ -95,6 +107,14 @@ export class FormBuilderComponent implements OnInit {
 
   onFocused(e){
     // do something when input is focused
+  }
+
+  setField () {
+    this.fieldBinding.emit(JSON.stringify({
+      field: this.field,
+      fieldIndex:this.fieldIndex,
+      resourceIndex: this.index
+    }));
   }
 
   setDateTo () {

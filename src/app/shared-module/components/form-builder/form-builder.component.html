@@ -1,8 +1,8 @@
 <div class="row">
   <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && (field.minSearchCharacters || field.allowFreeText)">
     <div class="col-md-12 col-12" >
-      <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
-      <div class="{{wrapClasses}}">
+      <label>{{field.name}}<span class="text-danger">{{field.isRequired ? '*' : ''}}</span></label>
+      <div class="{{wrapClasses || 'field-wrap-outer field-gray-wrap'}}">
         <ng-autocomplete
           [data]="remoteList"
           [searchKeyword]="keyword"
@@ -14,7 +14,7 @@
           [notFoundTemplate]="notFoundTemplate_"
           [debounceTime]="400"
           [isLoading]="field['processing']"
-          [minQueryLength]="field.minSearchCharacters"
+          [minQueryLength]="field.minSearchCharacters || 1"
           placeHolder="Search ..."
           name="search"
         >
@@ -44,19 +44,21 @@
   </ng-container>
   <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && !field.minSearchCharacters && !field.allowFreeText">
     <div class="col-md-12 col-12" >
-      <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
+      <label>{{field.name}}<span class="text-danger">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="">
         <div class="field-wrap">
-          <select class="form-control no-icon" [(ngModel)]="field.model">
+          <select class="form-control" [ngClass]="{'no-icon': !field.processing, 'has-icon': field.processing}" [(ngModel)]="field.model" [disabled]="field.processing">
+            <option [ngValue]="''">Select {{field.name}}</option>
             <option [ngValue]="option" *ngFor="let option of remoteList">{{option.text}}</option>
           </select>
+          <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
         </div>
       </div>
     </div>
   </ng-container>
   <ng-container *ngIf="field.searchCriteriaID != '' && field.numeric">
     <div class="col-md-12 col-12" >
-      <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
+      <label>{{field.name}}<span class="text-danger">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="">
         <div class="field-wrap">
           <select class="form-control no-icon" [(ngModel)]="field.model">
@@ -70,7 +72,7 @@
 
   <ng-container *ngIf="field.searchCriteriaID == ''">
     <div class="col-md-12 col-12" >
-      <label>{{field.name}}{{field.isRequired ? '*' : ''}}</label>
+      <label>{{field.name}}<span class="text-danger">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="{{wrapClasses}}">
         <div class="field-wrap">
           <input type="text"

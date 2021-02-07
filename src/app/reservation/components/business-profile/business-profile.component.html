@@ -15,9 +15,24 @@
           <div class="custom-content tabs-content" id="content-1" style="display: block;">
             <div class="book-time-wrap">
               <div class="row">
-                <div class="col-md-6 col-12" *ngFor="let field of formFields; let i = index">
-                    <app-form-builder [field]="field" [definitionType]="1" [form]="form" [resourceType]="'00000000-0000-0000-0000-000000000000'" [index]="i" [bookingID]="state.bookingID" [wrapClasses]="''"></app-form-builder>
-                </div>
+                <ng-container *ngFor="let field of formFields; let i = index">
+                  <div class="col-md-6 col-12" [ngStyle]="{display: field.visible ? '' : 'none'}">
+
+                      <app-form-builder
+                        [field]="field"
+                        [definitionType]="1"
+                        [form]="form"
+                        [resourceType]="'00000000-0000-0000-0000-000000000000'"
+                        [index]="-1"
+                        [fieldIndex]="i"
+                        [bookingID]="state.bookingID"
+                        [wrapClasses]="''"
+                        (fieldBinding)="bindField($event)"
+                      >
+
+                      </app-form-builder>
+                  </div>
+                </ng-container>
               </div>
             </div>
           </div>

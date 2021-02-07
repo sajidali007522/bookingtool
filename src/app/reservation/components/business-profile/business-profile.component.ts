@@ -1,4 +1,5 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
+import{ ChangeDetectorRef } from '@angular/core';
 import {HttpService} from "../../../http.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import * as $ from 'jquery';
@@ -10,7 +11,7 @@ import {ReservationService} from "../../../_services/reservation.service";
   templateUrl: './business-profile.component.html',
   styleUrls: ['./business-profile.component.css']
 })
-export class BusinessProfileComponent implements OnInit,AfterViewInit {
+export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterViewChecked {
 
   formFields = <any>[];
   definition = <any>[]
@@ -27,6 +28,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit {
               private _http: HttpService,
               private activatedRoute: ActivatedRoute,
               public template: TemplateService,
+              private cdRef : ChangeDetectorRef
   ) {
     // this.form.BeginDate = new Date();
     // this.form.BeginDate.setDate(this.form.BeginDate.getDate());
@@ -70,7 +72,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit {
   loadFields() {
     ///api2/booking/{bookingID}/AllSearchCriteriaOptions
     this.state.processing = true;
-    this._http._post('booking/'+this.state.bookingID+'/AllSearchCriteriaOptions', {'selectedItems': [], 'lookupSearchCriterias': this.definition })
+    this._http._post('booking/'+this.state.bookingID+'/SearchCriteriaOptions', {'selectedItems': [], 'lookupSearchCriterias': this.definition })
       .subscribe(data => {
         this.state.processing=false;
         console.log(data)
@@ -79,5 +81,14 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit {
         console.log(error)
         this.state.processing=false;
       })
+  }
+  ngAfterViewChecked(){
+    this.cdRef.detectChanges();
+  }
+
+  bindField(event) {
+
+    event = JSON.parse(event);
+    this.formFields[event.fieldIndex].visible = event.field.visible;
   }
 }
