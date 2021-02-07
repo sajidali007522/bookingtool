@@ -73,7 +73,7 @@ export class FormBuilderComponent implements OnInit {
     }
 
     let params = {searchTerm: event};
-    console.log(this.bookingID)
+    //console.log(this.bookingID)
     this.lookupService.findResults(this.bookingID, body, {
       definitionType: this.definitionType,
       resourceTypeID: this.resourceType,

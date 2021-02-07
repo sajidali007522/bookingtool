@@ -39,6 +39,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     isLoadingTraveler:false,
     loadingTemplate: false,
     loadingGroups: false,
+    isSearching: false,
+    assigningBusinessProfile: false,
     selectedGroup: {},
     initiateBooking: false,
     processing:false,
@@ -85,13 +87,16 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   assignRuleBag () {
     ///api2/booking/{bookingID}/RuleBag
+    if(this.state.assigningBusinessProfile) return;
+    this.state.assigningBusinessProfile = true
     this._http._get("booking/"+this.form.bookingID+"/RuleBag", {'ruleBagID': this.form.ResourceTypeID})
       .subscribe(data => {
         console.log(data)
+        this.state.assigningBusinessProfile = false
       },error => {
         console.log(error)
         this.state.error = error;
-        this.state.isLoadingTraveler = false;
+        this.state.assigningBusinessProfile = false
       });
   }
   getloadProfiles (event) {
@@ -220,6 +225,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     }
   }
   startBookingSearch () {
+    if(this.state.isSearching) return;
     if(!this.form.ResourceTypeID) {
       this.toastr.error('Please set Business Profile to continue.', 'Error!')
       return;
@@ -233,9 +239,10 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       'requireInOrder': false,
       'addItems': false
     }
+    this.state.isSearching = true;
     this._http._post("Booking/"+this.form.bookingID+"/Book", postBody['resultsToBook'], {'bookingID': this.form.bookingID})
       .subscribe(data => {
-          this.state.processing=false;
+          this.state.isSearching =false;
           console.log(data)
           if(data.toString().indexOf('BusinessProfile') == -1) {
             this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['resourceTypeID']]);
@@ -245,7 +252,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         },
         error => {
           console.log(error);
-          this.state.processing=false;
+          this.state.isSearching =false;
           this.state.errors = error;
         });
   }

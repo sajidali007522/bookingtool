@@ -4,8 +4,7 @@
 
 <div class="custom-section-wrap" >
   <h1>Business Profile</h1>
-  <div class="custom-section">
-    <app-loader *ngIf="state.processing"></app-loader>
+  <div class="custom-section" [ngClass]="{'table-loader': state.processing}">
     <ng-container>
       <div class="custom-main template-outer">
         <ng-container *ngIf="state.processing">
