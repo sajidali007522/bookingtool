@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
     this.custom_configs = this.appConfigService.ui_configs || {};
     this.currentUser = this.authenticationService.currentUserValue;
     this.page = this.router.url
+    console.log(this.page);
     //console.log(this.currentUser);
   }
 
@@ -83,6 +84,12 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/auth/login']);
+  }
+
+  haveSideBar () {
+    let noSideBarPages = ['home', 'reservation', 'flight-setup', 'business-profile']
+    let pageChunks = this.page.split("/");
+    return noSideBarPages.indexOf(pageChunks[pageChunks.length-1]) == -1
   }
 
 }
