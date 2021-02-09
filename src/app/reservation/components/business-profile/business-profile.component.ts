@@ -82,6 +82,24 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
         this.state.processing=false;
       })
   }
+  submitForm() {
+    if(!this.validateForm()){
+      return;
+    }
+  }
+
+  validateForm() {
+    let validated = true;
+    this.formFields.filter(field => {
+      field['validationError'] = 'passed'
+      if(!field.model){
+        field['validationError'] = field.name+ ' is required field';
+        validated = false;
+      }
+    });
+    return validated;
+  }
+
   ngAfterViewChecked(){
     this.cdRef.detectChanges();
   }

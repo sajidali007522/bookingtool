@@ -233,6 +233,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       this.toastr.error('Please set Business Profile to continue.', 'Error!')
       return;
     }
+    if(!this.validateForm()){
+      return;
+    }
     let postBody = {
       "sessionID": "undefined",
       'bookingID': this.form.bookingID,
@@ -339,6 +342,29 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   removeResource(index){
     if(!this.state.selectedTemplate['isDynamic']) return;
     this.state.selectedTemplate['resources'].splice(index,1)
+  }
+
+  validateForm() {
+    let validated = true;
+    this.state.selectedTemplate['resources'].filter(resource => {
+      resource['errors'] = [];
+      if(!resource['BeginDate']) {
+        resource['errors'].push('Begin Date is required field.')
+        validated = false;
+      }
+      if(!resource['EndDate']) {
+        resource['errors'].push('end Date is required field.')
+        validated = false;
+      }
+      resource.searchFields.filter(field=>{
+        field['validationError'] = 'passed'
+        if(!field.model){
+          field['validationError'] = field.name+ ' is required field';
+          validated = false;
+        }
+      })
+    });
+    return validated;
   }
   setSearchParams (tab) {
     this.state.tab = tab;

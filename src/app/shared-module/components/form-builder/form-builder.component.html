@@ -39,6 +39,7 @@
         <div class="" *ngIf="error">
           <label class="error">{{error['message']}}</label>
         </div>
+        <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
       </div>
     </div>
   </ng-container>
@@ -47,11 +48,17 @@
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="">
         <div class="field-wrap">
-          <select class="form-control" [ngClass]="{'no-icon': !field.processing, 'has-icon': field.processing}" [(ngModel)]="field.model" [disabled]="field.processing">
+          <select class="form-control" [ngClass]="{
+                    'no-icon': !field.processing,
+                    'has-icon': field.processing,
+                    'form-control-danger' : field['validationError'] != 'passed' && field.isRequired,
+                    'form-control-success' : field['validationError'] == 'passed' && field.isRequired
+                    }" [(ngModel)]="field.model" [disabled]="field.processing">
             <option [ngValue]="''">Select {{field.name}}</option>
             <option [ngValue]="option" *ngFor="let option of remoteList">{{option.text}}</option>
           </select>
           <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
+          <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
         </div>
       </div>
     </div>
@@ -61,10 +68,16 @@
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field['model'] == '00000000-0000-0000-0000-000000000000'}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="">
         <div class="field-wrap">
-          <select class="form-control no-icon" [(ngModel)]="field.model">
+          <select class="form-control no-icon"
+                  [ngClass]="{
+                  'form-control-danger' : field['validationError'] != 'passed' && field.isRequired,
+                  'form-control-success' : field['validationError'] == 'passed' && field.isRequired
+                  }"
+                  [(ngModel)]="field.model">
             <option [ngValue]="'00000000-0000-0000-0000-000000000000'">Select</option>
             <option [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
           </select>
+          <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
         </div>
       </div>
     </div>
@@ -79,7 +92,12 @@
                  [(ngModel)]="field.model"
                  placeholder="{{field.fieldRelation }}"
                  name="{{field.name}}"
+                 [ngClass]="{
+                  'form-control-danger' : field['validationError'] != 'passed' && field.isRequired,
+                  'form-control-success' : field['validationError'] == 'passed' && field.isRequired
+                  }"
                  class="form-control no-icon">
+          <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
         </div>
       </div>
     </div>
