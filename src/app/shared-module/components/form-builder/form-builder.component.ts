@@ -103,6 +103,7 @@ export class FormBuilderComponent implements OnInit {
   }
   searchCleared() {
     this.remoteList = []
+    this.field.model = ''
   }
 
   onFocused(e){

@@ -1,7 +1,7 @@
 <div class="row">
   <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && (field.minSearchCharacters || field.allowFreeText)">
     <div class="col-md-12 col-12" >
-      <label>{{field.name}}<span class="text-danger">{{field.isRequired ? '*' : ''}}</span></label>
+      <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="{{wrapClasses || 'field-wrap-outer field-gray-wrap'}}">
         <ng-autocomplete
           [data]="remoteList"
@@ -44,7 +44,7 @@
   </ng-container>
   <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && !field.minSearchCharacters && !field.allowFreeText">
     <div class="col-md-12 col-12" >
-      <label>{{field.name}}<span class="text-danger">{{field.isRequired ? '*' : ''}}</span></label>
+      <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="">
         <div class="field-wrap">
           <select class="form-control" [ngClass]="{'no-icon': !field.processing, 'has-icon': field.processing}" [(ngModel)]="field.model" [disabled]="field.processing">
@@ -58,7 +58,7 @@
   </ng-container>
   <ng-container *ngIf="field.searchCriteriaID != '' && field.numeric">
     <div class="col-md-12 col-12" >
-      <label>{{field.name}}<span class="text-danger">{{field.isRequired ? '*' : ''}}</span></label>
+      <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field['model'] == '00000000-0000-0000-0000-000000000000'}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="">
         <div class="field-wrap">
           <select class="form-control no-icon" [(ngModel)]="field.model">
@@ -72,7 +72,7 @@
 
   <ng-container *ngIf="field.searchCriteriaID == ''">
     <div class="col-md-12 col-12" >
-      <label>{{field.name}}<span class="text-danger">{{field.isRequired ? '*' : ''}}</span></label>
+      <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field.model == ''}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="{{wrapClasses}}">
         <div class="field-wrap">
           <input type="text"
