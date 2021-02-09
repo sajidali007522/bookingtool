@@ -158,7 +158,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   setTemplateGroup (group) {
     this.state.selectedGroup = group
     this.state.selectedTemplate= {};
-    this.form.template= '000000000-0000-0000-0000-000000000000';
+    this.form.template= '00000000-0000-0000-0000-000000000000';
 
     if(typeof this.state.selectedGroup['templates'][0]['templateID'] !== 'undefined') {
       this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID']);
@@ -209,6 +209,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         }
         if(this.state.selectedTemplate['isDynamic']) {
           this.state.selectedTemplate['$resources'] =this.state.selectedTemplate['resources'];
+          if(this.state.selectedTemplate['$resources'].length == 1) {
+            this.state.selectedResource = this.state.selectedTemplate['$resources'][0]
+          }
           this.state.selectedTemplate['resources'] = [];
         }
         this.state.loadingTemplate = false;
@@ -311,16 +314,18 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   addResourceToTemplate () {
     if(this.state.selectedResource == '') return
     let temp = JSON.parse(JSON.stringify(this.state.selectedResource));
-    if(this.state.selectedTemplate['resources'].length > 0 ) {
+    /*if(this.state.selectedTemplate['resources'].length > 0 ) {
       this.state.selectedTemplate['resources'].filter(res => {
         res['isOpen'] = false;
       })
-    }
+    }*/
     temp['BeginDate'] = new Date();
     temp['EndDate'] = new Date();
     temp['isOpen'] = true;
     this.state.selectedTemplate['resources'].push(temp)
-    this.state.selectedResource = ''
+    if(this.state.selectedTemplate['$resources'].length > 1) {
+      this.state.selectedResource = ''
+    }
     temp = {};
   }
   removeResource(index){

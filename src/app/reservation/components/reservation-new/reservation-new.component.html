@@ -128,7 +128,7 @@
                   <a *ngIf="state.selectedTemplate['isDynamic']" href="javascript:void(0)" (click)="removeResource(i)" class="fa fa-trash-o remove-accordion"></a>
                 </h2>
               </div>
-              <div id="collaps-{{i}}" class="collapse" [ngClass]="{'show': resource.isOpen}" [attr.data-parent]="'#accordionExample'">
+              <div id="collaps-{{i}}" class="collapse show" [ngClass]="{'show1': resource.isOpen}" >
                 <div class="box box-lr">
                   <div class="row" *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
                     <div class="col-6 col-md-6">
