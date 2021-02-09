@@ -327,6 +327,14 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       this.state.selectedResource = ''
     }
     temp = {};
+    setTimeout(()=>{
+      let element = document.getElementById("accordion_"+(this.state.selectedTemplate['resources'].length-1));
+      console.log("accordion_"+(this.state.selectedTemplate['resources'].length-1), element)
+      element.scrollIntoView();
+      element.classList.add('shake')
+    }, 100)
+
+    //accordion_3
   }
   removeResource(index){
     if(!this.state.selectedTemplate['isDynamic']) return;
