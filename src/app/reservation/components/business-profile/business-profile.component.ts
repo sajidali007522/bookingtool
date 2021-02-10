@@ -92,7 +92,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     let validated = true;
     this.formFields.filter(field => {
       field['validationError'] = 'passed'
-      if(!field.model){
+      if(!field.model && field.isRequired){
         field['validationError'] = field.name+ ' is required field';
         validated = false;
       }
