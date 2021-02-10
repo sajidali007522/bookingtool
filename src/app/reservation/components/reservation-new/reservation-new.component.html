@@ -147,6 +147,7 @@
                                  autocomplete="off"
                                  class="form-control">
                           <span class="fa fa-calendar-o"></span>
+                          <label class="error text-danger" *ngIf="resource['errors']['BeginDate']">{{resource['errors']['BeginDate']}}</label>
                         </div>
                       </div>
                     </div>
@@ -184,6 +185,7 @@
                                  name="arrival_date"
                                  class="form-control">
                           <span class="fa fa-calendar-o"></span>
+                          <label class="error text-danger" *ngIf="resource['errors']['EndDate']">{{resource['errors']['EndDate']}}</label>
                         </div>
                       </div>
                     </div>
