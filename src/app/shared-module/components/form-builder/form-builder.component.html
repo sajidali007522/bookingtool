@@ -5,8 +5,8 @@
       <div class="{{wrapClasses || 'field-wrap-outer field-gray-wrap'}}"
       [ngClass]="{
               'is-invalid-wrap' : field['validationError'] != 'passed' && field.isRequired,
-              'is-valid-wrap' : field['validationError'] == 'passed' && field.isRequired"
-           }>
+              'is-valid-wrap' : field['validationError'] == 'passed' && field.isRequired
+           }">
         <ng-autocomplete
           [data]="remoteList"
           [searchKeyword]="keyword"
