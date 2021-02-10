@@ -326,9 +326,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     temp['EndDate'] = new Date();
     temp['isOpen'] = true;
     this.state.selectedTemplate['resources'].push(temp)
-    if(this.state.selectedTemplate['$resources'].length > 1) {
-      this.state.selectedResource = ''
-    }
+    // if(this.state.selectedTemplate['$resources'].length > 1) {
+    //   this.state.selectedResource = ''
+    // }
     temp = {};
     setTimeout(()=>{
       let element = document.getElementById("accordion_"+(this.state.selectedTemplate['resources'].length-1));
@@ -347,18 +347,18 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   validateForm() {
     let validated = true;
     this.state.selectedTemplate['resources'].filter(resource => {
-      resource['errors'] = [];
+      resource['errors'] = {};
       if(!resource['BeginDate']) {
-        resource['errors'].push('Begin Date is required field.')
+        resource['errors']['BeginDate'] =  'Begin Date is required field.'
         validated = false;
       }
-      if(!resource['EndDate']) {
-        resource['errors'].push('end Date is required field.')
+      if(!resource['EndDate'] && resource.requiresEndDate) {
+        resource['errors']['EndDate'] = 'end Date is required field.';
         validated = false;
       }
       resource.searchFields.filter(field=>{
         field['validationError'] = 'passed'
-        if(!field.model){
+        if(!field.model && field.isRequired){
           field['validationError'] = field.name+ ' is required field';
           validated = false;
         }
