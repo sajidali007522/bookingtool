@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import {TemplateService} from "../../../_services/template.service";
 import {ReservationService} from "../../../_services/reservation.service";
 import {ToastrService} from "ngx-toastr";
+import {TimepickerService} from "../../../_services/timepicker.service";
 
 @Component({
   selector: 'app-reservation-new',
@@ -37,6 +38,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     error: {message: ''},
     errorMsg: '',
     isLoadingTraveler:false,
+    beginTimeProcessing:false,
     loadingTemplate: false,
     loadingGroups: false,
     isSearching: false,
@@ -62,7 +64,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
               private router: Router,
               public template: TemplateService,
               public resService: ReservationService,
-              private toastr: ToastrService
+              private toastr: ToastrService,
+              public TPService: TimepickerService
   ) {
     this.bsConfig = {
       containerClass: 'theme-dark-blue',
@@ -84,6 +87,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   searchCleared(type) {
     this.travelerList =[];
   }
+
 
   assignRuleBag () {
     ///api2/booking/{bookingID}/RuleBag
