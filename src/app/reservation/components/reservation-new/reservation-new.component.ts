@@ -330,6 +330,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     temp['BeginDate'] = new Date();
     temp['EndDate'] = new Date();
     temp['isOpen'] = true;
+    temp['errors'] = {'BeginDate': '', 'EndDate': ''}
     this.state.selectedTemplate['resources'].push(temp)
     // if(this.state.selectedTemplate['$resources'].length > 1) {
     //   this.state.selectedResource = ''
