@@ -224,6 +224,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       this.state.selectedTemplate['resources'][index]['BeginDate'] = new Date();
       //this.state.selectedTemplate['resources'][index]['BeginDate'].setDate(this.state.selectedTemplate['resources'][index]['BeginDate']);
       this.state.selectedTemplate['resources'][index]['EndDate'] = new Date();
+      this.state.selectedTemplate['resources'][index]['errors'] = {'BeginDate': '', 'EndDate': ''}
       //this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate']);
     }
   }
@@ -348,12 +349,14 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     let validated = true;
     this.state.selectedTemplate['resources'].filter(resource => {
       resource['errors'] = {};
+      console.log(resource['BeginDate'])
       if(!resource['BeginDate']) {
         resource['errors']['BeginDate'] =  'Begin Date is required field.'
         validated = false;
       }
+      console.log(resource['EndDate'])
       if(!resource['EndDate'] && resource.requiresEndDate) {
-        resource['errors']['EndDate'] = 'end Date is required field.';
+        resource['errors']['EndDate'] = 'End Date is required field.';
         validated = false;
       }
       resource.searchFields.filter(field=>{

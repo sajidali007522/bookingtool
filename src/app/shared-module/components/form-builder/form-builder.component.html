@@ -94,7 +94,7 @@
         <div class="field-wrap">
           <input type="text"
                  [(ngModel)]="field.model"
-                 placeholder="{{field.fieldRelation }}"
+                 placeholder="{{field.name }}"
                  name="{{field.name}}"
                  [ngClass]="{
                   'is-invalid' : field['validationError'] != 'passed' && field.isRequired,
