@@ -1456,6 +1456,26 @@ body.menu-fullwidth .reservation-content-area{
     .pagination-arrow .page-prev a span{
       display: none;
     }
+    .tabs-secondary li{
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0 1px;
+  }
+      .tabs-secondary a{
+          font-size: 0;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+      }
+      .tabs-secondary li.active a{
+          font-size: 12px;
+      }
+      .tabs-secondary a strong{
+          display: block;
+          width: 100%;
+      }
 }
 
 tr.active td{ background-color: darkblue; color: white; }

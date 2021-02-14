@@ -114,7 +114,7 @@
             <div class="custom-content tabs-content" id="content-1" style="display: block;">
               <div class="book-time-wrap">
                 <div class="row">
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <h3>Departure*</h3>
                     <div class="field-wrap-outer field-gray-wrap">
                       <div class="field-wrap">
@@ -157,7 +157,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <h3>Destination*</h3>
                     <div class="field-wrap-outer">
                       <div class="field-wrap time-picker-wrap field-gray-wrap">
@@ -202,7 +202,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-7 col-5">
+                  <div class="col-md-7">
                     <div class="field-wrap-outer">
                       <label>Departure Date*</label>
                       <div class="field-wrap">
@@ -234,7 +234,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-7 col-5">
+                  <div class="col-md-7">
                     <div class="field-wrap-outer">
                       <label>Return Date*</label>
                       <div class="field-wrap">
@@ -316,12 +316,12 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
 
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <div class="field-wrap-outer">
                       <label>Single/Double Occupancy</label>
                       <div class="field-wrap">
@@ -329,7 +329,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <div class="field-wrap-outer time-picker-wrap">
                       <label>Number of Rooms</label>
                       <div class="field-wrap">
@@ -339,7 +339,7 @@
                     </div>
                   </div>
                 <div class="row">
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <div class="field-wrap-outer">
                       <label>Arrival Date*</label>
                       <div class="field-wrap">
@@ -356,7 +356,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <div class="field-wrap-outer">
                       <label>Departure</label>
                       <div class="field-wrap">
@@ -374,7 +374,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <div class="field-wrap-outer">
                       <label>Hotel Name</label>
                       <div class="field-wrap">
@@ -386,7 +386,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <div class="field-wrap-outer time-picker-wrap">
                       <label>Hotel Chain</label>
                       <div class="field-wrap">
@@ -408,7 +408,7 @@
             <div class="custom-content tabs-content" id="content-3" style="display: block;">
               <div class="book-time-wrap">
                 <div class="row">
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <h3>Pickup Location*</h3>
                     <div class="field-wrap-outer field-gray-wrap">
                       <div class="field-wrap">
@@ -451,7 +451,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6 col-6">
+                  <div class="col-md-6">
                     <h3>DropOff Location*</h3>
                     <div class="field-wrap-outer">
                       <div class="field-wrap time-picker-wrap field-gray-wrap">
@@ -496,7 +496,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-7 col-5">
+                  <div class="col-md-7">
                     <div class="field-wrap-outer">
                       <label>Pickup Date*</label>
                       <div class="field-wrap">
@@ -528,7 +528,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-7 col-5">
+                  <div class="col-md-7">
                     <div class="field-wrap-outer">
                       <label>Return Date*</label>
                       <div class="field-wrap">
@@ -570,16 +570,16 @@
                 <div class="tabs-secondary">
                   <ul>
                     <li [ngClass]="{'active': bundle == 1}">
-                      <a href="javascript:void(0);" (click)="bundle = 1" > <span class="flight-hotel d-block ml-auto mr-auto"></span> Flight + Hotel</a>
+                      <a href="javascript:void(0);" (click)="bundle = 1" > <span class="flight-hotel d-block ml-auto mr-auto"></span> <strong>Flight + Hotel</strong></a>
                     </li>
                     <li [ngClass]="{'active': bundle == 2}">
-                      <a href="javascript:void(0);" (click)="bundle = 2"> <span class="flight-car d-block ml-auto mr-auto"></span> Flight + Car</a>
+                      <a href="javascript:void(0);" (click)="bundle = 2"> <span class="flight-car d-block ml-auto mr-auto"></span> <strong>Flight + Car</strong></a>
                     </li>
                     <li [ngClass]="{'active': bundle == 3}">
-                      <a href="javascript:void(0);"  (click)="bundle = 3"> <span class="flight-car-hotel d-block ml-auto mr-auto"></span> Flight + Car + Hotel</a>
+                      <a href="javascript:void(0);"  (click)="bundle = 3"> <span class="flight-car-hotel d-block ml-auto mr-auto"></span> <strong>Flight + Car + Hotel</strong></a>
                     </li>
                     <li [ngClass]="{'active': bundle == 4}">
-                      <a href="javascript:void(0);" (click)="bundle = 4"> <span class="flight-hotel d-block ml-auto mr-auto"></span> Bundle</a>
+                      <a href="javascript:void(0);" (click)="bundle = 4"> <span class="bundle-icon d-block ml-auto mr-auto"></span> <strong>Bundle</strong></a>
                     </li>
                   </ul>
                 </div>
@@ -587,7 +587,7 @@
                   <ng-container *ngIf="bundle == 1">
                     <div class="secondary-content" id="tab-1">
                       <div class="row">
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>From</label>
                             <div class="field-wrap">
@@ -630,7 +630,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer">
                             <label>To</label>
                             <div class="field-wrap time-picker-wrap field-gray-wrap">
@@ -676,7 +676,7 @@
                       </div>
 
                       <div class="row">
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>Hotel Name</label>
                             <div class="field-wrap">
@@ -687,7 +687,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>Hotel Chain</label>
                             <div class="field-wrap">
@@ -700,7 +700,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>Single/Double Occupancy</label>
                             <div class="field-wrap">
@@ -711,7 +711,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>Number of Rooms</label>
                             <div class="field-wrap">
@@ -724,7 +724,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-7 col-5">
+                        <div class="col-md-7">
                           <div class="field-wrap-outer">
                             <label>Departure Date*</label>
                             <div class="field-wrap">
@@ -756,7 +756,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-7 col-5">
+                        <div class="col-md-7">
                           <div class="field-wrap-outer">
                             <label>Return Date*</label>
                             <div class="field-wrap">
@@ -788,7 +788,7 @@
                     <div class="secondary-content" id="tab-2">
 
                       <div class="row">
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>From</label>
                             <div class="field-wrap">
@@ -800,7 +800,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer">
                             <label>To</label>
                             <div class="field-wrap time-picker-wrap field-gray-wrap">
@@ -856,7 +856,7 @@
                     <div class="secondary-content" id="tab-3">
 
                       <div class="row">
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>From</label>
                             <div class="field-wrap">
@@ -899,7 +899,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer">
                             <label>To</label>
                             <div class="field-wrap time-picker-wrap field-gray-wrap">
@@ -945,7 +945,7 @@
                       </div>
 
                       <div class="row">
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>Hotel Name</label>
                             <div class="field-wrap">
@@ -956,7 +956,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>Hotel Chain</label>
                             <div class="field-wrap">
@@ -969,7 +969,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>Single/Double Occupancy</label>
                             <div class="field-wrap">
@@ -980,7 +980,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6">
                           <div class="field-wrap-outer field-gray-wrap">
                             <label>Number of Rooms</label>
                             <div class="field-wrap">
@@ -993,7 +993,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-7 col-5">
+                        <div class="col-md-7">
                           <div class="field-wrap-outer">
                             <label>Departure Date*</label>
                             <div class="field-wrap">
@@ -1025,7 +1025,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-7 col-5">
+                        <div class="col-md-7">
                           <div class="field-wrap-outer">
                             <label>Return Date*</label>
                             <div class="field-wrap">
@@ -1088,7 +1088,7 @@
                           <div class="box box-lr">
 
                             <div class="row">
-                              <div class="col-md-7 col-5">
+                              <div class="col-md-7">
                                 <div class="field-wrap-outer">
                                   <label>Departure Date*</label>
                                   <div class="field-wrap">
@@ -1121,7 +1121,7 @@
                             </div>
 
                             <div class="row">
-                              <div class="col-md-6 col-6">
+                              <div class="col-md-6">
                                 <div class="field-wrap-outer field-gray-wrap">
                                   <div class="field-wrap">
                                     <ng-autocomplete
@@ -1163,7 +1163,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-md-6 col-6">
+                              <div class="col-md-6">
                                 <div class="field-wrap-outer">
                                   <div class="field-wrap time-picker-wrap field-gray-wrap">
                                     <ng-autocomplete

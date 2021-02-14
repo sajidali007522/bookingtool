@@ -131,7 +131,7 @@
               <div id="collaps-{{i}}" class="collapse show" [ngClass]="{'show1': resource.isOpen}" >
                 <div class="box box-lr">
                   <div class="row" *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
-                    <div class="col-6 col-md-6">
+                    <div class="col-md-6">
                       <div class="field-wrap-outer">
                         <label>Departure Date*</label>
 
@@ -152,7 +152,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6 col-6" *ngIf="resource.canSearchByTime">
+                    <div class="col-md-6" *ngIf="resource.canSearchByTime">
                       <div class="field-wrap-outer">
                         <label>Departure Time</label>
                         <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
@@ -196,7 +196,7 @@
                       </div>
                     </div>
 
-                    <div class="col-md-6 col-6" *ngIf="resource.requiresEndDate">
+                    <div class="col-md-6" *ngIf="resource.requiresEndDate">
                       <div class="field-wrap-outer">
                         <label>Return Date*</label>
                         <div class="field-wrap">
@@ -216,7 +216,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6 col-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
+                    <div class="col-md-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
                       <div class="field-wrap-outer time-picker-wrap">
                         <label>Return Time</label>
                         <div class="field-wrap">
@@ -230,7 +230,7 @@
                     </div>
                   </div>
                   <div class="row template-fields" >
-                    <app-form-builder class="col-md-6 col-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
+                    <app-form-builder class="col-md-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
                                       [resourceType]="resource['resourceTypeID']"
                                       [index]="i+'_'+j"
                                       [bookingID] = "form.bookingID"
