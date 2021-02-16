@@ -58,7 +58,11 @@
                     'has-icon': field.processing,
                     'is-invalid' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
                     'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
-                    }" [(ngModel)]="field.model" [disabled]="field.processing">
+                    }"
+                  [(ngModel)]="field.model"
+                  [disabled]="field.processing"
+                  (ngModelChange)="setField()"
+          >
             <option [ngValue]="''">Select {{field.name}}</option>
             <option [ngValue]="option" *ngFor="let option of remoteList">{{option.text}}</option>
           </select>
@@ -78,7 +82,9 @@
                   'is-invalid' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
                   'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
                   }"
-                  [(ngModel)]="field.model">
+                  [(ngModel)]="field.model"
+                  (ngModelChange)="setField()"
+          >
             <option [ngValue]="'00000000-0000-0000-0000-000000000000'">Select</option>
             <option [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
           </select>
@@ -94,7 +100,7 @@
         <div class="field-wrap">
           <ng-container *ngFor="let option of remoteList">
             <label *ngIf="option.value">&nbsp;
-              <input type="checkbox" [(ngModel)]="option.isChecked">{{option.value}}
+              <input type="checkbox" [(ngModel)]="option.isChecked" (click)="setField()">{{option.value}}
             </label>
           </ng-container>
         </div>
@@ -108,6 +114,7 @@
         <div class="field-wrap">
           <input type="text"
                  [(ngModel)]="field.model"
+                 (blur)="setField()"
                  placeholder="{{field.name }}"
                  name="{{field.name}}"
                  [ngClass]="{

@@ -68,6 +68,7 @@ export class FormFieldsComponent implements OnInit {
     this.field['selectedValue'] = item;
     this.field['model'] = item;
     this.form[this.field['name'].split(' ').join('_')] = item;
+    this.setField()
   }
 
   getServerResponse(event= '') {

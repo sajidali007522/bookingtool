@@ -30,13 +30,9 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
               public template: TemplateService,
               private cdRef : ChangeDetectorRef
   ) {
-    // this.form.BeginDate = new Date();
-    // this.form.BeginDate.setDate(this.form.BeginDate.getDate());
-    // this.form.EndDate = new Date();
-    // this.form.EndDate.setDate(this.form.EndDate.getDate()+1);
   }
-  selectTraveler ($event) {
 
+  selectTraveler ($event) {
   }
 
   ngOnInit(): void {
@@ -55,6 +51,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     });
 
   }
+
   setProfile(){
     //​/api2​/booking​/{bookingID}​/Reporting
     this.state.processing = true;
@@ -69,10 +66,16 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
         this.state.processing=false;
       })
   }
+
   loadFields() {
     ///api2/booking/{bookingID}/AllSearchCriteriaOptions
     this.state.processing = true;
-    this._http._post('booking/'+this.state.bookingID+'/SearchCriteriaOptions', {'selectedItems': [], 'lookupSearchCriterias': this.definition })
+    this._http._post('booking/'+this.state.bookingID+'/SearchCriteriaOptions',
+      {
+        'selectedItems': this.formFields,
+        'lookupSearchCriterias': this.definition
+      }
+    )
       .subscribe(data => {
         this.state.processing=false;
         console.log(data)
@@ -82,6 +85,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
         this.state.processing=false;
       })
   }
+
   submitForm() {
     if(!this.validateForm()){
       return;
@@ -105,8 +109,8 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
   }
 
   bindField(event) {
-
     event = JSON.parse(event);
     this.formFields[event.fieldIndex].visible = event.field.visible;
+    this.loadFields();
   }
 }
