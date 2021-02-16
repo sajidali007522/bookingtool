@@ -162,7 +162,7 @@
                              }">
                           <ng-autocomplete
                             [data]="TPService.timeSlots"
-                            [searchKeyword]="keyword"
+                            [searchKeyword]="timePickerkeyword"
                             (inputFocused)='onFocused($event)'
                             [itemTemplate]="beginTime_"
                             [debounceTime]="400"
@@ -182,16 +182,7 @@
                               </div>
                             </a>
                           </ng-template>
-                          <!--<select class="form-control" [(ngModel)]="resource['BeginTime']">
-                            <option value="">9:30 AM</option>
-                          </select>
-                          <span class="fa fa-clock-o clockicon"></span>-->
-                          <!--                      <timepicker [(ngModel)]="form.BeginTime"-->
-                          <!--                                  [mousewheel]="true"-->
-                          <!--                                  [arrowkeys]="true"-->
-                          <!--                      ></timepicker>-->
-                          <!--                        <input type="text" placeholder="" class="form-control">-->
-                          <!--                        <span class="fa fa-clock-o"></span>-->
+
                         </div>
                       </div>
                     </div>
@@ -219,12 +210,34 @@
                     <div class="col-md-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
                       <div class="field-wrap-outer time-picker-wrap">
                         <label>Return Time</label>
-                        <div class="field-wrap">
-                          <select class="form-control" [(ngModel)]="resource['BeginTime']">
-                            <option value="">9:30 AM</option>
-                          </select>
-                          <span class="fa fa-clock-o clockicon"></span>
-                          <!--                      <timepicker [(ngModel)]="form.EndTime" [mousewheel]="true" [arrowkeys]="true"></timepicker>-->
+                        <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
+                             [ngClass]="{
+                                'is-invalid-wrap' : false,
+                                'is-valid-wrap' : false
+                             }">
+                          <ng-autocomplete
+                            [data]="TPService.timeSlots"
+                            [searchKeyword]="timePickerkeyword"
+                            (inputFocused)='onFocused($event)'
+                            [itemTemplate]="endTime_"
+                            [debounceTime]="400"
+                            [isLoading]="state.beginTimeProcessing"
+                            [minQueryLength]="1"
+                            placeHolder="Search ..."
+                            name="search"
+                          >
+                          </ng-autocomplete>
+
+                          <ng-template #endTime_ let-item>
+                            <a href="javascript:void(0)">
+                              <div class="auto-txtwrap">
+                                <div class="autotxt">
+                                  <span [innerHTML]="item.text"></span>
+                                </div>
+                              </div>
+                            </a>
+                          </ng-template>
+
                         </div>
                       </div>
                     </div>
