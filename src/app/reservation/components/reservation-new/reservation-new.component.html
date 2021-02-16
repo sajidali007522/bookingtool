@@ -22,11 +22,18 @@
             <div class="field-wrap-outer">
               <label>Business Profile*</label>
               <div class="field-wrap">
-                <select class="form-control" name="resourceTypeID" [(ngModel)]="form.ResourceTypeID" (ngModelChange)="assignRuleBag()">
+                <select class="form-control" name="resourceTypeID"
+                        [ngClass]="{
+                        'is-invalid': this.state.formErrors['ResourceTypeID'],
+                        'is-valid': !this.state.formErrors['ResourceTypeID']
+                        }"
+                        [(ngModel)]="form.ResourceTypeID"
+                        (ngModelChange)="assignRuleBag()">
                   <option value="{{type.value}}" *ngFor="let type of ruleBags">{{type.text}}</option>
                 </select>
                 <span class="globel-world-icon" *ngIf="!state.initiateBooking && !state.assigningBusinessProfile"></span>
                 <span class="fa fa-spin fa-spinner" *ngIf="state.initiateBooking || state.assigningBusinessProfile"></span>
+                <label class="text-danger error" *ngIf="this.state.formErrors['ResourceTypeID']">{{this.state.formErrors['ResourceTypeID']}}</label>
               </div>
             </div>
           </div>
@@ -164,11 +171,12 @@
                             [data]="TPService.timeSlots"
                             [searchKeyword]="timePickerkeyword"
                             (inputFocused)='onFocused($event)'
+                            (selected)='selectTime($event, i, "BeginTime")'
                             [itemTemplate]="beginTime_"
                             [debounceTime]="400"
                             [isLoading]="state.beginTimeProcessing"
                             [minQueryLength]="1"
-                            placeHolder="Search ..."
+                            placeHolder="Departure Time"
                             name="search"
                           >
                           </ng-autocomplete>
@@ -219,11 +227,12 @@
                             [data]="TPService.timeSlots"
                             [searchKeyword]="timePickerkeyword"
                             (inputFocused)='onFocused($event)'
+                            (selected)='selectTime($event, i, "ReturnTime")'
                             [itemTemplate]="endTime_"
                             [debounceTime]="400"
                             [isLoading]="state.beginTimeProcessing"
                             [minQueryLength]="1"
-                            placeHolder="Search ..."
+                            placeHolder="Return Time"
                             name="search"
                           >
                           </ng-autocomplete>

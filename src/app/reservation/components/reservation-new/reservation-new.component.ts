@@ -37,6 +37,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
   state={
     error: {message: ''},
+    formErrors: [],
     errorMsg: '',
     isLoadingTraveler:false,
     beginTimeProcessing:false,
@@ -93,6 +94,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   assignRuleBag () {
     ///api2/booking/{bookingID}/RuleBag
     if(this.state.assigningBusinessProfile) return;
+    this.state.formErrors['ResourceTypeID'] = ''
     this.state.assigningBusinessProfile = true
     this._http._get("booking/"+this.form.bookingID+"/RuleBag", {'ruleBagID': this.form.ResourceTypeID})
       .subscribe(data => {
@@ -233,10 +235,13 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       //this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate']);
     }
   }
+
   startBookingSearch () {
     if(this.state.isSearching) return;
+    this.state.formErrors['ResourceTypeID'] = '';
     if(!this.form.ResourceTypeID) {
-      this.toastr.error('Please set Business Profile to continue.', 'Error!')
+      this.state.formErrors['ResourceTypeID'] = 'Please set Business Profile to continue.';
+      //this.toastr.error('Please set Business Profile to continue.', 'Error!')
       return;
     }
     if(!this.validateForm()){
@@ -378,5 +383,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   setSearchParams (tab) {
     this.state.tab = tab;
     //this.setApiEndPoint(tab);
+  }
+
+  selectTime (item, resourceIndex, model) {
+    this.state.selectedTemplate['resources'][resourceIndex][model] = item.text;
   }
 }
