@@ -17,7 +17,7 @@
                 <ng-container *ngFor="let field of formFields; let i = index">
                   <div class="col-md-6 col-12" [ngStyle]="{display: field.visible ? '' : 'none'}">
 
-                      <app-form-builder
+                      <app-form-fields
                         [field]="field"
                         [definitionType]="1"
                         [form]="form"
@@ -25,11 +25,10 @@
                         [index]="-1"
                         [fieldIndex]="i"
                         [bookingID]="state.bookingID"
-                        [wrapClasses]="''"
                         (fieldBinding)="bindField($event)"
                       >
 
-                      </app-form-builder>
+                      </app-form-fields>
                   </div>
                 </ng-container>
               </div>

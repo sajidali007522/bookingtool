@@ -8,6 +8,7 @@ import {AlertComponent} from "../shared/alert/alert.component";
 import { FormBuilderComponent } from './components/form-builder/form-builder.component';
 import {FormsModule} from "@angular/forms";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
+import { FormFieldsComponent } from './components/form-fields/form-fields.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
     AlertComponent,
     AlertModalComponent,
     ConfirmModalComponent,
-    FormBuilderComponent
+    FormBuilderComponent,
+    FormFieldsComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
     AlertComponent,
     AlertModalComponent,
     ConfirmModalComponent,
-    FormBuilderComponent
+    FormBuilderComponent,
+    FormFieldsComponent
   ]
 })
 export class SharedModuleModule { }
