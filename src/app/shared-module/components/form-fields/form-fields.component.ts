@@ -33,6 +33,7 @@ export class FormFieldsComponent implements OnInit {
     this.setFieldType();
     //console.log(this.bookingID)
     this.field['keyword'] = ''
+    this.field['checkedCount'] = 0
     this.templateId=this.templateId+this.index;
     this.notFoundTemplate=this.notFoundTemplate+this.index;
     this.field['model'] = ''
@@ -133,6 +134,16 @@ export class FormFieldsComponent implements OnInit {
       fieldIndex:this.fieldIndex,
       resourceIndex: this.index
     }));
+  }
+
+  setValidation(){
+    this.field.checkedCount = 0;
+    this.remoteList.filter(item => {
+
+      if(item.isChecked){
+        this.field.checkedCount++
+      }
+    })
   }
 
   setDateTo () {

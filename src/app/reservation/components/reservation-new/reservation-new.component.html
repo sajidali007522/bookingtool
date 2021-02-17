@@ -3,20 +3,16 @@
 <div class="overlay-bg"></div>
 
 <div class="custom-section-wrap" >
-  <h1>Book</h1>
+  <h1 class="inline-block">
+    <span class="custom-logo">ようこそ</span>
+    <span class="custom-desc">Welcome Bienvenue Marhaba</span>
+  </h1>
   <div class="custom-section" [ngClass]="{'table-loader': state.isSearching}">
+
     <app-loader *ngIf="state.initiateBooking || state.loadingGroups"></app-loader>
     <ng-container *ngIf="!state.initiateBooking && !state.loadingGroups">
-      <div class="custom-sidebar">
-        <div class="custom-nav" id="tabsCustom">
-          <ul>
-            <li *ngFor="let group of state.templateGroups" class="" [ngClass]="{'active': group.name == state.selectedGroup['name']}">
-              <a href="javascript:void(0)" (click)="setTemplateGroup(group)"><em class="{{group.cssClass}}"></em> <span>{{group.name}}</span></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="custom-main template-outer">
+      <div class="custom-top-section">
+        <div class="tagtop">Book</div>
         <div class="row">
           <div class="col-md-6">
             <div class="field-wrap-outer">
@@ -87,6 +83,18 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="custom-sidebar">
+        <div class="custom-nav" id="tabsCustom">
+          <ul>
+            <li *ngFor="let group of state.templateGroups" class="" [ngClass]="{'active': group.name == state.selectedGroup['name']}">
+              <a href="javascript:void(0)" (click)="setTemplateGroup(group)"><em class="{{group.cssClass}}"></em> <span>{{group.name}}</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="custom-main template-outer">
+
         <ng-container *ngIf="state.loadingTemplate">
           <div class="table-loader">Processing...</div>
         </ng-container>
@@ -142,7 +150,7 @@
                       <div class="field-wrap-outer">
                         <label>Departure Date*</label>
 
-                        <div class="field-wrap">
+                        <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['errors']['BeginDate'] != '' }">
                           <input type="text"
                                  [(ngModel)]="resource['BeginDate']"
                                  bsDatepicker
@@ -198,7 +206,7 @@
                     <div class="col-md-6" *ngIf="resource.requiresEndDate">
                       <div class="field-wrap-outer">
                         <label>Return Date*</label>
-                        <div class="field-wrap">
+                        <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['errors']['EndDate'] != '' }">
                           <input type="text"
                                  [(ngModel)]="resource['EndDate']"
                                  bsDatepicker
@@ -264,8 +272,12 @@
             </div>
           </div>
         </ng-container>
-        <br/>
-        <button type="submit" class="btn btn-info btn-block" [disabled]="state.processing" (click)="startBookingSearch()">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+
+        <div class="reservation-bot-btns d-flex">
+          <a href="#" class="btn btn-secondary"><span class="fa fa-angle-left"></span> Back</a>
+          <button type="submit" class="btn btn-success ml-auto" [disabled]="state.processing" (click)="startBookingSearch()">Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+        </div>
+        <!--<button type="submit" class="btn btn-info btn-block" [disabled]="state.processing" (click)="startBookingSearch()">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>-->
 
       </div>
     </ng-container>
