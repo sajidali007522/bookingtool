@@ -111,6 +111,6 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
   bindField(event) {
     event = JSON.parse(event);
     this.formFields[event.fieldIndex].visible = event.field.visible;
-    this.loadFields();
+    //this.loadFields();
   }
 }
