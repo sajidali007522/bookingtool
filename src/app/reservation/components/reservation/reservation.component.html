@@ -266,7 +266,13 @@
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-success btn-block" (click)="submitIt()" [disabled]="state.processing">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+
+            <div class="reservation-bot-btns d-flex">
+              <a href="#" class="btn btn-secondary"><span class="fa fa-angle-left"></span> Back</a>
+              <button type="submit" class="btn btn-success ml-auto" (click)="submitIt()" [disabled]="state.processing">Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+            </div>
+
+            <!-- <button type="submit" class="btn btn-success btn-block" (click)="submitIt()" [disabled]="state.processing">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button> -->
           </ng-container>
 
           <ng-container *ngIf="tab == 'hotel'">

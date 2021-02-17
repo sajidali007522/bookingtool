@@ -319,6 +319,9 @@ img{
 .template-wrap{
     padding-bottom: 25px;
 }
+.reservation-bot-btns .btn{
+    padding: 8px 30px;
+}
 
 @media(max-width: 991px){
     .custom-section-wrap{
