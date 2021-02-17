@@ -905,7 +905,7 @@ input[type="file"] {
   border: 1px solid #eee !important;
   border-radius: 0 !important;
   padding: 12px 15px !important;
-  height: auto;
+  height: 50px;
   line-height: inherit;
 }
 .user{
