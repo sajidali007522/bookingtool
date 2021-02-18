@@ -24,7 +24,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   minDateTo: Date;
   dateFormats;
   profileTypeSelected;
-  keyword= ["text", "description"];
+  keyword= "text";
   timePickerkeyword="searchText";
   form = {
     BeginDate: new Date(),
