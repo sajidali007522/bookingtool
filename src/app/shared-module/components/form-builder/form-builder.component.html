@@ -2,12 +2,11 @@
   <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && (field.minSearchCharacters || field.allowFreeText)">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
-      <div class="{{wrapClasses || 'field-wrap-outer field-gray-wrap'}}"
+      <div class="field-wrap {{wrapClasses || 'field-wrap-outer field-gray-wrap'}}"
       [ngClass]="{
               'is-invalid-wrap' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
               'is-valid-wrap' : field['validationError']  && field['validationError'] == 'passed' && field.isRequired
            }">
-        <div class="field-wrap">
           <ng-autocomplete
             [data]="remoteList"
             [searchKeyword]="keyword"
@@ -45,7 +44,7 @@
             <label class="error">{{error['message']}}</label>
           </div>
           <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
-        </div>
+
       </div>
     </div>
   </ng-container>

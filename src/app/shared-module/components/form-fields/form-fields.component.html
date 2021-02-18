@@ -3,12 +3,11 @@
                 <!-- *ngIf="field.searchCriteriaID != '' && !field.numeric && (field.minSearchCharacters || field.allowFreeText)"> -->
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
-      <div class="field-wrap-outer field-gray-wrap"
+      <div class="field-wrap field-wrap-outer field-gray-wrap"
            [ngClass]="{
               'is-invalid-wrap' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
               'is-valid-wrap' : field['validationError']  && field['validationError'] == 'passed' && field.isRequired
            }">
-        <div calass="field-wrap">
           <ng-autocomplete
             [data]="remoteList"
             [searchKeyword]="keyword"
@@ -47,15 +46,15 @@
             <label class="error">{{error['message']}}</label>
           </div>
           <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
-        </div>
+
       </div>
     </div>
   </ng-container>
   <ng-container *ngIf="fieldType == 'dropdown'">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
-      <div class="field-wrap-outer field-gray-wrap">
-        <div class="field-wrap">
+      <div class="field-wrap field-wrap-outer field-gray-wrap">
+
           <select class="form-control" [ngClass]="{
                     'no-icon': !field.processing,
                     'has-icon': field.processing,
@@ -71,15 +70,15 @@
           </select>
           <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
           <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
-        </div>
+
       </div>
     </div>
   </ng-container>
   <ng-container *ngIf="fieldType == 'number'">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field['model'] == '00000000-0000-0000-0000-000000000000'}">{{field.isRequired ? '*' : ''}}</span></label>
-      <div class="field-wrap-outer field-gray-wrap">
-        <div class="field-wrap">
+      <div class="field-wrap field-wrap-outer field-gray-wrap">
+
           <select class="form-control no-icon"
                   [ngClass]="{
                   'is-invalid' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
@@ -92,30 +91,28 @@
             <option [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
           </select>
           <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
-        </div>
+
       </div>
     </div>
   </ng-container>
   <ng-container *ngIf="fieldType == 'checkbox'">
     <div class="col-md-12 col-12">
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field.checkedCount <= 0}">{{field.isRequired ? '*' : ''}}</span></label>
-      <div class="field-wrap-outer field-gray-wrap">
+      <div class="field-wrap field-wrap-outer field-gray-wrap">
         <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
-        <div class="field-wrap">
           <ng-container *ngFor="let option of remoteList">
             <label *ngIf="option.value">
               <input type="checkbox" [(ngModel)]="option.isChecked" (ngModelChange)="setField();setValidation();">&nbsp;{{option.value}}
             </label>
           </ng-container>
-        </div>
       </div>
     </div>
   </ng-container>
   <ng-container *ngIf="fieldType == 'text'">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field.model == ''}">{{field.isRequired ? '*' : ''}}</span></label>
-      <div class="field-wrap-outer field-gray-wrap">
-        <div class="field-wrap">
+      <div class="field-wrap field-wrap-outer field-gray-wrap">
+
           <input type="text"
                  [(ngModel)]="field.model"
                  (blur)="setField();checkValidationError()"
@@ -127,7 +124,7 @@
                   }"
                  class="form-control no-icon">
           <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
-        </div>
+
       </div>
     </div>
   </ng-container>
