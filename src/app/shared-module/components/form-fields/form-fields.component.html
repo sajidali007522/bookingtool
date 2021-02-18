@@ -64,7 +64,7 @@
                     }"
                   [(ngModel)]="field.model"
                   [disabled]="field.processing"
-                  (ngModelChange)="setField()"
+                  (ngModelChange)="setField();checkValidationError()"
           >
             <option [ngValue]="''">Select {{field.name}}</option>
             <option [ngValue]="option" *ngFor="let option of remoteList">{{option.text}}</option>
@@ -86,7 +86,7 @@
                   'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
                   }"
                   [(ngModel)]="field.model"
-                  (ngModelChange)="setField()"
+                  (ngModelChange)="setField();checkValidationError()"
           >
             <option [ngValue]="'00000000-0000-0000-0000-000000000000'">Select</option>
             <option [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
@@ -118,7 +118,7 @@
         <div class="field-wrap">
           <input type="text"
                  [(ngModel)]="field.model"
-                 (blur)="setField()"
+                 (blur)="setField();checkValidationError()"
                  placeholder="{{field.name }}"
                  name="{{field.name}}"
                  [ngClass]="{
