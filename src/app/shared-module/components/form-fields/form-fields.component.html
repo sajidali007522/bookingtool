@@ -8,43 +8,46 @@
               'is-invalid-wrap' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
               'is-valid-wrap' : field['validationError']  && field['validationError'] == 'passed' && field.isRequired
            }">
-        <ng-autocomplete
-          [data]="remoteList"
-          [searchKeyword]="keyword"
-          (selected)='selectItem($event)'
-          (inputChanged)='getServerResponse($event)'
-          (inputFocused)='onFocused($event)'
-          [itemTemplate]="itemTemplateRemote_"
-          (inputCleared)="searchCleared()"
-          [notFoundTemplate]="notFoundTemplate_"
-          [debounceTime]="400"
-          [isLoading]="field['processing']"
-          [minQueryLength]="field.minSearchCharacters || 1"
-          placeHolder="Search ..."
-          name="search"
-        >
-        </ng-autocomplete>
+        <div calass="field-wrap">
+          <ng-autocomplete
+            [data]="remoteList"
+            [searchKeyword]="keyword"
+            (selected)='selectItem($event)'
+            (inputChanged)='getServerResponse($event)'
+            (inputFocused)='onFocused($event)'
+            [itemTemplate]="itemTemplateRemote_"
+            (inputCleared)="searchCleared()"
+            [notFoundTemplate]="notFoundTemplate_"
+            [debounceTime]="400"
+            [isLoading]="field['processing']"
+            [minQueryLength]="field.minSearchCharacters || 1"
+            placeHolder="Search ..."
+            name="search"
+          >
+          </ng-autocomplete>
 
-        <ng-template #itemTemplateRemote_ let-item>
-          <a href="javascript:void(0)">
-            <div class="auto-txtwrap">
-              <!--              <div class="autoicon">-->
-              <!--                <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>-->
-              <!--              </div>-->
-              <div class="autotxt">
-                <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
+          <ng-template #itemTemplateRemote_ let-item>
+            <a href="javascript:void(0)">
+              <div class="auto-txtwrap">
+                <!--              <div class="autoicon">-->
+                <!--                <span class="fa" [ngClass]="{'fa-plane': item.glyph == 'airport', 'fa-map-marker': item.glyph == 'locality' }"></span>-->
+                <!--              </div>-->
+                <div class="autotxt">
+                  <strong [innerHTML]="item.text"></strong><span>({{item.description}})</span>
+                </div>
               </div>
-            </div>
-          </a>
-        </ng-template>
+            </a>
+          </ng-template>
 
-        <ng-template #notFoundTemplate_ let-notFound>
-          {{errorMsg}}
-        </ng-template>
-        <div class="" *ngIf="error">
-          <label class="error">{{error['message']}}</label>
+          <ng-template #notFoundTemplate_ let-notFound>
+            {{errorMsg}}
+          </ng-template>
+
+          <div class="" *ngIf="error">
+            <label class="error">{{error['message']}}</label>
+          </div>
+          <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
         </div>
-        <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
       </div>
     </div>
   </ng-container>

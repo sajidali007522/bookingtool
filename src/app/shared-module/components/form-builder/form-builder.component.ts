@@ -52,8 +52,13 @@ export class FormBuilderComponent implements OnInit {
     this.field['selectedValue'] = item;
     this.field['model'] = item;
     this.form[this.field['name'].split(' ').join('_')] = item;
+    this.field['validationError'] = 'passed'
   }
-
+  checkValidationError(){
+    if(this.field.model != '' && this.field.model != '00000000-0000-0000-0000-000000000000'){
+      this.field['validationError'] = 'passed'
+    }
+  }
   getServerResponse(event= '') {
     console.log(event)
     this.error = {};

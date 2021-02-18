@@ -144,6 +144,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       this.state.selectedTemplate['resources'][resourceIndex].BeginDate = this.state.selectedTemplate['resources'][resourceIndex].EndDate;
     }
   }
+  resetErrorState(resourceIndex, property){
+    this.state.selectedTemplate['resources'][resourceIndex]['errors'][property] = '';
+  }
 
   ngOnInit(): void {
     this.StartBooking();

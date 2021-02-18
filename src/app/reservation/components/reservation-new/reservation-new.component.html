@@ -148,14 +148,14 @@
                   <div class="row" *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
                     <div class="col-md-6">
                       <div class="field-wrap-outer">
-                        <label>Departure Date*</label>
+                        <label>Departure Date<span class="" [ngClass]="{'text-danger': !resource['BeginDate']}">*</span></label>
 
-                        <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['errors']['BeginDate'] != '' }">
+                        <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['errors']['BeginDate']&&resource['errors']['BeginDate'] != '' }">
                           <input type="text"
                                  [(ngModel)]="resource['BeginDate']"
                                  bsDatepicker
                                  [bsConfig]="bsConfig"
-                                 (ngModelChange)="setDateTo(i)"
+                                 (ngModelChange)="setDateTo(i); resetErrorState(i, 'BeginDate')"
                                  [minDate]="minDateFrom"
                                  [maxDate]="maxDateFrom"
                                  placeholder="Departure Date"
@@ -205,15 +205,16 @@
 
                     <div class="col-md-6" *ngIf="resource.requiresEndDate">
                       <div class="field-wrap-outer">
-                        <label>Return Date*</label>
-                        <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['errors']['EndDate'] != '' }">
+                        <label>Return Date<span class="" [ngClass]="{'text-danger': !resource['EndDate']}">*</span></label>
+
+                        <div class="field-wrap" [ngClass]="{'is-invalid-wrap' :  resource['errors']['EndDate'] && resource['errors']['EndDate'] != '' }">
                           <input type="text"
                                  [(ngModel)]="resource['EndDate']"
                                  bsDatepicker
                                  [minDate]="minDateFrom"
                                  [maxDate]="maxDateFrom"
                                  [bsConfig]="bsConfig"
-                                 (ngModelChange)="setDateFrom(i)"
+                                 (ngModelChange)="setDateFrom(i); resetErrorState(i, 'EndDate')"
                                  placeholder="Return Date"
                                  autocomplete="off"
                                  name="arrival_date"
@@ -274,7 +275,7 @@
         </ng-container>
 
         <div class="reservation-bot-btns d-flex">
-          <a href="#" class="btn btn-secondary"><span class="fa fa-angle-left"></span> Back</a>
+          <!-- <a href="#" class="btn btn-secondary"><span class="fa fa-angle-left"></span> Back</a> -->
           <button type="submit" class="btn btn-success ml-auto" [disabled]="state.processing" (click)="startBookingSearch()">Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
         </div>
         <!--<button type="submit" class="btn btn-info btn-block" [disabled]="state.processing" (click)="startBookingSearch()">Search <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>-->
