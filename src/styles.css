@@ -566,7 +566,8 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
   padding-top: 3px;
 }
 .is-invalid,
-body .is-invalid-wrap .autocomplete-container .input-container input{
+body .is-invalid-wrap .autocomplete-container .input-container input,
+body .is-invalid-wrap .form-control{
   background: #fbbec4!important;
   border-color: #dc3545!important;
 }
