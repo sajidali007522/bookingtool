@@ -168,39 +168,55 @@
                       </div>
                     </div>
                     <div class="col-md-6" *ngIf="resource.canSearchByTime">
-                      <div class="field-wrap-outer">
-                        <label>Departure Time</label>
-                        <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
-                             [ngClass]="{
+                      <div class="row">
+                        <div class="col-md-8">
+                          <div class="field-wrap-outer">
+                            <label>Departure Time</label>
+                            <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
+                                 [ngClass]="{
                                 'is-invalid-wrap' : false,
                                 'is-valid-wrap' : false
                              }">
-                          <ng-autocomplete
-                            [data]="TPService.timeSlots"
-                            [searchKeyword]="timePickerkeyword"
-                            (inputFocused)='onFocused($event)'
-                            (selected)='selectTime($event, i, "BeginTime")'
-                            [itemTemplate]="beginTime_"
-                            [debounceTime]="400"
-                            [isLoading]="state.beginTimeProcessing"
-                            [minQueryLength]="1"
-                            placeHolder="Departure Time"
-                            name="search"
-                          >
-                          </ng-autocomplete>
+                              <ng-autocomplete
+                                [data]="resource['BeginTimeFormat'] == 24 ? TPService.timeSlots24Format: TPService.timeSlots12Format"
+                                [searchKeyword]="timePickerkeyword"
+                                (inputFocused)='onFocused($event)'
+                                (selected)='selectTime($event, i, "BeginTime")'
+                                [itemTemplate]="beginTime_"
+                                [debounceTime]="400"
+                                [isLoading]="state.beginTimeProcessing"
+                                [minQueryLength]="1"
+                                placeHolder="Departure Time"
+                                name="search"
+                              >
+                              </ng-autocomplete>
 
-                          <ng-template #beginTime_ let-item>
-                            <a href="javascript:void(0)">
-                              <div class="auto-txtwrap">
-                                <div class="autotxt">
-                                  <span [innerHTML]="item.text"></span>
-                                </div>
-                              </div>
-                            </a>
-                          </ng-template>
+                              <ng-template #beginTime_ let-item>
+                                <a href="javascript:void(0)">
+                                  <div class="auto-txtwrap">
+                                    <div class="autotxt">
+                                      <span [innerHTML]="item.text"></span>
+                                    </div>
+                                  </div>
+                                </a>
+                              </ng-template>
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <label>&nbsp;</label>
+                            <div class="field-wrap ">
+                              <select class="form-control no-icon" [(ngModel)]="resource['BeginTimeFormat']">
+                                <option value="">AM/PM</option>
+                                <option value="24">24 Hrs</option>
+                              </select>
+                            </div>
 
                         </div>
                       </div>
+
                     </div>
 
                     <div class="col-md-6" *ngIf="resource.requiresEndDate">
@@ -225,39 +241,55 @@
                       </div>
                     </div>
                     <div class="col-md-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
-                      <div class="field-wrap-outer time-picker-wrap">
-                        <label>Return Time</label>
-                        <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
-                             [ngClass]="{
+                      <div class="row">
+                        <div class="col-md-8">
+                          <div class="field-wrap-outer time-picker-wrap">
+                            <label>Return Time</label>
+                            <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
+                                 [ngClass]="{
                                 'is-invalid-wrap' : false,
                                 'is-valid-wrap' : false
                              }">
-                          <ng-autocomplete
-                            [data]="TPService.timeSlots"
-                            [searchKeyword]="timePickerkeyword"
-                            (inputFocused)='onFocused($event)'
-                            (selected)='selectTime($event, i, "ReturnTime")'
-                            [itemTemplate]="endTime_"
-                            [debounceTime]="400"
-                            [isLoading]="state.beginTimeProcessing"
-                            [minQueryLength]="1"
-                            placeHolder="Return Time"
-                            name="search"
-                          >
-                          </ng-autocomplete>
+                              <ng-autocomplete
+                                [data]="resource['ReturnTimeFormat'] == 24 ? TPService.timeSlots24Format : TPService.timeSlots12Format"
+                                [searchKeyword]="timePickerkeyword"
+                                (inputFocused)='onFocused($event)'
+                                (selected)='selectTime($event, i, "ReturnTime")'
+                                [itemTemplate]="endTime_"
+                                [debounceTime]="400"
+                                [isLoading]="state.beginTimeProcessing"
+                                [minQueryLength]="1"
+                                placeHolder="Return Time"
+                                name="search"
+                              >
+                              </ng-autocomplete>
 
-                          <ng-template #endTime_ let-item>
-                            <a href="javascript:void(0)">
-                              <div class="auto-txtwrap">
-                                <div class="autotxt">
-                                  <span [innerHTML]="item.text"></span>
-                                </div>
-                              </div>
-                            </a>
-                          </ng-template>
+                              <ng-template #endTime_ let-item>
+                                <a href="javascript:void(0)">
+                                  <div class="auto-txtwrap">
+                                    <div class="autotxt">
+                                      <span [innerHTML]="item.text"></span>
+                                    </div>
+                                  </div>
+                                </a>
+                              </ng-template>
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <label>&nbsp;</label>
+                            <div class="field-wrap ">
+                              <select class="form-control no-icon" [(ngModel)]="resource['ReturnTimeFormat']">
+                                <option value="">AM/PM</option>
+                                <option value="24">24 Hrs</option>
+                              </select>
+                            </div>
 
                         </div>
                       </div>
+
                     </div>
                   </div>
                   <div class="row template-fields" >

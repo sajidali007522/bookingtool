@@ -38,9 +38,9 @@ export class FormFieldsComponent implements OnInit {
     this.notFoundTemplate=this.notFoundTemplate+this.index;
     this.field['model'] = ''
     this.field['visible'] = true;
-    if(this.fieldType == 'checkbox' || this.fieldType == 'dropdown'){
+    //if(this.fieldType == 'checkbox' || this.fieldType == 'dropdown'){
       this.getServerResponse('')
-    }
+    //}
     if(this.field.numeric) {
       this.field['model'] = '00000000-0000-0000-0000-000000000000'
       this.remoteList = [];
@@ -111,7 +111,7 @@ export class FormFieldsComponent implements OnInit {
           this.field['processing'] = false;
           this.remoteList = res['data'].results
           if(res['data'].results.length == 0 && (!this.field.minSearchCharacters && !this.field.allowFreeText)){
-            this.field['visible'] = this.field.isRequired == true
+            this.field['visible'] = res['data']['isValidForSelection'] || this.field.isRequired == true
             this.setField();
           }
           if(this.remoteList.length == 1) {

@@ -235,6 +235,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       //this.state.selectedTemplate['resources'][index]['BeginDate'].setDate(this.state.selectedTemplate['resources'][index]['BeginDate']);
       this.state.selectedTemplate['resources'][index]['EndDate'] = new Date();
       this.state.selectedTemplate['resources'][index]['errors'] = {'BeginDate': '', 'EndDate': ''}
+      this.state.selectedTemplate['resources'][index]['ReturnTimeFormat'] = ''
+      this.state.selectedTemplate['resources'][index]['BeginTimeFormat'] = ''
       //this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate']);
     }
   }
