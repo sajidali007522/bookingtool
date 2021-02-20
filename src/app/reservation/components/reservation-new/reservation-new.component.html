@@ -176,7 +176,7 @@
                                  [ngClass]="{
                                 'is-invalid-wrap' : false,
                                 'is-valid-wrap' : false
-                             }">
+                             }" id="BeginTime_container_{{i+1}}">
                               <ng-autocomplete
                                 [data]="resource['BeginTimeFormat'] == 24 ? TPService.timeSlots24Format: TPService.timeSlots12Format"
                                 [searchKeyword]="timePickerkeyword"
@@ -208,7 +208,7 @@
 
                             <label>&nbsp;</label>
                             <div class="field-wrap ">
-                              <select class="form-control no-icon" [(ngModel)]="resource['BeginTimeFormat']">
+                              <select class="form-control no-icon" [(ngModel)]="resource['BeginTimeFormat']"  (change)="resetModel(i, 'BeginTime')">
                                 <option value="">AM/PM</option>
                                 <option value="24">24 Hrs</option>
                               </select>
@@ -249,7 +249,7 @@
                                  [ngClass]="{
                                 'is-invalid-wrap' : false,
                                 'is-valid-wrap' : false
-                             }">
+                             }" id="ReturnTime_container_{{i+1}}">
                               <ng-autocomplete
                                 [data]="resource['ReturnTimeFormat'] == 24 ? TPService.timeSlots24Format : TPService.timeSlots12Format"
                                 [searchKeyword]="timePickerkeyword"
@@ -281,7 +281,7 @@
 
                             <label>&nbsp;</label>
                             <div class="field-wrap ">
-                              <select class="form-control no-icon" [(ngModel)]="resource['ReturnTimeFormat']">
+                              <select class="form-control no-icon" [(ngModel)]="resource['ReturnTimeFormat']" (change)="resetModel(i, 'ReturnTime')">
                                 <option value="">AM/PM</option>
                                 <option value="24">24 Hrs</option>
                               </select>

@@ -393,4 +393,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   selectTime (item, resourceIndex, model) {
     this.state.selectedTemplate['resources'][resourceIndex][model] = item.text;
   }
+
+  resetModel (resourceIndex, model) {
+    this.state.selectedTemplate['resources'][resourceIndex][model] = '';
+    $("#"+model+"_container_"+(resourceIndex+1)).find(".x").trigger('click');
+  }
 }
