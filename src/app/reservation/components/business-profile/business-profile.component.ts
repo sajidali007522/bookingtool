@@ -1,10 +1,11 @@
-import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import{ ChangeDetectorRef } from '@angular/core';
 import {HttpService} from "../../../http.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import * as $ from 'jquery';
 import {TemplateService} from "../../../_services/template.service";
 import {ReservationService} from "../../../_services/reservation.service";
+import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'app-business-profile',
@@ -12,6 +13,8 @@ import {ReservationService} from "../../../_services/reservation.service";
   styleUrls: ['./business-profile.component.css']
 })
 export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterViewChecked {
+
+  @ViewChild(ConfirmModalComponent) childcomp: ConfirmModalComponent;
 
   formFields = <any>[];
   definition = <any>[]
@@ -28,7 +31,8 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
               private _http: HttpService,
               private activatedRoute: ActivatedRoute,
               public template: TemplateService,
-              private cdRef : ChangeDetectorRef
+              private cdRef : ChangeDetectorRef,
+              public router: Router
   ) {
   }
 
@@ -112,5 +116,13 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     event = JSON.parse(event);
     this.formFields[event.fieldIndex].visible = event.field.visible;
     //this.loadFields();
+  }
+  openModal(){
+    this.childcomp.openModal();
+  }
+  restartReservation($event){
+    if($event){
+      this.router.navigate(['/reservation']);
+    }
   }
 }

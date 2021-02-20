@@ -33,7 +33,7 @@
                 </ng-container>
               </div>
               <div class="reservation-bot-btns d-flex">
-                <a href="javascript:void(0);" class="btn btn-secondary"><span class="fa fa-angle-left"></span> Back</a>
+                <a href="javascript:void(0);" class="btn btn-secondary" (click)="openModal()"><span class="fa fa-angle-left"></span> Cancel</a>
                 <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
               </div>
             </div>
@@ -42,6 +42,7 @@
         <!--<br/>
         <button type="submit" class="btn btn-info btn-block" (click)="submitForm()" [disabled]="state.processing">Next <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>-->
       </div>
+      <app-confirm-modal [confirmationMessage]="'do you want really want to restart reservation?'" (isConfirmed)="restartReservation($event)"></app-confirm-modal>
     </ng-container>
   </div>
 </div>
