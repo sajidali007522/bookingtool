@@ -142,9 +142,9 @@ img{
         box-shadow: 0 0 0 0.2rem rgba(9,66,93,.25);
     }
     .field-wrap select.form-control{
-        background-image: url(../images/arrow-down-black.png);
-        background-position: calc(100% - 10px) center;
-        background-repeat: no-repeat;
+        background-image: url(../images/arrow-down-black.png) !important;
+        background-position: calc(100% - 10px) center !important;
+        background-repeat: no-repeat !important;
         -webkit-appearance: none;
     }
     .field-wrap .form-control.no-icon{
@@ -339,10 +339,8 @@ img{
         width: 98%;
         padding-top: 80px !important;
     }
-    .custom-section-wrap h1{
-        display: block;
-        font-size: 20px;
-        padding: 12px 10px 15px;
+    .custom-section-wrap .custom-logo-top{
+        display: none !important;
     }
     .custom-section-wrap h1 .custom-logo{
         display: block;
