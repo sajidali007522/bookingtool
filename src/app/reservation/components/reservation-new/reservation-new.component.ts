@@ -387,8 +387,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
       resource.searchFields.filter(field=>{
         field['validationError'] = 'passed'
-        console.log(field.model)
-        if(!field.model && field.isRequired){
+        if(field.isRequired && (!field.model && field.model == '00000000-0000-0000-0000-000000000000')){
           field['validationError'] = field.name+ ' is required field';
           validated = false;
         }
