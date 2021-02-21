@@ -3,7 +3,7 @@
 <div class="overlay-bg"></div>
 
 <div class="custom-section-wrap" >
-  <h1 class="inline-block">
+  <h1 class="inline-block custom-logo-top">
     <span class="custom-logo">ようこそ</span>
     <span class="custom-desc">Welcome Bienvenue Marhaba</span>
   </h1>
@@ -12,7 +12,6 @@
     <app-loader *ngIf="state.initiateBooking || state.loadingGroups"></app-loader>
     <ng-container *ngIf="!state.initiateBooking && !state.loadingGroups">
       <div class="custom-top-section">
-        <div class="tagtop">Book</div>
         <div class="row">
           <div class="col-md-6">
             <div class="field-wrap-outer">
