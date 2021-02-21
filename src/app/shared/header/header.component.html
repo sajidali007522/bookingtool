@@ -33,14 +33,14 @@
               <a class="dropdown-item" href="javascript:void(0)" routerLink="{{'/flight-setup'}}">Flight Setup</a>
             </div>
           </li>
-          <li class="nav-item dropdown">
+          <!--<li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span>Target Blank Pages</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
 
             </div>
-          </li>
+          </li>-->
         </ul>
       </div>
     </nav>
@@ -55,7 +55,7 @@
           <li><a href="javascript:;" ><em class="flagicon flag-fr"></em> <span>French</span></a></li>
         </ul>
       </li>
-      <li class="has-dropdown" *ngIf="page != '/reservation'">
+      <li class="has-dropdown">
         <a href="javascript:void(0)" class="has-header-icon">Theme <i class="fa fa-themeisle"></i> </a>
         <ul class="dropdown-menu-wrap">
           <li [ngClass]="{ 'active': 'theme-dark' == isLightTheme }">

@@ -97,11 +97,12 @@
   </ng-container>
   <ng-container *ngIf="fieldType == 'checkbox'">
     <div class="col-md-12 col-12">
-<!--      <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field.checkedCount <= 0}">{{field.isRequired ? '*' : ''}}</span></label>-->
+<!--      <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field.checkedCount <= 0}">{{field.isRequired ? '*' : ''}}</span></label>--><!--      <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field.checkedCount <= 0}">{{field.isRequired ? '*' : ''}}</span></label>-->
+      <label>&nbsp;</label>
       <div class="field-wrap field-wrap-outer field-gray-wrap">
         <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
           <ng-container *ngFor="let option of remoteList">
-            <label *ngIf="option.value">
+            <label *ngIf="option.value" class="inline-block mr-3">
               <input type="checkbox" [(ngModel)]="option.isChecked" (ngModelChange)="setField();setValidation();">&nbsp;{{option.value}}
             </label>
           </ng-container>

@@ -42,7 +42,7 @@
         <!--<br/>
         <button type="submit" class="btn btn-info btn-block" (click)="submitForm()" [disabled]="state.processing">Next <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>-->
       </div>
-      <app-confirm-modal [confirmationMessage]="'do you want really want to restart reservation?'" (isConfirmed)="restartReservation($event)"></app-confirm-modal>
+      <app-confirm-modal [confirmationMessage]="'Do you want to restart reservation?'" (isConfirmed)="restartReservation($event)"></app-confirm-modal>
     </ng-container>
   </div>
 </div>

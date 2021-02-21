@@ -137,7 +137,7 @@
           <div class="accordion accordion-sm custom-accordion text-left" id="accordionExample">
             <div class="mb-3" id="accordion_{{i}}" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
               <div class="card-header" id="heading_{{i}}">
-                <h2 class="accordion-link" aria-expanded="false" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'" [ngClass]="{'has-delete-icon': state.selectedTemplate['isDynamic']}">
+                <h2 class="accordion-link" aria-expanded="false" [attr.data-toggle]="state.selectedTemplate['resources'].length > 1 ? 'collapse': ''" [attr.data-target]="state.selectedTemplate['resources'].length > 1 ? '#collaps-'+i : ''" [attr.aria-expanded]="'true'" [ngClass]="{'has-delete-icon': state.selectedTemplate['isDynamic']}">
                   {{resource.resourceItems[0].text}}
                   <a *ngIf="state.selectedTemplate['isDynamic']" href="javascript:void(0)" (click)="removeResource(i)" class="fa fa-trash-o remove-accordion"></a>
                 </h2>
@@ -168,7 +168,7 @@
                     </div>
                     <div class="col-md-6" *ngIf="resource.canSearchByTime">
                       <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-7">
                           <div class="field-wrap-outer">
                             <label>Departure Time</label>
                             <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
@@ -199,16 +199,16 @@
                                   </div>
                                 </a>
                               </ng-template>
-
+                              <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-5">
 
                             <label>&nbsp;</label>
                             <div class="field-wrap ">
                               <select class="form-control no-icon" [(ngModel)]="resource['BeginTimeFormat']"  (change)="resetModel(i, 'BeginTime')">
-                                <option value="">AM/PM</option>
+                                <option value="">12 Hrs</option>
                                 <option value="24">24 Hrs</option>
                               </select>
                             </div>
@@ -241,7 +241,7 @@
                     </div>
                     <div class="col-md-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
                       <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-7">
                           <div class="field-wrap-outer time-picker-wrap">
                             <label>Return Time</label>
                             <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
@@ -272,16 +272,16 @@
                                   </div>
                                 </a>
                               </ng-template>
-
+                              <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-5">
 
                             <label>&nbsp;</label>
                             <div class="field-wrap ">
                               <select class="form-control no-icon" [(ngModel)]="resource['ReturnTimeFormat']" (change)="resetModel(i, 'ReturnTime')">
-                                <option value="">AM/PM</option>
+                                <option value="">12 Hrs</option>
                                 <option value="24">24 Hrs</option>
                               </select>
                             </div>
@@ -290,8 +290,8 @@
                       </div>
 
                     </div>
-                  </div>
-                  <div class="row template-fields" >
+                  <!-- </div>
+                  <div class="row template-fields" > -->
                     <app-form-builder class="col-md-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
                                       [resourceType]="resource['resourceTypeID']"
                                       [index]="i+'_'+j"
