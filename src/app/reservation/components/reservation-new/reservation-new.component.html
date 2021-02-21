@@ -200,7 +200,7 @@
                                   </div>
                                 </a>
                               </ng-template>
-
+                              <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
                             </div>
                           </div>
                         </div>
@@ -273,7 +273,7 @@
                                   </div>
                                 </a>
                               </ng-template>
-
+                              <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
                             </div>
                           </div>
                         </div>

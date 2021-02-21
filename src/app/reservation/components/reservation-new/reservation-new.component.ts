@@ -365,18 +365,29 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     let validated = true;
     this.state.selectedTemplate['resources'].filter(resource => {
       resource['errors'] = {};
-      console.log(resource['BeginDate'])
+      //console.log(resource['BeginDate'])
       if(!resource['BeginDate']) {
         resource['errors']['BeginDate'] =  'Begin Date is required field.'
         validated = false;
       }
-      console.log(resource['EndDate'])
+      //console.log(resource['EndDate'])
       if(!resource['EndDate'] && resource.requiresEndDate) {
         resource['errors']['EndDate'] = 'End Date is required field.';
         validated = false;
       }
+      if(!resource['BeginTime'] && resource.canSearchByTime) {
+        resource['errors']['BeginTime'] = 'Begin time is required field.';
+        validated = false;
+      }
+
+      if(!resource['EndTime'] && resource.requiresEndDate) {
+        resource['errors']['EndTime'] = 'End time is required field.';
+        validated = false;
+      }
+
       resource.searchFields.filter(field=>{
         field['validationError'] = 'passed'
+        console.log(field.model)
         if(!field.model && field.isRequired){
           field['validationError'] = field.name+ ' is required field';
           validated = false;
