@@ -316,13 +316,14 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   renderResouceFields (resource) {
     let fields = [];
+    console.log(resource.searchFields)
     if(resource.searchFields.length > 0 ){
       for(let index=0; index<resource.searchFields.length; index++){
         let field = resource.searchFields[index];
         fields.push({
           "Relation": field['fieldRelation'],
-          "Selection": field['model']['value'],
-          "SelectionText": field['model']['text'],
+          "Selection": (typeof field['model'] == 'object' ? field['model']['value'] : field['model']),
+          "SelectionText": (typeof field['model'] == 'object' ? field['model']['text'] : field['model']),
           "Type": field['type']
         })
       }
@@ -375,7 +376,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         resource['errors']['EndDate'] = 'End Date is required field.';
         validated = false;
       }
-      if(!resource['BeginTime'] && resource.canSearchByTime) {
+      /*if(!resource['BeginTime'] && resource.canSearchByTime) {
         resource['errors']['BeginTime'] = 'Begin time is required field.';
         validated = false;
       }
@@ -383,11 +384,11 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       if(!resource['EndTime'] && resource.canSearchByTime && resource.requiresEndDate) {
         resource['errors']['EndTime'] = 'End time is required field.';
         validated = false;
-      }
+      }*/
 
       resource.searchFields.filter(field=>{
         field['validationError'] = 'passed'
-        if(field.isRequired && (!field.model && field.model == '00000000-0000-0000-0000-000000000000')){
+        if(field.isRequired && (!field.model || field.model == '00000000-0000-0000-0000-000000000000')){
           field['validationError'] = field.name+ ' is required field';
           validated = false;
         }
