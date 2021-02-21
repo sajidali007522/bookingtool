@@ -380,7 +380,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         validated = false;
       }
 
-      if(!resource['EndTime'] && resource.requiresEndDate) {
+      if(!resource['EndTime'] && resource.canSearchByTime && resource.requiresEndDate) {
         resource['errors']['EndTime'] = 'End time is required field.';
         validated = false;
       }
@@ -395,6 +395,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     });
     return validated;
   }
+
   setSearchParams (tab) {
     this.state.tab = tab;
     //this.setApiEndPoint(tab);

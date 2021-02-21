@@ -115,6 +115,10 @@ export class FormFieldsComponent implements OnInit {
             this.setField();
           }
           this.field['visible'] = res['data']['isValidForSelection'] == true
+          if(!this.field.isRequired && res['data'].results.length<=0){
+            this.field['visible'] = false
+          }
+
           if(this.remoteList.length == 1) {
             this.field['model'] =this.remoteList[0]
           }
