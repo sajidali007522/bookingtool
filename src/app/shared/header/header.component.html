@@ -48,7 +48,7 @@
   <div class="header-right">
     <ul class="d-flex flex-wrap">
       <li class="has-dropdown">
-        <a href="javascript:void(0)">Language <em class="flagicon flag-us"></em></a>
+        <a href="javascript:void(0)" class="has-header-icon">Language <em class="flagicon flag-us"></em></a>
         <ul class="dropdown-menu-wrap">
           <li><a href="javascript:;" ><em class="flagicon flag-us"></em> <span>English</span></a></li>
           <li><a href="javascript:;" ><em class="flagicon flag-sn"></em> <span>Spanish</span></a></li>
@@ -56,7 +56,7 @@
         </ul>
       </li>
       <li class="has-dropdown" *ngIf="page != '/reservation'">
-        <a href="javascript:void(0)">Theme <i class="fa fa-themeisle"></i> </a>
+        <a href="javascript:void(0)" class="has-header-icon">Theme <i class="fa fa-themeisle"></i> </a>
         <ul class="dropdown-menu-wrap">
           <li [ngClass]="{ 'active': 'theme-dark' == isLightTheme }">
             <a href="javascript:;" (click)="setTheme($event, 'theme-dark')" class="theme-dark">Theme Innfinity</a>
@@ -72,7 +72,7 @@
       </li>
       <li class="" [ngClass]="{'has-dropdown': currentUser}">
         <a *ngIf="!currentUser" routerLink="{{'/auth/login'}}">Login</a>
-        <a href="javascript:void(0)" *ngIf="currentUser">{{currentUser['username']}}</a>
+        <a href="javascript:void(0)" *ngIf="currentUser" class="has-header-icon">{{currentUser['username']}} <i class="fa fa-user"></i> </a>
         <ul *ngIf="currentUser" class="dropdown-menu-wrap">
           <li><a href="javascript:void(0);"><i class="fa fa-gears"></i> <span>Settings</span></a></li>
           <li><a href="javascript:void(0);"><i class="fa fa-user"></i> <span>Profile</span></a></li>

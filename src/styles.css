@@ -1321,6 +1321,9 @@ body.menu-fullwidth .reservation-content-area{
   .header-right > ul > li{
     margin-left: 10px;
   }
+  .header-right > ul > li .has-header-icon{
+    font-size: 0;
+  }
 }
 @media(max-width:991px){
   .logo{

@@ -141,6 +141,12 @@ img{
         -webkit-box-shadow: 0 0 0 0.2rem rgba(9,66,93,.25);
         box-shadow: 0 0 0 0.2rem rgba(9,66,93,.25);
     }
+    .field-wrap select.form-control{
+        background-image: url(../images/arrow-down-black.png);
+        background-position: calc(100% - 10px) center;
+        background-repeat: no-repeat;
+        -webkit-appearance: none;
+    }
     .field-wrap .form-control.no-icon{
         padding-left: 15px;
     }
