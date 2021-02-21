@@ -102,7 +102,7 @@
       <div class="field-wrap field-wrap-outer field-gray-wrap">
         <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
           <ng-container *ngFor="let option of remoteList">
-            <label *ngIf="option.value">
+            <label *ngIf="option.value" class="is-checkbox">
               <input type="checkbox" [(ngModel)]="option.isChecked" (ngModelChange)="setField();setValidation();">&nbsp;{{option.value}}
             </label>
           </ng-container>
