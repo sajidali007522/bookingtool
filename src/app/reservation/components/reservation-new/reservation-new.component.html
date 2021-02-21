@@ -138,7 +138,7 @@
           <div class="accordion accordion-sm custom-accordion text-left" id="accordionExample">
             <div class="mb-3" id="accordion_{{i}}" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
               <div class="card-header" id="heading_{{i}}">
-                <h2 class="accordion-link" aria-expanded="false" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collaps-'+i" [attr.aria-expanded]="'true'" [ngClass]="{'has-delete-icon': state.selectedTemplate['isDynamic']}">
+                <h2 class="accordion-link" aria-expanded="false" [attr.data-toggle]="state.selectedTemplate['resources'].length > 1 ? 'collapse': ''" [attr.data-target]="state.selectedTemplate['resources'].length > 1 ? '#collaps-'+i : ''" [attr.aria-expanded]="'true'" [ngClass]="{'has-delete-icon': state.selectedTemplate['isDynamic']}">
                   {{resource.resourceItems[0].text}}
                   <a *ngIf="state.selectedTemplate['isDynamic']" href="javascript:void(0)" (click)="removeResource(i)" class="fa fa-trash-o remove-accordion"></a>
                 </h2>
@@ -169,7 +169,7 @@
                     </div>
                     <div class="col-md-6" *ngIf="resource.canSearchByTime">
                       <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-7">
                           <div class="field-wrap-outer">
                             <label>Departure Time</label>
                             <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
@@ -204,7 +204,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-5">
 
                             <label>&nbsp;</label>
                             <div class="field-wrap ">
@@ -242,7 +242,7 @@
                     </div>
                     <div class="col-md-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
                       <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-7">
                           <div class="field-wrap-outer time-picker-wrap">
                             <label>Return Time</label>
                             <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
@@ -277,7 +277,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-5">
 
                             <label>&nbsp;</label>
                             <div class="field-wrap ">

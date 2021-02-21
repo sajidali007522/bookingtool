@@ -111,9 +111,10 @@ export class FormFieldsComponent implements OnInit {
           this.field['processing'] = false;
           this.remoteList = res['data'].results
           if(res['data'].results.length == 0 && (!this.field.minSearchCharacters && !this.field.allowFreeText)){
-            this.field['visible'] = res['data']['isValidForSelection'] || this.field.isRequired == true
+            //this.field['visible'] = res['data']['isValidForSelection'] || this.field.isRequired == true
             this.setField();
           }
+          this.field['visible'] = res['data']['isValidForSelection'] == true
           if(this.remoteList.length == 1) {
             this.field['model'] =this.remoteList[0]
           }
