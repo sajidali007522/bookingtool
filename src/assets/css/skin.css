@@ -93,6 +93,11 @@
   background: #fff !important;
   color: #222 !important;
 }
+.theme-light .custom-logo-top{
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+}
 
 
 /* for background's */

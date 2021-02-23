@@ -24,22 +24,15 @@ img{
     max-width: 1000px;
     margin: 0 auto;
 }
-    .custom-section-wrap h1{
-        color: #fff;
-        background: rgba(9,66,93, 0.5);
-        padding: 10px 35px;
-        font-size: 24px;
-        line-height: 1.4;
-        margin: 0;
-    }
     .custom-section-wrap .inline-block{
         display: inline-block;
     }
-    .custom-section-wrap h1 .custom-logo{
+    .custom-logo-top{
         display: inline-block;
-        vertical-align: middle;
-        margin: 5px 15px 5px 0;
-        font-size: 36px;
+        background: linear-gradient(to right, #3f7892 , #09425d);
+        color: #fff;
+        border-color: transparent;
+        border-radius: 5px 5px 0 0;
     }
     .font-14{
         font-size: 14px;
@@ -339,8 +332,8 @@ img{
         width: 98%;
         padding-top: 80px !important;
     }
-    .custom-section-wrap .custom-logo-top{
-        display: none !important;
+    .custom-logo-top{
+        font-size: 14px;
     }
     .custom-section-wrap h1 .custom-logo{
         display: block;

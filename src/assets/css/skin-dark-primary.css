@@ -198,9 +198,13 @@ body.theme-dark-primary .selection-table.table th h4{
 body.theme-dark-primary .booking-time ul li{
   background: url(../images/reservation/arrow-right-white.svg) right center no-repeat !important;
 }
-.theme-dark-primary .custom-section-wrap h1,
 .theme-dark-primary .custom-top-section .tagtop{
   background: #000;
+}
+.theme-dark-primary .custom-logo-top{
+  background: #000;
+  color: #fff;
+  border-color: #000;
 }
 
 body.theme-dark-primary .rev-datewrap .form-control,
