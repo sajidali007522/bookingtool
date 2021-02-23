@@ -8,6 +8,7 @@ import {LookupService} from "../../../_services/lookupService";
 })
 export class FormFieldsComponent implements OnInit {
   @Input() field
+  @Input() fieldDefinition={}
   @Input() resourceType
   @Input() index=-1
   @Input() fieldIndex=-1
@@ -38,9 +39,15 @@ export class FormFieldsComponent implements OnInit {
     this.notFoundTemplate=this.notFoundTemplate+this.index;
     this.field['model'] = ''
     this.field['visible'] = true;
+    this.remoteList = this.fieldDefinition['results'];
     //if(this.fieldType == 'checkbox' || this.fieldType == 'dropdown'){
-      this.getServerResponse('')
+     // this.getServerResponse('')
     //}
+    this.field['visible'] = this.fieldDefinition['isValidForSelection'] == true
+    if(!this.field.isRequired && this.fieldDefinition['results'].length<=0 && (this.fieldType != 'autocomplete' && this.fieldType != 'text')){
+      this.field['visible'] = false
+    }
+
     if(this.field.numeric) {
       this.field['model'] = '00000000-0000-0000-0000-000000000000'
       this.remoteList = [];
@@ -48,11 +55,24 @@ export class FormFieldsComponent implements OnInit {
         this.remoteList.push({value: index, text: index})
       }
     }
+    this.setModelValue()
+  }
+
+  setModelValue(){
+    if(this.fieldType == 'text'){
+      this.field.model = this.fieldDefinition['filterText']
+      return;
+    }
+    this.remoteList.filter(item => {
+      if(this.fieldDefinition['selectedValue'] && item.value == this.fieldDefinition['selectedValue']){
+        this.field.model=item;
+      }
+    })
   }
 
   setFieldType() {
     this.fieldType;
-    if(!this.field.isCheckbox && this.field.allowFreeText && !this.field.isLookupSearch) { //is autocomplete
+    if(!this.field.isCheckbox && this.field.allowFreeText && this.field.minSearchCharacters && !this.field.isLookupSearch) { //is autocomplete
       this.fieldType = 'autocomplete'
     } else if(this.field.isLookupSearch && !this.field.allowFreeText){ //dropdown
       this.fieldType = 'dropdown'
@@ -114,14 +134,7 @@ export class FormFieldsComponent implements OnInit {
             //this.field['visible'] = res['data']['isValidForSelection'] || this.field.isRequired == true
             this.setField();
           }
-          this.field['visible'] = res['data']['isValidForSelection'] == true
-          if(!this.field.isRequired && res['data'].results.length<=0 && (this.fieldType != 'autocomplete' && this.fieldType != 'text')){
-            this.field['visible'] = false
-          }
 
-          if(this.remoteList.length == 1) {
-            this.field['model'] =this.remoteList[0]
-          }
           //console.log(this.remoteList)
         },
         err=>{

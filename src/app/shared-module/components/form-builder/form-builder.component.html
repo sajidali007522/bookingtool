@@ -58,7 +58,7 @@
                     'has-icon': field.processing,
                     'is-invalid' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
                     'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
-                    }" [(ngModel)]="field.model" [disabled]="field.processing" (ngModelChange)="checkValidationError()">
+                    }" [(ngModel)]="field.model" [disabled]="field.processing" (change)="checkValidationError()">
             <option [ngValue]="''">Select {{field.name}}</option>
             <option [ngValue]="option" *ngFor="let option of remoteList">{{option.text}}</option>
           </select>
@@ -78,7 +78,7 @@
                   'is-invalid' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
                   'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
                   }"
-                  [(ngModel)]="field.model" (ngModelChange)="checkValidationError()">
+                  [(ngModel)]="field.model" (change)="checkValidationError()">
             <option [ngValue]="'00000000-0000-0000-0000-000000000000'">Select</option>
             <option [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
           </select>

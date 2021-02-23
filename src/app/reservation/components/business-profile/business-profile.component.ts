@@ -7,6 +7,7 @@ import {TemplateService} from "../../../_services/template.service";
 import {ReservationService} from "../../../_services/reservation.service";
 import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal.component";
 
+
 @Component({
   selector: 'app-business-profile',
   templateUrl: './business-profile.component.html',
@@ -63,31 +64,67 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       .subscribe(data => {
         this.state.processing=false;
         console.log(data)
-        this.formFields = data;
-        //this.loadFields();
+        //this.formFields = data;
+        this.loadFields(data);
+
       }, error => {
         console.log(error)
         this.state.processing=false;
       })
   }
 
-  loadFields() {
+  loadFields(fields) {
     ///api2/booking/{bookingID}/AllSearchCriteriaOptions
+    let selectedItems = this.renderSelectedItems(fields)
+    let searchDefinitions = this.renderSearchCriteriaItems(fields)
+
     this.state.processing = true;
-    this._http._post('booking/'+this.state.bookingID+'/SearchCriteriaOptions',
+    this._http._patch('booking/'+this.state.bookingID+'/ReportingOptions',
       {
-        'selectedItems': this.formFields,
-        'lookupSearchCriterias': this.definition
+        'selectedItems': selectedItems,
+        'lookupSearchCriterias': searchDefinitions
       }
     )
       .subscribe(data => {
         this.state.processing=false;
         console.log(data)
-        this.formFields = data;
+        this.formFields = fields;
+        this.definition = data;
       }, error => {
         console.log(error)
         this.state.processing=false;
       })
+  }
+
+  renderSelectedItems (fields) {
+    let temp = []
+    fields.filter(field=>{
+      if(field.model) {
+        temp.push({
+          "relation": (field.fieldRelation|| '00000000-0000-0000-0000-000000000000'),
+          "selection": (typeof field.model.value !== 'undefined' ? field.model.value : field.model),
+          "type": (field.type || 0),
+          "selectionText": (typeof field.model.text !== 'undefined' ? field.model.text : field.model)
+        })
+      }
+
+    })
+    return temp;
+  }
+
+  renderSearchCriteriaItems(fields){
+    let temp = []
+    fields.filter(field=>{
+      if(!field.model) {
+        field.model = ''
+      }
+      temp.push({
+        "resourceTypeID": "00000000-0000-0000-0000-000000000000",
+        "searchCriteriaID": field.searchCriteriaID,
+        "filter": (field.model.text ? field.model.text : field.model)
+      })
+    })
+    return temp;
   }
 
   submitForm() {
@@ -115,7 +152,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
   bindField(event) {
     event = JSON.parse(event);
     this.formFields[event.fieldIndex].visible = event.field.visible;
-    //this.loadFields();
+    this.loadFields(this.formFields);
   }
   openModal(){
     this.childcomp.openModal();
