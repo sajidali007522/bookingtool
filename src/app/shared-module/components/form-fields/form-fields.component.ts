@@ -164,11 +164,20 @@ export class FormFieldsComponent implements OnInit {
   setValidation(){
     this.field.checkedCount = 0;
     this.remoteList.filter(item => {
-
       if(item.isChecked){
         this.field.checkedCount++
       }
-    })
+    });
+  }
+
+  setCheckBoxValue(option){
+    this.remoteList.filter(item => {
+      if(item.value == option.value && item.isChecked) {
+        this.field.model = option
+      } else {
+        item.isChecked = false;
+      }
+    });
   }
 
   setDateTo () {
