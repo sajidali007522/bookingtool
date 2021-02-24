@@ -1,0 +1,48 @@
+<link type="text/css" rel="stylesheet" href="/assets/css/reservation.css" />
+
+<div class="overlay-bg"></div>
+
+<div class="custom-section-wrap" >
+  <div class="alert alert-primary custom-logo-top m-0 alert-dismissible fade show" role="alert">
+    Culture Settings
+  </div>
+  <div class="custom-section" [ngClass]="{'table-loader': state.processing}">
+    <ng-container>
+      <div class="custom-main template-outer">
+        <ng-container *ngIf="state.processing">
+          <div class="table-loader">Processing...</div>
+        </ng-container>
+        <ng-container *ngIf="!state.processing">
+          <div class="custom-content tabs-content" id="content-1" style="display: block;">
+            <div class="book-time-wrap">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <div class="field-wrap field-wrap-outer field-gray-wrap">
+                    <label>Date Format</label>
+                    <select class="form-control no-icon" [(ngModel)]="form.dateFormat">
+                      <option value="">Select</option>
+                      <option value="{{format.label}}" *ngFor="let format of dfService.dateFormats">{{format.label}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="field-wrap field-wrap-outer field-gray-wrap">
+                    <label>Time Format</label>
+                    <select class="form-control no-icon" [(ngModel)]="form.timeFormat">
+                      <option value="">12 Hrs</option>
+                      <option value="24">24 Hrs</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="reservation-bot-btns d-flex">
+                <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Save <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+    </ng-container>
+  </div>
+</div>

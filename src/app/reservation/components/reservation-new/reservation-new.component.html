@@ -10,7 +10,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  
+
 
   <div class="custom-section" [ngClass]="{'table-loader': state.isSearching}">
 
@@ -173,7 +173,7 @@
                     </div>
                     <div class="col-md-6" *ngIf="resource.canSearchByTime">
                       <div class="row">
-                        <div class="col-md-8 col-7">
+                        <div class="col-md-12 col-12">
                           <div class="field-wrap-outer">
                             <label>Departure Time</label>
                             <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
@@ -182,7 +182,7 @@
                                 'is-valid-wrap' : false
                              }" id="BeginTime_container_{{i+1}}">
                               <ng-autocomplete
-                                [data]="resource['BeginTimeFormat'] == 24 ? TPService.timeSlots24Format: TPService.timeSlots12Format"
+                                [data]="userService.getSettingByProp('timeFormat') == 24 ? TPService.timeSlots24Format: TPService.timeSlots12Format"
                                 [searchKeyword]="timePickerkeyword"
                                 (inputFocused)='onFocused($event)'
                                 (selected)='selectTime($event, i, "BeginTime")'
@@ -208,17 +208,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-4 col-5">
 
-                            <label>&nbsp;</label>
-                            <div class="field-wrap ">
-                              <select class="form-control no-icon" [(ngModel)]="resource['BeginTimeFormat']"  (change)="resetModel(i, 'BeginTime')">
-                                <option value="">12 Hrs</option>
-                                <option value="24">24 Hrs</option>
-                              </select>
-                            </div>
-
-                        </div>
                       </div>
 
                     </div>
@@ -246,7 +236,7 @@
                     </div>
                     <div class="col-md-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
                       <div class="row">
-                        <div class="col-md-8 col-7">
+                        <div class="col-md-12 col-12">
                           <div class="field-wrap-outer time-picker-wrap">
                             <label>Return Time</label>
                             <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
@@ -255,7 +245,7 @@
                                 'is-valid-wrap' : false
                              }" id="ReturnTime_container_{{i+1}}">
                               <ng-autocomplete
-                                [data]="resource['ReturnTimeFormat'] == 24 ? TPService.timeSlots24Format : TPService.timeSlots12Format"
+                                [data]="userService.getSettingByProp('timeFormat') == 24 ? TPService.timeSlots24Format : TPService.timeSlots12Format"
                                 [searchKeyword]="timePickerkeyword"
                                 (inputFocused)='onFocused($event)'
                                 (selected)='selectTime($event, i, "ReturnTime")'
@@ -281,17 +271,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-4 col-5">
 
-                            <label>&nbsp;</label>
-                            <div class="field-wrap ">
-                              <select class="form-control no-icon" [(ngModel)]="resource['ReturnTimeFormat']" (change)="resetModel(i, 'ReturnTime')">
-                                <option value="">12 Hrs</option>
-                                <option value="24">24 Hrs</option>
-                              </select>
-                            </div>
-
-                        </div>
                       </div>
 
                     </div>

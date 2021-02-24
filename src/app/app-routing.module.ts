@@ -73,6 +73,12 @@ const routes: Routes = [
     component: SingleColumnLayoutComponent,
     loadChildren: () => import('./flight-setup/flight-setup.module').then(m => m.FlightSetupModule)
   },
+  {
+    path: 'user',
+    canActivate: [AuthGuard],
+    component: SingleColumnLayoutComponent,
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+  },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
 ];

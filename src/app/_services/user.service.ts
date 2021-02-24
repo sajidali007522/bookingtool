@@ -18,4 +18,24 @@ export class UserService {
   delete(id: number) {
     //return this.http.delete(`${config.apiUrl}/users/${id}`);
   }
+
+  setCulturalSettings(params){
+    localStorage.setItem('settings', JSON.stringify(params))
+  }
+
+  getCulturalSettings(){
+    let settings = localStorage.getItem('settings');
+    if(settings) {
+      return JSON.parse(settings)
+    }
+    return {}
+  }
+
+  getSettingByProp(prop){
+    let settings = this.getCulturalSettings()
+    if(settings){
+      return settings[prop];
+    }
+    return '';
+  }
 }

@@ -8,6 +8,7 @@ import {TemplateService} from "../../../_services/template.service";
 import {ReservationService} from "../../../_services/reservation.service";
 import {ToastrService} from "ngx-toastr";
 import {TimepickerService} from "../../../_services/timepicker.service";
+import {UserService} from "../../../_services/user.service";
 
 @Component({
   selector: 'app-reservation-new',
@@ -67,13 +68,18 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
               public template: TemplateService,
               public resService: ReservationService,
               private toastr: ToastrService,
-              public TPService: TimepickerService
+              public TPService: TimepickerService,
+              public userService:UserService
   ) {
     this.bsConfig = {
       containerClass: 'theme-dark-blue',
       isAnimated: true,
       showPreviousMonth: false,
-      showWeekNumbers:false
+      showWeekNumbers:false,
+    }
+    let dateFormat = this.userService.getSettingByProp('dateFormat')
+    if(dateFormat){
+      this.bsConfig['dateInputFormat'] = dateFormat;
     }
 
     this.dateFormats = this.DFService.dateFormats;
