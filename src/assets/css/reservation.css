@@ -258,6 +258,9 @@ img{
     color: #fff;
     text-decoration: none;
   }
+  .accordion-sm .accordion-link.noDelIcon:before{
+      right: 20px;
+  }
 .icon-flight-hotel,
 .template-group-flight{
     display: block;
