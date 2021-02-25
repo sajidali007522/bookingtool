@@ -24,6 +24,9 @@ img{
     max-width: 1000px;
     margin: 0 auto;
 }
+    .lg-spacetop{
+        padding-top: 100px;;
+    }
     .custom-section-wrap .inline-block{
         display: inline-block;
     }
@@ -33,6 +36,9 @@ img{
         color: #fff;
         border-color: transparent;
         border-radius: 5px 5px 0 0;
+    }
+    .custom-logo-top.no-icon{
+        padding-right: 25px;
     }
     .font-14{
         font-size: 14px;

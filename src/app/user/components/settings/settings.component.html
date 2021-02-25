@@ -2,8 +2,8 @@
 
 <div class="overlay-bg"></div>
 
-<div class="custom-section-wrap" >
-  <div class="alert alert-primary custom-logo-top m-0 alert-dismissible fade show" role="alert">
+<div class="custom-section-wrap lg-spacetop" >
+  <div class="alert alert-primary custom-logo-top no-icon m-0 alert-dismissible fade show" role="alert">
     Culture Settings
   </div>
   <div class="custom-section" [ngClass]="{'table-loader': state.processing}">
@@ -34,6 +34,19 @@
                     </select>
                   </div>
                 </div>
+
+                <div class="col-md-6 col-12">
+                  <div class="field-wrap field-wrap-outer field-gray-wrap">
+                    <label>Language</label>
+                    <select class="form-control no-icon">
+                      <option value="">Please select Language</option>
+                      <option value="">English</option>
+                      <option>Spanish</option>
+                    </select>
+                  </div>
+                </div>
+
+                
               </div>
               <div class="reservation-bot-btns d-flex">
                 <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Save <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
