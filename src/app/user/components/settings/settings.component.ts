@@ -37,6 +37,7 @@ export class SettingsComponent implements OnInit {
 
   submitForm(){
     this.userService.setCulturalSettings(this.form)
+    localStorage.setItem('theme', (this.form.theme||'theme-dark'))
   }
 
 }
