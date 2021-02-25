@@ -142,7 +142,14 @@
           <div class="accordion accordion-sm custom-accordion text-left" id="accordionExample">
             <div class="mb-3" id="accordion_{{i}}" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
               <div class="card-header" id="heading_{{i}}">
-                <h2 class="accordion-link" aria-expanded="false" [attr.data-toggle]="state.selectedTemplate['resources'].length > 1 ? 'collapse': ''" [attr.data-target]="state.selectedTemplate['resources'].length > 1 ? '#collaps-'+i : ''" [attr.aria-expanded]="'true'" [ngClass]="{'has-delete-icon': state.selectedTemplate['isDynamic']}">
+                <h2 class="accordion-link" aria-expanded="false"
+                    [attr.data-toggle]="state.selectedTemplate['resources'].length > 1 ? 'collapse': ''"
+                    [attr.data-target]="state.selectedTemplate['resources'].length > 1 ? '#collaps-'+i : ''"
+                    [attr.aria-expanded]="'true'"
+                    [ngClass]="{
+                      'has-delete-icon': state.selectedTemplate['isDynamic'],
+                      'noDelIcon':!state.selectedTemplate['isDynamic']
+                      }">
                   {{resource.resourceItems[0].text}}
                   <a *ngIf="state.selectedTemplate['isDynamic']" href="javascript:void(0)" (click)="removeResource(i)" class="fa fa-trash-o remove-accordion"></a>
                 </h2>

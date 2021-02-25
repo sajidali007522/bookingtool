@@ -3,9 +3,7 @@
 <div class="overlay-bg"></div>
 
 <div class="custom-section-wrap lg-spacetop" >
-  <div class="alert alert-primary custom-logo-top no-icon m-0 alert-dismissible fade show" role="alert">
-    Culture Settings
-  </div>
+
   <div class="custom-section" [ngClass]="{'table-loader': state.processing}">
     <ng-container>
       <div class="custom-main template-outer">
@@ -35,8 +33,8 @@
                   <div class="field-wrap field-wrap-outer field-gray-wrap">
                     <label>Time Format</label>
                     <select class="form-control no-icon" [(ngModel)]="form.timeFormat">
-                      <option value="">12 Hrs</option>
-                      <option value="24">24 Hrs</option>
+                      <option [ngValue]="''">12 Hrs</option>
+                      <option [ngValue]="'24'">24 Hrs</option>
                     </select>
                   </div>
                 </div>
@@ -44,17 +42,17 @@
                 <div class="col-md-6 col-12">
                   <div class="field-wrap field-wrap-outer field-gray-wrap">
                     <label>Language</label>
-                    <select class="form-control no-icon">
+                    <select class="form-control no-icon" [(ngModel)]="form.language">
                       <option value="">Please select Language</option>
-                      <option value="">English</option>
-                      <option>Spanish</option>
+                      <option value="en">English</option>
+                      <option value="es">Spanish</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-md-6 col-12">
                   <div class="field-wrap field-wrap-outer field-gray-wrap">
                     <label>Theme Option</label>
-                    <select class="form-control no-icon">
+                    <select class="form-control no-icon" [(ngModel)]="form.theme">
                       <option value="">Please select theme</option>
                       <option value="">Theme Innfinity</option>
                       <option value="">Theme Light</option>
@@ -63,7 +61,7 @@
                   </div>
                 </div>
 
-                
+
               </div>
               <div class="reservation-bot-btns d-flex pt-4">
                 <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Save</button>

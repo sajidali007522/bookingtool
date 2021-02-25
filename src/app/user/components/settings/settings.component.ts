@@ -14,13 +14,25 @@ export class SettingsComponent implements OnInit {
   }
   form={
     dateFormat: '',
-    timeFormat: ''
+    timeFormat: '',
+    language: '',
+    theme: ''
   }
   constructor( public dfService: DateFormatsService,
                public userService: UserService) { }
 
   ngOnInit(): void {
     this.form = this.userService.getCulturalSettings();
+    console.log(this.form)
+    if(JSON.stringify(this.form) == "{}") {
+
+      this.form={
+        dateFormat: '',
+        timeFormat: '',
+        language: '',
+        theme: ''
+      }
+    }
   }
 
   submitForm(){
