@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {ReservationComponent} from "./components/reservation/reservation.component";
 import {ResultListComponent} from "./components/result-list/result-list.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -32,6 +32,9 @@ import {BusinessProfileComponent} from "./components/business-profile/business-p
     TimepickerModule.forRoot(),
     AutocompleteLibModule,
     SharedModuleModule,
+  ],
+  providers:[
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
   ]
 })
 export class ReservationModule { }

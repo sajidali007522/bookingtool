@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {
   BrowserModule,
   HAMMER_GESTURE_CONFIG,
@@ -46,6 +46,9 @@ export class MyHammerConfig extends HammerGestureConfig {
     NgxBootstrapMultiselectModule,
     LightboxModule,
     PopoverModule.forRoot()
+  ],
+  providers:[
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
   ]
 })
 export class DemoHousekeepingModule { }

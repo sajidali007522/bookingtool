@@ -29,6 +29,7 @@ import {ReservationModule} from "./reservation/reservation.module";
 import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
 import {DateParser} from "./_helpers/dateParser";
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import {DateParser} from "./_helpers/dateParser";
 //    AuthenticationModule
   ],
   providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     {
       provide: APP_INITIALIZER,
       multi: true,

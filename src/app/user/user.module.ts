@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {SettingsComponent} from "./components/settings/settings.component";
 import {FormsModule} from "@angular/forms";
 import {routing} from './user.routing'
@@ -15,6 +15,9 @@ import {routing} from './user.routing'
     FormsModule,
     routing,
     CommonModule
+  ],
+  providers:[
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
   ]
 })
 export class UserModule { }
