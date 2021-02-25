@@ -14,6 +14,12 @@
         </ng-container>
         <ng-container *ngIf="!state.processing">
           <div class="custom-content tabs-content" id="content-1" style="display: block;">
+
+            <div class="custom-header">
+              <h2>Settings</h2>
+              <p>We'll always let you know about important settings, but you pick what else you want.</p>
+            </div>
+
             <div class="book-time-wrap">
               <div class="row">
                 <div class="col-md-6 col-12">
@@ -45,11 +51,22 @@
                     </select>
                   </div>
                 </div>
+                <div class="col-md-6 col-12">
+                  <div class="field-wrap field-wrap-outer field-gray-wrap">
+                    <label>Theme Option</label>
+                    <select class="form-control no-icon">
+                      <option value="">Please select theme</option>
+                      <option value="">Theme Innfinity</option>
+                      <option value="">Theme Light</option>
+                      <option value="">Theme Dark</option>
+                    </select>
+                  </div>
+                </div>
 
                 
               </div>
-              <div class="reservation-bot-btns d-flex">
-                <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Save <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+              <div class="reservation-bot-btns d-flex pt-4">
+                <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Save</button>
               </div>
             </div>
           </div>

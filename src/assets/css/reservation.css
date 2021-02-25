@@ -105,6 +105,15 @@ img{
     padding: 35px;
     min-height: 376px;
 }
+    .custom-header{
+        text-align: left;
+        padding: 0 0 10px;
+        border-bottom: 1px solid #ccc;
+        margin: 0 0 30px;
+    }
+    .custom-header h2{
+        font-weight: bold;
+    }
     .custom-title h2{
         font-weight: 600;
         margin: 0 0 25px;
