@@ -173,7 +173,7 @@ img{
         color: #09425d;
         font-weight: 600;
     }
-    html body .login-main .ng-invalid{
+    html body .login-main form.ng-invalid{
         background: none !important;
         border:none !important;
     }
