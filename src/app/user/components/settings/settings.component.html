@@ -25,7 +25,7 @@
                     <label>Date Format</label>
                     <select class="form-control no-icon" [(ngModel)]="form.dateFormat">
                       <option value="">Select</option>
-                      <option value="{{format.label}}" *ngFor="let format of dfService.dateFormats">{{format.label}}</option>
+                      <option value="{{format.label}}" *ngFor="let format of dfService.dateFormats">{{format.label}} ({{format.value}})</option>
                     </select>
                   </div>
                 </div>

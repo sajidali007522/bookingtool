@@ -159,7 +159,7 @@
                   <div class="row" *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
                     <div class="col-md-6">
                       <div class="field-wrap-outer">
-                        <label>Departure Date<span class="" [ngClass]="{'text-danger': !resource['BeginDate']}">*</span></label>
+                        <label>{{resource['beginWord'] || 'Departure'}} Date<span class="" [ngClass]="{'text-danger': !resource['BeginDate']}">*</span></label>
 
                         <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['errors']['BeginDate']&&resource['errors']['BeginDate'] != '' }">
                           <input type="text"
@@ -182,7 +182,7 @@
                       <div class="row">
                         <div class="col-md-12 col-12">
                           <div class="field-wrap-outer">
-                            <label>Departure Time</label>
+                            <label>{{resource['beginWord'] || 'Departure'}} Time</label>
                             <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
                                  [ngClass]="{
                                 'is-invalid-wrap' : false,
@@ -222,7 +222,7 @@
 
                     <div class="col-md-6" *ngIf="resource.requiresEndDate">
                       <div class="field-wrap-outer">
-                        <label>Return Date<span class="" [ngClass]="{'text-danger': !resource['EndDate']}">*</span></label>
+                        <label>{{resource['endWord'] || 'Return'}} Date<span class="" [ngClass]="{'text-danger': !resource['EndDate']}">*</span></label>
 
                         <div class="field-wrap" [ngClass]="{'is-invalid-wrap' :  resource['errors']['EndDate'] && resource['errors']['EndDate'] != '' }">
                           <input type="text"
@@ -245,7 +245,7 @@
                       <div class="row">
                         <div class="col-md-12 col-12">
                           <div class="field-wrap-outer time-picker-wrap">
-                            <label>Return Time</label>
+                            <label>{{resource['endWord'] || 'Return'}} Time</label>
                             <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
                                  [ngClass]="{
                                 'is-invalid-wrap' : false,
