@@ -1,31 +1,55 @@
 body body{
     background: none !important;
 }
-body{
-    background: url(../images/login/banner-1.jpg) center top no-repeat;
-    background-size: cover;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    font-family: 'open_sansregular';
-}
+    .variation-1{
+        background: url(../images/login/banner-1.jpg) center top no-repeat;
+        background-size: cover;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: 'open_sansregular';
+    }
     .variation-2{
         background: url(../images/login/banner-2.jpg) center top no-repeat;
         background-size: cover;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: 'open_sansregular';
     }
     .variation-3{
         background: url(../images/login/banner-3.jpeg) center top no-repeat;
         background-size: cover;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: 'open_sansregular';
     }
     .variation-4{
         background: url(../images/login/banner-4.jpg) center top no-repeat;
         background-size: cover;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: 'open_sansregular';
     }
     .variation-5{
         background: url(../images/login/banner-5.jpg) center top no-repeat;
         background-size: cover;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: 'open_sansregular';
     }
 .overlay-bg{
     position: fixed;
@@ -148,6 +172,10 @@ img{
     .forget-wrap a{
         color: #09425d;
         font-weight: 600;
+    }
+    html body .login-main .ng-invalid{
+        background: none !important;
+        border:none !important;
     }
 .tabs-content{
     display: none;
