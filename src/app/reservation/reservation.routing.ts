@@ -5,6 +5,7 @@ import {ResultListComponent} from "./components/result-list/result-list.componen
 import {ReservationComponent} from "./components/reservation/reservation.component";
 import {ReservationNewComponent} from "./components/reservation-new/reservation-new.component";
 import {BusinessProfileComponent} from "./components/business-profile/business-profile.component";
+import {BookProfileComponent} from "./components/book-profile/book-profile.component";
 
 
 export const routes: Routes = [
@@ -12,6 +13,7 @@ export const routes: Routes = [
   { path: 'old', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
   { path: ":booking_id/business-profile", component:BusinessProfileComponent, canActivate: [AuthGuard] },
+  { path: ":booking_id/book-profile", component:BookProfileComponent, canActivate: [AuthGuard] },
 ]
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes)

@@ -12,6 +12,7 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { ReservationNewComponent } from './components/reservation-new/reservation-new.component';
 import {BusinessProfileComponent} from "./components/business-profile/business-profile.component";
+import {BookProfileComponent} from "./components/book-profile/book-profile.component";
 
 
 
@@ -20,7 +21,8 @@ import {BusinessProfileComponent} from "./components/business-profile/business-p
     ReservationComponent,
     ResultListComponent,
     ReservationNewComponent,
-    BusinessProfileComponent
+    BusinessProfileComponent,
+    BookProfileComponent
   ],
   imports: [
     CommonModule,
