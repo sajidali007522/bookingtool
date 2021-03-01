@@ -25,6 +25,7 @@ export class FormBuilderComponent implements OnInit {
   keyword="text";
   templateId = 'itemTemplateRemote_'
   notFoundTemplate = 'notFoundTemplate_'
+  fieldType= '';
   isLoadingResult=false;
 
   public errorMsg;
@@ -35,7 +36,21 @@ export class FormBuilderComponent implements OnInit {
     this.notFoundTemplate=this.notFoundTemplate+this.index;
     this.field['model'] = ''
     this.field['visible'] = true;
-    if(!this.field.minSearchCharacters && !this.field.numeric && !this.field.allowFreeText){
+    //
+    if( this.field.numeric){
+      this.fieldType = 'number'
+    }
+    else if( this.field.minSearchCharacters && this.field.isLookupSearch){
+      this.fieldType = 'auto-complete'
+    }
+    else if(!this.field.minSearchCharacters && this.field.isLookupSearch ){
+      this.fieldType = 'dropdown'
+    }
+    else if(!this.field.minSearchCharacters && !this.field.numeric && !this.field.isLookupSearch && this.field.allowFreeText) {
+      this.fieldType = 'text'
+    }
+
+    if(this.fieldType == 'dropdown'){
       this.getServerResponse('')
     }
     if(this.field.numeric) {
@@ -45,6 +60,7 @@ export class FormBuilderComponent implements OnInit {
         this.remoteList.push({value: index, text: index})
       }
     }
+
   }
 
 

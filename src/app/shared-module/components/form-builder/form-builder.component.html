@@ -1,5 +1,5 @@
 <div class="row">
-  <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && field.minSearchCharacters">
+  <ng-container *ngIf="fieldType == 'auto-complete'">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="field-wrap {{wrapClasses || 'field-wrap-outer field-gray-wrap'}}"
@@ -48,7 +48,7 @@
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="field.searchCriteriaID != '' && !field.numeric && !field.minSearchCharacters && !field.allowFreeText">
+  <ng-container *ngIf="fieldType=='dropdown'">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="">
@@ -68,7 +68,7 @@
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="field.searchCriteriaID != '' && field.numeric">
+  <ng-container *ngIf="fieldType == 'number'">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field['model'] == '00000000-0000-0000-0000-000000000000'}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="">
@@ -88,7 +88,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!field.minSearchCharacters && !field.numeric">
+  <ng-container *ngIf="fieldType=='text'">
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field.model == ''}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="{{wrapClasses}}">

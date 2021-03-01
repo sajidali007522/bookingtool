@@ -169,7 +169,7 @@
                                  (ngModelChange)="setDateTo(i); resetErrorState(i, 'BeginDate')"
                                  [minDate]="minDateFrom"
                                  [maxDate]="maxDateFrom"
-                                 placeholder="Departure Date"
+                                 placeholder="{{resource['beginWord'] || 'Departure'}} Date"
                                  name="departure_date"
                                  autocomplete="off"
                                  class="form-control">
@@ -197,7 +197,7 @@
                                 [debounceTime]="400"
                                 [isLoading]="state.beginTimeProcessing"
                                 [minQueryLength]="1"
-                                placeHolder="Departure Time"
+                                placeHolder="{{resource['beginWord'] || 'Departure'}} Time"
                                 name="search"
                               >
                               </ng-autocomplete>
@@ -232,7 +232,7 @@
                                  [maxDate]="maxDateFrom"
                                  [bsConfig]="bsConfig"
                                  (ngModelChange)="setDateFrom(i); resetErrorState(i, 'EndDate')"
-                                 placeholder="Return Date"
+                                 placeholder="{{resource['endWord'] || 'Return'}} Date"
                                  autocomplete="off"
                                  name="arrival_date"
                                  class="form-control">
@@ -260,7 +260,7 @@
                                 [debounceTime]="400"
                                 [isLoading]="state.beginTimeProcessing"
                                 [minQueryLength]="1"
-                                placeHolder="Return Time"
+                                placeHolder="{{resource['endWord'] || 'Return'}} Time"
                                 name="search"
                               >
                               </ng-autocomplete>
