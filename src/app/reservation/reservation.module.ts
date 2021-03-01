@@ -13,6 +13,7 @@ import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { ReservationNewComponent } from './components/reservation-new/reservation-new.component';
 import {BusinessProfileComponent} from "./components/business-profile/business-profile.component";
 import {BookProfileComponent} from "./components/book-profile/book-profile.component";
+import { BookingComponent } from './components/booking/booking.component';
 
 
 
@@ -22,7 +23,8 @@ import {BookProfileComponent} from "./components/book-profile/book-profile.compo
     ResultListComponent,
     ReservationNewComponent,
     BusinessProfileComponent,
-    BookProfileComponent
+    BookProfileComponent,
+    BookingComponent
   ],
   imports: [
     CommonModule,

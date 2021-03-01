@@ -1,0 +1,149 @@
+<link type="text/css" rel="stylesheet" href="/assets/css/reservation.css" />
+
+<div class="overlay-bg"></div>
+
+<div class="custom-section-wrap" >
+  <div class="alert alert-primary custom-logo-top no-icon m-0 alert-dismissible fade show" role="alert">
+    Business Profile
+  </div>
+  <div class="custom-section" [ngClass]="{'table-loader': state.processing}">
+    <ng-container>
+      <div class="custom-main template-outer">
+        <ng-container *ngIf="state.processing">
+          <div class="table-loader">Processing...</div>
+        </ng-container>
+        <ng-container *ngIf="!state.processing">
+          <div class="custom-content tabs-content" id="content-1" style="display: block;">
+            <div class="">
+
+              <div class="input-group mb-4 field-wrap field-gray-wrap traveler-field">
+                <span class="user"></span>
+                <input type="text" placeholder="Search to Assign Traveler to Booking" class="form-control pl-45">
+                <div _ngcontent-gim-c105="" class="input-group-append">
+                  <button type="button" class="btn btn-info">Search <span class="fa fa-search position-static font-14 ml-2"></span></button>
+                </div>
+              </div>
+
+              <div class="accordion custom-accordion accordion-sm text-left" id="accordionExample">
+                <div class="mb-3">
+                  <div class="card-header" id="headingOne">
+                    <h2 class="accordion-link noDelIcon" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
+                      Booking For John
+                    </h2>
+                  </div>
+                  <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
+                    <div class="box box-lr">
+                      <div class="custom-accordion-wrap">
+                        <div class="custom-accordion">
+                          <h3 class="active"><a href="javascript:void(0)">Profile</a></h3>
+                          <div class="custom-accordion-content exp">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">Title</label>
+                                  <div class="field-wrap">
+                                    <select class="form-control no-icon">
+                                      <option>Select Title</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">First Name</label>
+                                  <div class="field-wrap">
+                                    <input type="text" class="form-control no-icon">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">Last Name</label>
+                                  <div class="field-wrap">
+                                    <input type="text" class="form-control no-icon">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">Gender</label>
+                                  <div class="field-wrap">
+                                    <select class="form-control no-icon">
+                                      <option>Select Gender</option>
+                                      <option>Male</option>
+                                      <option>Female</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="custom-accordion">
+                          <h3 class="active"><a href="javascript:void(0)">Notes</a></h3>
+                          <div class="custom-accordion-content exp">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">First Name</label>
+                                  <div class="field-wrap">
+                                    <input type="text" class="form-control no-icon">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">Last Name</label>
+                                  <div class="field-wrap">
+                                    <input type="text" class="form-control no-icon">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="custom-accordion">
+                          <h3 class="active"><a href="javascript:void(0)">Travel Coordinator</a></h3>
+                          <div class="custom-accordion-content exp">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">First Name</label>
+                                  <div class="field-wrap">
+                                    <input type="text" class="form-control no-icon">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">Last Name</label>
+                                  <div class="field-wrap">
+                                    <input type="text" class="form-control no-icon">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reservation-bot-btns d-flex">
+                <a href="javascript:void(0);" class="btn btn-secondary" (click)="openModal()">
+                  Cancel
+                </a>
+                <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <!--<br/>
+        <button type="submit" class="btn btn-info btn-block" (click)="submitForm()" [disabled]="state.processing">Next <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>-->
+      </div>
+      <app-confirm-modal [confirmationMessage]="'Do you want to restart reservation?'" (isConfirmed)="restartReservation($event)"></app-confirm-modal>
+    </ng-container>
+  </div>
+</div>
