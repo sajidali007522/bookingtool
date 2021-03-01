@@ -87,7 +87,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     )
       .subscribe(data => {
         this.state.processing=false;
-        console.log(data)
+        //console.log(data)
         this.formFields = fields;
         this.definition = data;
       }, error => {
@@ -129,19 +129,24 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
 
   submitForm() {
     if(!this.validateForm()){
+      //console.log(this.formFields)
       return;
     }
+    this.router.navigate([`/reservation/${this.state.bookingID}/booking`]);
   }
 
   validateForm() {
     let validated = true;
     this.formFields.filter(field => {
       field['validationError'] = 'passed'
-      if(!field.model && field.isRequired){
+
+      if(!field.model && field.isRequired && field.visible){
+        console.log(field)
         field['validationError'] = field.name+ ' is required field';
         validated = false;
       }
     });
+    console.log(validated)
     return validated;
   }
 

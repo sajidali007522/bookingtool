@@ -252,7 +252,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     this.state.formErrors['ResourceTypeID'] = '';
     if(!this.form.ResourceTypeID) {
       this.state.formErrors['ResourceTypeID'] = 'Please set Business Profile to continue.';
-      //this.toastr.error('Please set Business Profile to continue.', 'Error!')
+      this.toastr.error('Please set Business Profile to continue.', 'Error!')
       return;
     }
     if(!this.validateForm()){
