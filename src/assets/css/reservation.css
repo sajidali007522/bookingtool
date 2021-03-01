@@ -158,6 +158,9 @@ img{
     .field-wrap .form-control.no-icon{
         padding-left: 15px;
     }
+    .traveler-field.field-wrap .form-control.pl-45{
+        padding-left: 45px !important;
+    }
     .field-wrap .input-group-append{
         position: relative;
         z-index: 1;
@@ -168,6 +171,10 @@ img{
         -moz-border-radius: 0;
         -webkit-border-radius: 0;
         border-radius: 0;
+    }
+    .custom-main .input-group-append .btn{
+        padding-top: 4px;
+        padding-bottom: 4px;
     }
     .field-wrap .fa{
         position: absolute;
@@ -261,6 +268,18 @@ img{
   .accordion-sm .accordion-link.noDelIcon:before{
       right: 20px;
   }
+
+    .accordion-sm .custom-accordion > h3{
+        font-size: 16px;
+    }
+    .accordion-sm .custom-accordion > h3 a{
+        padding-top: 10px;
+        padding-bottom: 11px;
+        font-weight: normal;
+    }
+    .accordion-sm .custom-accordion > h3.active a:before{
+        top: 9px;
+    }
 .icon-flight-hotel,
 .template-group-flight{
     display: block;
