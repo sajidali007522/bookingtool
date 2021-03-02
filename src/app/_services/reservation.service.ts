@@ -21,7 +21,7 @@ export class ReservationService {
     return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body);
   }
 
-  public getReservation (bookingId, body) {
+  public getReservation (bookingId) {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/Reserve`);
   }
 
