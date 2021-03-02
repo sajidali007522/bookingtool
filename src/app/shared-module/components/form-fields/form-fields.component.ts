@@ -157,7 +157,9 @@ export class FormFieldsComponent implements OnInit {
     this.fieldBinding.emit(JSON.stringify({
       field: this.field,
       fieldIndex:this.fieldIndex,
-      resourceIndex: this.index
+      resourceIndex: this.index,
+      fieldType: this.fieldType,
+      checkboxItem: (this.field['selectedIndex']>=0 ? this.field['selectedIndex'] : -1)
     }));
   }
 
@@ -171,13 +173,17 @@ export class FormFieldsComponent implements OnInit {
   }
 
   setCheckBoxValue(option){
+    let index =0;
     this.remoteList.filter(item => {
-      if(item.value == option.value && item.isChecked) {
+      if(item.value == option.value && option.isChecked) {
         this.field.model = option
+        this.field['selectedIndex'] = index;
       } else {
         item.isChecked = false;
       }
+      index++
     });
+    this.setField()
   }
 
   setDateTo () {
