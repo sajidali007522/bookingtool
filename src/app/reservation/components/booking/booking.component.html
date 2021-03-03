@@ -59,14 +59,17 @@
                 </div>
                 <div _ngcontent-gim-c105="" class="input-group-append">
                   <button type="button" class="btn btn-info">Search <span class="fa fa-search position-static font-14 ml-2"></span></button>
+                  <button type="button" class="btn btn-info" (click)="addNewProfile()">New Profile</button>
                 </div>
               </div>
-              <ng-container *ngIf="formFields">
-              <div class="accordion custom-accordion accordion-sm text-left" id="accordionExample">
+              <ng-container *ngIf="profiles">
+                <div class="accordion custom-accordion accordion-sm text-left" id="accordionExample" *ngFor="let profile of profiles; let i=index">
                 <div class="mb-3">
                   <div class="card-header" id="headingOne">
                     <h2 class="accordion-link noDelIcon" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
-                      Booking For John
+                      Booking For {{profile.title}}
+                      <button class="btn btn-primary pull-right" (click)="removeProfile(i)">Remove</button>
+                      <button class="btn btn-primary pull-right" (click)="bookProfile(i, profile)">Book</button>
                     </h2>
                   </div>
                   <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
@@ -80,7 +83,7 @@
                                 <div class="field-wrap-outer">
                                   <label for="">Title</label>
                                   <div class="field-wrap">
-                                    <select class="form-control no-icon">
+                                    <select class="form-control no-icon" [(ngModel)]="profile.details['title']">
                                       <option>Select Title</option>
                                     </select>
                                   </div>
@@ -90,7 +93,7 @@
                                 <div class="field-wrap-outer">
                                   <label for="">First Name</label>
                                   <div class="field-wrap">
-                                    <input type="text" class="form-control no-icon">
+                                    <input type="text" [(ngModel)]="profile.details['first_name']" class="form-control no-icon">
                                   </div>
                                 </div>
                               </div>
@@ -98,7 +101,7 @@
                                 <div class="field-wrap-outer">
                                   <label for="">Last Name</label>
                                   <div class="field-wrap">
-                                    <input type="text" class="form-control no-icon">
+                                    <input type="text" [(ngModel)]="profile.details['last_name']" class="form-control no-icon">
                                   </div>
                                 </div>
                               </div>
@@ -106,7 +109,7 @@
                                 <div class="field-wrap-outer">
                                   <label for="">Gender</label>
                                   <div class="field-wrap">
-                                    <select class="form-control no-icon">
+                                    <select class="form-control no-icon" [(ngModel)]="profile.details['gender']">
                                       <option>Select Gender</option>
                                       <option>Male</option>
                                       <option>Female</option>
@@ -114,10 +117,34 @@
                                   </div>
                                 </div>
                               </div>
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">Email</label>
+                                  <div class="field-wrap">
+                                    <input type="text" [(ngModel)]="profile.details['email']" class="form-control no-icon">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">Phone</label>
+                                  <div class="field-wrap">
+                                    <input type="text" [(ngModel)]="profile.details['phone']" class="form-control no-icon">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="field-wrap-outer">
+                                  <label for="">VIP Number</label>
+                                  <div class="field-wrap">
+                                    <input type="text" [(ngModel)]="profile.details['vip_number']" class="form-control no-icon">
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div class="custom-accordion">
+                        <!--<div class="custom-accordion">
                           <h3 class=""><a href="javascript:void(0)">Notes</a></h3>
                           <div class="custom-accordion-content">
                             <div class="row">
@@ -162,16 +189,11 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div>-->
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div class="reservation-bot-btns d-flex">
-
-                <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
               </div>
               </ng-container>
             </div>

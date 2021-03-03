@@ -20,6 +20,7 @@ export class BookingComponent implements OnInit {
   profileTypeSelected;
   travelerList=[]
   defaultSelection;
+  profiles=[]
 
   keyword= "text";
 
@@ -80,6 +81,22 @@ export class BookingComponent implements OnInit {
   }
 
   submitForm(){}
+
+  addNewProfile(){
+    this.profiles.push({
+      title: '<New Profile>',
+      details: {
+        title: '',
+        first_name: '',
+        last_name: '',
+        gender: '',
+        phone: '',
+        email: '',
+        vip_number: '',
+      }
+    });
+  }
+
   getloadProfiles (event) {
     let params = {searchTerm: event};
     params['criteria'] = '00000000-0000-0000-0000-000000000000';
@@ -104,5 +121,21 @@ export class BookingComponent implements OnInit {
   }
   onFocused(e){
     // do something when input is focused
+  }
+  removeProfile(index){
+    this.profiles.splice(index, 1)
+  }
+
+  bookProfile(index, profile){
+    this.resService.bookProfile(this.state.bookingID, [])
+      .subscribe(
+        res=>{
+          console.log(res)
+          //this.router.navigate([`/reservation/${this.state.bookingID}/booking`]);
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 }
