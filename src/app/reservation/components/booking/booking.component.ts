@@ -17,13 +17,20 @@ export class BookingComponent implements OnInit {
 
   formFields = <any>[];
   definition = <any>[]
+  profileTypeSelected;
+  travelerList=[]
+  defaultSelection;
+
+  keyword= "text";
+
   form = {}
   state={
     processing: false,
     error: {message: ''},
     errorMsg: '',
     bookingID: '',
-    searchId: ''
+    searchId: '',
+    isLoadingTraveler:false
   };
 
   constructor(
@@ -73,5 +80,29 @@ export class BookingComponent implements OnInit {
   }
 
   submitForm(){}
+  getloadProfiles (event) {
+    let params = {searchTerm: event};
+    params['criteria'] = '00000000-0000-0000-0000-000000000000';
+    this.travelerList =[];
+    this.state.isLoadingTraveler =true;
+    this._http._get("lookup/ProfileLookupSearch", params)
+      .subscribe(data => {
+        this.defaultSelection = data['data']['defaultValue'];
+        this.travelerList = data['data']['results'];
+        this.state.isLoadingTraveler = false;
 
+      },error => {
+        this.state.error = error;
+        this.state.isLoadingTraveler = false;
+      });
+  }
+  selectTraveler ($event) {
+
+  }
+  searchCleared(type) {
+    this.travelerList =[];
+  }
+  onFocused(e){
+    // do something when input is focused
+  }
 }

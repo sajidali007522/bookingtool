@@ -18,12 +18,50 @@
 
               <div class="input-group mb-4 field-wrap field-gray-wrap traveler-field">
                 <span class="user"></span>
-                <input type="text" placeholder="Search to Assign Traveler to Booking" class="form-control pl-45">
+                <ng-autocomplete
+                  [data]="travelerList"
+                  [searchKeyword]="keyword"
+                  (selected)='selectTraveler($event)'
+                  (inputChanged)='getloadProfiles($event)'
+                  (inputFocused)='onFocused($event)'
+                  [itemTemplate]="itemTemplateProfiles"
+                  (inputCleared)="searchCleared('traveler-list')"
+                  [notFoundTemplate]="notFoundProfilesTemplate"
+                  [debounceTime]="400"
+                  [isLoading]="state.isLoadingTraveler"
+                  [minQueryLength]="3"
+                  placeHolder="{{'Search Traveler.'}}"
+                  class="testing"
+                  name="traveler"
+                  autocomplete="off"
+                >
+
+                </ng-autocomplete>
+
+                <ng-template #itemTemplateProfiles let-item>
+                  <a href="javascript:void(0)">
+                    <div class="auto-txtwrap">
+                      <div class="autoicon">
+                        <span class="fa" [ngClass]="{'fa-plane': item['glyph'] == 'airport', 'fa-map-marker': item['glyph'] == 'locality' }"></span>
+                      </div>
+                      <div class="autotxt">
+                        <strong [innerHTML]="item.description"></strong><span>({{item.text}})</span>
+                      </div>
+                    </div>
+                  </a>
+                </ng-template>
+
+                <ng-template #notFoundProfilesTemplate let-notFound>
+                  {{state.errorMsg}}
+                </ng-template>
+                <div class="" *ngIf="state.error">
+                  <label class="error">{{state.error['message']}}</label>
+                </div>
                 <div _ngcontent-gim-c105="" class="input-group-append">
                   <button type="button" class="btn btn-info">Search <span class="fa fa-search position-static font-14 ml-2"></span></button>
                 </div>
               </div>
-
+              <ng-container *ngIf="formFields">
               <div class="accordion custom-accordion accordion-sm text-left" id="accordionExample">
                 <div class="mb-3">
                   <div class="card-header" id="headingOne">
@@ -135,6 +173,7 @@
 
                 <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
               </div>
+              </ng-container>
             </div>
           </div>
         </ng-container>
