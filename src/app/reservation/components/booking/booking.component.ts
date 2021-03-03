@@ -50,7 +50,7 @@ export class BookingComponent implements OnInit {
   }
 
   getBookingDetails(){
-    this.resService.saveReservation(this.state.bookingID)
+    this.resService.getReservation(this.state.bookingID)
       .subscribe(
         res=>{
           console.log(res)
