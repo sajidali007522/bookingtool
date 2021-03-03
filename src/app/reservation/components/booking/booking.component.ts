@@ -43,9 +43,19 @@ export class BookingComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    $("ng-autocomplete input[type='text']").on('blur', (event) => {
-      //console.log($(event.target).parents('ng-autocomplete')) //.attr('name'));
-      //this.selectDefaultValue($(event.target).parents('ng-autocomplete').attr('name'));
+    console.log("view is ready");
+
+    $('body').on('click', '.custom-accordion > h3 > a',  function(e, arg) {
+      console.log($(this).attr('class'));
+      if( $(this).parent().hasClass('active') ){
+        $(this).parent().removeClass('active');
+        $(this).parent().next('.custom-accordion-content').slideUp();
+      }
+      else {
+        $(this).parent().addClass('active');
+        $(this).parent().next('.custom-accordion-content').slideDown();
+      }
+      return false;
     });
   }
 

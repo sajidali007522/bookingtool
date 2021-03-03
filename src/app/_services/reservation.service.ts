@@ -18,11 +18,11 @@ export class ReservationService {
   }
 
   public saveReservation (bookingId, body) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body);
+    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reporting`, body);
   }
 
   public getReservation (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reserve`);
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reporting`);
   }
 
 }

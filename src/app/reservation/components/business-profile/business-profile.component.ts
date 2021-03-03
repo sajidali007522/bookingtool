@@ -182,7 +182,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       //console.log(this.formFields)
       return;
     }
-    let body= this.renderBookingItems(this.formFields);
+    let body= this.renderSelectedItems(this.formFields);
 
     this.resService.saveReservation(this.state.bookingID,body)
       .subscribe(

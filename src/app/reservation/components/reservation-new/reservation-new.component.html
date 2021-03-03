@@ -17,8 +17,8 @@
     <app-loader *ngIf="state.initiateBooking || state.loadingGroups"></app-loader>
     <ng-container *ngIf="!state.initiateBooking && !state.loadingGroups">
       <div class="custom-top-section">
-        <div class="row">
-          <div class="col-md-6">
+        <div class="row" id="businessProfile_container">
+          <div class="col-md-6" >
             <div class="field-wrap-outer">
               <label>Business Profile*</label>
               <div class="field-wrap">
@@ -28,7 +28,9 @@
                         'is-valid': !this.state.formErrors['ResourceTypeID']
                         }"
                         [(ngModel)]="form.ResourceTypeID"
-                        (ngModelChange)="assignRuleBag()">
+                        (ngModelChange)="assignRuleBag()"
+                        id="businessProfile_field"
+                >
                   <option value="{{type.value}}" *ngFor="let type of ruleBags">{{type.text}}</option>
                 </select>
                 <span class="globel-world-icon" *ngIf="!state.initiateBooking && !state.assigningBusinessProfile"></span>
