@@ -172,6 +172,19 @@ img{
         -webkit-border-radius: 0;
         border-radius: 0;
     }
+    .flex-automate{
+        flex: 1 1 auto;
+    }
+    .booking-zindex{
+        z-index: 1;
+    }
+    .booking-zindex .user{
+        z-index: 4 !important;
+    }
+    .ptb-10{
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
     .custom-main .input-group-append .btn{
         padding-top: 4px;
         padding-bottom: 4px;
@@ -268,7 +281,6 @@ img{
   .accordion-sm .accordion-link.noDelIcon:before{
       right: 20px;
   }
-
     .accordion-sm .custom-accordion > h3{
         font-size: 16px;
     }
@@ -282,6 +294,24 @@ img{
     }
     .accordion-sm .custom-accordion > h3 a:before{
         top: 10px;
+    }
+.accordion-has-book{
+}
+    .accordion-has-book .accordion-link{
+        padding-right: 130px;
+    }
+    .accordion-has-book .accordion-link .remove-accordion{
+        right: 110px;
+    }
+    .accordion-has-book .accordion-link:before{
+        right: 85px;
+    }
+    .accordion-has-book .btn-book{
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        line-height: inherit;
     }
 .icon-flight-hotel,
 .template-group-flight{

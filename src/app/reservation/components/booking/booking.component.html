@@ -4,7 +4,7 @@
 
 <div class="custom-section-wrap" >
   <div class="alert alert-primary custom-logo-top no-icon m-0 alert-dismissible fade show" role="alert">
-    Business Profile
+    Booking
   </div>
   <div class="custom-section" [ngClass]="{'table-loader': state.processing}">
     <ng-container>
@@ -31,7 +31,7 @@
                   [isLoading]="state.isLoadingTraveler"
                   [minQueryLength]="3"
                   placeHolder="{{'Search Traveler.'}}"
-                  class="testing"
+                  class="flex-automate"
                   name="traveler"
                   autocomplete="off"
                 >
@@ -58,18 +58,18 @@
                   <label class="error">{{state.error['message']}}</label>
                 </div>
                 <div _ngcontent-gim-c105="" class="input-group-append">
-                  <button type="button" class="btn btn-info">Search <span class="fa fa-search position-static font-14 ml-2"></span></button>
-                  <button type="button" class="btn btn-info" (click)="addNewProfile()">New Profile</button>
+                  <button type="button" class="btn btn-info ptb-10">Search <span class="fa fa-search position-static font-14 ml-2"></span></button>
+                  <button type="button" class="btn btn-success ptb-10" (click)="addNewProfile()"> New Profile <span class="fa fa-plus position-static font-14"></span></button>
                 </div>
               </div>
               <ng-container *ngIf="profiles">
-                <div class="accordion custom-accordion accordion-sm text-left" id="accordionExample" *ngFor="let profile of profiles; let i=index">
+                <div class="accordion custom-accordion accordion-sm accordion-has-book text-left" id="accordionExample" *ngFor="let profile of profiles; let i=index">
                 <div class="mb-3">
                   <div class="card-header" id="headingOne">
                     <h2 class="accordion-link has-delete-icon" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
                       Booking For {{profile.title}}
                       <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a>
-                      <a class="btn btn-primary pull-right" (click)="bookProfile(i, profile)">Book</a>
+                      <a class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book</a>
                     </h2>
                   </div>
                   <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
