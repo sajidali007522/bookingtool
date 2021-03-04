@@ -66,18 +66,24 @@
                 <div class="accordion custom-accordion accordion-sm accordion-has-book text-left" id="accordionExample" *ngFor="let profile of profiles; let i=index">
                 <div class="mb-3">
                   <div class="card-header" id="headingOne">
-                    <h2 class="accordion-link has-delete-icon" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
+                    <h2 class="accordion-link has-delete-icon"
+                        [attr.data-toggle]="'collapse'"
+                        [attr.data-target]="'#collaps-'+i"
+                        [attr.aria-expanded]="'true'"
+                        data-toggle="collapse"
+                        data-target="#collaps-1"
+                        aria-expanded="true">
                       Booking For {{profile.title}}
                       <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a>
                       <a class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book</a>
                     </h2>
                   </div>
-                  <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
+                  <div id="collaps-{{i}}" class="collapse show" data-parent="#accordionExample">
                     <div class="box box-lr">
                       <div class="custom-accordion-wrap">
                         <div class="custom-accordion">
-                          <h3 class=""><a href="javascript:void(0)">Profile</a></h3>
-                          <div class="custom-accordion-content">
+                          <h3 class="" [ngClass]="{'active': i==0}"><a href="javascript:void(0)">Profile</a></h3>
+                          <div class="custom-accordion-content" [ngClass]="{exp: i==0}">
                             <div class="row">
                               <div class="col-md-6">
                                 <div class="field-wrap-outer">
