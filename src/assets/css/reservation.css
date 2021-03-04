@@ -280,6 +280,9 @@ img{
     .accordion-sm .custom-accordion > h3.active a:before{
         top: 9px;
     }
+    .accordion-sm .custom-accordion > h3 a:before{
+        top: 10px;
+    }
 .icon-flight-hotel,
 .template-group-flight{
     display: block;
