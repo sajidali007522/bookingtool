@@ -66,10 +66,10 @@
                 <div class="accordion custom-accordion accordion-sm text-left" id="accordionExample" *ngFor="let profile of profiles; let i=index">
                 <div class="mb-3">
                   <div class="card-header" id="headingOne">
-                    <h2 class="accordion-link noDelIcon" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
+                    <h2 class="accordion-link has-delete-icon" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
                       Booking For {{profile.title}}
-                      <button class="btn btn-primary pull-right" (click)="removeProfile(i)">Remove</button>
-                      <button class="btn btn-primary pull-right" (click)="bookProfile(i, profile)">Book</button>
+                      <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a>
+                      <a class="btn btn-primary pull-right" (click)="bookProfile(i, profile)">Book</a>
                     </h2>
                   </div>
                   <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
