@@ -76,8 +76,8 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
 
   loadFields(fields, eventData={}) {
     ///api2/booking/{bookingID}/AllSearchCriteriaOptions
-    let selectedItems = this.renderSelectedItems(fields)
-    let searchDefinitions = this.renderSearchCriteriaItems(fields)
+    let selectedItems = this.resService.renderSelectedItems(fields)
+    let searchDefinitions = this.resService.renderSearchCriteriaItems(fields)
 
     this.state.processing = true;
     this._http._patch('booking/'+this.state.bookingID+'/ReportingOptions',
@@ -103,57 +103,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       })
   }
 
-  renderSelectedItems (fields) {
-    let temp = []
-    fields.filter(field=>{
-      if(field.isCheckbox){
-        if(field.model && typeof field.model.value !== 'undefined') {
-          temp.push({
-            "relation": (field.fieldRelation|| '00000000-0000-0000-0000-000000000000'),
-            "selection": field.model.value,
-            "type": (field.type || 0),
-            "selectionText": field.model.value
-          })
-        }
-      } else {
-        if(field.model) {
-          temp.push({
-            "relation": (field.fieldRelation|| '00000000-0000-0000-0000-000000000000'),
-            "selection": (typeof field.model.value !== 'undefined' ? field.model.value : field.model),
-            "type": (field.type || 0),
-            "selectionText": (typeof field.model.text !== 'undefined' ? field.model.text : field.model)
-          })
-        }
-      }
 
-
-    })
-    return temp;
-  }
-
-  renderSearchCriteriaItems(fields){
-    let temp = []
-    fields.filter(field=>{
-      if(!field.model) {
-        field.model = ''
-      }
-      if(field.isCheckbox && typeof field.model.value != 'undefined'){
-        temp.push({
-          "resourceTypeID": "00000000-0000-0000-0000-000000000000",
-          "searchCriteriaID": field.searchCriteriaID,
-          "filter": field.model.value
-        })
-      } else {
-        temp.push({
-          "resourceTypeID": "00000000-0000-0000-0000-000000000000",
-          "searchCriteriaID": field.searchCriteriaID,
-          "filter": (field.model.text ? field.model.text : field.model)
-        })
-      }
-
-    })
-    return temp;
-  }
   renderBookingItems(fields){
     let temp = []
     fields.filter(field=>{
@@ -177,12 +127,13 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     })
     return temp;
   }
+
   submitForm() {
     if(!this.validateForm()){
       //console.log(this.formFields)
       return;
     }
-    let body= this.renderSelectedItems(this.formFields);
+    let body= this.resService.renderSelectedItems(this.formFields);
 
     this.resService.saveReservation(this.state.bookingID,body)
       .subscribe(

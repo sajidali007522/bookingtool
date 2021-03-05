@@ -29,4 +29,60 @@ export class ReservationService {
     return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body);
   }
 
+  public getProfiles(bookingId, params) {
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfiles`, {params:params});
+  }
+
+  public renderSelectedItems (fields) {
+    let temp = []
+    fields.filter(field=>{
+      if(field.isCheckbox){
+        if(field.model && typeof field.model.value !== 'undefined') {
+          temp.push({
+            "relation": (field.fieldRelation|| '00000000-0000-0000-0000-000000000000'),
+            "selection": field.model.value,
+            "type": (field.type || 0),
+            "selectionText": field.model.value
+          })
+        }
+      } else {
+        if(field.model) {
+          temp.push({
+            "relation": (field.fieldRelation|| '00000000-0000-0000-0000-000000000000'),
+            "selection": (typeof field.model.value !== 'undefined' ? field.model.value : field.model),
+            "type": (field.type || 0),
+            "selectionText": (typeof field.model.text !== 'undefined' ? field.model.text : field.model)
+          })
+        }
+      }
+
+
+    })
+    return temp;
+  }
+
+  public renderSearchCriteriaItems(fields){
+    let temp = []
+    fields.filter(field=>{
+      if(!field.model) {
+        field.model = ''
+      }
+      if(field.isCheckbox && typeof field.model.value != 'undefined'){
+        temp.push({
+          "resourceTypeID": "00000000-0000-0000-0000-000000000000",
+          "searchCriteriaID": field.searchCriteriaID,
+          "filter": field.model.value
+        })
+      } else {
+        temp.push({
+          "resourceTypeID": "00000000-0000-0000-0000-000000000000",
+          "searchCriteriaID": field.searchCriteriaID,
+          "filter": (field.model.text ? field.model.text : field.model)
+        })
+      }
+
+    })
+    return temp;
+  }
+
 }

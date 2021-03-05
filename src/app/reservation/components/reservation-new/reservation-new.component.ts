@@ -117,7 +117,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     params['criteria'] = this.profileTypeSelected;
     this.travelerList =[];
     this.state.isLoadingTraveler =true;
-    this._http._get("lookup/ProfileLookupSearch", params)
+    this.resService.getProfiles(this.form.bookingID, params)
       .subscribe(data => {
         this.defaultSelection = data['data']['defaultValue'];
         this.travelerList = data['data']['results'];

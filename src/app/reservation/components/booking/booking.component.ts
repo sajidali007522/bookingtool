@@ -73,12 +73,44 @@ export class BookingComponent implements OnInit {
         res=>{
           console.log(res)
           //this.router.navigate([`/reservation/${this.state.bookingID}/booking`]);
+          this.getBookingDefinitions(res['data'].searchFields);
         },
         error => {
           console.log(error)
         }
       )
   }
+
+  getBookingDefinitions(fields, eventData={}) {
+    ///api2/booking/{bookingID}/AllSearchCriteriaOptions
+    let selectedItems = this.resService.renderSelectedItems(fields)
+    let searchDefinitions = this.resService.renderSearchCriteriaItems(fields)
+
+    this.state.processing = true;
+    this._http._patch('booking/'+this.state.bookingID+'/ReportingOptions',
+      {
+        'selectedItems': selectedItems,
+        'lookupSearchCriterias': searchDefinitions
+      }
+    )
+      .subscribe(data => {
+        this.state.processing=false;
+        //console.log(data)
+        this.formFields = fields;
+        this.definition = data;
+        if(eventData['fieldType'] == 'checkbox'){
+          this.formFields[eventData['fieldIndex']].model = JSON.parse(JSON.stringify(eventData['field'].model));
+          if(this.definition[eventData['fieldIndex']].results && eventData['field'].selectedIndex>=0) {
+            this.definition[eventData['fieldIndex']].results[eventData['field'].selectedIndex].isChecked = true
+          }
+        }
+      }, error => {
+        console.log(error)
+        this.state.processing=false;
+      })
+  }
+
+
 
   submitForm(){}
 
@@ -102,7 +134,7 @@ export class BookingComponent implements OnInit {
     params['criteria'] = '00000000-0000-0000-0000-000000000000';
     this.travelerList =[];
     this.state.isLoadingTraveler =true;
-    this._http._get("lookup/ProfileLookupSearch", params)
+    this.resService.getProfiles(this.state.bookingID, params)
       .subscribe(data => {
         this.defaultSelection = data['data']['defaultValue'];
         this.travelerList = data['data']['results'];
@@ -113,6 +145,7 @@ export class BookingComponent implements OnInit {
         this.state.isLoadingTraveler = false;
       });
   }
+
   selectTraveler ($event) {
 
   }
@@ -127,7 +160,18 @@ export class BookingComponent implements OnInit {
   }
 
   bookProfile(index, profile){
-    this.resService.bookProfile(this.state.bookingID, [])
+    if(!this.profileValidated(profile)){
+      return;
+    }
+    let body= []
+    this.definition.filter(field=>{
+      body.push({
+        value:field.selectedValue,
+        relation: (field.fieldRelation|| '00000000-0000-0000-0000-000000000000')
+      })
+    })
+
+    this.resService.bookProfile(this.state.bookingID, body)
       .subscribe(
         res=>{
           console.log(res)
@@ -137,5 +181,8 @@ export class BookingComponent implements OnInit {
           console.log(error)
         }
       )
+  }
+  profileValidated(profile){
+    return true;
   }
 }
