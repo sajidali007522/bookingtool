@@ -41,11 +41,8 @@
                 <ng-template #itemTemplateProfiles let-item>
                   <a href="javascript:void(0)">
                     <div class="auto-txtwrap">
-                      <div class="autoicon">
-                        <span class="fa" [ngClass]="{'fa-plane': item['glyph'] == 'airport', 'fa-map-marker': item['glyph'] == 'locality' }"></span>
-                      </div>
                       <div class="autotxt">
-                        <strong [innerHTML]="item.description"></strong><span>({{item.text}})</span>
+                        <span>{{item.firstName}} {{item.lastName}}</span>
                       </div>
                     </div>
                   </a>

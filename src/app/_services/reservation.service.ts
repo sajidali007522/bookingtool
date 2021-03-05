@@ -33,6 +33,14 @@ export class ReservationService {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfiles`, {params:params});
   }
 
+  public setProfile(bookingId, params) {
+    return this.http.post( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {},{params:params});
+  }
+
+  public getProfile(bookingId, params) {
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {params:params});
+  }
+
   public renderSelectedItems (fields) {
     let temp = []
     fields.filter(field=>{

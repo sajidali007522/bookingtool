@@ -22,7 +22,7 @@ export class BookingComponent implements OnInit {
   defaultSelection;
   profiles=[]
 
-  keyword= "text";
+  keyword= "firstName";
 
   form = {}
   state={
@@ -48,6 +48,7 @@ export class BookingComponent implements OnInit {
       this.state.bookingID = params["booking_id"];
     });
     this.getBookingDetails();
+    this.getTravelerList();
   }
 
   ngAfterViewInit() {
@@ -114,10 +115,10 @@ export class BookingComponent implements OnInit {
 
   submitForm(){}
 
-  addNewProfile(){
+  addNewProfile(title='', details={}){
     this.profiles.push({
-      title: '<New Profile>',
-      details: {
+      title: (title != '' ? title : '<New Profile>'),
+      details: (details? details:{
         title: '',
         first_name: '',
         last_name: '',
@@ -125,7 +126,7 @@ export class BookingComponent implements OnInit {
         phone: '',
         email: '',
         vip_number: '',
-      }
+      })
     });
   }
 
@@ -136,8 +137,11 @@ export class BookingComponent implements OnInit {
     this.state.isLoadingTraveler =true;
     this.resService.getProfiles(this.state.bookingID, params)
       .subscribe(data => {
-        this.defaultSelection = data['data']['defaultValue'];
-        this.travelerList = data['data']['results'];
+        if(data['success']) {
+          // this.defaultSelection = data['data']['defaultValue'];
+          this.getTravelerList();
+          this.travelerList = data['data'];
+        }
         this.state.isLoadingTraveler = false;
 
       },error => {
@@ -147,11 +151,40 @@ export class BookingComponent implements OnInit {
   }
 
   selectTraveler ($event) {
+    console.log($event)
+    this.resService.setProfile(this.state.bookingID, {guestProfileID: $event.id})
+      .subscribe(data => {
+        if(data['success']) {
+          // this.defaultSelection = data['data']['defaultValue'];
 
+        }
+        this.state.isLoadingTraveler = false;
+
+      },error => {
+        this.state.error = error;
+        this.state.isLoadingTraveler = false;
+      });
   }
+
+  getTravelerList (){
+    this.resService.getProfile(this.state.bookingID, {})
+      .subscribe(data => {
+        if(data['success'] && data['data']) {
+          // this.defaultSelection = data['data']['defaultValue'];
+          this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
+        }
+        this.state.isLoadingTraveler = false;
+
+      },error => {
+        this.state.error = error;
+        this.state.isLoadingTraveler = false;
+      });
+  }
+
   searchCleared(type) {
     this.travelerList =[];
   }
+
   onFocused(e){
     // do something when input is focused
   }

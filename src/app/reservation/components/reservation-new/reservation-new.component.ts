@@ -25,7 +25,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   minDateTo: Date;
   dateFormats;
   profileTypeSelected;
-  keyword= "text";
+  keyword= "firstName";
   timePickerkeyword="text";
   form = {
     BeginDate: new Date(),
@@ -84,13 +84,22 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
     this.dateFormats = this.DFService.dateFormats;
     this.maxDateFrom.setDate(5*365)
-    // this.form.BeginDate = new Date();
-    // this.form.BeginDate.setDate(this.form.BeginDate.getDate());
-    // this.form.EndDate = new Date();
-    // this.form.EndDate.setDate(this.form.EndDate.getDate()+1);
+
   }
   selectTraveler ($event) {
+    console.log($event)
+    this.resService.setProfile(this.form.bookingID, {guestProfileID: $event.id})
+      .subscribe(data => {
+        if(data['success']) {
+          // this.defaultSelection = data['data']['defaultValue'];
+          console.log(data);
+        }
+        this.state.isLoadingTraveler = false;
 
+      },error => {
+        this.state.error = error;
+        this.state.isLoadingTraveler = false;
+      });
   }
   searchCleared(type) {
     this.travelerList =[];
@@ -112,6 +121,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         this.state.assigningBusinessProfile = false
       });
   }
+
   getloadProfiles (event) {
     let params = {searchTerm: event};
     params['criteria'] = this.profileTypeSelected;
@@ -119,8 +129,10 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     this.state.isLoadingTraveler =true;
     this.resService.getProfiles(this.form.bookingID, params)
       .subscribe(data => {
-        this.defaultSelection = data['data']['defaultValue'];
-        this.travelerList = data['data']['results'];
+        if(data['success']) {
+         // this.defaultSelection = data['data']['defaultValue'];
+          this.travelerList = data['data'];
+        }
         this.state.isLoadingTraveler = false;
 
       },error => {
