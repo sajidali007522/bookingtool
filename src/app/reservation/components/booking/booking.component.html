@@ -41,8 +41,7 @@
                 <ng-template #itemTemplateProfiles let-item>
                   <a href="javascript:void(0)">
                     <div class="auto-txtwrap">
-                      <div class="autotxt">
-                        <span>{{item.firstName}} {{item.lastName}}</span>
+                      <div class="autotxt" [innerHTML]="item.firstName+' '+item.lastName">
                       </div>
                     </div>
                   </a>
