@@ -134,10 +134,11 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       return;
     }
     let body= this.resService.renderSelectedItems(this.formFields);
-
+    this.state.processing = true;
     this.resService.saveReservation(this.state.bookingID,body)
       .subscribe(
         res=>{
+          this.state.processing = false;
           this.router.navigate([`/reservation/${this.state.bookingID}/booking`]);
         },
         error => {
