@@ -156,7 +156,7 @@ export class BookingComponent implements OnInit {
       .subscribe(data => {
         if(data['success']) {
           // this.defaultSelection = data['data']['defaultValue'];
-
+          this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
         }
         this.state.isLoadingTraveler = false;
 
@@ -171,7 +171,7 @@ export class BookingComponent implements OnInit {
       .subscribe(data => {
         if(data['success'] && data['data']) {
           // this.defaultSelection = data['data']['defaultValue'];
-          this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
+          //this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
         }
         this.state.isLoadingTraveler = false;
 
