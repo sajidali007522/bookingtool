@@ -15,7 +15,7 @@
         <ng-container *ngIf="!state.processing && !state.loadingGuest">
           <div class="custom-content tabs-content" id="content-1" style="display: block;">
             <div class="">
-              <div class="input-group mb-4 field-wrap field-gray-wrap traveler-field" *ngIf="profiles.length==0">
+              <div class="input-group mb-4 field-wrap field-gray-wrap traveler-field" *ngIf="profiles[0].guestName == '<New Profile>'">
                 <span class="user"></span>
                 <ng-autocomplete
                   [data]="travelerList"
@@ -54,7 +54,7 @@
                 </div>
                 <div _ngcontent-gim-c105="" class="input-group-append">
                   <button type="button" class="btn btn-info ptb-10">Search <span class="fa fa-search position-static font-14 ml-2"></span></button>
-                  <button type="button" class="btn btn-success ptb-10" (click)="addNewProfile()"> New Profile <span class="fa fa-plus position-static font-14"></span></button>
+<!--                  <button type="button" class="btn btn-success ptb-10" (click)="addNewProfile()"> New Profile <span class="fa fa-plus position-static font-14"></span></button>-->
                 </div>
               </div>
               <ng-container *ngIf="profiles">
@@ -70,7 +70,8 @@
                         aria-expanded="true">
                       Booking For {{profile.guestName}}
                       <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a>
-                      <a class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
+                      <a *ngIf="!profile['resNumber']" class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
+                      <a *ngIf="profile['resNumber']" class="btn btn-info btn-book" href="javascript:void(0)">{{profile['resNumber']}}</a>
                     </h2>
                   </div>
                   <div id="collaps-{{i}}" class="collapse show" data-parent="#accordionExample">
@@ -83,7 +84,7 @@
                               <div class="col-md-6" *ngFor="let field of section.inputFields">
                                 <div class="field-wrap-outer">
                                   <label for="">{{field.name}}<span class="text-danger" *ngIf="field.isRequired">*</span></label>
-                                  <div class="field-wrap">
+                                  <div class="field-wrap" [ngClass]="{'has-icon': field.processing, 'no-icon': !field.processing}">
                                     <ng-container *ngIf="field.searchField">
                                       <select class="form-control no-icon" [(ngModel)]="field.value">
                                         <option value=""> Select {{field.name}}</option>

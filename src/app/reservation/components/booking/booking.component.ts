@@ -59,9 +59,9 @@ export class BookingComponent implements OnInit {
 
   ngAfterViewInit() {
     console.log("view is ready");
-
+    $('body').find('.custom-accordion > h3 > a').unbind('click');
     $('body').on('click', '.custom-accordion > h3 > a',  function(e, arg) {
-      console.log($(this).attr('class'));
+      console.log($(this).parent().attr('class'));
       if( $(this).parent().hasClass('active') ){
         $(this).parent().removeClass('active');
         $(this).parent().next('.custom-accordion-content').slideUp();
@@ -74,16 +74,18 @@ export class BookingComponent implements OnInit {
     });
   }
 
-  getBookingDetails(){
+  getBookingDetails() {
     if(this.state.processing) return;
     this.state.processing = true;
     this.resService.getReservSkeleton(this.state.bookingID)
       .subscribe(
         res=>{
           this.state.processing=false
-          this.getTravelerList();
+          //this.getTravelerList();
           if(res['success']) {
             this.bookingStructure = res['data'];
+            this.profiles = [];
+            this.profiles.push(res['data']);
             for(let groupIndex = 0; groupIndex<res['data']['inputGroups'].length; groupIndex++) {
               //inputFields loop through fields section
               for(let fieldIndex = 0; fieldIndex<res['data']['inputGroups'][groupIndex]['inputFields'].length; fieldIndex++) {
@@ -112,7 +114,7 @@ export class BookingComponent implements OnInit {
           res=>{
             //console.log(res['data'].results)
             if(res['success']) {
-              this.bookingStructure['inputGroups'][groupIndex]['inputFields'][fieldIndex]['searchField']['list'] = res['data']['results']
+              this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['searchField']['list'] = res['data']['results']
             }
 
           },
@@ -125,9 +127,10 @@ export class BookingComponent implements OnInit {
 
   addNewProfile(title='', details={}){
     //this.bookingStructure['guestName'] = title;
-    console.log(this.bookingStructure)
+    let temp = JSON.parse(JSON.stringify(this.bookingStructure));
+    temp['guestName'] = title
     this.profiles.push(
-      this.bookingStructure
+      temp
     );
   }
 
@@ -153,14 +156,20 @@ export class BookingComponent implements OnInit {
   }
 
   selectTraveler ($event) {
-    console.log($event)
+    //console.log($event)
+    this.state.isLoadingTraveler = true;
     this.resService.setProfile(this.state.bookingID, {guestProfileID: $event.id})
       .subscribe(data => {
-        if(data['success']) {
-          // this.defaultSelection = data['data']['defaultValue'];
-          this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
-        }
         this.state.isLoadingTraveler = false;
+        if(data['status'] == 500){
+          let str = data['message'].split('.');
+          this.toastr.error(str[0], 'Error!');
+        }
+        if(data['status'] == 200) {
+          // this.defaultSelection = data['data']['defaultValue'];
+          this.getBookingDetails();
+          //this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
+        }
 
       },error => {
         this.state.error = error;
@@ -174,11 +183,12 @@ export class BookingComponent implements OnInit {
     this.resService.getProfile(this.state.bookingID, {})
       .subscribe(data => {
         this.state.loadingGuest = false;
-        if(data['success'] && data['data']['firstName'] != '') {
+        this.state.isLoadingTraveler = false;
+        if(data['success'] && data['status'] == 200 && data['data']['firstName'] != '') {
           // this.defaultSelection = data['data']['defaultValue'];
           this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
         }
-        this.state.isLoadingTraveler = false;
+
 
       },error => {
         this.state.error = error;
@@ -215,13 +225,14 @@ export class BookingComponent implements OnInit {
       .subscribe(
         res=>{
           this.profiles[index]['processing'] = false;
-          if(res['status'] == 500){
+          if(res['status'] == 500) {
             let str = res['message'].split('.');
             this.toastr.error(str[0], 'Error!');
           }
           if(res['status'] == 200){
-            let str = res['message'].split('.');
-            this.toastr.success(str[0], 'Success!');
+            this.toastr.success("Reservation has been saved", 'Success!');
+            this.profiles[index]['resNumber'] = res['data'].resNumber
+            this.profiles[index]['reservationID'] = res['data'].reservationID
           }
           //this.router.navigate([`/reservation/${this.state.bookingID}/booking`]);
         },
