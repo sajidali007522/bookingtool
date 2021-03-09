@@ -5,6 +5,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {TemplateService} from "../../../_services/template.service";
 import * as $ from "jquery";
 import {ReservationService} from "../../../_services/reservation.service";
+import {group} from "@angular/animations";
+import {LookupService} from "../../../_services/lookupService";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-booking',
@@ -22,12 +25,13 @@ export class BookingComponent implements OnInit {
   defaultSelection;
   profiles=[]
   bookingStructure={}
-
+  canceler;
   keyword= "firstName";
 
   form = {}
   state={
     processing: false,
+    loadingGuest: false,
     error: {message: ''},
     errorMsg: '',
     bookingID: '',
@@ -40,7 +44,9 @@ export class BookingComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public template: TemplateService,
     public router: Router,
-    public resService: ReservationService
+    public resService: ReservationService,
+    public lookupService: LookupService,
+    private toastr: ToastrService,
   ) {
   }
 
@@ -49,7 +55,6 @@ export class BookingComponent implements OnInit {
       this.state.bookingID = params["booking_id"];
     });
     this.getBookingDetails();
-    this.getTravelerList();
   }
 
   ngAfterViewInit() {
@@ -70,12 +75,23 @@ export class BookingComponent implements OnInit {
   }
 
   getBookingDetails(){
+    if(this.state.processing) return;
+    this.state.processing = true;
     this.resService.getReservSkeleton(this.state.bookingID)
       .subscribe(
         res=>{
-          console.log(res)
+          this.state.processing=false
+          this.getTravelerList();
           if(res['success']) {
             this.bookingStructure = res['data'];
+            for(let groupIndex = 0; groupIndex<res['data']['inputGroups'].length; groupIndex++) {
+              //inputFields loop through fields section
+              for(let fieldIndex = 0; fieldIndex<res['data']['inputGroups'][groupIndex]['inputFields'].length; fieldIndex++) {
+                if(res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex].searchField){
+                  this.loadFieldOptions(res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex], fieldIndex, groupIndex);
+                }
+              }
+            }
           }
         },
         error => {
@@ -84,37 +100,35 @@ export class BookingComponent implements OnInit {
       )
   }
 
-  getBookingDefinitions(fields, eventData={}) {
-    ///api2/booking/{bookingID}/AllSearchCriteriaOptions
-    let selectedItems = this.resService.renderSelectedItems(fields)
-    let searchDefinitions = this.resService.renderSearchCriteriaItems(fields)
-
-    this.state.processing = true;
-    this._http._patch('booking/'+this.state.bookingID+'/ReportingOptions',
-      {
-        'selectedItems': selectedItems,
-        'lookupSearchCriterias': searchDefinitions
-      }
-    )
-      .subscribe(data => {
-        this.state.processing=false;
-        //console.log(data)
-        this.formFields = fields;
-        this.definition = data;
-        if(eventData['fieldType'] == 'checkbox'){
-          this.formFields[eventData['fieldIndex']].model = JSON.parse(JSON.stringify(eventData['field'].model));
-          if(this.definition[eventData['fieldIndex']].results && eventData['field'].selectedIndex>=0) {
-            this.definition[eventData['fieldIndex']].results[eventData['field'].selectedIndex].isChecked = true
-          }
-        }
-      }, error => {
-        console.log(error)
-        this.state.processing=false;
+  loadFieldOptions(field, fieldIndex, groupIndex){
+    field['processing'] = true;
+    this.canceler=this.lookupService.findResults(this.state.bookingID, [], {
+        definitionType: 2,
+        resourceTypeID: '00000000-0000-0000-0000-000000000000',
+        searchCriteriaID: field.searchField.searchCriteriaID,
+        filter: ''
       })
+        .subscribe(
+          res=>{
+            //console.log(res['data'].results)
+            if(res['success']) {
+              this.bookingStructure['inputGroups'][groupIndex]['inputFields'][fieldIndex]['searchField']['list'] = res['data']['results']
+            }
+
+          },
+          err=>{
+            field['processing'] = false;
+            console.log(err)
+          }
+        )
   }
 
   addNewProfile(title='', details={}){
-    this.profiles.push(this.bookingStructure);
+    //this.bookingStructure['guestName'] = title;
+    console.log(this.bookingStructure)
+    this.profiles.push(
+      this.bookingStructure
+    );
   }
 
   getloadProfiles (event) {
@@ -122,11 +136,12 @@ export class BookingComponent implements OnInit {
     params['criteria'] = '00000000-0000-0000-0000-000000000000';
     this.travelerList =[];
     this.state.isLoadingTraveler =true;
-    this.resService.getProfiles(this.state.bookingID, params)
+    if(this.canceler) {this.canceler.unsubscribe();}
+    this.canceler = this.resService.getProfiles(this.state.bookingID, params)
       .subscribe(data => {
         if(data['success']) {
           // this.defaultSelection = data['data']['defaultValue'];
-          this.getTravelerList();
+          //this.getTravelerList();
           this.travelerList = data['data'];
         }
         this.state.isLoadingTraveler = false;
@@ -154,11 +169,14 @@ export class BookingComponent implements OnInit {
   }
 
   getTravelerList (){
+    if(this.state.loadingGuest) return;
+    this.state.loadingGuest = true;
     this.resService.getProfile(this.state.bookingID, {})
       .subscribe(data => {
-        if(data['success'] && data['data']) {
+        this.state.loadingGuest = false;
+        if(data['success'] && data['data']['firstName'] != '') {
           // this.defaultSelection = data['data']['defaultValue'];
-          //this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
+          this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
         }
         this.state.isLoadingTraveler = false;
 
@@ -184,20 +202,31 @@ export class BookingComponent implements OnInit {
       return;
     }
     let body= []
-    this.definition.filter(field=>{
-      body.push({
-        value:field.selectedValue,
-        relation: (field.fieldRelation|| '00000000-0000-0000-0000-000000000000')
+    profile.inputGroups.filter(group=>{
+      group.inputFields.filter(field=>{
+        body.push({
+          relation: field.relation,
+          value: field.value
+        })
       })
     })
-
+    this.profiles[index]['processing'] = true;
     this.resService.bookProfile(this.state.bookingID, body)
       .subscribe(
         res=>{
-          console.log(res)
+          this.profiles[index]['processing'] = false;
+          if(res['status'] == 500){
+            let str = res['message'].split('.');
+            this.toastr.error(str[0], 'Error!');
+          }
+          if(res['status'] == 200){
+            let str = res['message'].split('.');
+            this.toastr.success(str[0], 'Success!');
+          }
           //this.router.navigate([`/reservation/${this.state.bookingID}/booking`]);
         },
         error => {
+          this.profiles[index]['processing'] = false;
           console.log(error)
         }
       )

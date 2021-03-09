@@ -6,16 +6,15 @@
   <div class="alert alert-primary custom-logo-top no-icon m-0 alert-dismissible fade show" role="alert">
     Booking
   </div>
-  <div class="custom-section" [ngClass]="{'table-loader': state.processing}">
+  <div class="custom-section" [ngClass]="{'table-loader': state.processing || state.loadingGuest}">
     <ng-container>
       <div class="custom-main template-outer">
-        <ng-container *ngIf="state.processing">
+        <ng-container *ngIf="state.processing || state.loadingGuest">
           <div class="table-loader">Processing...</div>
         </ng-container>
-        <ng-container *ngIf="!state.processing">
+        <ng-container *ngIf="!state.processing && !state.loadingGuest">
           <div class="custom-content tabs-content" id="content-1" style="display: block;">
             <div class="">
-
               <div class="input-group mb-4 field-wrap field-gray-wrap traveler-field" *ngIf="profiles.length==0">
                 <span class="user"></span>
                 <ng-autocomplete
@@ -40,7 +39,7 @@
 
                 <ng-template #itemTemplateProfiles let-item>
                   <a href="javascript:void(0)">
-                    <div class="auto-txtwrap">
+                    <div class="auto-txtwrap text-left">
                       <div class="autotxt" [innerHTML]="item.firstName+' '+item.lastName">
                       </div>
                     </div>
@@ -69,90 +68,35 @@
                         data-toggle="collapse"
                         data-target="#collaps-1"
                         aria-expanded="true">
-                      Booking For {{profile.title}}
+                      Booking For {{profile.guestName}}
                       <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a>
-                      <a class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book</a>
+                      <a class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
                     </h2>
                   </div>
                   <div id="collaps-{{i}}" class="collapse show" data-parent="#accordionExample">
                     <div class="box box-lr">
                       <div class="custom-accordion-wrap">
-                        <div class="custom-accordion">
-                          <h3 class="" [ngClass]="{'active': i==0}"><a href="javascript:void(0)">Profile</a></h3>
-                          <div class="custom-accordion-content" [ngClass]="{exp: i==0}">
+                        <div class="custom-accordion" *ngFor="let section of profile.inputGroups">
+                          <h3 class=""><a href="javascript:void(0)">{{section.name}}</a></h3>
+                          <div class="custom-accordion-content">
                             <div class="row">
-                              <div class="col-md-6">
+                              <div class="col-md-6" *ngFor="let field of section.inputFields">
                                 <div class="field-wrap-outer">
-                                  <label for="">Title</label>
+                                  <label for="">{{field.name}}<span class="text-danger" *ngIf="field.isRequired">*</span></label>
                                   <div class="field-wrap">
-                                    <select class="form-control no-icon" [(ngModel)]="profile.details['title']">
-                                      <option value="">Select Title...</option>
-                                      <option value="Mr.">Mr.</option>
-                                      <option value="Mrs.">Mrs.</option>
-                                      <option value="Ms.">Ms.</option>
-                                      <option value="Dr.">Dr.</option>
-                                      <option value="Mstr.">Mstr.</option>
-                                      <option value="Miss">Miss</option>
-                                      <option value="Prof.">Prof.</option>
-                                      <option value="Rev.">Rev.</option>
-                                      <option value="Sir">Sir</option>
-                                      <option value="Sister">Sister</option>
-                                    </select>
+                                    <ng-container *ngIf="field.searchField">
+                                      <select class="form-control no-icon" [(ngModel)]="field.value">
+                                        <option value=""> Select {{field.name}}</option>
+                                        <option value="{{option.value}}" *ngFor="let option of field.searchField.list">{{option.text}}</option>
+                                      </select>
+                                    </ng-container>
+                                    <ng-container *ngIf="!field.searchField">
+                                      <input type="text" placeholder="{{field.name}}" [(ngModel)]="field.value" class="form-control no-icon" />
+                                    </ng-container>
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-md-6">
-                                <div class="field-wrap-outer">
-                                  <label for="">First Name</label>
-                                  <div class="field-wrap">
-                                    <input type="text" [(ngModel)]="profile.details['first_name']" class="form-control no-icon">
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-6">
-                                <div class="field-wrap-outer">
-                                  <label for="">Last Name</label>
-                                  <div class="field-wrap">
-                                    <input type="text" [(ngModel)]="profile.details['last_name']" class="form-control no-icon">
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-6">
-                                <div class="field-wrap-outer">
-                                  <label for="">Gender</label>
-                                  <div class="field-wrap">
-                                    <select class="form-control no-icon" [(ngModel)]="profile.details['gender']">
-                                      <option>Select Gender</option>
-                                      <option>Male</option>
-                                      <option>Female</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-6">
-                                <div class="field-wrap-outer">
-                                  <label for="">Email</label>
-                                  <div class="field-wrap">
-                                    <input type="text" [(ngModel)]="profile.details['email']" class="form-control no-icon">
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-6">
-                                <div class="field-wrap-outer">
-                                  <label for="">Phone</label>
-                                  <div class="field-wrap">
-                                    <input type="text" [(ngModel)]="profile.details['phone']" class="form-control no-icon">
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-6">
-                                <div class="field-wrap-outer">
-                                  <label for="">VIP Number</label>
-                                  <div class="field-wrap">
-                                    <input type="text" [(ngModel)]="profile.details['vip_number']" class="form-control no-icon">
-                                  </div>
-                                </div>
-                              </div>
+
                             </div>
                           </div>
                         </div>

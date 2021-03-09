@@ -27,6 +27,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   profileTypeSelected;
   keyword= "firstName";
   timePickerkeyword="text";
+  canceler;
+
   form = {
     BeginDate: new Date(),
     EndDate: new Date(),
@@ -37,6 +39,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     template: ''
   }
   state={
+    bannerText: '<strong>ようこそ</strong> Welcome Bienvenue Marhaba',
     error: {message: ''},
     formErrors: [],
     errorMsg: '',
@@ -125,9 +128,11 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   getloadProfiles (event) {
     let params = {searchTerm: event};
     params['criteria'] = this.profileTypeSelected;
+
     this.travelerList =[];
     this.state.isLoadingTraveler =true;
-    this.resService.getProfiles(this.form.bookingID, params)
+    if(this.canceler) { this.canceler.unsubscribe()}
+    this.canceler = this.resService.getProfiles(this.form.bookingID, params)
       .subscribe(data => {
         if(data['success']) {
          // this.defaultSelection = data['data']['defaultValue'];
@@ -204,6 +209,10 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
           this.form.bookingID = data['bookingID'];
           this.loadTemplateGroups()
         }
+        if(data['bannerMessage']) {
+          this.state.bannerText =data['bannerMessage'].replace(/(<([^>]+)>)/gi, "")
+        }
+
         this.state.initiateBooking = false;
       });
   }
