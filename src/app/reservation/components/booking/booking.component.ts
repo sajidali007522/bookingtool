@@ -21,6 +21,7 @@ export class BookingComponent implements OnInit {
   travelerList=[]
   defaultSelection;
   profiles=[]
+  bookingStructure={}
 
   keyword= "firstName";
 
@@ -69,12 +70,13 @@ export class BookingComponent implements OnInit {
   }
 
   getBookingDetails(){
-    this.resService.getReservation(this.state.bookingID)
+    this.resService.getReservSkeleton(this.state.bookingID)
       .subscribe(
         res=>{
           console.log(res)
-          //this.router.navigate([`/reservation/${this.state.bookingID}/booking`]);
-          this.getBookingDefinitions(res['data'].searchFields);
+          if(res['success']) {
+            this.bookingStructure = res['data'];
+          }
         },
         error => {
           console.log(error)
@@ -111,23 +113,8 @@ export class BookingComponent implements OnInit {
       })
   }
 
-
-
-  submitForm(){}
-
   addNewProfile(title='', details={}){
-    this.profiles.push({
-      title: (title != '' ? title : '<New Profile>'),
-      details: (details? details:{
-        title: '',
-        first_name: '',
-        last_name: '',
-        gender: '',
-        phone: '',
-        email: '',
-        vip_number: '',
-      })
-    });
+    this.profiles.push(this.bookingStructure);
   }
 
   getloadProfiles (event) {

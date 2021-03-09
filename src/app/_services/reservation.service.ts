@@ -25,6 +25,10 @@ export class ReservationService {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/Reporting`);
   }
 
+  public getReservSkeleton (bookingId) {
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reserve`);
+  }
+
   public bookProfile (bookingId, body) {
     return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body);
   }
