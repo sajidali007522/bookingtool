@@ -173,6 +173,7 @@ img{
         border-radius: 0;
     }
     .flex-automate{
+        width: auto;
         flex: 1 1 auto;
     }
     .booking-zindex{
