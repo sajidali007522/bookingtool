@@ -112,6 +112,7 @@ export class BookingComponent implements OnInit {
       })
         .subscribe(
           res=>{
+            field['processing'] = false;
             //console.log(res['data'].results)
             if(res['success']) {
               this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['searchField']['list'] = res['data']['results']
@@ -209,6 +210,7 @@ export class BookingComponent implements OnInit {
 
   bookProfile(index, profile){
     if(!this.profileValidated(profile)){
+      console.log(profile)
       return;
     }
     let body= []
@@ -243,6 +245,24 @@ export class BookingComponent implements OnInit {
       )
   }
   profileValidated(profile){
-    return true;
+
+    let isValidated = true;
+    profile.inputGroups.filter(group => {
+      group.inputFields.filter(field=>{
+        field['errorMessage'] = ""
+        if(field.isRequired && field.value == ""){
+          isValidated = false;
+          field['errorMessage'] = field.name+" is Required"
+        }
+      })
+    })
+    return isValidated;
+  }
+
+  setValidation (field){
+    field.errorMessage = "";
+    if(field.isRequired && field.value == ""){
+      field['errorMessage'] = field.name+" is Required"
+    }
   }
 }

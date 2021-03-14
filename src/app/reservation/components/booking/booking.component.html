@@ -71,11 +71,16 @@
                       Booking For {{profile.guestName}}
                       <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a>
                       <a *ngIf="!profile['resNumber']" class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
-                      <a *ngIf="profile['resNumber']" class="btn btn-info btn-book" href="javascript:void(0)">{{profile['resNumber']}}</a>
                     </h2>
                   </div>
                   <div id="collaps-{{i}}" class="collapse show" data-parent="#accordionExample">
                     <div class="box box-lr">
+                      <div class="alert alert-success alert-dismissible fade show text-center" role="alert" *ngIf="profile['resNumber']">
+                        Booking has been made successfuly. view your booking at <a href="#" class="alert-link">{{profile['resNumber']}}</a>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
                       <div class="custom-accordion-wrap">
                         <div class="custom-accordion" *ngFor="let section of profile.inputGroups">
                           <h3 class=""><a href="javascript:void(0)">{{section.name}}</a></h3>
@@ -83,17 +88,27 @@
                             <div class="row">
                               <div class="col-md-6" *ngFor="let field of section.inputFields">
                                 <div class="field-wrap-outer">
-                                  <label for="">{{field.name}}<span class="text-danger" *ngIf="field.isRequired">*</span></label>
-                                  <div class="field-wrap" [ngClass]="{'has-icon': field.processing, 'no-icon': !field.processing}">
+                                  <label for="">{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && field.value == ''}"
+                                                                    *ngIf="field.isRequired">*</span></label>
+                                  <div class="field-wrap" [ngClass]="{}">
                                     <ng-container *ngIf="field.searchField">
-                                      <select class="form-control no-icon" [(ngModel)]="field.value">
-                                        <option value=""> Select {{field.name}}</option>
-                                        <option value="{{option.value}}" *ngFor="let option of field.searchField.list">{{option.text}}</option>
+                                      <select class="form-control no-icon" [(ngModel)]="field.value" [ngClass]="{
+                                        'is-invalid' : field.errorMessage && field.errorMessage != '' && field.isRequired,
+                                        'is-valid' : (!field.errorMessage || '' == field.errorMessage)  && field.isRequired,
+                                        'has-icon': field.processing, 'no-icon': !field.processing
+                                        }" (change)="setValidation(field)">
+                                        <option [ngValue]="''"> Select {{field.name}}</option>
+                                        <option [ngValue]="option.value" *ngFor="let option of field.searchField.list">{{option.text}}</option>
                                       </select>
+                                      <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
                                     </ng-container>
                                     <ng-container *ngIf="!field.searchField">
-                                      <input type="text" placeholder="{{field.name}}" [(ngModel)]="field.value" class="form-control no-icon" />
+                                      <input type="text"  [ngClass]="{
+                                        'is-invalid' : field.errorMessage && field.errorMessage != '' && field.isRequired,
+                                        'is-valid' : (!field.errorMessage || field.errorMessage == '')  && field.isRequired
+                                        }" placeholder="{{field.name}}" (keyup)="setValidation(field)" [(ngModel)]="field.value" class="form-control no-icon" />
                                     </ng-container>
+                                    <label class="error text-danger" *ngIf="field.errorMessage">{{field.errorMessage}}</label>
                                   </div>
                                 </div>
                               </div>
