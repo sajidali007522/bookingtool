@@ -121,7 +121,7 @@
 
       <app-loader *ngIf="state.isLoading || state.isLoadingConfig "></app-loader>
       <div class="alert alert-danger" *ngIf="state.alertMessages">{{state.alertMessages}}</div>
-      <div class="" *ngIf="!state.isLoading">
+      <div class="" *ngIf="!state.isLoading && !state.isLoadingConfig">
         <div class="box position-relative box-skin" id="container">
           <div class="box-header">
             <div class="row">
