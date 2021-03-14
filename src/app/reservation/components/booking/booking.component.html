@@ -15,7 +15,7 @@
         <ng-container *ngIf="!state.processing && !state.loadingGuest">
           <div class="custom-content tabs-content" id="content-1" style="display: block;">
             <div class="">
-              <div class="input-group mb-4 field-wrap field-gray-wrap traveler-field" *ngIf="profiles[0].guestName == '<New Profile>'">
+              <div class="input-group mb-4 field-wrap field-gray-wrap traveler-field" *ngIf="profiles.length == 0 || profiles[0]['guestName'] == '<New Profile>'">
                 <span class="user"></span>
                 <ng-autocomplete
                   [data]="travelerList"
@@ -57,18 +57,14 @@
 <!--                  <button type="button" class="btn btn-success ptb-10" (click)="addNewProfile()"> New Profile <span class="fa fa-plus position-static font-14"></span></button>-->
                 </div>
               </div>
-              <ng-container *ngIf="profiles">
+              <ng-container *ngIf="profiles.length > 0">
                 <div class="accordion custom-accordion accordion-sm accordion-has-book text-left" id="accordionExample" *ngFor="let profile of profiles; let i=index">
                 <div class="mb-3">
                   <div class="card-header" id="headingOne">
-                    <h2 class="accordion-link has-delete-icon"
-                        [attr.data-toggle]="'collapse'"
-                        [attr.data-target]="'#collaps-'+i"
-                        [attr.aria-expanded]="'true'"
-                        data-toggle="collapse"
-                        data-target="#collaps-1"
-                        aria-expanded="true">
-                      Booking For {{profile.guestName}}
+                    <h2 class="accordion-link has-delete-icon">
+                      <span [attr.data-toggle]="'collapse'"
+                            [attr.data-target]="'#collaps-'+i"
+                            [attr.aria-expanded]="'true'" style="display: block; ">Booking For {{profile.guestName}}</span>
                       <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a>
                       <a *ngIf="!profile['resNumber']" class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
                     </h2>

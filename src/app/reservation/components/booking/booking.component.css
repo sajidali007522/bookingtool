@@ -13,4 +13,10 @@
   .traveler-field input{
     padding-left: 40px !important;
   }
-  
+.accordion-has-book .accordion-link .remove-accordion {
+  top: 12px;
+}
+
+.accordion-has-book .accordion-link span{
+  display: block;
+}
