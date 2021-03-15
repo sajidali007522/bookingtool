@@ -153,6 +153,7 @@ img{
         background-image: url(../images/arrow-down-black.png) !important;
         background-position: calc(100% - 10px) center !important;
         background-repeat: no-repeat !important;
+        padding-right: 35px;
         -webkit-appearance: none;
     }
     .field-wrap .form-control.no-icon{
