@@ -58,7 +58,10 @@
                 </div>
               </div>
               <ng-container *ngIf="profiles.length > 0">
-                <div class="accordion custom-accordion accordion-sm accordion-has-book text-left" id="accordionExample" *ngFor="let profile of profiles; let i=index">
+                <div
+                  class="accordion custom-accordion accordion-sm text-left" id="accordionExample"
+                  [ngClass]="{'accordion-has-book': !profile['resNumber']}"
+                  *ngFor="let profile of profiles; let i=index">
                 <div class="mb-3">
                   <div class="card-header" id="headingOne">
                     <h2 class="accordion-link has-delete-icon">
@@ -78,9 +81,9 @@
                         </button>
                       </div>
                       <div class="custom-accordion-wrap">
-                        <div class="custom-accordion" *ngFor="let section of profile.inputGroups">
-                          <h3 class=""><a href="javascript:void(0)">{{section.name}}</a></h3>
-                          <div class="custom-accordion-content">
+                        <div class="custom-accordion" *ngFor="let section of profile.inputGroups; let secIndex=index;">
+                          <h3 class="" [ngClass]="{'active': secIndex==0}"><a href="javascript:void(0)">{{section.name}}</a></h3>
+                          <div class="custom-accordion-content" [ngClass]="{'exp': secIndex == 0}">
                             <div class="row">
                               <div class="col-md-6" *ngFor="let field of section.inputFields">
                                 <div class="field-wrap-outer">
