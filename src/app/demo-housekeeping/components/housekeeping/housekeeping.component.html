@@ -252,13 +252,13 @@
                     </td>
                   </tr>
                   </tbody>
-                  <tfoot *ngIf="state.isLoadingMoreRooms && !isMobileDevice()">
+                  <!--<tfoot *ngIf="state.isLoadingMoreRooms && !isMobileDevice()">
                   <tr>
                     <td colspan="10">
                       <div class="table-loader-bot"></div>
                     </td>
                   </tr>
-                  </tfoot>
+                  </tfoot> -->
                 </table>
               </ng-container>
               <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
