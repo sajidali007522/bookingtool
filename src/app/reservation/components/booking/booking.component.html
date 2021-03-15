@@ -91,7 +91,7 @@
                                                                     *ngIf="field.isRequired">*</span></label>
                                   <div class="field-wrap" [ngClass]="{}">
                                     <ng-container *ngIf="field.searchField">
-                                      <select readonly="{{profile['resNumber'] ? 'readonly': ''}}" class="form-control no-icon" [(ngModel)]="field.value" [ngClass]="{
+                                      <select [disabled]="profile['resNumber']" class="form-control no-icon" [(ngModel)]="field.value" [ngClass]="{
                                         'is-invalid' : field.errorMessage && field.errorMessage != '' && field.isRequired,
                                         'is-valid' : (!field.errorMessage || '' == field.errorMessage)  && field.isRequired,
                                         'has-icon': field.processing, 'no-icon': !field.processing
