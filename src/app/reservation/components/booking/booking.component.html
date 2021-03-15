@@ -68,7 +68,7 @@
                       <span [attr.data-toggle]="'collapse'"
                             [attr.data-target]="'#collaps-'+i"
                             [attr.aria-expanded]="'true'" style="display: block; ">Booking For {{profile.guestName}}</span>
-                      <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a>
+                      <!-- <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a> -->
                       <a *ngIf="!profile['resNumber']" class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
                     </h2>
                   </div>
