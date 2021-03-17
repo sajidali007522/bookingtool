@@ -45,6 +45,14 @@ export class ReservationService {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {params:params});
   }
 
+  public cloneBooking (bookingId, params) {
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/Clone`, {params:params});
+  }
+
+  public cloneAllBooking (bookingId, params) {
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {params:params});
+  }
+
   public renderSelectedItems (fields) {
     let temp = []
     fields.filter(field=>{

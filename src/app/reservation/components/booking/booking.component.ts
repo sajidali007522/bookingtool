@@ -74,17 +74,16 @@ export class BookingComponent implements OnInit {
     });
   }
 
-  getBookingDetails() {
+  getBookingDetails(bookingId='') {
     if(this.state.processing) return;
     this.state.processing = true;
-    this.resService.getReservSkeleton(this.state.bookingID)
+    this.resService.getReservSkeleton(bookingId || this.state.bookingID)
       .subscribe(
         res=>{
           this.state.processing=false
           //this.getTravelerList();
           if(res['success']) {
             this.bookingStructure = res['data'];
-            this.profiles = [];
             this.profiles.push(res['data']);
             for(let groupIndex = 0; groupIndex<res['data']['inputGroups'].length; groupIndex++) {
               //inputFields loop through fields section
@@ -159,7 +158,7 @@ export class BookingComponent implements OnInit {
   selectTraveler ($event) {
     //console.log($event)
     this.state.isLoadingTraveler = true;
-    this.resService.setProfile(this.state.bookingID, {guestProfileID: $event.id})
+    /*this.resService.setProfile(this.state.bookingID, {guestProfileID: $event.id})
       .subscribe(data => {
         this.state.isLoadingTraveler = false;
         if(data['status'] == 500){
@@ -169,6 +168,26 @@ export class BookingComponent implements OnInit {
         if(data['status'] == 200) {
           // this.defaultSelection = data['data']['defaultValue'];
           this.getBookingDetails();
+          //this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
+        }
+
+      },error => {
+        this.state.error = error;
+        this.state.isLoadingTraveler = false;
+      });*/
+    this.resService.cloneBooking(this.state.bookingID, {guestProfileID: $event.id, isNewGuest: false})
+      .subscribe(data => {
+        this.state.isLoadingTraveler = false;
+        if(data['status'] == 500){
+          let str = data['message'].split('.');
+          this.toastr.error(str[0], 'Error!');
+        }
+        if(data['status'] == 200) {
+          // this.defaultSelection = data['data']['defaultValue'];
+          //this.getBookingDetails();
+          //this.getTravelerList();
+          //data['data']
+          this.getBookingDetails(data['data'])
           //this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
         }
 
