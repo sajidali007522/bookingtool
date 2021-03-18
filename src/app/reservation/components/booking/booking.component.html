@@ -73,7 +73,7 @@
                       <a *ngIf="!profile['resNumber']" class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
                     </h2>
                   </div>
-                  <div id="collaps-{{i}}" class="collapse show" [ngClass]="{'show': this.profiles.length==1}" data-parent="#accordionExample">
+                  <div id="collaps-{{i}}" class="collapse " [ngClass]="{'show': i == this.profiles.length - 1}" data-parent="#accordionExample">
                     <div class="box box-lr">
                       <div class="alert alert-success alert-dismissible fade show text-center" role="alert" *ngIf="profile['resNumber']">
                         Booking has been made successfuly. view your booking at <a href="#" class="alert-link">{{profile['resNumber']}}</a>
@@ -107,7 +107,7 @@
                                         'is-invalid' : field.errorMessage && field.errorMessage != '' && field.isRequired,
                                         'is-valid' : (!field.errorMessage || field.errorMessage == '')  && field.isRequired
                                         }"
-                                             [readOnly]="profile['resNumber']"
+                                             [disabled]="profile['resNumber']"
                                              placeholder="{{field.name}}" (keyup)="setValidation(field)" [(ngModel)]="field.value" class="form-control no-icon" />
                                     </ng-container>
                                     <label class="error text-danger" *ngIf="field.errorMessage">{{field.errorMessage}}</label>

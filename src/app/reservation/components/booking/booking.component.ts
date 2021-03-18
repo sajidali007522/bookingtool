@@ -58,9 +58,12 @@ export class BookingComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log("view is ready");
+    //console.log("view is ready");
     $('body').find('.custom-accordion > h3 > a').unbind('click');
     $('body').on('click', '.custom-accordion > h3 > a',  function(e, arg) {
+      if($(this).parents('.custom-accordion-wrap').find('.custom-accordion').length<=1){
+        return;
+      }
       console.log($(this).parent().attr('class'));
       if( $(this).parent().hasClass('active') ){
         $(this).parent().removeClass('active');
