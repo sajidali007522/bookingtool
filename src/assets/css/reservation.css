@@ -270,7 +270,7 @@ img{
   .accordion-sm .accordion-link:before{
     font-size: 22px;
     top: 13px;
-    right: 40px;
+    right: 20px;
   }
   .accordion-sm  .accordion-link .remove-accordion{
     position: absolute;
@@ -301,6 +301,9 @@ img{
 }
     .accordion-has-book .accordion-link{
         padding-right: 130px;
+    }
+    .accordion-has-book .accordion-link:before{
+        right: 20px;
     }
     .accordion-has-book .accordion-link .remove-accordion{
         right: 110px;
@@ -458,5 +461,17 @@ img{
     }
     .tabs-secondary .flight-car-hotel{
         background-position: center center;
+    }
+    .accordion-has-book .accordion-link{
+        padding-right: 30px;
+    }
+    .accordion-has-book .accordion-link:before{
+        right: 15px;
+    }
+    .accordion-has-book .btn-book{
+        position: static;
+        font-size: 14px;
+        padding: 7px 15px;
+        margin-top: 10px;
     }
 }
