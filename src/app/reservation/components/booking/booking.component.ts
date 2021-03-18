@@ -178,6 +178,7 @@ export class BookingComponent implements OnInit {
         this.state.error = error;
         this.state.isLoadingTraveler = false;
       });*/
+    this.travelerList= [];
     this.resService.cloneBooking(this.state.bookingID, {guestProfileID: $event.id, isNewGuest: false})
       .subscribe(data => {
         this.state.isLoadingTraveler = false;
@@ -189,7 +190,7 @@ export class BookingComponent implements OnInit {
           // this.defaultSelection = data['data']['defaultValue'];
           //this.getBookingDetails();
           //this.getTravelerList();
-          //data['data']
+
           this.getBookingDetails(data['data'])
           //this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
         }
