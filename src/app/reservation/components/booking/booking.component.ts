@@ -87,7 +87,11 @@ export class BookingComponent implements OnInit {
           //this.getTravelerList();
           if(res['success']) {
             this.bookingStructure = res['data'];
-            this.profiles.push(res['data']);
+            if(this.profiles.length > 0 && this.profiles[this.profiles.length-1].guestName == '<New Profile>') {
+              this.profiles[this.profiles.length-1] = res['data'];
+            } else{
+              this.profiles.push(res['data']);
+            }
             for(let groupIndex = 0; groupIndex<res['data']['inputGroups'].length; groupIndex++) {
               //inputFields loop through fields section
               for(let fieldIndex = 0; fieldIndex<res['data']['inputGroups'][groupIndex]['inputFields'].length; fieldIndex++) {
@@ -246,7 +250,7 @@ export class BookingComponent implements OnInit {
       })
     })
     this.profiles[index]['processing'] = true;
-    this.resService.bookProfile(this.state.bookingID, body)
+    this.resService.bookProfile(profile.bookingID, body)
       .subscribe(
         res=>{
           this.profiles[index]['processing'] = false;
