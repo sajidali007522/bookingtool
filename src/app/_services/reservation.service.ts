@@ -49,6 +49,10 @@ export class ReservationService {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/Clone`, {params:params});
   }
 
+  public isCloneAllBooking (bookingId) {
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`);
+  }
+
   public cloneAllBooking (bookingId, params) {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {params:params});
   }
@@ -104,5 +108,6 @@ export class ReservationService {
     })
     return temp;
   }
+
 
 }

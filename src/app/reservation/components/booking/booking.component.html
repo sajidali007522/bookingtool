@@ -16,7 +16,8 @@
           <div class="custom-content tabs-content" id="content-1" style="display: block;">
             <div class="">
               <!--<div class="input-group mb-4 field-wrap field-gray-wrap traveler-field" *ngIf="profiles.length == 0 || profiles[0]['guestName'] == '<New Profile>'">-->
-              <div class="input-group mb-4 field-wrap field-gray-wrap traveler-field">
+              <div class="input-group mb-4 field-wrap field-gray-wrap traveler-field"
+                   *ngIf="isCloneAll || (profiles.length == 1 && profiles[0]['guestName'] == '<New Profile>')">
                 <span class="user"></span>
                 <ng-autocomplete
                   [data]="travelerList"
@@ -54,8 +55,8 @@
                   <label class="error">{{state.error['message']}}</label>
                 </div>
                 <div _ngcontent-gim-c105="" class="input-group-append">
-                  <button type="button" class="btn btn-info ptb-10">Search <span class="fa fa-search position-static font-14 ml-2"></span></button>
-<!--                  <button type="button" class="btn btn-success ptb-10" (click)="addNewProfile()"> New Profile <span class="fa fa-plus position-static font-14"></span></button>-->
+<!--                  <button type="button" class="btn btn-info ptb-10">Search <span class="fa fa-search position-static font-14 ml-2"></span></button>-->
+                  <button type="button" class="btn btn-success ptb-10" (click)="addNewProfile()"> New Profile <span class="fa fa-plus position-static font-14"></span></button>
                 </div>
               </div>
               <ng-container *ngIf="profiles.length > 0">
@@ -69,7 +70,7 @@
                       <span [attr.data-toggle]="this.profiles.length > 1 ?'collapse' : ''"
                             [attr.data-target]="this.profiles.length > 1 ?'#collaps-'+i : ''"
                             [attr.aria-expanded]="'true'" style="display: block; ">Booking For {{profile.guestName}}</span>
-                      <!-- <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)"></a> -->
+                       <a class="fa fa-trash-o remove-accordion" (click)="removeProfile(i)" *ngIf="!isCloneAll"></a>
                       <a *ngIf="!profile['resNumber']" class="btn btn-info btn-book" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
                     </h2>
                   </div>
@@ -97,7 +98,7 @@
                                         'is-valid' : (!field.errorMessage || '' == field.errorMessage)  && field.isRequired,
                                         'has-icon': field.processing, 'no-icon': !field.processing
                                         }" (change)="setValidation(field)">
-                                        <option [ngValue]="''"> Select {{field.name}}</option>
+                                        <option [ngValue]="field.emptyValue || ''"> Select {{field.name}}</option>
                                         <option [ngValue]="option.value" *ngFor="let option of field.searchField.list">{{option.text}}</option>
                                       </select>
                                       <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
@@ -108,7 +109,10 @@
                                         'is-valid' : (!field.errorMessage || field.errorMessage == '')  && field.isRequired
                                         }"
                                              [disabled]="profile['resNumber']"
-                                             placeholder="{{field.name}}" (keyup)="setValidation(field)" [(ngModel)]="field.value" class="form-control no-icon" />
+                                             placeholder="{{field.name}}"
+                                             (keyup)="setValidation(field)"
+                                             (blur)="setGuestName(field, i, secIndex)"
+                                             [(ngModel)]="field.value" class="form-control no-icon" />
                                     </ng-container>
                                     <label class="error text-danger" *ngIf="field.errorMessage">{{field.errorMessage}}</label>
                                   </div>

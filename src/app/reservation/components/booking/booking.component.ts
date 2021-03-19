@@ -27,6 +27,7 @@ export class BookingComponent implements OnInit {
   bookingStructure={}
   canceler;
   keyword= "lastDashFirst";
+  isCloneAll = false
 
   form = {}
   state={
@@ -54,7 +55,15 @@ export class BookingComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.state.bookingID = params["booking_id"];
     });
-    this.getBookingDetails();
+    this.state.processing=true;
+    this.resService.isCloneAllBooking(this.state.bookingID).subscribe(res=>{
+      this.state.processing=false;
+      if(res['success']) {
+        this.isCloneAll = res['data']
+      }
+      this.getBookingDetails();
+    })
+
   }
 
   ngAfterViewInit() {
@@ -109,7 +118,7 @@ export class BookingComponent implements OnInit {
   }
 
   loadFieldOptions(field, fieldIndex, groupIndex){
-    field['processing'] = true;
+    this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = true;
     this.canceler=this.lookupService.findResults(this.state.bookingID, [], {
         definitionType: 2,
         resourceTypeID: '00000000-0000-0000-0000-000000000000',
@@ -118,9 +127,10 @@ export class BookingComponent implements OnInit {
       })
         .subscribe(
           res=>{
-            field['processing'] = false;
+            this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = false;
             //console.log(res['data'].results)
             if(res['success']) {
+              this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['emptyValue'] = res['data']['emptyValue'] || ''
               this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['searchField']['list'] = res['data']['results']
             }
 
@@ -134,11 +144,12 @@ export class BookingComponent implements OnInit {
 
   addNewProfile(title='', details={}){
     //this.bookingStructure['guestName'] = title;
-    let temp = JSON.parse(JSON.stringify(this.bookingStructure));
-    temp['guestName'] = title
+    this.makeBookingClone('00000000-0000-0000-0000-000000000000', true);
+    /*let temp = JSON.parse(JSON.stringify(this.bookingStructure));
+    temp['guestName'] = title || '<New Profile>'
     this.profiles.push(
       temp
-    );
+    );*/
   }
 
   getloadProfiles (event) {
@@ -164,42 +175,45 @@ export class BookingComponent implements OnInit {
 
   selectTraveler ($event) {
     //console.log($event)
+
+    if(!this.isCloneAll) {
+      this.state.isLoadingTraveler = true;
+      this.resService.setProfile(this.state.bookingID, {guestProfileID: $event.id})
+        .subscribe(data => {
+          this.state.isLoadingTraveler = false;
+          if (data['status'] == 500) {
+            let str = data['message'].split('.');
+            this.toastr.error(str[0], 'Error!');
+          }
+          if (data['status'] == 200) {
+            this.getBookingDetails();
+            //this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
+          }
+
+        }, error => {
+          this.state.error = error;
+          this.state.isLoadingTraveler = false;
+        });
+    } else {
+      this.travelerList = [];
+      this.makeBookingClone($event.id);
+    }
+  }
+
+  makeBookingClone(profileId, isNewGuest=false) {
     this.state.isLoadingTraveler = true;
-    /*this.resService.setProfile(this.state.bookingID, {guestProfileID: $event.id})
+    this.resService.cloneBooking(this.state.bookingID, {guestProfileID: profileId, isNewGuest: isNewGuest})
       .subscribe(data => {
         this.state.isLoadingTraveler = false;
-        if(data['status'] == 500){
+        if (data['status'] == 500) {
           let str = data['message'].split('.');
           this.toastr.error(str[0], 'Error!');
         }
-        if(data['status'] == 200) {
-          // this.defaultSelection = data['data']['defaultValue'];
-          this.getBookingDetails();
-          //this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
-        }
-
-      },error => {
-        this.state.error = error;
-        this.state.isLoadingTraveler = false;
-      });*/
-    this.travelerList= [];
-    this.resService.cloneBooking(this.state.bookingID, {guestProfileID: $event.id, isNewGuest: false})
-      .subscribe(data => {
-        this.state.isLoadingTraveler = false;
-        if(data['status'] == 500){
-          let str = data['message'].split('.');
-          this.toastr.error(str[0], 'Error!');
-        }
-        if(data['status'] == 200) {
-          // this.defaultSelection = data['data']['defaultValue'];
-          //this.getBookingDetails();
-          //this.getTravelerList();
-
+        if (data['status'] == 200) {
           this.getBookingDetails(data['data'])
-          //this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
         }
 
-      },error => {
+      }, error => {
         this.state.error = error;
         this.state.isLoadingTraveler = false;
       });
@@ -272,7 +286,6 @@ export class BookingComponent implements OnInit {
       )
   }
   profileValidated(profile){
-
     let isValidated = true;
     profile.inputGroups.filter(group => {
       group.inputFields.filter(field=>{
@@ -291,5 +304,23 @@ export class BookingComponent implements OnInit {
     if(field.isRequired && field.value == ""){
       field['errorMessage'] = field.name+" is Required"
     }
+  }
+
+  setGuestName (field, profileIndex, groupIndex){
+      if(field.name == 'First Name' || field.name == 'Last Name') {
+        let index =0;
+
+        this.profiles[profileIndex].inputGroups[groupIndex].inputFields.filter(field=> {
+          if(field.name == 'First Name'){
+            this.profiles[profileIndex].guestName = field.value;
+          }
+          if( field.name == 'Last Name'){
+            this.profiles[profileIndex].guestName = this.profiles[profileIndex].guestName +" "+field.value;
+          }
+        });
+        if(!this.profiles[profileIndex].GuestName){
+          this.profiles[profileIndex].GuestName = '<New Profile>'
+        }
+      }
   }
 }
