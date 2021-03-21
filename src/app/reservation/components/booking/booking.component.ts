@@ -86,7 +86,7 @@ export class BookingComponent implements OnInit {
     });
   }
 
-  getBookingDetails(bookingId='') {
+  getBookingDetails(bookingId='', forcePush=false) {
     if(this.state.processing) return;
     this.state.processing = true;
     this.resService.getReservSkeleton(bookingId || this.state.bookingID)
@@ -96,7 +96,7 @@ export class BookingComponent implements OnInit {
           //this.getTravelerList();
           if(res['success']) {
             this.bookingStructure = res['data'];
-            if(this.profiles.length > 0 && this.profiles[this.profiles.length-1].guestName == '<New Profile>') {
+            if(!forcePush && this.profiles.length > 0 && this.profiles[this.profiles.length-1].guestName == '<New Profile>') {
               this.profiles[this.profiles.length-1] = res['data'];
             } else{
               this.profiles.push(res['data']);
@@ -144,7 +144,7 @@ export class BookingComponent implements OnInit {
 
   addNewProfile(title='', details={}){
     //this.bookingStructure['guestName'] = title;
-    this.makeBookingClone('00000000-0000-0000-0000-000000000000', true);
+    this.makeBookingClone('00000000-0000-0000-0000-000000000000', true, true);
     /*let temp = JSON.parse(JSON.stringify(this.bookingStructure));
     temp['guestName'] = title || '<New Profile>'
     this.profiles.push(
@@ -200,7 +200,7 @@ export class BookingComponent implements OnInit {
     }
   }
 
-  makeBookingClone(profileId, isNewGuest=false) {
+  makeBookingClone(profileId, isNewGuest=false, forcePush = false) {
     this.state.isLoadingTraveler = true;
     this.resService.cloneBooking(this.state.bookingID, {guestProfileID: profileId, isNewGuest: isNewGuest})
       .subscribe(data => {
@@ -210,7 +210,7 @@ export class BookingComponent implements OnInit {
           this.toastr.error(str[0], 'Error!');
         }
         if (data['status'] == 200) {
-          this.getBookingDetails(data['data'])
+          this.getBookingDetails(data['data'],forcePush)
         }
 
       }, error => {
@@ -251,7 +251,13 @@ export class BookingComponent implements OnInit {
 
   bookProfile(index, profile){
     if(!this.profileValidated(profile)){
-      console.log(profile)
+      let child=0;
+      $(document).find(".accordion").each(function(){
+        if(index == child ){
+          $(this).find('h2 > span').trigger('click');
+        }
+        child++;
+      })
       return;
     }
     let body= []
@@ -296,6 +302,7 @@ export class BookingComponent implements OnInit {
         }
       })
     })
+    profile['notValidated'] = isValidated;
     return isValidated;
   }
 
