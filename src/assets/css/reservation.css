@@ -177,12 +177,6 @@ img{
         width: auto;
         flex: 1 1 auto;
     }
-    .booking-zindex{
-        z-index: 1;
-    }
-    .booking-zindex .user{
-        z-index: 4 !important;
-    }
     .ptb-10{
         padding-top: 10px !important;
         padding-bottom: 10px !important;
@@ -463,15 +457,25 @@ img{
         background-position: center center;
     }
     .accordion-has-book .accordion-link{
-        padding-right: 30px;
+        padding-right: 35px;
     }
     .accordion-has-book .accordion-link:before{
         right: 15px;
+    }
+    .accordion-sm .accordion-link .remove-accordion{
+        position: static;
+        margin: 7px 7px 0 0;
+        vertical-align: middle;
     }
     .accordion-has-book .btn-book{
         position: static;
         font-size: 14px;
         padding: 7px 15px;
         margin-top: 10px;
+    }
+    .custom-main .input-group-append .btn{
+        font-size: 14px;
+        padding:10px 15px;
+        margin-top: 5px;
     }
 }

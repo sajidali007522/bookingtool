@@ -699,6 +699,7 @@ input[type="file"] {
   }
 /* carousal pages style end */
 .autocomplete-container{
+  height: auto !important;
   box-shadow: none !important;
 }
 .auto-txtwrap{
@@ -1243,6 +1244,12 @@ body.menu-fullwidth .reservation-content-area{
   padding-left: 30px;
   padding-right: 30px;
 }
+.parent-zindex{
+  z-index: 1;
+}
+.parent-zindex .user{
+  z-index: 9999 !important;
+}
 
 
 .shake{
@@ -1491,6 +1498,10 @@ body.menu-fullwidth .reservation-content-area{
           display: block;
           width: 100%;
       }
+  .input-full-mobile .flex-automate{
+      display: block;
+      width: 100%;
+  }
 }
 
 tr.active td{ background-color: darkblue; color: white; }
