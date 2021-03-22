@@ -274,6 +274,12 @@ img{
     color: #fff;
     text-decoration: none;
   }
+  .accordion-sm .has-delete-icon{
+      padding-right: 75px;
+  }
+    .accordion-sm .has-delete-icon .remove-accordion{
+        right: 45px;
+    }
   .accordion-sm .accordion-link.noDelIcon:before{
       right: 20px;
   }
@@ -462,12 +468,12 @@ img{
     .accordion-has-book .accordion-link:before{
         right: 15px;
     }
-    .accordion-sm .accordion-link .remove-accordion{
+    .accordion-sm.accordion-has-book .remove-accordion{
         position: static;
         margin: 7px 7px 0 0;
         vertical-align: middle;
     }
-    .accordion-has-book .btn-book{
+    .accordion-sm.accordion-has-book .btn-book{
         position: static;
         font-size: 14px;
         padding: 7px 15px;
