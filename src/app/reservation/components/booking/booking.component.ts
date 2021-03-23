@@ -98,7 +98,7 @@ export class BookingComponent implements OnInit {
             this.bookingStructure = res['data'];
             if(!forcePush && this.profiles.length > 0 && this.profiles[this.profiles.length-1].guestName == '<New Profile>') {
               this.profiles[this.profiles.length-1] = res['data'];
-            } else{
+            } else {
               this.profiles.push(res['data']);
             }
             for(let groupIndex = 0; groupIndex<res['data']['inputGroups'].length; groupIndex++) {
@@ -164,12 +164,17 @@ export class BookingComponent implements OnInit {
           // this.defaultSelection = data['data']['defaultValue'];
           //this.getTravelerList();
           this.travelerList = data['data'];
+        } else {
+          let str = data['message'].split('.');
+          this.toastr.error(str[0], 'Error!');
         }
         this.state.isLoadingTraveler = false;
 
       },error => {
         this.state.error = error;
         this.state.isLoadingTraveler = false;
+        let str = error['message'].split('.');
+        this.toastr.error(str[0], 'Error!');
       });
   }
 
@@ -216,6 +221,8 @@ export class BookingComponent implements OnInit {
       }, error => {
         this.state.error = error;
         this.state.isLoadingTraveler = false;
+        let str = error['message'].split('.');
+        this.toastr.error(str[0], 'Error!');
       });
   }
 
@@ -229,12 +236,17 @@ export class BookingComponent implements OnInit {
         if(data['success'] && data['status'] == 200 && data['data']['firstName'] != '') {
           // this.defaultSelection = data['data']['defaultValue'];
           this.addNewProfile((data['data']['firstName']+' '+data['data']['lastName']), data['data']);
+        } else if(data['status'] == 500 ) {
+          let str = data['message'].split('.');
+          this.toastr.error(str[0], 'Error!');
         }
 
 
       },error => {
         this.state.error = error;
         this.state.isLoadingTraveler = false;
+        let str = error['message'].split('.');
+        this.toastr.error(str[0], 'Error!');
       });
   }
 
@@ -287,6 +299,8 @@ export class BookingComponent implements OnInit {
         },
         error => {
           this.profiles[index]['processing'] = false;
+          let str = error['message'].split('.');
+          this.toastr.error(str[0], 'Error!');
           console.log(error)
         }
       )
@@ -302,7 +316,7 @@ export class BookingComponent implements OnInit {
         }
       })
     })
-    profile['notValidated'] = isValidated;
+    profile['notValidated'] = !isValidated;
     return isValidated;
   }
 

@@ -302,6 +302,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
           }
         },
         error => {
+          let err = error.split('.');
+          this.toastr.error(err[0], 'Error!');
           console.log(error);
           this.state.isSearching =false;
           this.state.errors = error;
