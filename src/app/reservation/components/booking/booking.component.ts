@@ -87,6 +87,7 @@ export class BookingComponent implements OnInit {
   }
 
   getBookingDetails(bookingId='', forcePush=false) {
+
     if(this.state.processing) return;
     this.state.processing = true;
     this.resService.getReservSkeleton(bookingId || this.state.bookingID)
@@ -96,16 +97,31 @@ export class BookingComponent implements OnInit {
           //this.getTravelerList();
           if(res['success']) {
             this.bookingStructure = res['data'];
-            if(!forcePush && this.profiles.length > 0 && this.profiles[this.profiles.length-1].guestName == '<New Profile>') {
+
+            /*if(!forcePush && this.profiles.length > 0 && this.profiles[this.profiles.length-1].guestName == '<New Profile>') {
               this.profiles[this.profiles.length-1] = res['data'];
-            } else {
-              this.profiles.push(res['data']);
-            }
-            for(let groupIndex = 0; groupIndex<res['data']['inputGroups'].length; groupIndex++) {
-              //inputFields loop through fields section
-              for(let fieldIndex = 0; fieldIndex<res['data']['inputGroups'][groupIndex]['inputFields'].length; fieldIndex++) {
-                if(res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex].searchField){
-                  this.loadFieldOptions(res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex], fieldIndex, groupIndex);
+            } else {*/
+              let loadOptions = false;
+              if(bookingId== '' && this.profiles.length == 0 && res['data'].guestName != '<New Profile>'){
+                this.isCloneAll = false
+                this.profiles.push(res['data']);
+                console.log("???????????????????");
+                loadOptions = true;
+              }
+              else if(bookingId != '' && this.isCloneAll) {
+                console.log("???????????????????");
+                this.profiles.push(res['data']);
+                loadOptions = true;
+              }
+
+            //}
+            if(loadOptions == true) {
+              for (let groupIndex = 0; groupIndex < res['data']['inputGroups'].length; groupIndex++) {
+                //inputFields loop through fields section
+                for (let fieldIndex = 0; fieldIndex < res['data']['inputGroups'][groupIndex]['inputFields'].length; fieldIndex++) {
+                  if (res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex].searchField) {
+                    this.loadFieldOptions((this.profiles.length - 1), res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex], fieldIndex, groupIndex);
+                  }
                 }
               }
             }
@@ -117,8 +133,8 @@ export class BookingComponent implements OnInit {
       )
   }
 
-  loadFieldOptions(field, fieldIndex, groupIndex){
-    this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = true;
+  loadFieldOptions(profileIndex, field, fieldIndex, groupIndex){
+    this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = true;
     this.canceler=this.lookupService.findResults(this.state.bookingID, [], {
         definitionType: 2,
         resourceTypeID: '00000000-0000-0000-0000-000000000000',
@@ -127,11 +143,11 @@ export class BookingComponent implements OnInit {
       })
         .subscribe(
           res=>{
-            this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = false;
+            this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = false;
             //console.log(res['data'].results)
             if(res['success']) {
-              this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['emptyValue'] = res['data']['emptyValue'] || ''
-              this.profiles[0]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['searchField']['list'] = res['data']['results']
+              this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['emptyValue'] = res['data']['emptyValue'] || ''
+              this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['searchField']['list'] = res['data']['results']
             }
 
           },
@@ -266,7 +282,9 @@ export class BookingComponent implements OnInit {
       let child=0;
       $(document).find(".accordion").each(function(){
         if(index == child ){
-          $(this).find('h2 > span').trigger('click');
+          if(!$(this).find('.collapse').hasClass('show')) {
+            $(this).find('h2 > span').trigger('click');
+          }
         }
         child++;
       })
@@ -320,11 +338,22 @@ export class BookingComponent implements OnInit {
     return isValidated;
   }
 
-  setValidation (field){
+  setValidation (field, profileIndex){
     field.errorMessage = "";
     if(field.isRequired && field.value == ""){
       field['errorMessage'] = field.name+" is Required"
     }
+    let isValidated = true;
+    this.profiles[profileIndex].inputGroups.filter(group => {
+      group.inputFields.filter(field=>{
+        if(field.isRequired && field.value == ""){
+          isValidated = false;
+        }
+      })
+    });
+    this.profiles[profileIndex]['notValidated'] = !isValidated;
+    //
+    //logic to check overall validation
   }
 
   setGuestName (field, profileIndex, groupIndex){

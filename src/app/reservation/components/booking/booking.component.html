@@ -97,7 +97,7 @@
                                         'is-invalid' : field.errorMessage && field.errorMessage != '' && field.isRequired,
                                         'is-valid' : (!field.errorMessage || '' == field.errorMessage)  && field.isRequired,
                                         'has-icon': field.processing, 'no-icon': !field.processing
-                                        }" (change)="setValidation(field)">
+                                        }" (change)="setValidation(field, i)">
                                         <option [ngValue]="field.emptyValue || ''"> Select {{field.name}}</option>
                                         <option [ngValue]="option.value" *ngFor="let option of field.searchField.list">{{option.text}}</option>
                                       </select>
@@ -110,7 +110,7 @@
                                         }"
                                              [disabled]="profile['resNumber']"
                                              placeholder="{{field.name}}"
-                                             (keyup)="setValidation(field)"
+                                             (keyup)="setValidation(field, i)"
                                              (blur)="setGuestName(field, i, secIndex)"
                                              [(ngModel)]="field.value" class="form-control no-icon" />
                                     </ng-container>
