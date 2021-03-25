@@ -39,7 +39,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     template: ''
   }
   state={
-    bannerText: '<strong>ようこそ</strong> Welcome Bienvenue Marhaba',
+    bannerText: '', //'<strong>ようこそ</strong> Welcome Bienvenue Marhaba',
     error: {message: ''},
     formErrors: [],
     errorMsg: '',
