@@ -64,6 +64,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       template: []
     }
   };
+  definition;
 
   constructor(private DFService: DateFormatsService,
               private _http: HttpService,
@@ -253,9 +254,33 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         }
         this.state.loadingTemplate = false;
         this.setResourcesDate();
+        //this.setResourceItems();
       },
         error => {this.state.loadingTemplate = false;});
   }
+
+  setResourceItems () {
+    let fields = this.state.selectedTemplate['resources']['resourceItems'];
+
+    let selectedItems = this.resService.renderSelectedItems(fields)
+    let searchDefinitions = this.resService.renderSearchCriteriaItems(fields)
+
+    this.state.processing = true;
+    this._http._patch('booking/'+this.form.bookingID+'/ReportingOptions',
+      {
+        'selectedItems': selectedItems,
+        'lookupSearchCriterias': searchDefinitions
+      }
+    )
+      .subscribe(data => {
+        this.state.processing=false;
+        console.log(data)
+      }, error => {
+        console.log(error)
+        this.state.processing=false;
+      })
+  }
+
   setResourcesDate () {
     for (let index =0; index<this.state.selectedTemplate['resources'].length; index++) {
       this.state.selectedTemplate['resources'][index]['BeginDate'] = new Date();
@@ -265,6 +290,11 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       this.state.selectedTemplate['resources'][index]['ReturnTimeFormat'] = ''
       this.state.selectedTemplate['resources'][index]['BeginTimeFormat'] = ''
       //this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate']);
+      //alert(this.state.selectedGroup['name'])
+      if(this.state.selectedGroup['name'] == 'Templates') {
+        this.definition = this.state.selectedTemplate['resources'][index].searchFields
+        this.loadFields(this.state.selectedTemplate['resources'][index].searchFields, index, -1)
+      }
     }
   }
 
@@ -440,5 +470,41 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   resetModel (resourceIndex, model) {
     this.state.selectedTemplate['resources'][resourceIndex][model] = '';
     $("#"+model+"_container_"+(resourceIndex+1)).find(".x").trigger('click');
+  }
+
+  bindField(event) {
+    event = JSON.parse(event);
+    console.log(event)
+
+    this.loadFields(this.state.selectedTemplate['resources'][event.resourceIndex].searchFields, event.resourceIndex, event.fieldIndex, (event.fieldType == 'checkbox' ? event : {}));
+  }
+
+  loadFields(fields, resourceIndex, fieldIndex, eventData={}) {
+    ///api2/booking/{bookingID}/AllSearchCriteriaOptions
+    let selectedItems = this.resService.renderSelectedItems(fields)
+    let searchDefinitions = this.resService.renderSearchCriteriaItems(fields)
+
+    this.state.processing = true;
+    this._http._patch('booking/'+this.form.bookingID+'/ReportingOptions',
+      {
+        'selectedItems': selectedItems,
+        'lookupSearchCriterias': searchDefinitions
+      }
+    )
+      .subscribe(data => {
+        this.state.processing=false;
+        //console.log(data)
+
+          this.state.selectedTemplate['resources'][resourceIndex].searchFields = fields;
+          this.definition = data;
+
+
+
+      }, error => {
+        console.log(error)
+        let message = error.split('.')
+        this.toastr.error(message[0], 'Error!')
+        this.state.processing=false;
+      })
   }
 }

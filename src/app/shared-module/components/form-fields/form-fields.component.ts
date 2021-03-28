@@ -63,6 +63,9 @@ export class FormFieldsComponent implements OnInit {
       this.field.model = this.fieldDefinition['filterText']
       return;
     }
+    if(!this.remoteList || this.remoteList.length <=0) {
+      return;
+    }
     this.remoteList.filter(item => {
       if(this.fieldDefinition['selectedValue'] && item.value == this.fieldDefinition['selectedValue']){
         this.field.model=item;
@@ -99,7 +102,7 @@ export class FormFieldsComponent implements OnInit {
     }
   }
 
-  getServerResponse(event= '') {
+  getServerResponse(event= '', resourceIndex=-1, fieldIndex=-1) {
     console.log(event)
     this.error = {};
     this.field['processing'] = true;

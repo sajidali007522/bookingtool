@@ -283,12 +283,55 @@
                     </div>
                   <!-- </div>
                   <div class="row template-fields" > -->
-                    <app-form-builder class="col-md-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
-                                      [resourceType]="resource['resourceTypeID']"
-                                      [index]="i+'_'+j"
-                                      [bookingID] = "form.bookingID"
-                                      [form] = "form"
-                    ></app-form-builder>
+                    <ng-container *ngIf="state.selectedGroup['name'] != 'Templates'">
+                      <app-form-builder class="col-md-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
+                                        [resourceType]="resource['resourceTypeID']"
+                                        [index]="i+'_'+j"
+                                        [bookingID] = "form.bookingID"
+                                        [form] = "form"
+                      ></app-form-builder>
+                    </ng-container>
+                    <ng-container *ngIf="state.selectedGroup['name'] == 'Templates'">
+                      <ng-container *ngFor="let field of resource['searchFields']; let j = index">
+                        <div class="col-md-6 col-12" >
+
+                          <app-form-fields
+                            [field]="field"
+                            [definitionType]="1"
+                            [fieldDefinition] ="definition[j]"
+                            [form]="form"
+                            [resourceType]="'00000000-0000-0000-0000-000000000000'"
+                            [index]="-1"
+                            [fieldIndex]="j"
+                            [bookingID]="form.bookingID"
+                            (fieldBinding)="bindField($event)"
+                          >
+
+                          </app-form-fields>
+                        </div>
+                      </ng-container>
+                      <ng-container class="col-md-6" *ngFor="let field of resource['resourceItems']; let k =index">
+                        <div class="col-md-12 col-12" *ngIf="field.isBlockable">
+                          <label>{{field.text}}<span
+                            [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
+                          <div class="">
+                            <div class="field-wrap">
+                              <select class="form-control" [ngClass]="{
+                                        'no-icon': !field.processing,
+                                        'has-icon': field.processing,
+                                        'is-invalid' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
+                                        'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
+                                        }" [(ngModel)]="field.model" [disabled]="field.processing" >
+                                <option [ngValue]="''">Select {{field.text}}</option>
+                              </select>
+                              <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
+                              <label class="error text-danger"
+                                     *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
                   </div>
                 </div>
               </div>
