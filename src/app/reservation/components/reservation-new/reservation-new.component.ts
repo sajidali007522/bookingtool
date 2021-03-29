@@ -38,6 +38,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     ResourceTypeID:'',
     template: ''
   }
+  myForm={};
   state={
     bannerText: '', //'<strong>ようこそ</strong> Welcome Bienvenue Marhaba',
     error: {message: ''},
@@ -90,6 +91,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     this.maxDateFrom.setDate(5*365)
 
   }
+
   selectTraveler ($event) {
     console.log($event)
     this.resService.setProfile(this.form.bookingID, {guestProfileID: $event.id})
@@ -168,6 +170,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       this.state.selectedTemplate['resources'][resourceIndex].BeginDate = this.state.selectedTemplate['resources'][resourceIndex].EndDate;
     }
   }
+
   resetErrorState(resourceIndex, property){
     this.state.selectedTemplate['resources'][resourceIndex]['errors'][property] = '';
   }
@@ -209,6 +212,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         if(data['bookingID']) {
           this.form.bookingID = data['bookingID'];
           this.loadTemplateGroups()
+          //this.getSearchId();
         }
         if(data['bannerMessage']) {
           this.state.bannerText =data['bannerMessage'].replace(/(<([^>]+)>)/gi, "")
@@ -216,6 +220,19 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
         this.state.initiateBooking = false;
       });
+  }
+  getSearchId (fields) {
+    let selectedItems = this.resService.renderSelectedItems(fields)
+    this._http._post(`booking/${this.form.bookingID}/Search`, {
+      "resourceTypeID": "00000000-0000-0000-0000-000000000000",
+      "criteria": selectedItems
+    })
+      .subscribe(data => {
+          console.log(data);
+          this.form['searchID'] = data['searchID'];
+
+        },
+        err => {this.state.loadingGroups=false});
   }
 
   loadTemplateGroups() {
@@ -254,6 +271,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         }
         this.state.loadingTemplate = false;
         this.setResourcesDate();
+
         //this.setResourceItems();
       },
         error => {this.state.loadingTemplate = false;});
@@ -292,7 +310,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       //this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate']);
       //alert(this.state.selectedGroup['name'])
       if(this.state.selectedGroup['name'] == 'Templates') {
-        this.definition = this.state.selectedTemplate['resources'][index].searchFields
+        this.state.selectedTemplate['resources'][index]['definitions'] = this.state.selectedTemplate['resources'][index].searchFields
         this.loadFields(this.state.selectedTemplate['resources'][index].searchFields, index, -1)
       }
     }
@@ -481,6 +499,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   loadFields(fields, resourceIndex, fieldIndex, eventData={}) {
     ///api2/booking/{bookingID}/AllSearchCriteriaOptions
+
     let selectedItems = this.resService.renderSelectedItems(fields)
     //alert(this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
     let searchDefinitions = this.resService.renderSearchCriteriaItems(fields, this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
@@ -495,11 +514,10 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       .subscribe(data => {
         this.state.processing=false;
         //console.log(data)
-
-          this.state.selectedTemplate['resources'][resourceIndex].searchFields = fields;
-          this.definition = data;
-
-
+          //this.definition = data;
+          this.state.selectedTemplate['resources'][resourceIndex].searchFields = fields
+          this.state.selectedTemplate['resources'][resourceIndex]['definitions'] = data;
+          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields);
 
       }, error => {
         console.log(error)
@@ -507,5 +525,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         this.toastr.error(message[0], 'Error!')
         this.state.processing=false;
       })
+  }
+
+  loadFilterData () {
+
   }
 }

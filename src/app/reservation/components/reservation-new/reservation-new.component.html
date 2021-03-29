@@ -283,7 +283,7 @@
                     </div>
                   <!-- </div>
                   <div class="row template-fields" > -->
-                    <ng-container *ngIf="state.selectedGroup['name'] != 'Templates'">
+                    <ng-container *ngIf="!state.processing && state.selectedGroup['name'] != 'Templates'">
                       <app-form-builder class="col-md-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
                                         [resourceType]="resource['resourceTypeID']"
                                         [index]="i+'_'+j"
@@ -291,16 +291,16 @@
                                         [form] = "form"
                       ></app-form-builder>
                     </ng-container>
-                    <ng-container *ngIf="state.selectedGroup['name'] == 'Templates'">
+                    <ng-container *ngIf="state.selectedGroup['name'] == 'Templates' && !state.processing">
                       <ng-container *ngFor="let field of resource['searchFields']; let j = index">
                         <div class="col-md-6 col-12" >
 
                           <app-form-fields
                             [field]="field"
                             [definitionType]="1"
-                            [fieldDefinition] ="definition[j]"
-                            [form]="form"
-                            [resourceType]="'00000000-0000-0000-0000-000000000000'"
+                            [fieldDefinition] ="resource['definitions'][j]"
+                            [form]="myForm"
+                            [resourceType]="resource['resourceTypeID']"
                             [index]="-1"
                             [fieldIndex]="j"
                             [bookingID]="form.bookingID"
@@ -323,6 +323,7 @@
                                         'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
                                         }" [(ngModel)]="field.model" [disabled]="field.processing" >
                                 <option [ngValue]="''">Select {{field.text}}</option>
+
                               </select>
                               <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
                               <label class="error text-danger"
@@ -331,6 +332,9 @@
                           </div>
                         </div>
                       </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="state.processing">
+                      <app-loader></app-loader>
                     </ng-container>
                   </div>
                 </div>

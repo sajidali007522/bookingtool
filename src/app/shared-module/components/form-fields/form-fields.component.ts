@@ -40,6 +40,7 @@ export class FormFieldsComponent implements OnInit {
     this.field['model'] = ''
     this.field['visible'] = true;
     this.remoteList = this.fieldDefinition['results'];
+    console.log(this.fieldDefinition['results'])
     //if(this.fieldType == 'checkbox' || this.fieldType == 'dropdown'){
      // this.getServerResponse('')
     //}
