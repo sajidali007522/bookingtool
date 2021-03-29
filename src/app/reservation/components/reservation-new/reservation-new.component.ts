@@ -486,7 +486,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     let searchDefinitions = this.resService.renderSearchCriteriaItems(fields, this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
 
     this.state.processing = true;
-    this._http._patch('booking/'+this.form.bookingID+'/ReportingOptions',
+    this._http._post('booking/'+this.form.bookingID+'/AllSearchCriteriaOptions',
       {
         'selectedItems': selectedItems,
         'lookupSearchCriterias': searchDefinitions
