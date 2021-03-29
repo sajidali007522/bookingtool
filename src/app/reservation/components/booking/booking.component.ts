@@ -120,7 +120,7 @@ export class BookingComponent implements OnInit {
                 //inputFields loop through fields section
                 for (let fieldIndex = 0; fieldIndex < res['data']['inputGroups'][groupIndex]['inputFields'].length; fieldIndex++) {
                   if (res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex].searchField) {
-                    this.loadFieldOptions((this.profiles.length - 1), res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex], fieldIndex, groupIndex);
+                    this.loadFieldOptions((this.profiles.length - 1), res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex], fieldIndex, groupIndex, bookingId);
                   }
                 }
               }
@@ -133,9 +133,9 @@ export class BookingComponent implements OnInit {
       )
   }
 
-  loadFieldOptions(profileIndex, field, fieldIndex, groupIndex){
+  loadFieldOptions(profileIndex, field, fieldIndex, groupIndex, bookingId=''){
     this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = true;
-    this.canceler=this.lookupService.findResults(this.state.bookingID, [], {
+    this.canceler=this.lookupService.findResults((bookingId || this.state.bookingID), [], {
         definitionType: 2,
         resourceTypeID: '00000000-0000-0000-0000-000000000000',
         searchCriteriaID: field.searchField.searchCriteriaID,
@@ -323,6 +323,7 @@ export class BookingComponent implements OnInit {
         }
       )
   }
+
   profileValidated(profile){
     let isValidated = true;
     profile.inputGroups.filter(group => {
