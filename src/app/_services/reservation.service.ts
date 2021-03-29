@@ -85,7 +85,7 @@ export class ReservationService {
     return temp;
   }
 
-  public renderSearchCriteriaItems(fields){
+  public renderSearchCriteriaItems(fields, resourceId= '00000000-0000-0000-0000-000000000000'){
     let temp = []
     fields.filter(field=>{
       if(!field.model) {
@@ -93,13 +93,13 @@ export class ReservationService {
       }
       if(field.isCheckbox && typeof field.model.value != 'undefined'){
         temp.push({
-          "resourceTypeID": "00000000-0000-0000-0000-000000000000",
+          "resourceTypeID": resourceId,
           "searchCriteriaID": field.searchCriteriaID,
           "filter": field.model.value
         })
       } else {
         temp.push({
-          "resourceTypeID": "00000000-0000-0000-0000-000000000000",
+          "resourceTypeID": resourceId,
           "searchCriteriaID": field.searchCriteriaID,
           "filter": (field.model.text ? field.model.text : field.model)
         })

@@ -482,7 +482,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   loadFields(fields, resourceIndex, fieldIndex, eventData={}) {
     ///api2/booking/{bookingID}/AllSearchCriteriaOptions
     let selectedItems = this.resService.renderSelectedItems(fields)
-    let searchDefinitions = this.resService.renderSearchCriteriaItems(fields)
+    //alert(this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
+    let searchDefinitions = this.resService.renderSearchCriteriaItems(fields, this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
 
     this.state.processing = true;
     this._http._patch('booking/'+this.form.bookingID+'/ReportingOptions',
