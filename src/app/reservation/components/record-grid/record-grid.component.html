@@ -1,0 +1,87 @@
+<div class="topinfo-wrap skin-txt">
+  <div class="for-mobile">
+    <h3 class="text-center">Manage Reservations</h3>
+  </div>
+  <div class="for-mobile">
+    <ul class="pagination justify-content-center">
+      <li>Showing {{(this.state.recordVisible+1)}} of {{this.state.mobileContainer.length}} Records</li>
+    </ul>
+  </div>
+</div>
+<div class="table-info-top for-desktop">
+  <div class="view-selection">
+    <label>{{state.gridView == 'table-sm' ? 'Condensed View': 'Normal View'}}</label>
+    <div class="view-articles">
+      <a href="javascript:void(0)" (click)="state.gridView=''" class="view-normal" [ngClass]="{'active': state.gridView !='table-sm'}"></a>
+      <a href="javascript:void(0)" (click)="state.gridView='table-sm'" class="view-condensed" [ngClass]="{'active': state.gridView=='table-sm'}"></a>
+    </div>
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-editable {{state.gridView}}"  (swipeleft)="swipeNext()" (swiperight)="swipePrev()">
+  <thead>
+  <tr>
+    <th>Date </th>
+    <th>Day</th>
+    <th>Total</th>
+    <th>Avail</th>
+    <th>Pickup</th>
+    <th>%</th>
+  <ng-container *ngFor="let feature of remoteData['features']">
+    <th>{{feature.description}} </th>
+    <th *ngIf="state.filterForm.includeHolds">{{feature.description}} Hold</th>
+  </ng-container>
+    <th *ngIf="state.isMassEditting"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of remoteData['data']; let index = index" [ngClass]="{'edited-tr': row.isEditting, 'selected': row.checked, 'hide': state.isMassEditting && !row.checked}">
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Date" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{dateParser.parseDate(row.date)}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Day" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.dayOfWeek}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Total" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.total || 0}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Avail" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.available || 0}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="Pickup" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.pickup || 0}}</td>
+    <td [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" data-title="%" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">{{row.percentage || 0}}</td>
+    <ng-container *ngFor="let feature of row.features; let i = index;">
+      <td [attr.data-title]="remoteData['features'][i].description" [ngClass]="{'cursor-grabbing': state.filterForm.includeHolds}" (mousedown)="rowSelection(row, index)" (mouseup)="rowCompletion(row, index, $event)">
+        <span class="text-desc-edit" >{{feature['number'] || 0}}
+          </span>
+      </td>
+      <td [attr.data-title]="remoteData['features'][i].description+' Hold'" *ngIf="state.filterForm.includeHolds">
+        <div class="input-group editable-fieldwrap" [ngClass]="{'has-icon':(feature['$processing_hold'] || feature['$processed_hold'])}" *ngIf="state.filterForm.includeHolds">
+          <input type="text" [disabled]="feature['$processing_hold']" class="form-control" [(ngModel)]="feature['hold']" (focusin)="feature['$old_hold']=feature['hold'] ? feature['hold'] : -1" (blur)="updateRecord(row, feature, index, i)" />
+          <div class="input-group-append" *ngIf="feature['$processing_hold'] || feature['$processed_hold']">
+            <span class="input-group-text" id="basic-addon2">
+              <span class="fa fa-refresh fa-spin" popover="Processing" triggers="mouseenter:mouseleave" *ngIf="feature['$processing_hold']"></span>
+              <span class="fa fa-undo" popover="Undo" triggers="mouseenter:mouseleave" *ngIf="feature['$processed_hold']" (click)="feature['hold'] = feature['$old_hold'] == -1 ? null : feature['$old_hold'];  feature['$old_hold']=null; updateRecord(row, feature, index, i, true)"></span>
+            </span>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+    <td data-title="Remove" *ngIf="state.isMassEditting">
+      <a class="close-sm" popover="Remove" triggers="mouseenter:mouseleave" (click)="removeFromMassEdit(row, index)"></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</div>
+
+
+<div class="for-mobile">
+  <ul class="pagination justify-content-center pagination-arrow">
+    <li class="page-item page-prev">
+      <a href="javascript:void(0)" (click)="swipePrev()" class="page-link">
+      <span>Previous</span>
+    </a></li>
+    <li>
+<!--      <button *ngIf="!state.isEditting" (click)="setEdit()" class="btn btn-default btn-success btn-inarrow"> Edit </button>-->
+<!--      <button *ngIf="state.isEditting" (click)="resetEdit()" class="btn btn-default btn-secondary btn-inarrow">End Edit</button>-->
+<!--      <button *ngIf="state.isEditting" (click)="callSave()" class="btn btn-default btn-success btn-inarrow">Save</button>-->
+    </li>
+    <li class="page-item page-next">
+      <a href="javascript:void(0)" (click)="swipeNext()" class="page-link">
+      <span>Next</span>
+    </a></li>
+  </ul>
+</div>
