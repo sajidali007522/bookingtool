@@ -10,45 +10,48 @@
         </div>
 
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Resource<span *ngIf="state.loading.resources" class="fa fa-spinner fa-spin"></span></a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Resource</a></div>
           <div class="accordion-body">
             <input type="text" placeholder="search..." class="form-control" />
           </div>
         </div>
+        <ng-container *ngIf="state.doingAdvanceSearch">
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">First Name</a></div>
+            <div class="accordion-body">
+              <input type="text" placeholder="search..." class="form-control" />
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Last Name</a></div>
+            <div class="accordion-body">
+              <input type="text" placeholder="search..." class="form-control" />
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">xyz field</a>
+            </div>
+            <div class="accordion-body">
+              <input type="text" placeholder="search..." class="form-control" />
+            </div>
+          </div>
+        </ng-container>
 
 
         <div class="resv-btns">
-          <div class="mb-1 mt-1" *ngIf="state.massEdit.items.length > 0 && !state.isMassEditting">
-            <a href="javascript:void(0)" class="full-btn shake" (click)="setMassEdit();state.isMassEditting=true" *ngIf="!state.isMassEditting">
-              <span class="fa fa-edit"></span> Mass Edit
+          <div class="mb-1 mt-1">
+            <a href="javascript:void(0)" (click)="toggleAdvanceSearch()" class="full-btn shake" *ngIf="!state.doingAdvanceSearch">
+              <span class="fa fa-edit"></span> Advance search
             </a>
-            <a href="javascript:void(0)" (click)="resetMassEdit()" class="full-btn" >
-              <span class="fa fa-close"></span> Clear Selection
+            <a href="javascript:void(0)" (click)="startSearch()" *ngIf="state.doingAdvanceSearch" class="full-btn"  data-toggle="modal" data-target="#exampleModal_">
+              <span class="fa fa-close"></span> Search
             </a>
-          </div>
-          <div class="mb-1 mt-1" *ngIf="state.massEdit.items.length > 0 && state.isMassEditting">
-            <a href="javascript:void(0)" class="full-btn shake" (click)="state.isMassEditting=false">
-              <span class="fa fa-close"></span> Cancel
-            </a>
-            <a href="javascript:void(0)" (click)="processMassEdit()" class="full-btn" >
-              <span class="fa fa-download"></span> Save
+            <a href="javascript:void(0)" (click)="toggleAdvanceSearch()" *ngIf="state.doingAdvanceSearch" class="full-btn" >
+              <span class="fa fa-close"></span> reset Advance search
             </a>
           </div>
-          <a *ngIf="state.massEdit.items.length > 0" href="javascript:void(0)" class="full-btn" (click)=" resetMassEdit();loadRecords(0,true)">
-            <span class="fa fa-refresh"></span>
-            Refresh
-            <i class="fa fa-spin fa-spinner" *ngIf="!state.filterForm.includeHolds && (state.loading.records || state.resourceTypeValue <= 0)"></i>
-          </a>
 
-            <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="full-btn" (click)=" loadRecords(0,false)">
-              <span class="fa fa-refresh"></span>
-              {{ state.filterForm.includeHolds ? 'Cancel' : 'Refresh'}}
-              <i class="fa fa-spin fa-spinner" *ngIf="!state.filterForm.includeHolds && (state.loading.records || state.resourceTypeValue <= 0)"></i>
-            </a>
-            <a *ngIf="!this.state.isMassEditting" href="javascript:void(0)" class="full-btn" (click)=" loadRecords(0,true)">
-              <span class="fa fa-edit"></span>
-              Show Hold <i class="fa fa-spin fa-spinner" *ngIf="state.filterForm.includeHolds && (state.loading.records || state.resourceTypeValue <= 0)"></i>
-            </a>
         </div>
       </div>
     </div><!-- reservation-sidebar -->
@@ -57,31 +60,65 @@
           <div class="filter-btn-wrap for-mobile" >
             <a href="javascript:void(0)" (click)="openFilterBar()" class="filters-btn">Filters <span  class="fa fa-filter"></span></a>
           </div>
-          <app-loader *ngIf="state.loading.records || state.resourceTypeValue <= 0"></app-loader>
-          <div class="table-editable-wrap table-datatitle-wrap" *ngIf="!state.loading.records && state.resourceTypeValue > 0" [ngClass]="{'table-loader': state.loading.save}">
-              <div *ngIf="remoteData.length <= 0">
-                <div class="norecord">
-                  <h3 class="text-center">No Record Found</h3>
-                </div>
-              </div>
-              <div *ngIf="remoteData">
-                <app-record-grid *ngIf="state.resourceTypeValue == 1 && remoteData.hasOwnProperty('data') && remoteData['data'].length > 0"
-                           [remoteData]="remoteData"
-                           [state]="state"
-                           (nextPage)="nextPage($event)"
-                           (prevPage)="previousPage($event)"
-                           (edit)="setEditMode($event)"
-                           (endEdit)="resetEditMode($event)"
-                           (save)="saveCard($event)"
-                           (startSelection)="setMultipleSelect($event)"
-                           (completeSelection)="completeMultipleSelect($event)"
-                           (updateRow)="updateRow($event)"
-                ></app-record-grid>
+
+          <div class="table-editable-wrap table-datatitle-wrap">
+              <div>
+                <h3>Data to come after profile selection</h3>
               </div>
           </div>
         </div>
     </div><!-- reservation-content-area -->
   </div><!-- reservation-detail-wrap -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal_" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel_" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content" [ngClass]="{'table-loader': state.grid.processing}">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel_">Mass Edit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="custom-accordion">
+          <h3 class="active"><a href="javascript:void(0)">Selected Item list Grid</a></h3>
+          <div class="custom-accordion-content exp">
+            <div class="table-massedit-wrap table-responsive">
+              <table class="table table-bordered room-table td-middle text-nowrap">
+                <thead>
+                <tr>
+                  <th>Date </th>
+                  <th>Day</th>
+                  <th>Total</th>
+                  <th>Avail</th>
+                  <th>Pickup</th>
+                  <th>%</th>
+                </tr>
+                </thead>
+                <tbody class="mobile-slider">
+                <tr *ngFor="let row of state.grid.items;let index = index;">
+                  <td data-title="Date" >{{row.date}}</td>
+                  <td data-title="Day">{{row.dayOfWeek}}</td>
+                  <td data-title="Total">{{row.total || 0}}</td>
+                  <td data-title="Avail">{{row.available || 0}}</td>
+                  <td data-title="Pickup">{{row.pickup || 0}}</td>
+                  <td data-title="%">{{row.percentage || 0}}</td>
+
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="toggleAdvanceSearch()" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 
