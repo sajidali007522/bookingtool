@@ -14,12 +14,12 @@
         <div class="accordion-body">
           <ul style="max-height: inherit;">
             <li><input type="text" placeholder="Search" class="select-field-secondary" /></li>
-            <li><button class="btn btn-info btn-block">Detail Search</button></li>
+            <li><button class="btn btn-info btn-block" (click)="toggleAdvanceSearch()">Detail Search</button></li>
           </ul>
         </div>
       </div>
 
-      <div class="accordion-group group-active">
+      <div class="accordion-group group-active" *ngIf="state.doingAdvanceSearch">
         <div class="accordon-heading"><a href="javascript:void(0);">Advance Search</a></div>
         <div class="accordion-body">
           <ul style="max-height: inherit;">
@@ -57,12 +57,13 @@
             </li>
             <li>
               <br>
-              <label class="onlywrap"><input  type="checkbox" class="checkbox"> Include History</label></li>
-              <li><button class="btn btn-info btn-block" (click)="toggleAdvanceSearch()" *ngIf="!state.doingAdvanceSearch">Search</button></li>
+              <label class="onlywrap"><input  type="checkbox" class="checkbox"> Include History</label>
+            </li>
+            <li><button class="btn btn-info btn-block" (click)="toggleAdvanceSearch()" *ngIf="state.doingAdvanceSearch">Search</button></li>
           </ul>
         </div>
       </div>
-    
+
     </div>
   </div>
 
