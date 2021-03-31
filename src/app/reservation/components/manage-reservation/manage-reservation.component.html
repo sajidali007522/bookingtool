@@ -10,14 +10,38 @@
         </div>
 
         <div class="accordion-group group-active">
-          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Resource</a></div>
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Traveler Name</a></div>
           <div class="accordion-body">
             <input type="text" placeholder="search..." class="form-control" />
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Arrival Date</a></div>
+          <div class="accordion-body">
+            <input type="text" placeholder="" class="form-control" />
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Departure Date</a></div>
+          <div class="accordion-body">
+            <input type="text" placeholder="" class="form-control" />
           </div>
         </div>
         <ng-container *ngIf="state.doingAdvanceSearch">
           <div class="accordion-group group-active">
             <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">First Name</a></div>
+            <div class="accordion-body">
+              <input type="text" placeholder="search..." class="form-control" />
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">call center number</a></div>
+            <div class="accordion-body">
+              <input type="text" placeholder="search..." class="form-control" />
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Site number</a></div>
             <div class="accordion-body">
               <input type="text" placeholder="search..." class="form-control" />
             </div>
@@ -30,10 +54,56 @@
           </div>
           <div class="accordion-group group-active">
             <div class="accordon-heading">
-              <a href="javascript:void(0);" class="icon-contain icon-resources">xyz field</a>
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Res Status</a>
             </div>
             <div class="accordion-body">
-              <input type="text" placeholder="search..." class="form-control" />
+              <select class="form-control"><option value="">Any</option> </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Max results</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control"><option value="">25</option> </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Date of stay</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control"><option value=""></option> </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Contractor Code</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control">
+                <option value=""> < Any > </option>
+              </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Division Code</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control">
+                <option value=""> < Any > </option>
+              </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Cost Code</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control">
+                <option value=""> < Any > </option>
+              </select>
             </div>
           </div>
         </ng-container>
