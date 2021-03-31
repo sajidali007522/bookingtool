@@ -1,0 +1,66 @@
+<div class="custom-accordion">
+  <h3 class="active no-icon"><a href="javascript:void(0)">Uploaded Photos</a></h3>
+  <div class="custom-accordion-content exp" [ngClass]="{'table-loader':state.isLoadingImages}">
+    <div class="row" *ngIf="state.roomImages.length > 0">
+      <div class="col-md-6">
+        <div class="carousel-custom-outer">
+          <div class="carousel-preview" *ngIf="state.selectedImage.urlPath">
+            <div>
+              <div class="main-photo">
+                <img [src]="getThumbnailUrl(state.selectedImage.urlPath, 500)" (click)="open(state.selectedIndex)" alt="">
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-thumbnails clearfix">
+            <div *ngFor="let image of state.roomImages; let index = index;">
+              <div class="carousel-thumbnail" (click)="editImage(image, index)">
+                <a href="javascript:void(0)"><img src="{{getThumbnailUrl(image.urlPath, 100)}}" alt=""></a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-primary">
+
+          <label>Name</label>
+          <div class="field-wrap mb-3">
+            <input type="text" placeholder="" class="form-control" [disabled]="state.componentState.isViewMode" [(ngModel)]="state.selectedImage.name">
+          </div>
+          <label>Date Uploaded</label>
+          <div class="field-wrap mb-3">
+            <input type="text" placeholder="" class="form-control has-icon" [disabled]="true"  [(ngModel)]="state.selectedImage.createDate">
+            <span class="fa fa-calendar-o"></span>
+          </div>
+
+          <label>Description</label>
+          <div class="field-wrap mb-3">
+            <textarea cols="5" rows="5" class="form-control"  [disabled]="state.componentState.isViewMode" [(ngModel)]="state.selectedImage.description" (keyup)="stripLength()"></textarea>
+            <label class="text-right" *ngIf="!state.componentState.isViewMode">{{state.descriptionLimit}} Characters left</label>
+          </div>
+          <div class="btns-wrap">
+            <p>
+              <a href="javascript:void(0)" class="btn btn-info" *ngIf="state.componentState.isViewMode" (click)="edit()"><i class="fa fa-pencil"></i> Edit</a>
+              <a href="javascript:void(0)" class="btn btn-success" *ngIf="!state.componentState.isViewMode" (click)="save()"><i class="fa fa-save"></i> Save</a>
+              <a href="javascript:void(0)" class="btn btn-secondary" (click)="reset()" *ngIf="!state.componentState.isViewMode" (click)="save()"><i class="fa fa-close"></i> Cancel</a>
+              <a href="javascript:void(0)" class="btn btn-danger" (click)="openModal()"><i class="fa fa-trash"></i> Delete</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="state.roomImages.length == 0">
+      <div class="col-md-12">
+        <div class="carousel-custom-outer">
+          <p>No Image Found</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<app-confirm-modal [confirmationMessage]="'You want to delete this Photo'" (isConfirmed)="deleteImage($event)"></app-confirm-modal>
+<app-modal [message]="state.message" (closeIt)="closeIt($event)" ></app-modal>
