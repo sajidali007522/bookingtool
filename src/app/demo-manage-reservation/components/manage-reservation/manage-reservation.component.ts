@@ -58,5 +58,6 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
   startSearch () {}
 
 
+
 }
 
