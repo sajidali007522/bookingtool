@@ -59,7 +59,8 @@
               <br>
               <label class="onlywrap"><input  type="checkbox" class="checkbox"> Include History</label>
             </li>
-            <li><button class="btn btn-info btn-block" (click)="toggleAdvanceSearch()" *ngIf="state.doingAdvanceSearch">Search</button></li>
+            <li><button class="btn btn-info btn-block" (click)="startSearch()" *ngIf="state.doingAdvanceSearch">Search</button></li>
+            <li><button class="btn btn-info btn-block" (click)="toggleAdvanceSearch()" *ngIf="state.doingAdvanceSearch">cancel</button></li>
           </ul>
         </div>
       </div>
@@ -82,7 +83,7 @@
 
           </div>
           <div class="box-body">
-            <ng-container *ngIf="state.doingAdvanceSearch">
+            <ng-container *ngIf="state.doingAdvanceSearch && state.showGrid">
               <div class="table-responsive table-housekeeping-wrap">
                 <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin">
                   <thead>

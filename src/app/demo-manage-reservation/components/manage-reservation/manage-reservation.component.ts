@@ -21,6 +21,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
 
   state={
     doingAdvanceSearch: false,
+    showGrid: false,
     grid:{
       processing: false,
       items: [
@@ -54,8 +55,12 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
 
   toggleAdvanceSearch () {
     this.state.doingAdvanceSearch = !this.state.doingAdvanceSearch
+    this.state.showGrid = false;
   }
-  startSearch () {}
+  startSearch () {
+    this.state.showGrid = true;
+  }
+
 
 
 
