@@ -13,8 +13,6 @@ import {routing} from "./demo-manage-reservation.routing";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import { ManageReservationComponent } from './components/manage-reservation/manage-reservation.component';
-import { RoomImageComponent } from './components/room-image/room-image.component';
-import {RoomComponent} from "./components/room/room.component";
 import {ImageCropperModule} from "ngx-image-cropper";
 import {ConfirmModalComponent} from "../shared/confirm-modal/confirm-modal.component";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
@@ -32,8 +30,6 @@ export class MyHammerConfig extends HammerGestureConfig {
 @NgModule({
   declarations: [
     ManageReservationComponent,
-    RoomImageComponent,
-    RoomComponent
   ],
   imports: [
     CommonModule,
