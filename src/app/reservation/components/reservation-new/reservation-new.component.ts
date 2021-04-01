@@ -224,21 +224,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   getSearchId (fields, resource, resourceTypeID='00000000-0000-0000-0000-000000000000') {
     let selectedItems = this.resService.renderSelectedItems(fields)
-    console.log(JSON.parse(JSON.stringify(selectedItems)));
-    this._http._post(`booking/${this.form.bookingID}/Search`, {
-      "resourceTypeID": resourceTypeID,
-      "criteria": [{
-        "isReturn": true,
-        "beginDate": resource['BeginDate'],
-        "endDate": resource['EndDate'],
-        "beginTime": resource['BeginTime'],
-        "endTime": resource['EndTime'],
-        "selectedItems": selectedItems,
-        "searchIndeces": [
-          0
-        ]
-      }]
-    })
+    let body = this.resService.prepareBody(resource, resourceTypeID, selectedItems)
+    this._http._post(`booking/${this.form.bookingID}/Search`, body)
       .subscribe(data => {
           console.log(data);
           this.form['searchID'] = data['searchID'];
@@ -249,7 +236,15 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   getSearchResults () {
-    this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.form['searchID']}`, {searchIndex: 0, flattenValues: true, bookingItemProperties: 'UniqueID', sortProperties: 'BookingItem.BeginDate', isAscending: true})
+    this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.form['searchID']}`,
+      {
+        searchIndex: 0,
+        flattenValues: true,
+        bookingItemProperties: 'UniqueID',
+        sortProperties: 'BookingItem.BeginDate',
+        isAscending: true
+       }
+      )
       .subscribe(data => {
           console.log(data);
           //this.form['searchID'] = data['searchID'];
@@ -522,12 +517,13 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   loadFields(fields, resourceIndex, fieldIndex, eventData={}) {
     ///api2/booking/{bookingID}/AllSearchCriteriaOptions
-
+    //console.log(JSON.parse(JSON.stringify(fields)))
+    console.log(resourceIndex)
     let selectedItems = this.resService.renderSelectedItems(fields)
     //alert(this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
     let searchDefinitions = this.resService.renderSearchCriteriaItems(fields, this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
-
-    this.state.processing = true;
+    if(this.state.selectedTemplate['resources'][resourceIndex]['processing']) return;
+    this.state.selectedTemplate['resources'][resourceIndex]['processing'] = true;
     this._http._post('booking/'+this.form.bookingID+'/AllSearchCriteriaOptions',
       {
         'selectedItems': selectedItems,
@@ -535,23 +531,24 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       }
     )
       .subscribe(data => {
-        this.state.processing=false;
+        //console.log(resourceIndex, fields, data)
+          this.state.selectedTemplate['resources'][resourceIndex]['processing']=false;
         //console.log(data)
           //this.definition = data;
-          this.state.selectedTemplate['resources'][resourceIndex].searchFields = fields
+          this.state.selectedTemplate['resources'][resourceIndex]['searchFields'] = fields
           this.state.selectedTemplate['resources'][resourceIndex]['definitions'] = data;
-          console.log(this.state.selectedTemplate['resources'][resourceIndex].searchFields);
+          //console.log(this.state.selectedTemplate['resources'][resourceIndex].searchFields);
 
       }, error => {
         console.log(error)
         let message = error.split('.')
         this.toastr.error(message[0], 'Error!')
-        this.state.processing=false;
+          this.state.selectedTemplate['resources'][resourceIndex]['processing'] = false;
       },
         ()=>{
-          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex], this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
+          //this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex], this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
         }
-        )
+      )
   }
 
   loadFilterData () {

@@ -153,145 +153,150 @@
                   <a *ngIf="state.selectedTemplate['isDynamic']" href="javascript:void(0)" (click)="removeResource(i)" class="fa fa-trash-o remove-accordion"></a>
                 </h2>
               </div>
-              <div id="collaps-{{i}}" class="collapse show" [ngClass]="{'show1': resource.isOpen}" >
+              <div id="collaps-{{i}}" class="collapse show" [ngClass]="{'show1': resource.isOpen, 'table-loader': resource.processing}" >
                 <div class="box box-lr">
-                  <div class="row" *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
-                    <div class="col-md-6">
-                      <div class="field-wrap-outer">
-                        <label>{{resource['beginWord'] || 'Departure'}} Date<span class="" [ngClass]="{'text-danger': !resource['BeginDate']}">*</span></label>
+                  <div class="row">
+                    <ng-container *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
+                      <div class="col-md-6">
+                        <div class="field-wrap-outer">
+                          <label>{{resource['beginWord'] || 'Departure'}} Date<span class="" [ngClass]="{'text-danger': !resource['BeginDate']}">*</span></label>
 
-                        <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['errors']['BeginDate']&&resource['errors']['BeginDate'] != '' }">
-                          <input type="text"
-                                 [(ngModel)]="resource['BeginDate']"
-                                 bsDatepicker
-                                 [bsConfig]="bsConfig"
-                                 (ngModelChange)="setDateTo(i); resetErrorState(i, 'BeginDate')"
-                                 [minDate]="minDateFrom"
-                                 [maxDate]="maxDateFrom"
-                                 placeholder="{{resource['beginWord'] || 'Departure'}} Date"
-                                 name="departure_date"
-                                 autocomplete="off"
-                                 class="form-control">
-                          <span class="fa fa-calendar-o"></span>
-                          <label class="error text-danger" *ngIf="resource['errors']['BeginDate']">{{resource['errors']['BeginDate']}}</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6" *ngIf="resource.canSearchByTime">
-                      <div class="row">
-                        <div class="col-md-12 col-12">
-                          <div class="field-wrap-outer">
-                            <label>{{resource['beginWord'] || 'Departure'}} Time</label>
-                            <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
-                                 [ngClass]="{
-                                'is-invalid-wrap' : false,
-                                'is-valid-wrap' : false
-                             }" id="BeginTime_container_{{i+1}}">
-                              <ng-autocomplete
-                                [data]="userService.getSettingByProp('timeFormat') == 24 ? TPService.timeSlots24Format: TPService.timeSlots12Format"
-                                [searchKeyword]="timePickerkeyword"
-                                (inputFocused)='onFocused($event)'
-                                (selected)='selectTime($event, i, "BeginTime")'
-                                [itemTemplate]="beginTime_"
-                                [debounceTime]="400"
-                                [isLoading]="state.beginTimeProcessing"
-                                [minQueryLength]="1"
-                                placeHolder="{{resource['beginWord'] || 'Departure'}} Time"
-                                name="search"
-                              >
-                              </ng-autocomplete>
-
-                              <ng-template #beginTime_ let-item>
-                                <a href="javascript:void(0)">
-                                  <div class="auto-txtwrap">
-                                    <div class="autotxt">
-                                      <span [innerHTML]="item.text"></span>
-                                    </div>
-                                  </div>
-                                </a>
-                              </ng-template>
-                              <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
-                            </div>
+                          <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['errors']['BeginDate']&&resource['errors']['BeginDate'] != '' }">
+                            <input type="text"
+                                   [(ngModel)]="resource['BeginDate']"
+                                   bsDatepicker
+                                   [bsConfig]="bsConfig"
+                                   (ngModelChange)="setDateTo(i); resetErrorState(i, 'BeginDate')"
+                                   [minDate]="minDateFrom"
+                                   [maxDate]="maxDateFrom"
+                                   placeholder="{{resource['beginWord'] || 'Departure'}} Date"
+                                   name="departure_date"
+                                   autocomplete="off"
+                                   class="form-control">
+                            <span class="fa fa-calendar-o"></span>
+                            <label class="error text-danger" *ngIf="resource['errors']['BeginDate']">{{resource['errors']['BeginDate']}}</label>
                           </div>
                         </div>
-
                       </div>
+                      <div class="col-md-6" *ngIf="resource.canSearchByTime">
+                        <div class="row">
+                          <div class="col-md-12 col-12">
+                            <div class="field-wrap-outer">
+                              <label>{{resource['beginWord'] || 'Departure'}} Time</label>
+                              <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
+                                   [ngClass]="{
+                                  'is-invalid-wrap' : false,
+                                  'is-valid-wrap' : false
+                               }" id="BeginTime_container_{{i+1}}">
+                                <ng-autocomplete
+                                  [data]="userService.getSettingByProp('timeFormat') == 24 ? TPService.timeSlots24Format: TPService.timeSlots12Format"
+                                  [searchKeyword]="timePickerkeyword"
+                                  (inputFocused)='onFocused($event)'
+                                  (selected)='selectTime($event, i, "BeginTime")'
+                                  [itemTemplate]="beginTime_"
+                                  [debounceTime]="400"
+                                  [isLoading]="state.beginTimeProcessing"
+                                  [minQueryLength]="1"
+                                  placeHolder="{{resource['beginWord'] || 'Departure'}} Time"
+                                  name="search"
+                                >
+                                </ng-autocomplete>
 
-                    </div>
-
-                    <div class="col-md-6" *ngIf="resource.requiresEndDate">
-                      <div class="field-wrap-outer">
-                        <label>{{resource['endWord'] || 'Return'}} Date<span class="" [ngClass]="{'text-danger': !resource['EndDate']}">*</span></label>
-
-                        <div class="field-wrap" [ngClass]="{'is-invalid-wrap' :  resource['errors']['EndDate'] && resource['errors']['EndDate'] != '' }">
-                          <input type="text"
-                                 [(ngModel)]="resource['EndDate']"
-                                 bsDatepicker
-                                 [minDate]="minDateFrom"
-                                 [maxDate]="maxDateFrom"
-                                 [bsConfig]="bsConfig"
-                                 (ngModelChange)="setDateFrom(i); resetErrorState(i, 'EndDate')"
-                                 placeholder="{{resource['endWord'] || 'Return'}} Date"
-                                 autocomplete="off"
-                                 name="arrival_date"
-                                 class="form-control">
-                          <span class="fa fa-calendar-o"></span>
-                          <label class="error text-danger" *ngIf="resource['errors']['EndDate']">{{resource['errors']['EndDate']}}</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
-                      <div class="row">
-                        <div class="col-md-12 col-12">
-                          <div class="field-wrap-outer time-picker-wrap">
-                            <label>{{resource['endWord'] || 'Return'}} Time</label>
-                            <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
-                                 [ngClass]="{
-                                'is-invalid-wrap' : false,
-                                'is-valid-wrap' : false
-                             }" id="ReturnTime_container_{{i+1}}">
-                              <ng-autocomplete
-                                [data]="userService.getSettingByProp('timeFormat') == 24 ? TPService.timeSlots24Format : TPService.timeSlots12Format"
-                                [searchKeyword]="timePickerkeyword"
-                                (inputFocused)='onFocused($event)'
-                                (selected)='selectTime($event, i, "ReturnTime")'
-                                [itemTemplate]="endTime_"
-                                [debounceTime]="400"
-                                [isLoading]="state.beginTimeProcessing"
-                                [minQueryLength]="1"
-                                placeHolder="{{resource['endWord'] || 'Return'}} Time"
-                                name="search"
-                              >
-                              </ng-autocomplete>
-
-                              <ng-template #endTime_ let-item>
-                                <a href="javascript:void(0)">
-                                  <div class="auto-txtwrap">
-                                    <div class="autotxt">
-                                      <span [innerHTML]="item.text"></span>
+                                <ng-template #beginTime_ let-item>
+                                  <a href="javascript:void(0)">
+                                    <div class="auto-txtwrap">
+                                      <div class="autotxt">
+                                        <span [innerHTML]="item.text"></span>
+                                      </div>
                                     </div>
-                                  </div>
-                                </a>
-                              </ng-template>
-                              <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
+                                  </a>
+                                </ng-template>
+                                <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
+                              </div>
                             </div>
                           </div>
+
                         </div>
 
                       </div>
 
-                    </div>
+                      <div class="col-md-6" *ngIf="resource.requiresEndDate">
+                        <div class="field-wrap-outer">
+                          <label>{{resource['endWord'] || 'Return'}} Date<span class="" [ngClass]="{'text-danger': !resource['EndDate']}">*</span></label>
+
+                          <div class="field-wrap" [ngClass]="{'is-invalid-wrap' :  resource['errors']['EndDate'] && resource['errors']['EndDate'] != '' }">
+                            <input type="text"
+                                   [(ngModel)]="resource['EndDate']"
+                                   bsDatepicker
+                                   [minDate]="minDateFrom"
+                                   [maxDate]="maxDateFrom"
+                                   [bsConfig]="bsConfig"
+                                   (ngModelChange)="setDateFrom(i); resetErrorState(i, 'EndDate')"
+                                   placeholder="{{resource['endWord'] || 'Return'}} Date"
+                                   autocomplete="off"
+                                   name="arrival_date"
+                                   class="form-control">
+                            <span class="fa fa-calendar-o"></span>
+                            <label class="error text-danger" *ngIf="resource['errors']['EndDate']">{{resource['errors']['EndDate']}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
+                        <div class="row">
+                          <div class="col-md-12 col-12">
+                            <div class="field-wrap-outer time-picker-wrap">
+                              <label>{{resource['endWord'] || 'Return'}} Time</label>
+                              <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
+                                   [ngClass]="{
+                                  'is-invalid-wrap' : false,
+                                  'is-valid-wrap' : false
+                               }" id="ReturnTime_container_{{i+1}}">
+                                <ng-autocomplete
+                                  [data]="userService.getSettingByProp('timeFormat') == 24 ? TPService.timeSlots24Format : TPService.timeSlots12Format"
+                                  [searchKeyword]="timePickerkeyword"
+                                  (inputFocused)='onFocused($event)'
+                                  (selected)='selectTime($event, i, "ReturnTime")'
+                                  [itemTemplate]="endTime_"
+                                  [debounceTime]="400"
+                                  [isLoading]="state.beginTimeProcessing"
+                                  [minQueryLength]="1"
+                                  placeHolder="{{resource['endWord'] || 'Return'}} Time"
+                                  name="search"
+                                >
+                                </ng-autocomplete>
+
+                                <ng-template #endTime_ let-item>
+                                  <a href="javascript:void(0)">
+                                    <div class="auto-txtwrap">
+                                      <div class="autotxt">
+                                        <span [innerHTML]="item.text"></span>
+                                      </div>
+                                    </div>
+                                  </a>
+                                </ng-template>
+                                <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </ng-container>
                   <!-- </div>
                   <div class="row template-fields" > -->
-                    <ng-container *ngIf="!state.processing && state.selectedGroup['name'] != 'Templates'">
-                      <app-form-builder class="col-md-6" *ngFor="let field of resource['searchFields']; let j =index" [field]="field"
+
+                    <ng-container *ngIf="!resource.processing && state.selectedGroup['name'] != 'Templates'">
+                      <app-form-builder class="col-md-6" *ngFor="let field of resource['searchFields']; let j =index"
+                                        [field]="field"
                                         [resourceType]="resource['resourceTypeID']"
                                         [index]="i+'_'+j"
                                         [bookingID] = "form.bookingID"
                                         [form] = "form"
                       ></app-form-builder>
                     </ng-container>
-                    <ng-container *ngIf="state.selectedGroup['name'] == 'Templates' && !state.processing">
+                    <ng-container *ngIf="state.selectedGroup['name'] == 'Templates' && !resource.processing">
+
                       <ng-container *ngFor="let field of resource['searchFields']; let j = index">
                         <div class="col-md-6 col-12" >
 
@@ -306,7 +311,6 @@
                             [bookingID]="form.bookingID"
                             (fieldBinding)="bindField($event)"
                           >
-
                           </app-form-fields>
                         </div>
                       </ng-container>

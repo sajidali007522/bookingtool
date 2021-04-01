@@ -109,5 +109,27 @@ export class ReservationService {
     return temp;
   }
 
+  public prepareBody(resource, resourceTypeID, fields){
+    let isReturn = false;
+    resource.resourceItems.filter(item => {
+      if(!isReturn){
+        isReturn = item.isReturn || false
+      }
+    })
+    return [{
+      "resourceTypeID": resource,
+      "criteria": [{
+        "isReturn": isReturn,
+        "beginDate": resource['BeginDate'],
+        "endDate": resource['EndDate'],
+        "beginTime": resource['BeginTime'],
+        "endTime": resource['EndTime'],
+        "selectedItems": fields,
+        "searchIndeces": [
+          0
+        ]
+      }]
+    }];
 
+  }
 }
