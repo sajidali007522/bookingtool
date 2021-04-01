@@ -221,15 +221,28 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         this.state.initiateBooking = false;
       });
   }
-  getSearchId (fields) {
+
+  getSearchId (fields, resourceTypeID='00000000-0000-0000-0000-000000000000') {
     let selectedItems = this.resService.renderSelectedItems(fields)
+    console.log(JSON.parse(JSON.stringify(selectedItems)));
     this._http._post(`booking/${this.form.bookingID}/Search`, {
-      "resourceTypeID": "00000000-0000-0000-0000-000000000000",
+      "resourceTypeID": resourceTypeID,
       "criteria": selectedItems
     })
       .subscribe(data => {
           console.log(data);
           this.form['searchID'] = data['searchID'];
+          this.getSearchResults();
+
+        },
+        err => {this.state.loadingGroups=false});
+  }
+
+  getSearchResults () {
+    this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.form['searchID']}`)
+      .subscribe(data => {
+          console.log(data);
+          //this.form['searchID'] = data['searchID'];
 
         },
         err => {this.state.loadingGroups=false});
@@ -517,14 +530,18 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
           //this.definition = data;
           this.state.selectedTemplate['resources'][resourceIndex].searchFields = fields
           this.state.selectedTemplate['resources'][resourceIndex]['definitions'] = data;
-          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields);
+          console.log(this.state.selectedTemplate['resources'][resourceIndex].searchFields);
 
       }, error => {
         console.log(error)
         let message = error.split('.')
         this.toastr.error(message[0], 'Error!')
         this.state.processing=false;
-      })
+      },
+        ()=>{
+          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
+        }
+        )
   }
 
   loadFilterData () {
