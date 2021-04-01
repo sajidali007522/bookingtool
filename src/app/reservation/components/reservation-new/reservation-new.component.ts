@@ -249,7 +249,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   getSearchResults () {
-    this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.form['searchID']}`, {searchIndex: 0, flattenValues: true, bookingItemProperties: 'Text|UniqueID', sortProperties: 'BookingItem.BeginDate', isAscending: true})
+    this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.form['searchID']}`, {searchIndex: 0, flattenValues: true, bookingItemProperties: 'UniqueID', sortProperties: 'BookingItem.BeginDate', isAscending: true})
       .subscribe(data => {
           console.log(data);
           //this.form['searchID'] = data['searchID'];
