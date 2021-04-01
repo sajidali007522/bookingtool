@@ -111,6 +111,7 @@ export class BookingComponent implements OnInit {
               else if(bookingId != '' && this.isCloneAll) {
                 console.log("???????????????????");
                 this.profiles.push(res['data']);
+
                 loadOptions = true;
               }
 
@@ -129,6 +130,16 @@ export class BookingComponent implements OnInit {
         },
         error => {
           console.log(error)
+        },
+        ()=>{
+          if(this.profiles.length > 0 ) {
+            setTimeout(() => {
+              let element = document.getElementById("accordionExample_" + (this.profiles.length - 1));
+              console.log("accordion_" + (this.profiles.length - 1), element)
+              element.scrollIntoView();
+              element.classList.add('shake')
+            }, 100)
+          }
         }
       )
   }
@@ -277,7 +288,7 @@ export class BookingComponent implements OnInit {
     this.profiles.splice(index, 1)
   }
 
-  bookProfile(index, profile){
+  bookProfile(index, profile) {
     if(!this.profileValidated(profile)){
       let child=0;
       $(document).find(".accordion").each(function(){
@@ -299,6 +310,7 @@ export class BookingComponent implements OnInit {
         })
       })
     })
+    if(this.profiles[index]['processing']) return;
     this.profiles[index]['processing'] = true;
     this.resService.bookProfile(profile.bookingID, body)
       .subscribe(

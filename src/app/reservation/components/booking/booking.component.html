@@ -61,7 +61,7 @@
               </div>
               <ng-container *ngIf="profiles.length > 0">
                 <div
-                  class="accordion custom-accordion accordion-sm text-left" id="accordionExample"
+                  class="accordion custom-accordion accordion-sm text-left" id="accordionExample_{{i}}"
                   [ngClass]="{'accordion-has-book': !profile['resNumber']}"
                   *ngFor="let profile of profiles; let i=index">
                 <div class="mb-3">
