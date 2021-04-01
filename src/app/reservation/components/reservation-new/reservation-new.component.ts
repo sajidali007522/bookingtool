@@ -222,12 +222,22 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       });
   }
 
-  getSearchId (fields, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+  getSearchId (fields, resource, resourceTypeID='00000000-0000-0000-0000-000000000000') {
     let selectedItems = this.resService.renderSelectedItems(fields)
     console.log(JSON.parse(JSON.stringify(selectedItems)));
     this._http._post(`booking/${this.form.bookingID}/Search`, {
       "resourceTypeID": resourceTypeID,
-      "criteria": selectedItems
+      "criteria": [{
+        "isReturn": true,
+        "beginDate": resource['BeginDate'],
+        "endDate": resource['EndDate'],
+        "beginTime": resource['BeginTime'],
+        "endTime": resource['EndTime'],
+        "selectedItems": selectedItems,
+        "searchIndeces": [
+          0
+        ]
+      }]
     })
       .subscribe(data => {
           console.log(data);
@@ -539,7 +549,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         this.state.processing=false;
       },
         ()=>{
-          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
+          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex], this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
         }
         )
   }
