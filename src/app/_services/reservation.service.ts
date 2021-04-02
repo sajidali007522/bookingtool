@@ -57,7 +57,7 @@ export class ReservationService {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {params:params});
   }
 
-  public renderSelectedItems (fields) {
+  public renderSelectedItems (fields, type=0) {
     let temp = []
     fields.filter(field=>{
       if(field.isCheckbox){
@@ -65,7 +65,7 @@ export class ReservationService {
           temp.push({
             "relation": (field.fieldRelation|| '00000000-0000-0000-0000-000000000000'),
             "selection": field.model.value,
-            "type": (field.type || 0),
+            "type": (type || (field.type || 0)),
             "selectionText": field.model.value
           })
         }
@@ -116,8 +116,8 @@ export class ReservationService {
         isReturn = item.isReturn || false
       }
     })
-    return [{
-      "resourceTypeID": resource,
+    return {
+      "resourceTypeID": resourceTypeID,
       "criteria": [{
         "isReturn": isReturn,
         "beginDate": resource['BeginDate'],
@@ -129,7 +129,7 @@ export class ReservationService {
           0
         ]
       }]
-    }];
+    };
 
   }
 }

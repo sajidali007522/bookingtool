@@ -223,7 +223,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   getSearchId (fields, resource, resourceTypeID='00000000-0000-0000-0000-000000000000') {
-    let selectedItems = this.resService.renderSelectedItems(fields)
+    let selectedItems = this.resService.renderSelectedItems(resource.searchFields, 1)
+    console.log(JSON.parse(JSON.stringify(fields)))
     let body = this.resService.prepareBody(resource, resourceTypeID, selectedItems)
     this._http._post(`booking/${this.form.bookingID}/Search`, body)
       .subscribe(data => {
@@ -545,8 +546,22 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         this.toastr.error(message[0], 'Error!')
           this.state.selectedTemplate['resources'][resourceIndex]['processing'] = false;
       },
-        ()=>{
-          //this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex], this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
+      ()=>{
+        if(fieldIndex<0){
+          for(let index=0; index<this.state.selectedTemplate['resources'][resourceIndex].searchFields.length; index++){
+            if(!this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].model && this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].results){
+              let selectedValue = this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].results.filter(item =>{
+                if(item.value == this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].selectedValue){
+                  return item;
+                }
+              });
+              if(selectedValue.length){
+                this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].model = selectedValue[0];
+              }
+            }
+          }
+        }
+          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex], this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
         }
       )
   }
