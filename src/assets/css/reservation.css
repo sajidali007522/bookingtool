@@ -423,13 +423,13 @@ img{
     .custom-nav ul li{
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
         justify-content: center;
+        align-items: center;
     }
         .custom-nav a{
-            width: 100%;
             font-size: 12px;
-            padding: 20px 2px 15px;
+            width: 100%;
+            padding: 18px 2px 12px;
         }
     .custom-main{
         padding: 25px 20px 35px;
