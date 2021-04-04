@@ -156,6 +156,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     if(beginDate > endDate) {
       this.state.selectedTemplate['resources'][resourceIndex].EndDate = this.state.selectedTemplate['resources'][resourceIndex].BeginDate;
     }
+    if(this.state.selectedGroup['name'] == 'Templates'){
+      this.loadFields(this.state.selectedTemplate['resources'][resourceIndex].searchFields, resourceIndex, -1)
+    }
   }
 
   setDateFrom(resourceIndex) {
@@ -168,6 +171,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
     if(this.state.selectedTemplate['resources'][resourceIndex].BeginDate == '' || beginDate > endDate) {
       this.state.selectedTemplate['resources'][resourceIndex].BeginDate = this.state.selectedTemplate['resources'][resourceIndex].EndDate;
+    }
+    if(this.state.selectedGroup['name'] == 'Templates'){
+      this.loadFields(this.state.selectedTemplate['resources'][resourceIndex].searchFields, resourceIndex, -1)
     }
   }
 
@@ -222,33 +228,41 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       });
   }
 
-  getSearchId (fields, resource, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+  getSearchId (fields, resource, resourceIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
     let selectedItems = this.resService.renderSelectedItems(resource.searchFields, 1)
     console.log(JSON.parse(JSON.stringify(fields)))
+
     let body = this.resService.prepareBody(resource, resourceTypeID, selectedItems)
     this._http._post(`booking/${this.form.bookingID}/Search`, body)
       .subscribe(data => {
           console.log(data);
           this.form['searchID'] = data['searchID'];
-          this.getSearchResults();
+          this.getSearchResults(fields, resource, resourceIndex, resourceTypeID);
 
         },
         err => {this.state.loadingGroups=false});
   }
 
-  getSearchResults () {
+  getSearchResults (bodyfields, resource, resourceIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
     this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.form['searchID']}`,
+
       {
-        searchIndex: 0,
-        flattenValues: true,
-        bookingItemProperties: 'UniqueID',
+        searchIndex:0,
+        flattenValues:true,
+        bookingItemProperties: 'Text|UniqueID',
         sortProperties: 'BookingItem.BeginDate',
-        isAscending: true
+        isAscending:true
        }
       )
       .subscribe(data => {
           console.log(data);
           //this.form['searchID'] = data['searchID'];
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'].filter(item => {
+            if(item.isBlockable){
+              item['results'] = data['results']
+            }
+          });
+
 
         },
         err => {this.state.loadingGroups=false});
@@ -561,7 +575,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
             }
           }
         }
-          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex], this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
+          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex], resourceIndex, this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
         }
       )
   }

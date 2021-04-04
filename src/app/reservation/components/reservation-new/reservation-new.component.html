@@ -326,7 +326,8 @@
                                         'is-invalid' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
                                         'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
                                         }" [(ngModel)]="field.model" [disabled]="field.processing" >
-                                <option [ngValue]="''">Select {{field.text}}</option>
+                                <option>Select {{field.text}}</option>
+                                <option [ngValue]="item['values2']" *ngFor="let item of field.results">{{item['values2'].Text}}</option>
 
                               </select>
                               <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>

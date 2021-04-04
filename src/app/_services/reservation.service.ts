@@ -122,8 +122,8 @@ export class ReservationService {
         "isReturn": isReturn,
         "beginDate": resource['BeginDate'],
         "endDate": resource['EndDate'],
-        "beginTime": resource['BeginTime'],
-        "endTime": resource['EndTime'],
+        //"beginTime": resource['BeginTime'],
+        //"endTime": resource['EndTime'],
         "selectedItems": fields,
         "searchIndeces": [
           0
