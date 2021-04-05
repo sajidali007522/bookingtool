@@ -228,26 +228,31 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       });
   }
 
-  getSearchId (fields, resource, resourceIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
-    if(this.state.selectedTemplate['resources'][resourceIndex]['searching']) return;
+  getSearchId (fields, resource, resourceIndex, resourceItemIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+    //validateForSearch
+    if(!this.validateForm(false)) return;
+    if(this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing']) return;
     let selectedItems = this.resService.renderSelectedItems(resource.searchFields, 1)
-    console.log(JSON.parse(JSON.stringify(fields)))
+    //console.log(JSON.parse(JSON.stringify(fields)))
 
     let body = this.resService.prepareBody(resource, resourceTypeID, selectedItems)
-    this.state.selectedTemplate['resources'][resourceIndex]['searching'] = true;
+    this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = true;
     this._http._post(`booking/${this.form.bookingID}/Search`, body)
       .subscribe(data => {
           console.log(data);
      //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
           this.form['searchID'] = data['searchID'];
-          this.getSearchResults(fields, resource, resourceIndex, resourceTypeID);
+          this.getSearchResults(fields, resource, resourceIndex, resourceItemIndex, resourceTypeID);
 
         },
-        err => {this.state.loadingGroups=false; this.state.selectedTemplate['resources'][resourceIndex]['searching']=false});
+        err => {
+        this.state.loadingGroups=false;
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing']=false
+      });
   }
 
-  getSearchResults (bodyfields, resource, resourceIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
-    this.state.selectedTemplate['resources'][resourceIndex]['searching'] = true;
+  getSearchResults (bodyfields, resource, resourceIndex, resourceItemIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+    this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = true;
     this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.form['searchID']}`,
 
       {
@@ -260,18 +265,16 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       )
       .subscribe(data => {
           console.log(data);
-          this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = false
           //this.form['searchID'] = data['searchID'];
-          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'].filter(item => {
-            if(item.isBlockable){
-              item['model'] = '';
-              item['results'] = data['results']
-            }
-          });
-
-
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['model'] = '';
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['results'] =  data['results'];
         },
-        err => {this.state.loadingGroups=false; this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false});
+        err => {
+          this.state.loadingGroups=false;
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = false
+        }
+      );
   }
 
   loadTemplateGroups() {
@@ -480,18 +483,22 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     this.state.selectedTemplate['resources'].splice(index,1)
   }
 
-  validateForm() {
+  validateForm(setError=true) {
     let validated = true;
     this.state.selectedTemplate['resources'].filter(resource => {
       resource['errors'] = {};
       //console.log(resource['BeginDate'])
       if(!resource['BeginDate']) {
-        resource['errors']['BeginDate'] =  'Begin Date is required field.'
+        if(setError) {
+          resource['errors']['BeginDate'] = 'Begin Date is required field.'
+        }
         validated = false;
       }
       //console.log(resource['EndDate'])
       if(!resource['EndDate'] && resource.requiresEndDate) {
-        resource['errors']['EndDate'] = 'End Date is required field.';
+        if(setError) {
+          resource['errors']['EndDate'] = 'End Date is required field.';
+        }
         validated = false;
       }
       /*if(!resource['BeginTime'] && resource.canSearchByTime) {
@@ -507,7 +514,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       resource.searchFields.filter(field=>{
         field['validationError'] = 'passed'
         if(field.isRequired && (!field.model || field.model == '00000000-0000-0000-0000-000000000000')){
-          field['validationError'] = field.name+ ' is required field';
+          if(setError) {
+            field['validationError'] = field.name+ ' is required field';
+          }
           validated = false;
         }
       })
@@ -581,7 +590,15 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
             }
           }
         }
-          this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex], resourceIndex, this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
+        let itemIndex=0;
+        this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'].filter(item =>{
+          item['model'] = ''
+          if(item.isBlockable) {
+            this.getSearchId(this.state.selectedTemplate['resources'][resourceIndex].searchFields, this.state.selectedTemplate['resources'][resourceIndex], resourceIndex, itemIndex, this.state.selectedTemplate['resources'][resourceIndex].resourceTypeID);
+          }
+          itemIndex++;
+        })
+
         }
       )
   }
