@@ -61,7 +61,7 @@
               </div>
               <ng-container *ngIf="profiles.length > 0">
                 <div
-                  class="accordion custom-accordion accordion-sm text-left" id="accordionExample"
+                  class="accordion custom-accordion accordion-sm text-left" id="accordionExample_{{i}}"
                   [ngClass]="{'accordion-has-book': !profile['resNumber']}"
                   *ngFor="let profile of profiles; let i=index">
                 <div class="mb-3">
@@ -69,8 +69,11 @@
                     <h2 class="accordion-link has-delete-icon">
                       <span [attr.data-toggle]="(this.profiles.length > 1)?'collapse' : ''"
                             [attr.data-target]="(this.profiles.length > 1) ?'#collaps-'+i : ''"
-                            [attr.aria-expanded]="'true'" style="display: block; ">Booking For {{profile.guestName}} <strong *ngIf="profile['resNumber']">{{profile['resNumber']}}</strong></span>
-                       <a class="fa remove-accordion" [ngClass]="{'fa-trash-o': !profile['resNumber'], 'fa-eye-slash': profile['resNumber']}" (click)="removeProfile(i)" *ngIf="isCloneAll"></a>
+                            [attr.aria-expanded]="'true'" style="display: block; ">
+                          Booking For {{profile.guestName}}
+                          <span *ngIf="profile['resNumber']"> has been confirmed and view at <strong class="confirmed-msg">{{profile['resNumber']}}</strong></span>
+                      </span>
+                      <a class="fa remove-accordion" [ngClass]="{'fa-trash-o': !profile['resNumber'], 'fa-eye-slash': profile['resNumber']}" (click)="removeProfile(i)" *ngIf="isCloneAll"></a>
                       <a *ngIf="!profile['resNumber']" class="btn btn-info btn-book" [ngClass]="{'btn-danger': profile['notValidated']}" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
                     </h2>
                   </div>

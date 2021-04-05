@@ -111,6 +111,7 @@ export class BookingComponent implements OnInit {
               else if(bookingId != '' && this.isCloneAll) {
                 console.log("???????????????????");
                 this.profiles.push(res['data']);
+
                 loadOptions = true;
               }
 
@@ -120,7 +121,7 @@ export class BookingComponent implements OnInit {
                 //inputFields loop through fields section
                 for (let fieldIndex = 0; fieldIndex < res['data']['inputGroups'][groupIndex]['inputFields'].length; fieldIndex++) {
                   if (res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex].searchField) {
-                    this.loadFieldOptions((this.profiles.length - 1), res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex], fieldIndex, groupIndex);
+                    this.loadFieldOptions((this.profiles.length - 1), res['data']['inputGroups'][groupIndex]['inputFields'][fieldIndex], fieldIndex, groupIndex, bookingId);
                   }
                 }
               }
@@ -129,13 +130,23 @@ export class BookingComponent implements OnInit {
         },
         error => {
           console.log(error)
+        },
+        ()=>{
+          if(this.profiles.length > 0 ) {
+            setTimeout(() => {
+              let element = document.getElementById("accordionExample_" + (this.profiles.length - 1));
+              console.log("accordion_" + (this.profiles.length - 1), element)
+              element.scrollIntoView();
+              element.classList.add('shake')
+            }, 100)
+          }
         }
       )
   }
 
-  loadFieldOptions(profileIndex, field, fieldIndex, groupIndex){
+  loadFieldOptions(profileIndex, field, fieldIndex, groupIndex, bookingId=''){
     this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = true;
-    this.canceler=this.lookupService.findResults(this.state.bookingID, [], {
+    this.canceler=this.lookupService.findResults((bookingId || this.state.bookingID), [], {
         definitionType: 2,
         resourceTypeID: '00000000-0000-0000-0000-000000000000',
         searchCriteriaID: field.searchField.searchCriteriaID,
@@ -277,7 +288,7 @@ export class BookingComponent implements OnInit {
     this.profiles.splice(index, 1)
   }
 
-  bookProfile(index, profile){
+  bookProfile(index, profile) {
     if(!this.profileValidated(profile)){
       let child=0;
       $(document).find(".accordion").each(function(){
@@ -299,6 +310,7 @@ export class BookingComponent implements OnInit {
         })
       })
     })
+    if(this.profiles[index]['processing']) return;
     this.profiles[index]['processing'] = true;
     this.resService.bookProfile(profile.bookingID, body)
       .subscribe(
@@ -323,6 +335,7 @@ export class BookingComponent implements OnInit {
         }
       )
   }
+
   profileValidated(profile){
     let isValidated = true;
     profile.inputGroups.filter(group => {

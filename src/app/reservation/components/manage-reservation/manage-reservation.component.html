@@ -1,0 +1,195 @@
+<div class="reservation-detail-wrap">
+    <div class="reservation-sidebar">
+      <div class="reservation-sidebar-inner">
+        <div class="reset-wrap d-flex">
+          <a href="javascript:void(0)" (click)="closeFilterBar()"  class="btn btn-sm btn-success for-mobile mr-auto">
+            <span class="fa fa-angle-left"></span>
+            Back
+          </a>
+
+        </div>
+
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Traveler Name</a></div>
+          <div class="accordion-body">
+            <input type="text" placeholder="search..." class="form-control" />
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Arrival Date</a></div>
+          <div class="accordion-body">
+            <input type="text" placeholder="" class="form-control" />
+          </div>
+        </div>
+        <div class="accordion-group group-active">
+          <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Departure Date</a></div>
+          <div class="accordion-body">
+            <input type="text" placeholder="" class="form-control" />
+          </div>
+        </div>
+        <ng-container *ngIf="state.doingAdvanceSearch">
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">First Name</a></div>
+            <div class="accordion-body">
+              <input type="text" placeholder="search..." class="form-control" />
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">call center number</a></div>
+            <div class="accordion-body">
+              <input type="text" placeholder="search..." class="form-control" />
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Site number</a></div>
+            <div class="accordion-body">
+              <input type="text" placeholder="search..." class="form-control" />
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-resources">Last Name</a></div>
+            <div class="accordion-body">
+              <input type="text" placeholder="search..." class="form-control" />
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Res Status</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control"><option value="">Any</option> </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Max results</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control"><option value="">25</option> </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Date of stay</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control"><option value=""></option> </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Contractor Code</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control">
+                <option value=""> < Any > </option>
+              </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Division Code</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control">
+                <option value=""> < Any > </option>
+              </select>
+            </div>
+          </div>
+          <div class="accordion-group group-active">
+            <div class="accordon-heading">
+              <a href="javascript:void(0);" class="icon-contain icon-resources">Cost Code</a>
+            </div>
+            <div class="accordion-body">
+              <select class="form-control">
+                <option value=""> < Any > </option>
+              </select>
+            </div>
+          </div>
+        </ng-container>
+
+
+        <div class="resv-btns">
+          <div class="mb-1 mt-1">
+            <a href="javascript:void(0)" (click)="toggleAdvanceSearch()" class="full-btn shake" *ngIf="!state.doingAdvanceSearch">
+              <span class="fa fa-edit"></span> Advance search
+            </a>
+            <a href="javascript:void(0)" (click)="startSearch()" *ngIf="state.doingAdvanceSearch" class="full-btn"  data-toggle="modal" data-target="#exampleModal_">
+              <span class="fa fa-close"></span> Search
+            </a>
+            <a href="javascript:void(0)" (click)="toggleAdvanceSearch()" *ngIf="state.doingAdvanceSearch" class="full-btn" >
+              <span class="fa fa-close"></span> reset Advance search
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- reservation-sidebar -->
+    <div class="reservation-content-area availability-component">
+        <div class="reservation-content-inner">
+          <div class="filter-btn-wrap for-mobile" >
+            <a href="javascript:void(0)" (click)="openFilterBar()" class="filters-btn">Filters <span  class="fa fa-filter"></span></a>
+          </div>
+
+          <div class="table-editable-wrap table-datatitle-wrap">
+              <div>
+                <h3>Data to come after profile selection</h3>
+              </div>
+          </div>
+        </div>
+    </div><!-- reservation-content-area -->
+  </div><!-- reservation-detail-wrap -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal_" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel_" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content" [ngClass]="{'table-loader': state.grid.processing}">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel_">Manage Reservation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="custom-accordion">
+          <h3 class="active"><a href="javascript:void(0)">Available Reservation</a></h3>
+          <div class="custom-accordion-content exp">
+            <div class="table-massedit-wrap table-responsive">
+              <table class="table table-bordered room-table td-middle text-nowrap">
+                <thead>
+                <tr>
+                  <th>Date </th>
+                  <th>Day</th>
+                  <th>Total</th>
+                  <th>Avail</th>
+                  <th>Pickup</th>
+                  <th>%</th>
+                </tr>
+                </thead>
+                <tbody class="mobile-slider">
+                <tr *ngFor="let row of state.grid.items;let index = index;">
+                  <td data-title="Date" >{{row.date}}</td>
+                  <td data-title="Day">{{row.dayOfWeek}}</td>
+                  <td data-title="Total">{{row.total || 0}}</td>
+                  <td data-title="Avail">{{row.available || 0}}</td>
+                  <td data-title="Pickup">{{row.pickup || 0}}</td>
+                  <td data-title="%">{{row.percentage || 0}}</td>
+
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="toggleAdvanceSearch()" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

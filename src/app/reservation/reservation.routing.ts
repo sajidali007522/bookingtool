@@ -7,11 +7,13 @@ import {ReservationNewComponent} from "./components/reservation-new/reservation-
 import {BusinessProfileComponent} from "./components/business-profile/business-profile.component";
 import {BookProfileComponent} from "./components/book-profile/book-profile.component";
 import {BookingComponent} from "./components/booking/booking.component";
+import {ManageReservationComponent} from "./components/manage-reservation/manage-reservation.component";
 
 
 export const routes: Routes = [
   { path: '', component:ReservationNewComponent, canActivate: [AuthGuard]  }, // default route of the module
   { path: 'old', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
+  { path: 'manage', component:ManageReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
   { path: ":booking_id/business-profile", component:BusinessProfileComponent, canActivate: [AuthGuard] },
   { path: ":booking_id/booking", component:BookingComponent, canActivate: [AuthGuard] },

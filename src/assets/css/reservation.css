@@ -274,6 +274,10 @@ img{
     color: #fff;
     text-decoration: none;
   }
+  .accordion-sm .accordion-link .confirmed-msg{
+      margin-left: 15px;
+      display: inline-block;
+  }
   .accordion-sm .has-delete-icon{
       padding-right: 75px;
   }
@@ -419,13 +423,13 @@ img{
     .custom-nav ul li{
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
         justify-content: center;
+        align-items: center;
     }
         .custom-nav a{
-            width: 100%;
             font-size: 12px;
-            padding: 20px 2px 15px;
+            width: 100%;
+            padding: 18px 2px 12px;
         }
     .custom-main{
         padding: 25px 20px 35px;
@@ -486,5 +490,9 @@ img{
         font-size: 14px;
         padding:10px 15px;
         margin-top: 5px;
+    }
+    .accordion-sm .accordion-link .confirmed-msg{
+        display: block;
+        margin: 5px 0 0;
     }
 }

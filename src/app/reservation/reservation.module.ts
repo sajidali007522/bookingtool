@@ -14,6 +14,8 @@ import { ReservationNewComponent } from './components/reservation-new/reservatio
 import {BusinessProfileComponent} from "./components/business-profile/business-profile.component";
 import {BookProfileComponent} from "./components/book-profile/book-profile.component";
 import { BookingComponent } from './components/booking/booking.component';
+import {ManageReservationComponent} from "./components/manage-reservation/manage-reservation.component";
+import {RecordGridComponent} from "./components/record-grid/record-grid.component";
 
 
 
@@ -24,7 +26,9 @@ import { BookingComponent } from './components/booking/booking.component';
     ReservationNewComponent,
     BusinessProfileComponent,
     BookProfileComponent,
-    BookingComponent
+    BookingComponent,
+    ManageReservationComponent,
+    RecordGridComponent
   ],
   imports: [
     CommonModule,
