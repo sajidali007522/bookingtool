@@ -229,21 +229,25 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   getSearchId (fields, resource, resourceIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+    if(this.state.selectedTemplate['resources'][resourceIndex]['searching']) return;
     let selectedItems = this.resService.renderSelectedItems(resource.searchFields, 1)
     console.log(JSON.parse(JSON.stringify(fields)))
 
     let body = this.resService.prepareBody(resource, resourceTypeID, selectedItems)
+    this.state.selectedTemplate['resources'][resourceIndex]['searching'] = true;
     this._http._post(`booking/${this.form.bookingID}/Search`, body)
       .subscribe(data => {
           console.log(data);
+     //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
           this.form['searchID'] = data['searchID'];
           this.getSearchResults(fields, resource, resourceIndex, resourceTypeID);
 
         },
-        err => {this.state.loadingGroups=false});
+        err => {this.state.loadingGroups=false; this.state.selectedTemplate['resources'][resourceIndex]['searching']=false});
   }
 
   getSearchResults (bodyfields, resource, resourceIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+    this.state.selectedTemplate['resources'][resourceIndex]['searching'] = true;
     this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.form['searchID']}`,
 
       {
@@ -256,16 +260,18 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       )
       .subscribe(data => {
           console.log(data);
+          this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false
           //this.form['searchID'] = data['searchID'];
           this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'].filter(item => {
             if(item.isBlockable){
+              item['model'] = '';
               item['results'] = data['results']
             }
           });
 
 
         },
-        err => {this.state.loadingGroups=false});
+        err => {this.state.loadingGroups=false; this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false});
   }
 
   loadTemplateGroups() {

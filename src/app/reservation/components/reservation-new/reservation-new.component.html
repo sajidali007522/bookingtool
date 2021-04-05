@@ -320,17 +320,18 @@
                             [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
                           <div class="">
                             <div class="field-wrap">
+                              <span class="fa fa-spin fa-spinner" *ngIf="resource.searching"></span>
                               <select class="form-control" [ngClass]="{
-                                        'no-icon': !field.processing,
-                                        'has-icon': field.processing,
+                                        'no-icon': !resource.searching,
+                                        'has-icon': resource.searching,
                                         'is-invalid' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
                                         'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
                                         }" [(ngModel)]="field.model" [disabled]="field.processing" >
-                                <option>Select {{field.text}}</option>
-                                <option [ngValue]="item['values2']" *ngFor="let item of field.results">{{item['values2'].Text}}</option>
+                                <option value="">Please Select {{field.text}}</option>
+                                <option [ngValue]="item['values2']" *ngFor="let item of field.results">{{item['values2']['Text']}}</option>
 
                               </select>
-                              <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
+
                               <label class="error text-danger"
                                      *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
                             </div>

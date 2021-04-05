@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpService} from "../http.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../auth.service";
+import {DateParser} from "../_helpers/dateParser";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,12 @@ export class ReservationService {
   state = {
     errorMessages: []
   }
-  constructor(private _http: HttpService, private http: HttpClient, private _auth:AuthService) { }
+  constructor(
+    private _http: HttpService,
+    private http: HttpClient,
+    private _auth:AuthService,
+    private dateParse: DateParser
+  ) { }
 
   public loadSingleResource (bookingId) {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/TemplateGroups`, );
@@ -115,21 +121,37 @@ export class ReservationService {
       if(!isReturn){
         isReturn = item.isReturn || false
       }
-    })
+    });
+    let beginDate = this.dateParse.parseDate(resource['BeginDate']);
+
+    let returnBody = {
+      "isReturn": isReturn,
+      "selectedItems": fields,
+      "beginDate": beginDate,
+      "endDate": beginDate,
+      "searchIndeces": [
+        0
+      ]
+    };
+    if(resource.requiresEndDate){
+      let endDate = this.dateParse.parseDate(resource['EndDate']);
+      returnBody['endDate'] = endDate
+    }
+
+    if(resource.canSearchByTime){
+      let beginTime = this.dateParse.parseDateToTime(resource['BeginTime']);
+      returnBody['beginTime'] = beginTime
+    }
+    if(resource.canSearchByTime && resource.requiresEndDate){
+      let endTime = this.dateParse.parseDateToTime(resource['EndTime']);
+      returnBody['endTime'] = endTime
+    }
+
     return {
       "resourceTypeID": resourceTypeID,
-      "criteria": [{
-        "isReturn": isReturn,
-        "beginDate": resource['BeginDate'],
-        "endDate": resource['EndDate'],
-        //"beginTime": resource['BeginTime'],
-        //"endTime": resource['EndTime'],
-        "selectedItems": fields,
-        "searchIndeces": [
-          0
-        ]
-      }]
+      "criteria": [returnBody]
     };
+
 
   }
 }
