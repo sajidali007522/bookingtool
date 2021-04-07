@@ -3,6 +3,7 @@ import {
   OnInit,
   Renderer2, OnDestroy
 } from '@angular/core';
+import {ReservationSearchService} from "../../../_services/reservation-search.service";
 
 
 // const SHIFTS: Shift [] = [
@@ -20,9 +21,16 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
 
   state={
+    loading:{
+      searchForm: false,
+      column:false,
+      results:false
+    },
+    searchForm: <any>[],
     doingAdvanceSearch: false,
     showGrid: false,
     grid:{
+      columns: <any>[],
       processing: false,
       items: [
         {'date': '2020-09-11', 'dayOfWeek': 1, 'total': 100, 'available': 50, 'pickup': 90, 'percentage': '20%'},
@@ -35,14 +43,63 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       ]
     }
   }
-  constructor(private renderer: Renderer2 ) {
-
+  constructor(private renderer: Renderer2, private resSearch: ReservationSearchService) {
+    //searchForm
+    this.state.loading.searchForm = true
+    this.resSearch.loadCriteriaDefinition().subscribe(
+      res =>{
+        this.state.searchForm=res['data'];
+        this.state.loading.searchForm = false
+      },
+      err =>{
+        this.state.loading.searchForm = false
+      }
+    )
+    //grid columns
+    this.state.loading.column =true
+    this.resSearch.loadResultDefinition().subscribe(
+      res =>{
+        this.state.loading.column = false
+        this.state.grid.columns = res['data']
+        this.getResults();
+      },
+      err =>{
+        this.state.loading.column = false
+      }
+    )
   }
 
   ngOnDestroy() {
   }
 
   ngOnInit(): void {
+  }
+
+  getResults(){
+    //render searchParams
+    if(this.state.loading.results) return;
+    this.state.loading.results = true;
+    this.resSearch.makeSearch(this.renderSearchForm()).subscribe(
+      res=>{
+        this.state.loading.results = false;
+        console.log(res);
+      },
+      error => {
+        this.state.loading.results = false;
+        console.log(error)
+      }
+    )
+
+  }
+
+  renderSearchForm(){
+    let params={};
+    this.state.searchForm.searchFields.filter(field=>{
+      if(field.model) {
+        params[field.property] = field.model;
+      }
+    });
+    return params;
   }
   closeFilterBar(){
     this.renderer.addClass(document.body, 'menu-fullwidth')

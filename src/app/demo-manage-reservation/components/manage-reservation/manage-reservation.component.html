@@ -10,10 +10,12 @@
       </div>
 
       <div class="accordion-group group-active">
-        <div class="accordon-heading"><a href="javascript:void(0);">Detail Search</a></div>
+        <div class="accordon-heading"><a href="javascript:void(0);">Detail Search <span class="fa fa-spin fa-spinner" *ngIf="this.state.loading.searchForm"></span></a></div>
         <div class="accordion-body">
           <ul style="max-height: inherit;">
-            <li><input type="text" placeholder="Search" class="select-field-secondary" /></li>
+            <li *ngFor="let field of this.state.searchForm.searchFields">
+              <input type="text" [(ngModel)]="field.model" placeholder="{{field.name}}" class="select-field-secondary" />
+            </li>
             <li><button class="btn btn-info btn-block" (click)="toggleAdvanceSearch()">Detail Search</button></li>
           </ul>
         </div>
@@ -81,7 +83,25 @@
             </div>
 
           </div>
-          <div class="box-body">
+          <div class="box-body" [ngClass]="{'table-loader': (state.loading.results || state.loading.column) }">
+
+            <ng-container>
+              <div class="table-responsive table-housekeeping-wrap">
+                <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin">
+                  <thead>
+                  <tr>
+                    <th *ngFor="let column of state.grid.columns.searchFields">{{column.name}}</th>
+
+                  </tr>
+                  </thead>
+                  <tbody class="mobile-slider">
+                    <tr>
+                      <td data-title="Date" >100190</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-container>
             <ng-container *ngIf="state.doingAdvanceSearch && state.showGrid">
               <div class="table-responsive table-housekeeping-wrap">
                 <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin">
