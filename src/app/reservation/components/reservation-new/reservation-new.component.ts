@@ -241,7 +241,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       .subscribe(data => {
           console.log(data);
      //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
-          this.form['searchID'] = data['searchID'];
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID'] = data['searchID'];
           this.getSearchResults(fields, resource, resourceIndex, resourceItemIndex, resourceTypeID);
 
         },
@@ -253,7 +253,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   getSearchResults (bodyfields, resource, resourceIndex, resourceItemIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
     this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = true;
-    this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.form['searchID']}`,
+    this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID']}`,
 
       {
         searchIndex:0,
@@ -380,6 +380,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       'requireInOrder': false,
       'addItems': false
     }
+
     this.state.isSearching = true;
     this._http._post("Booking/"+this.form.bookingID+"/Book", postBody['resultsToBook'], {'bookingID': this.form.bookingID})
       .subscribe(data => {
@@ -415,21 +416,54 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
           departure = new Date(this.state.selectedTemplate['resources'][0]['BeginDate']);
           arrival = new Date(this.state.selectedTemplate['resources'][0]['EndDate']);
         }
+        //
+        let resourceItems = [];
+        if(this.state.selectedTemplate['resources'][index].resourceItems.length) {
+          this.state.selectedTemplate['resources'][index].resourceItems.filter(item => {
+            if(item.isBlockable){
+              resourceItems.push(item);
+            }
+          })
+        }
+        if(resourceItems.length>0){
+          this.state.selectedTemplate['resources'][index].resourceItems.filter(item => {
+            if(item.isBlockable) {
+              resources.push({
+                "resultID": (item.model?item.model.UniqueID : ''),
+                "searchID": (item['searchID'] || "00000000-0000-0000-0000-000000000000"),
+                "searchIndex": 0,
+                "priceID": "",
+                "beginDate": departure.getFullYear() + '-' + (departure.getMonth() + 1) + "-" + departure.getDate(),
+                "endDate": arrival.getFullYear() + '-' + (arrival.getMonth() + 1) + "-" + arrival.getDate(),
+                "resourceTypeID": resource['resourceTypeID'],
+                "timePropertyID": resource['timePropertyID'],
+                "isReturn": (item['isReturn'] || false),
+                "selectedItems": this.renderResouceFields(resource),
+                "isDynamic": this.state.selectedTemplate['isDynamic'],
+                "beginTime": "",
+                "endTime": "",
+              });
+            }
+          });
+        } else {
+          //
+          resources.push({
+            "resultID": "",
+            "searchID": "00000000-0000-0000-0000-000000000000",
+            "searchIndex": 0,
+            "priceID": "",
+            "beginDate": departure.getFullYear() + '-' + (departure.getMonth() + 1) + "-" + departure.getDate(),
+            "endDate": arrival.getFullYear() + '-' + (arrival.getMonth() + 1) + "-" + arrival.getDate(),
+            "resourceTypeID": resource['resourceTypeID'],
+            "timePropertyID": resource['timePropertyID'],
+            "isReturn": (resource['IsReturn'] || false),
+            "selectedItems": this.renderResouceFields(resource),
+            "isDynamic": this.state.selectedTemplate['isDynamic'],
 
-        resources.push({
-          "resultID": "",
-          "searchID": "00000000-0000-0000-0000-000000000000",
-          "searchIndex": 0,
-          "priceID": "",
-          "BeginDate": departure.getFullYear() + '-' + (departure.getMonth() + 1) + "-" + departure.getDate(),
-          "EndDate": arrival.getFullYear() + '-' + (arrival.getMonth() + 1) + "-" + arrival.getDate(),
-          "ResourceTypeID": resource['resourceTypeID'],
-          "TimePropertyID": resource['timePropertyID'],
-          "IsReturn": resource['IsReturn'],
-          "SearchIndex": 0,
-          "SelectedItems": this.renderResouceFields(resource),
-          "IsDynamic": this.state.selectedTemplate['isDynamic']
-        });
+            "beginTime": "",
+            "endTime": "",
+          });
+        }
       }
     }
     return resources;
@@ -442,10 +476,10 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       for(let index=0; index<resource.searchFields.length; index++){
         let field = resource.searchFields[index];
         fields.push({
-          "Relation": field['fieldRelation'],
-          "Selection": (typeof field['model'] == 'object' ? field['model']['value'] : field['model']),
-          "SelectionText": (typeof field['model'] == 'object' ? field['model']['text'] : field['model']),
-          "Type": field['type']
+          "relation": field['fieldRelation'],
+          "selection": (typeof field['model'] == 'object' ? field['model']['value'] : field['model']),
+          "selectionText": (typeof field['model'] == 'object' ? field['model']['text'] : field['model']),
+          "type": (field['type'] || 0)
         })
       }
     }
