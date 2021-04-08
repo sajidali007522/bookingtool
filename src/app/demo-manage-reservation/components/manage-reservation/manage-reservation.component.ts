@@ -61,7 +61,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       res =>{
         this.state.loading.column = false
         this.state.grid.columns = res['data']
-        this.getResults();
+        //this.getResults();
       },
       err =>{
         this.state.loading.column = false
