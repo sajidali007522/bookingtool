@@ -29,18 +29,11 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
     searchForm: <any>[],
     doingAdvanceSearch: false,
     showGrid: false,
+    showForm: false,
     grid:{
       columns: <any>[],
       processing: false,
-      items: [
-        {'date': '2020-09-11', 'dayOfWeek': 1, 'total': 100, 'available': 50, 'pickup': 90, 'percentage': '20%'},
-        {'date': '2020-09-11', 'dayOfWeek': 1, 'total': 100, 'available': 50, 'pickup': 90, 'percentage': '20%'},
-        {'date': '2020-09-11', 'dayOfWeek': 1, 'total': 100, 'available': 50, 'pickup': 90, 'percentage': '20%'},
-        {'date': '2020-09-11', 'dayOfWeek': 1, 'total': 100, 'available': 50, 'pickup': 90, 'percentage': '20%'},
-        {'date': '2020-09-11', 'dayOfWeek': 1, 'total': 100, 'available': 50, 'pickup': 90, 'percentage': '20%'},
-        {'date': '2020-09-11', 'dayOfWeek': 1, 'total': 100, 'available': 50, 'pickup': 90, 'percentage': '20%'},
-        {'date': '2020-09-11', 'dayOfWeek': 1, 'total': 100, 'available': 50, 'pickup': 90, 'percentage': '20%'},
-      ]
+      items: []
     }
   }
   constructor(private renderer: Renderer2, private resSearch: ReservationSearchService) {
@@ -74,15 +67,25 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   }
-
+  validateForm (){
+    let emptyForm = this.state.searchForm.searchFields.filter(field=> {
+      if (!field.model) {
+        return field
+      }
+    });
+    return !(this.state.searchForm.searchFields.length == emptyForm.length);
+  }
   getResults(){
-    //render searchParams
+    if(!this.validateForm()) {
+      return;
+    }
+
     if(this.state.loading.results) return;
     this.state.loading.results = true;
     this.resSearch.makeSearch(this.renderSearchForm()).subscribe(
       res=>{
         this.state.loading.results = false;
-        console.log(res);
+        this.state.grid.items = res['data']['results']
       },
       error => {
         this.state.loading.results = false;
