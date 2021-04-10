@@ -591,10 +591,6 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     if(this.state.resourceTypeValue == 1) {
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']]) return;
       //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
-      //check on string
-      console.log(!this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']])
-
-      console.log(isNaN(Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']])))
 
       if(!this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] &&
         !reg.test(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']])){
@@ -603,7 +599,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         this.toastr.error('field should contain number');
         return;
       }
-      return;
+
       if(!data['forceRedo'] && this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] == (this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]) ) return;
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
       clearTimeout(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$timeout']);
