@@ -77,7 +77,7 @@
                       <a *ngIf="!profile['resNumber']" class="btn btn-info btn-book" [ngClass]="{'btn-danger': profile['notValidated']}" (click)="bookProfile(i, profile)">Book <span *ngIf="profile['processing']" class="fa fa-spin fa-spinner"></span></a>
                     </h2>
                   </div>
-                  <div id="collaps-{{i}}" class="collapse " [ngClass]="{'show': i == this.profiles.length - 1}" data-parent="#accordionExample_{{i}}">
+                  <div id="collaps-{{i}}" class="collapse " [ngClass]="{'show': i == this.profiles.length - 1}" [attr.data-parent]="'#accordionExample_'+i">
                     <div class="box box-lr">
                       <div class="alert alert-success alert-dismissible fade show text-center" role="alert" *ngIf="profile['resNumber']">
                         Booking has been made successfuly. view your booking at <a href="#" class="alert-link">{{profile['resNumber']}}</a>
