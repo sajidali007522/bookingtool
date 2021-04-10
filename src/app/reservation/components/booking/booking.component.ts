@@ -233,6 +233,7 @@ export class BookingComponent implements OnInit {
   }
 
   makeBookingClone(profileId, isNewGuest=false, forcePush = false) {
+    if(this.state.isLoadingTraveler)  return;
     this.state.isLoadingTraveler = true;
     this.resService.cloneBooking(this.state.bookingID, {guestProfileID: profileId, isNewGuest: isNewGuest})
       .subscribe(data => {
