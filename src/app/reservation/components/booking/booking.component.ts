@@ -342,7 +342,7 @@ export class BookingComponent implements OnInit {
     profile.inputGroups.filter(group => {
       group.inputFields.filter(field=>{
         field['errorMessage'] = ""
-        if(field.isRequired && field.value == ""){
+        if(field.isRequired && field.value.split(" ").join("") == ""){
           isValidated = false;
           field['errorMessage'] = field.name+" is Required"
         }
