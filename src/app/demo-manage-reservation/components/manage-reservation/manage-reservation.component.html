@@ -35,7 +35,7 @@
           </div>
           <div class="box-body" [ngClass]="{'table-loader': (state.loading.results || state.loading.column) }">
 
-            <div class="prototype-section">
+            <div class="prototype-section" *ngIf="!state.showGrid && !state.showForm">
               <h4>Please Select from Sidebar</h4>
               <p>Need to put some detail in left sidebar then result will appear</p>
             </div>
@@ -50,13 +50,13 @@
                   </tr>
                   </thead>
                   <tbody class="mobile-slider">
-                    <tr>
-
+                    <tr *ngFor="let item of state.grid.items">
+                      <td *ngFor="let column of state.grid.columns.searchFields">{{item[column.property]}}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <h3 *ngIf="state.grid.items.length<=0">Nothing to show.</h3>
+              <h3 *ngIf="state.grid.items.length<=0">No Record Found.</h3>
             </ng-container>
             <ng-container *ngIf="state.showForm">
               Reservation Form
