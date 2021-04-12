@@ -96,7 +96,10 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
   }
 
   renderSearchForm(){
-    let params={};
+    let params={
+      pageIndex: 0,
+      numberOfItemsPerPage: 25
+    };
     this.state.searchForm.searchFields.filter(field=>{
       if(field.model) {
         params[field.property] = field.model;

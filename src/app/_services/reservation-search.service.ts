@@ -28,7 +28,9 @@ export class ReservationSearchService {
   }
 
   public makeSearch (params) {
-    return this.http.get( `${this.baseUrl}ReservationSearch/Search`, params);
+    return this.http.get( `${this.baseUrl}ReservationSearch/Search`, {
+      params: params
+    });
   }
 
 }
