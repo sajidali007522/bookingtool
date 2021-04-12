@@ -586,17 +586,20 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   updateRow(event) {
 
     let data = JSON.parse(event)
+    var reg = /^\d+$/;
       //row: row, feature: feature, index:index
     if(this.state.resourceTypeValue == 1) {
       if(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']]) return;
       //this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
-      //check on string
+
       if(!this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processed_'+data['property']] &&
-        isNaN(Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']])) ) {
+        !reg.test(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']])){
+       // isNaN(Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']])) ) {
         this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
         this.toastr.error('field should contain number');
         return;
       }
+
       if(!data['forceRedo'] && this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] == (this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']]) ) return;
       this.remoteData.data[data['index']]['features'][data['featureIndex']]['$processing_'+data['property']] = true;
       clearTimeout(this.remoteData.data[data['index']]['features'][data['featureIndex']]['$timeout']);
@@ -608,8 +611,10 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       if(this.remoteData[data['index']]['$processing_'+data['property']]) return;
       //this.remoteData[data['index']]['$old_'+data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]
       //
+      //console.log(this.remoteData[data['index']][data['property']], typeof this.remoteData[data['index']][data['property']])
       if(!this.remoteData[data['index']]['$processed_'+data['property']] &&
-        isNaN(Number(this.remoteData[data['index']][data['property']])) ) {
+        !reg.test(this.remoteData[data['index']][data['property']])){
+      //  isNaN(Number(this.remoteData[data['index']][data['property']])) ) {
         this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']];
         this.toastr.error('field should contain number');
         return;

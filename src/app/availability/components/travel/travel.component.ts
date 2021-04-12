@@ -75,7 +75,6 @@ export class TravelComponent implements OnInit {
   }
 
   callSave () {
-
     this.save.emit('save');
   }
 
@@ -101,6 +100,7 @@ export class TravelComponent implements OnInit {
     //alert("over here travel");
     this.completeSelection.emit(JSON.stringify({row: row, start: index, limit: index}))
   }
+
   setCardCellTitle() {
 
   }

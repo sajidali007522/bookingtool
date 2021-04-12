@@ -233,6 +233,7 @@ export class BookingComponent implements OnInit {
   }
 
   makeBookingClone(profileId, isNewGuest=false, forcePush = false) {
+    if(this.state.isLoadingTraveler)  return;
     this.state.isLoadingTraveler = true;
     this.resService.cloneBooking(this.state.bookingID, {guestProfileID: profileId, isNewGuest: isNewGuest})
       .subscribe(data => {
@@ -341,7 +342,7 @@ export class BookingComponent implements OnInit {
     profile.inputGroups.filter(group => {
       group.inputFields.filter(field=>{
         field['errorMessage'] = ""
-        if(field.isRequired && field.value == ""){
+        if(field.isRequired && field.value.split(" ").join("") == ""){
           isValidated = false;
           field['errorMessage'] = field.name+" is Required"
         }
