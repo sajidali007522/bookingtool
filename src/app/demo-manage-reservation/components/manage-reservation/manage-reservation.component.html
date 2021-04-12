@@ -31,14 +31,14 @@
       <div class="" >
         <div class="box position-relative box-skin" id="container">
           <div class="box-header">
-            <div class="row">
-              <div class="col-5">
-                <h3>Manage Reservations</h3>
-              </div>
-            </div>
-
+            Manage Reservations
           </div>
           <div class="box-body" [ngClass]="{'table-loader': (state.loading.results || state.loading.column) }">
+
+            <div class="prototype-section">
+              <h4>Please Select from Sidebar</h4>
+              <p>Need to put some detail in left sidebar then result will appear</p>
+            </div>
 
             <ng-container *ngIf="state.showGrid">
               <div class="table-responsive table-housekeeping-wrap" *ngIf="state.grid.items.length > 0">
