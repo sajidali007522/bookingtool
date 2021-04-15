@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {DateFormatsService} from "../../../_services/date-formats.service";
 import {HttpService} from "../../../http.service";
@@ -74,7 +74,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
               public resService: ReservationService,
               private toastr: ToastrService,
               public TPService: TimepickerService,
-              public userService:UserService
+              public userService:UserService,
+              private ref: ChangeDetectorRef,
   ) {
     this.bsConfig = {
       containerClass: 'theme-dark-blue',
@@ -596,12 +597,12 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     )
       .subscribe(data => {
         //console.log(resourceIndex, fields, data)
-          this.state.selectedTemplate['resources'][resourceIndex]['processing']=false;
+        this.state.selectedTemplate['resources'][resourceIndex]['processing']=false;
         //console.log(data)
-          //this.definition = data;
-          this.state.selectedTemplate['resources'][resourceIndex]['searchFields'] = fields
-          this.state.selectedTemplate['resources'][resourceIndex]['definitions'] = data;
-          //console.log(this.state.selectedTemplate['resources'][resourceIndex].searchFields);
+        //this.definition = data;
+        this.state.selectedTemplate['resources'][resourceIndex]['searchFields'] = fields
+        this.state.selectedTemplate['resources'][resourceIndex]['definitions'] = data;
+        //console.log(this.state.selectedTemplate['resources'][resourceIndex].searchFields);
 
       }, error => {
         console.log(error)
@@ -610,20 +611,23 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
           this.state.selectedTemplate['resources'][resourceIndex]['processing'] = false;
       },
       ()=>{
-        if(fieldIndex<0){
-          for(let index=0; index<this.state.selectedTemplate['resources'][resourceIndex].searchFields.length; index++){
-            if(!this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].model && this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].results){
+
+        for(let index=0; index<this.state.selectedTemplate['resources'][resourceIndex].searchFields.length; index++){
+            this.state.selectedTemplate['resources'][resourceIndex].searchFields[index]['fieldDefinition'] = this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index];
+            if(this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].results){
               let selectedValue = this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].results.filter(item =>{
+                console.log(index, item.value == this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].selectedValue)
                 if(item.value == this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].selectedValue){
+                  console.log(item);
                   return item;
                 }
               });
-              if(selectedValue.length){
+              if(selectedValue.length) {
                 this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].model = selectedValue[0];
               }
             }
           }
-        }
+
         let itemIndex=0;
         this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'].filter(item =>{
           item['model'] = ''
@@ -632,7 +636,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
           }
           itemIndex++;
         })
-
+        this.ref.detectChanges();
         }
       )
   }

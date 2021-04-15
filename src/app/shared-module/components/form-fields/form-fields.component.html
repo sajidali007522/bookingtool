@@ -54,10 +54,9 @@
     <div class="col-md-12 col-12" >
       <label>{{field.name}}<span [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
       <div class="field-wrap field-wrap-outer field-gray-wrap">
-
           <select class="form-control" [ngClass]="{
-                    'no-icon': !field.processing,
-                    'has-icon': field.processing,
+                    'no-icon': (!field.processing && !hasIcon),
+                    'has-icon': (field.processing || hasIcon),
                     'is-invalid' : field['validationError'] && field['validationError'] != 'passed' && field.isRequired,
                     'is-valid' : field['validationError'] && field['validationError'] == 'passed' && field.isRequired
                     }"
@@ -66,9 +65,9 @@
                   (ngModelChange)="setField();checkValidationError()"
           >
             <option [ngValue]="''">Select {{field.name}}</option>
-            <option [ngValue]="option" *ngFor="let option of remoteList">{{option.text}}</option>
+            <option [ngValue]="option" *ngFor="let option of field['fieldDefinition']['results']">{{option.text}}</option>
           </select>
-          <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
+          <span class="fa fa-spin fa-spinner" *ngIf="field.processing || hasIcon"></span>
           <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
 
       </div>

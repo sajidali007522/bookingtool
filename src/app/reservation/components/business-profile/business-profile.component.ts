@@ -100,6 +100,23 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       }, error => {
         console.log(error)
         this.state.processing=false;
+      },()=>{
+
+        for(let index=0; index<this.formFields.length; index++){
+          this.formFields[index]['fieldDefinition'] = this.definition[index];
+          if(this.definition[index].results){
+            let selectedValue = this.definition[index].results.filter(item =>{
+              //console.log(index, item.value == this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].selectedValue)
+              if(item.value == this.definition[index].selectedValue){
+                //console.log(item);
+                return item;
+              }
+            });
+            if(selectedValue.length) {
+              this.formFields[index].model = selectedValue[0];
+            }
+          }
+        }
       })
   }
 

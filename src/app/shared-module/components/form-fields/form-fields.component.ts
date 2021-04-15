@@ -16,6 +16,7 @@ export class FormFieldsComponent implements OnInit {
   @Input() form;
   @Input() definitionType=0
   @Input() wrapClasses='field-wrap-outer field-gray-wrap'
+  @Input() hasIcon = false
 
   @Output() fieldBinding = new EventEmitter<string>();
 
@@ -40,12 +41,15 @@ export class FormFieldsComponent implements OnInit {
     this.field['model'] = ''
     this.field['visible'] = true;
     this.remoteList = this.fieldDefinition['results'];
+    if(this.fieldDefinition['results']) {
+      this.field['remoteList'] = this.fieldDefinition['results'];
+    }
     //console.log(this.fieldDefinition['results'])
     //if(this.fieldType == 'checkbox' || this.fieldType == 'dropdown'){
      // this.getServerResponse('')
     //}
-    this.field['visible'] = this.fieldDefinition['isValidForSelection'] == true
-    if(!this.field.isRequired && this.fieldDefinition['results'].length<=0 && (this.fieldType != 'autocomplete' && this.fieldType != 'text')){
+    this.field['visible'] = this.field['fieldDefinition']['isValidForSelection'] == true
+    if(!this.field.isRequired && this.field['fieldDefinition']['results'].length<=0 && (this.fieldType != 'autocomplete' && this.fieldType != 'text')){
       this.field['visible'] = false
     }
 
@@ -61,14 +65,14 @@ export class FormFieldsComponent implements OnInit {
 
   setModelValue(){
     if(this.fieldType == 'text'){
-      this.field.model = this.fieldDefinition['filterText']
+      this.field.model = this.field['fieldDefinition']['filterText']
       return;
     }
     if(!this.remoteList || this.remoteList.length <=0) {
       return;
     }
     this.remoteList.filter(item => {
-      if(this.fieldDefinition['selectedValue'] && item.value == this.fieldDefinition['selectedValue']){
+      if(this.field['fieldDefinition']['selectedValue'] && item.value == this.field['fieldDefinition']['selectedValue']){
         this.field.model=item;
       }
     })

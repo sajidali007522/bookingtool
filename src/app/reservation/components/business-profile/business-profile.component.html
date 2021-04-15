@@ -9,10 +9,7 @@
   <div class="custom-section" [ngClass]="{'table-loader': state.processing}">
     <ng-container>
       <div class="custom-main template-outer">
-        <ng-container *ngIf="state.processing">
-          <div class="table-loader">Processing...</div>
-        </ng-container>
-        <ng-container *ngIf="!state.processing">
+        <ng-container>
           <div class="custom-content tabs-content" id="content-1" style="display: block;">
             <div class="book-time-wrap">
               <div class="row">
@@ -22,13 +19,13 @@
                       <app-form-fields
                         [field]="field"
                         [definitionType]="1"
-                        [fieldDefinition] ="definition[i]"
                         [form]="form"
                         [resourceType]="'00000000-0000-0000-0000-000000000000'"
                         [index]="-1"
                         [fieldIndex]="i"
                         [bookingID]="state.bookingID"
                         (fieldBinding)="bindField($event)"
+                        [hasIcon]="state.processing"
                       >
 
                       </app-form-fields>

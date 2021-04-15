@@ -295,7 +295,7 @@
                                         [form] = "form"
                       ></app-form-builder>
                     </ng-container>
-                    <ng-container *ngIf="state.selectedGroup['name'] == 'Templates' && !resource.processing">
+                    <ng-container *ngIf="state.selectedGroup['name'] == 'Templates'">
 
                       <ng-container *ngFor="let field of resource['searchFields']; let j = index">
                         <div class="col-md-6 col-12" >
@@ -303,13 +303,13 @@
                           <app-form-fields
                             [field]="field"
                             [definitionType]="1"
-                            [fieldDefinition] ="resource['definitions'][j]"
                             [form]="myForm"
                             [resourceType]="resource['resourceTypeID']"
                             [index]="i"
                             [fieldIndex]="j"
                             [bookingID]="form.bookingID"
                             (fieldBinding)="bindField($event)"
+                            [hasIcon] = resource.processing
                           >
                           </app-form-fields>
                         </div>
