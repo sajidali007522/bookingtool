@@ -87,7 +87,7 @@
                   (ngModelChange)="setField();checkValidationError()"
           >
             <option [ngValue]="'00000000-0000-0000-0000-000000000000'">Select</option>
-            <option [ngValue]="option.value" *ngFor="let option of remoteList">{{option.text}}</option>
+            <option [ngValue]="option.value" *ngFor="let option of field['fieldDefinition']['results']">{{option.text}}</option>
           </select>
           <label class="error text-danger" *ngIf="field.validationError && field.validationError != 'passed'">{{field.validationError}}</label>
 
@@ -100,7 +100,7 @@
       <label>&nbsp;</label>
       <div class="field-wrap field-wrap-outer field-gray-wrap">
         <span class="fa fa-spin fa-spinner" *ngIf="field.processing"></span>
-          <ng-container *ngFor="let option of remoteList">
+          <ng-container *ngFor="let option of field['fieldDefinition']['results']">
             <label *ngIf="option.value" class="inline-block mr-3">
               <input type="checkbox" [(ngModel)]="option.isChecked" (ngModelChange)="setCheckBoxValue(option);setValidation();">&nbsp;{{option.value}}
             </label>
