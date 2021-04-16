@@ -64,12 +64,18 @@
               <h3 *ngIf="state.grid.items.length<=0">No Record Found.</h3>
             </ng-container>
             <ng-container *ngIf="state.showForm">
+              <div class="row">
+                <div class="col-sm-12">
+                  <button class="btn btn-primary" (click)="backToList()">Back</button>
+                </div>
+              </div>
               <div class="row mb-5">
                 <div class="col-sm-3">Confirmation#: {{state.selectedReservation['number']}}</div>
                 <div class="col-sm-3">Status: {{state.selectedReservation['statusName']}}</div>
                 <div class="col-sm-3">In House Status:</div>
                 <div class="col-sm-3">Site: </div>
               </div>
+
               <h3>Requests</h3>
               <div class="box" *ngFor="let request of state.selectedReservation['requests']">
                 <div class="box-header">{{request['resourceType']}}</div>

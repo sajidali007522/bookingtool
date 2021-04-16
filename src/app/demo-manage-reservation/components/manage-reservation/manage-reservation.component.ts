@@ -150,6 +150,11 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       )
   }
 
+  backToList(){
+    this.state.showForm = false;
+    this.state.showGrid = true;
+  }
+
 
 
 
