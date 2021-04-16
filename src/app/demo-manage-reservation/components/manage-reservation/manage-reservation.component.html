@@ -46,12 +46,17 @@
                   <thead>
                   <tr>
                     <th *ngFor="let column of state.grid.columns.searchFields">{{column.name}}</th>
-
+                    <th></th>
                   </tr>
                   </thead>
                   <tbody class="mobile-slider">
                     <tr *ngFor="let item of state.grid.items">
                       <td *ngFor="let column of state.grid.columns.searchFields">{{item[column.property]}}</td>
+                      <td>
+                        <a href="javascript:void(0)" (click)="selectReservation(item)">
+                          <span class="fa fa-eye"></span>
+                        </a>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -59,7 +64,37 @@
               <h3 *ngIf="state.grid.items.length<=0">No Record Found.</h3>
             </ng-container>
             <ng-container *ngIf="state.showForm">
-              Reservation Form
+              <div class="row mb-5">
+                <div class="col-sm-3">Confirmation#: {{state.selectedReservation['number']}}</div>
+                <div class="col-sm-3">Status: {{state.selectedReservation['statusName']}}</div>
+                <div class="col-sm-3">In House Status:</div>
+                <div class="col-sm-3">Site: </div>
+              </div>
+              <h3>Requests</h3>
+              <div class="box" *ngFor="let request of state.selectedReservation['requests']">
+                <div class="box-header">{{request['resourceType']}}</div>
+                <div class="box-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="">Start Date</label>
+                        <input type="text" class="form-control" [(ngModel)]="request['startDate']" />
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="">End Date</label>
+                        <input type="text" class="form-control" [(ngModel)]="request['endDate']" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h3 class="mt-5">Guests</h3>
+              <div class="box" *ngFor="let guest of state.selectedReservation['guests']">
+                <div class="box-header">{{guest['firstName']}} {{guest['lastName']}}</div>
+                <div class="box-body"></div>
+              </div>
             </ng-container>
 
           </div>

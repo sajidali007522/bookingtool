@@ -33,4 +33,10 @@ export class ReservationSearchService {
     });
   }
 
+  public selectReservation(resId, params) {
+    return this.http.get( `${this.baseUrl}Reservation/${resId}`,{
+      params: params
+    });
+  }
+
 }

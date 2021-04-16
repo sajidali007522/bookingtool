@@ -4,6 +4,8 @@ import {
   Renderer2, OnDestroy
 } from '@angular/core';
 import {ReservationSearchService} from "../../../_services/reservation-search.service";
+import {DateFormatsService} from "../../../_services/date-formats.service";
+import {DateParser} from "../../../_helpers/dateParser";
 
 
 // const SHIFTS: Shift [] = [
@@ -21,6 +23,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
 
   state={
+    selectedReservation: {},
     loading:{
       searchForm: false,
       column:false,
@@ -36,7 +39,9 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       items: []
     }
   }
-  constructor(private renderer: Renderer2, private resSearch: ReservationSearchService) {
+  constructor(public dateParse: DateParser,
+              private renderer: Renderer2,
+              private resSearch: ReservationSearchService) {
     //searchForm
     this.state.loading.searchForm = true
     this.resSearch.loadCriteriaDefinition().subscribe(
@@ -107,9 +112,11 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
     });
     return params;
   }
+
   closeFilterBar(){
     this.renderer.addClass(document.body, 'menu-fullwidth')
   }
+
   openFilterBar () {
     //$(document).find('.header-wrap > .menu-icon ').trigger('click');
     //document.getElementById('widthSwitch').click();
@@ -120,8 +127,27 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
     this.state.doingAdvanceSearch = !this.state.doingAdvanceSearch
     this.state.showGrid = false;
   }
+
   startSearch () {
     this.state.showGrid = true;
+  }
+
+  selectReservation (item){
+    this.state.showGrid = false;
+    this.state.showForm = true;
+    this.state.loading.results = true
+    this.resSearch.selectReservation(item.ID, {populateEntireReservation: true})
+      .subscribe(
+        res => {
+          this.state.loading.results = false
+          this.state.selectedReservation = res['data']
+        },
+        err => {
+          this.state.loading.results = false
+        },
+        ()=>{
+        }
+      )
   }
 
 
