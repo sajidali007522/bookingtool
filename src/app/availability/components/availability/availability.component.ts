@@ -560,6 +560,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
 
   processMassEdit () {
     //this.state.isMassEditting = false;
+    var reg = /^\d+$/;
     if(this.state.resourceTypeValue == 1 && (this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000' || Number(this.state.massEditForm.number) <= 0 || Number(this.state.massEditForm.number) == NaN)) {
         let message = [];
         if(this.state.massEditForm.roomType == '00000000-0000-0000-0000-000000000000'){
@@ -577,6 +578,11 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     else if(this.state.resourceTypeValue == 2 && Number(this.state.massEditForm.number) < 0){
       this.state.modal.title = "Validation Error!"
       this.state.modal.message = "Number should be greater than 0"
+      this.modalComp.openModal();
+      return false;
+    } else if (!reg.test(this.state.massEditForm.number+'')){
+      this.state.modal.title = "Validation Error!"
+      this.state.modal.message = "Number should contain only number"
       this.modalComp.openModal();
       return false;
     }
