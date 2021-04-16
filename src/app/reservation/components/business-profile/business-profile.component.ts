@@ -34,7 +34,8 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
               public template: TemplateService,
               private cdRef : ChangeDetectorRef,
               public router: Router,
-              public resService:ReservationService
+              public resService:ReservationService,
+              private ref: ChangeDetectorRef,
   ) {
   }
 
@@ -100,10 +101,12 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       }, error => {
         console.log(error)
         this.state.processing=false;
-      },()=>{
+      },
+        ()=>{
 
         for(let index=0; index<this.formFields.length; index++){
           this.formFields[index]['fieldDefinition'] = this.definition[index];
+          this.formFields[index]['visible'] = this.definition[index]['isValidForSelection'] == true;
           if(this.definition[index].results){
             let selectedValue = this.definition[index].results.filter(item =>{
               //console.log(index, item.value == this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].selectedValue)
@@ -117,6 +120,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
             }
           }
         }
+        this.ref.detectChanges();
       })
   }
 

@@ -48,7 +48,9 @@ export class FormFieldsComponent implements OnInit {
     //if(this.fieldType == 'checkbox' || this.fieldType == 'dropdown'){
      // this.getServerResponse('')
     //}
-    this.field['visible'] = this.field['fieldDefinition']['isValidForSelection'] == true
+    if(this.field['fieldDefinition']) {
+      this.field['visible'] = this.field['fieldDefinition']['isValidForSelection'] == true
+    }
     if(!this.field.isRequired && this.field['fieldDefinition']['results'].length<=0 && (this.fieldType != 'autocomplete' && this.fieldType != 'text')){
       this.field['visible'] = false
     }
