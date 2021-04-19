@@ -27,6 +27,7 @@ export class FormBuilderComponent implements OnInit {
   notFoundTemplate = 'notFoundTemplate_'
   fieldType= '';
   isLoadingResult=false;
+  canceller;
 
   public errorMsg;
   ngOnInit(): void {
@@ -94,8 +95,11 @@ export class FormBuilderComponent implements OnInit {
     }
 
     let params = {searchTerm: event};
-    //console.log(this.bookingID)
-    this.lookupService.findResults(this.bookingID, body, {
+    console.log(this.bookingID)
+    if(this.canceller){
+      this.canceller.unsubscribe();
+    }
+    this.canceller = this.lookupService.findResults(this.bookingID, body, {
       definitionType: this.definitionType,
       resourceTypeID: this.resourceType,
       searchCriteriaID: this.field['searchCriteriaID'],
