@@ -87,9 +87,12 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
 
     if(this.state.loading.results) return;
     this.state.loading.results = true;
+    this.state.showGrid = true;
+    this.state.showForm = false;
     this.resSearch.makeSearch(this.renderSearchForm()).subscribe(
       res=>{
         this.state.loading.results = false;
+
         this.state.grid.items = res['data']['results']
       },
       error => {
