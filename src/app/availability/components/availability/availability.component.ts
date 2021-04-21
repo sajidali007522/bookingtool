@@ -582,7 +582,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       return false;
     } else if (!reg.test(this.state.massEditForm.number+'')){
       this.state.modal.title = "Validation Error!"
-      this.state.modal.message = "Number should contain only whole number"
+      this.state.modal.message = "Field should contain only whole number"
       this.modalComp.openModal();
       return false;
     }
