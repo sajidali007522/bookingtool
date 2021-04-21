@@ -99,6 +99,13 @@
   color: #000;
 }
 
+.theme-light .combine-btns .com-btn{
+  color: #555 !important;
+}
+.theme-light .combine-btns .com-btn:hover{
+  color: #fff !important;
+}
+
 
 /* for background's */
 .theme-light .filters-view-sm a{

@@ -1056,6 +1056,38 @@
     margin-top: -11px;
     font-size: 20px;
 }
+.combine-btns .com-btn{
+    display: block;
+    font-size: 16px;
+    padding: 8px 15px;
+    color: #dcdcdc;
+    text-decoration: none;
+    position: relative;
+    background: linear-gradient(to right, #17a2b8 50%, transparent 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all .3s ease-out;
+    border-radius: .25rem;
+}
+.combine-btns .com-btn:hover{
+    color: #fff;
+    background-position: left bottom;
+}
+.combine-btns a.has-icon{
+    padding-left: 37px;
+}
+.combine-btns a.com-btn .fa{
+    color: #999;
+    position: absolute;
+    left: 12px;
+    top: 11px;
+    font-size: 16px;
+    transition: all .5s ease-out;
+}
+.combine-btns a.com-btn:hover .fa{
+    color: #fff;
+    transform: scale(1.5);
+}
 
 @media(max-width:1300px){
     .article-content-booking{

@@ -1250,7 +1250,11 @@ body.menu-fullwidth .reservation-content-area{
 .parent-zindex .user{
   z-index: 9999 !important;
 }
-
+.skin-color{
+  color:#212529 !important;
+}
+.theme-dark .skin-color{color:#fff !important;}
+.theme-dark-primary .skin-color{color:#fff !important;}
 
 .shake{
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
