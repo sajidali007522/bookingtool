@@ -91,7 +91,7 @@
           <div class="accordion-group group-active">
             <div class="accordon-heading"><a href="javascript:void(0);" class="icon-contain icon-contractor">Number</a></div>
             <div class="accordion-body">
-              <input type="text" class="form-control" [(ngModel)]="state.massEditForm.number" />
+              <input type="text" maxlength="3" class="form-control" [(ngModel)]="state.massEditForm.number" />
             </div>
           </div>
           <div class="accordion-group group-active" *ngIf="state.resourceTypeValue == 1">

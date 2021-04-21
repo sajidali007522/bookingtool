@@ -582,7 +582,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       return false;
     } else if (!reg.test(this.state.massEditForm.number+'')){
       this.state.modal.title = "Validation Error!"
-      this.state.modal.message = "Number should contain only number"
+      this.state.modal.message = "Number should contain only whole number"
       this.modalComp.openModal();
       return false;
     }
@@ -602,7 +602,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         !reg.test(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']])){
        // isNaN(Number(this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']])) ) {
         this.remoteData.data[data['index']]['features'][data['featureIndex']][data['property']] = this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']] == -1 ? null : this.remoteData.data[data['index']]['features'][data['featureIndex']]['$old_'+data['property']];
-        this.toastr.error('field should contain whole number');
+        this.toastr.error('Field should contain whole number');
         return;
       }
 
@@ -622,7 +622,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         !reg.test(this.remoteData[data['index']][data['property']])){
       //  isNaN(Number(this.remoteData[data['index']][data['property']])) ) {
         this.remoteData[data['index']][data['property']] = this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']];
-        this.toastr.error('field should contain whole number');
+        this.toastr.error('Field should contain whole number');
         return;
       }
       if(!data['forceRedo'] && (this.remoteData[data['index']]['$old_'+data['property']] == -1 ? null : this.remoteData[data['index']]['$old_'+data['property']]) == this.remoteData[data['index']][data['property']]) return;
