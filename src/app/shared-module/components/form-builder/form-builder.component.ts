@@ -78,6 +78,7 @@ export class FormBuilderComponent implements OnInit {
   }
   getServerResponse(event= '') {
     console.log(event)
+    if(event.length<=0) return;
     this.error = {};
     this.field['processing'] = true;
     let body =[]
