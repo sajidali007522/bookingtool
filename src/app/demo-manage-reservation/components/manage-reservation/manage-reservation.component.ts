@@ -6,6 +6,7 @@ import {
 import {ReservationSearchService} from "../../../_services/reservation-search.service";
 import {DateFormatsService} from "../../../_services/date-formats.service";
 import {DateParser} from "../../../_helpers/dateParser";
+import {ToastrService} from "ngx-toastr";
 
 
 // const SHIFTS: Shift [] = [
@@ -41,6 +42,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
   }
   constructor(public dateParse: DateParser,
               private renderer: Renderer2,
+              private toastr: ToastrService,
               private resSearch: ReservationSearchService) {
     //searchForm
     this.state.loading.searchForm = true
@@ -82,6 +84,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
   }
   getResults(){
     if(!this.validateForm()) {
+      this.toastr.error('Please select some search criteria.', 'Error!')
       return;
     }
 
