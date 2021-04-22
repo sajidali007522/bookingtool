@@ -123,6 +123,30 @@ td select.view-mode:active{
 }
 tr.selected td { background: #fff0de;}
 
+.table-list{
+  margin: 0 0 25px;
+}
+.table-list ul, .table-list li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.table-list ul{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background: #17a2b8;
+  justify-content: space-between;
+  color: #fff;
+}
+.table-list li{
+  margin: 10px 25px;
+}
+.table-list li strong {
+  display: inline-block;
+  padding-right: 15px;
+}
+
 
 @media(max-width:767px){
   .table-housekeeping-wrap table{
