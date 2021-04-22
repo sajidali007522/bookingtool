@@ -22,20 +22,20 @@
       </div>
 
 
-      <div class="accordion-group group-active">
+      <div class="accordion-group group-active" *ngIf="state.showForm">
         <div class="accordon-heading"><a href="javascript:void(0);">Button Styles <span class="fa fa-spin fa-spinner" *ngIf="this.state.loading.searchForm"></span></a></div>
         <div class="accordion-body">
           <div class="combine-btns">
             <ul>
-              <li><a href="#" class="com-btn has-icon"><span class="fa fa-search"></span> Detail Search</a></li>
-              <li><a href="#" class="com-btn has-icon"><span class="fa fa-file-pdf-o"></span> Add Request</a></li>
-              <li><a href="#" class="com-btn has-icon"><span class="fa fa-gear"></span> Change Ladge</a></li>
-              <li><a href="#" class="com-btn has-icon"><span class="fa fa-envelope-o"></span> Email Conf</a></li>
-              <li><a href="#" class="com-btn has-icon"><span class="fa fa-calendar-check-o"></span> CXL Res</a></li>
-              <li><a href="#" class="com-btn has-icon"><span class="fa fa-refresh"></span> Sync</a></li>
-              <li><a href="#" class="com-btn has-icon"><span class="fa fa-clone"></span> Clone</a></li>
-              <li><a href="#" class="btn btn-info btn-block">Save</a></li>
-              <li><a href="#" class="btn btn-danger btn-block">Close</a></li>
+              <li><a href="javascript:void(0)" class="com-btn has-icon"><span class="fa fa-search"></span> Detail Search</a></li>
+              <li><a href="javascript:void(0)" class="com-btn has-icon"><span class="fa fa-file-pdf-o"></span> Add Request</a></li>
+              <li><a href="javascript:void(0)" class="com-btn has-icon"><span class="fa fa-gear"></span> Change Ladge</a></li>
+              <li><a href="javascript:void(0)" class="com-btn has-icon"><span class="fa fa-envelope-o"></span> Email Conf</a></li>
+              <li><a href="javascript:void(0)" class="com-btn has-icon"><span class="fa fa-calendar-check-o"></span> CXL Res</a></li>
+              <li><a href="javascript:void(0)" class="com-btn has-icon"><span class="fa fa-refresh"></span> Sync</a></li>
+              <li><a href="javascript:void(0)" class="com-btn has-icon"><span class="fa fa-clone"></span> Clone</a></li>
+              <li><a href="javascript:void(0)" class="btn btn-info btn-block">Save</a></li>
+              <li><a href="javascript:void(0)" class="btn btn-danger btn-block" (click)="backToList()">Close</a></li>
             </ul>
           </div>
         </div>
@@ -105,13 +105,13 @@
                       </span>
                     </h2>
                   </div>
-                  <div id="collaps-requests" class="collapse " [attr.data-parent]="'#accordionExample_requests'">
+                  <div id="collaps-requests" class="collapse show" [attr.data-parent]="'#accordionExample_requests'">
                     <div class="box-primary box-lr box-theme rounded-0 form-primary">
 
                       <div class="custom-accordion-wrap">
                         <div class="custom-accordion" *ngFor="let request of state.selectedReservation['requests']; let secIndex=index;">
                           <h3 class=""><a href="javascript:void(0)"> {{request['resourceType']}}</a></h3>
-                          <div class="custom-accordion-content" [ngClass]="{'exp': secIndex == 0}">
+                          <div class="custom-accordion-content exp" >
                             <div class="row">
                               <div class="col-sm-6">
                                 <div class="form-group">
@@ -146,13 +146,13 @@
                       </span>
                     </h2>
                   </div>
-                  <div id="collaps-guests" class="collapse " [attr.data-parent]="'#accordionExample_Guests'">
+                  <div id="collaps-guests" class="collapse show" [attr.data-parent]="'#accordionExample_Guests'">
                     <div class="box-primary box-lr rounded-0 form-primary">
 
                       <div class="custom-accordion-wrap">
                         <div class="custom-accordion" *ngFor="let guest of state.selectedReservation['guests']; let secIndex=index;">
                           <h3 class=""><a href="javascript:void(0)"> {{guest['firstName']}} {{guest['lastName']}}</a></h3>
-                          <div class="custom-accordion-content" [ngClass]="{'exp': secIndex == 0}">
+                          <div class="custom-accordion-content exp">
                             <div class="row">
 
                             </div>

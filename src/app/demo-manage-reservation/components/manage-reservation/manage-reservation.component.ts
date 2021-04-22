@@ -135,7 +135,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
   }
 
   startSearch () {
-    this.state.showGrid = true;
+    //this.state.showGrid = true;
   }
 
   selectReservation (item){
