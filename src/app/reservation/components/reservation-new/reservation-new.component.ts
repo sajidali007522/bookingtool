@@ -9,6 +9,7 @@ import {ReservationService} from "../../../_services/reservation.service";
 import {ToastrService} from "ngx-toastr";
 import {TimepickerService} from "../../../_services/timepicker.service";
 import {UserService} from "../../../_services/user.service";
+import {ReservationServiceV4} from "../../../_services/reservation_v4.service";
 
 @Component({
   selector: 'app-reservation-new',
@@ -41,6 +42,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   myForm={};
   state={
     bannerText: '', //'<strong>ようこそ</strong> Welcome Bienvenue Marhaba',
+    sessionID: '',
     error: {message: ''},
     formErrors: [],
     errorMsg: '',
@@ -71,7 +73,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
               private _http: HttpService,
               private router: Router,
               public template: TemplateService,
-              public resService: ReservationService,
+              public resService: ReservationServiceV4,
               private toastr: ToastrService,
               public TPService: TimepickerService,
               public userService:UserService,
@@ -118,7 +120,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     if(this.state.assigningBusinessProfile) return;
     this.state.formErrors['ResourceTypeID'] = ''
     this.state.assigningBusinessProfile = true
-    this._http._get("booking/"+this.form.bookingID+"/RuleBag", {'ruleBagID': this.form.ResourceTypeID})
+    this.resService.assignBusinessRule(this.form.bookingID, {}, {sessionID: this.state.sessionID, 'ruleBagID': this.form.ResourceTypeID})
       .subscribe(data => {
         console.log(data)
         this.state.assigningBusinessProfile = false
@@ -183,7 +185,22 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.StartBooking();
+    this.state.initiateBooking=true;
+    this.resService.startSession()
+      .subscribe(
+        res=>{
+          this.state.initiateBooking=false;
+          this.state.sessionID = res['data']
+          this.StartBooking(res['data']);
+        },
+        error =>{
+          this.state.initiateBooking=false;
+          let err = error.split('.');
+          this.toastr.error(err[0], 'Error!');
+          console.log(error);
+        }
+      )
+
   }
 
   ngAfterViewInit() {
@@ -209,20 +226,20 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     }
   }
 
-  StartBooking () {
+  StartBooking (sessionId) {
     this.state.initiateBooking=true;
-    this._http._get("Booking/Start")
+    this.resService.startBooking(sessionId)
       .subscribe(data => {
-        if(data['ruleBags']) {
-          this.ruleBags = data['ruleBags'];
+        if(data['data']['ruleBags']) {
+          this.ruleBags = data['data']['ruleBags'];
         }
-        if(data['bookingID']) {
-          this.form.bookingID = data['bookingID'];
+        if(data['data']['bookingID']) {
+          this.form.bookingID = data['data']['bookingID'];
           this.loadTemplateGroups()
           //this.getSearchId();
         }
-        if(data['bannerMessage']) {
-          this.state.bannerText =data['bannerMessage'].replace(/(<([^>]+)>)/gi, "")
+        if(data['data']['bannerMessage']) {
+          this.state.bannerText =data['data']['bannerMessage'].replace(/(<([^>]+)>)/gi, "")
         }
 
         this.state.initiateBooking = false;
@@ -281,7 +298,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
   loadTemplateGroups() {
     if(this.state.loadingGroups) return
     this.state.loadingGroups = true;
-    this.resService.loadSingleResource(this.form.bookingID)
+    this.resService.loadSingleResource(this.form.bookingID, {sessionID: this.state.sessionID})
       .subscribe(data => {
         //console.log(data['data']);
         this.state.templateGroups = data['data']['templateGroups'];
@@ -299,21 +316,25 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     if(this.state.loadingTemplate) return
     this.state.loadingTemplate = true;
     this.form.template = templateId;
-    this._http._get("booking/"+this.form.bookingID+"/SearchCriteriaDefinition", {templateID: templateId})
+    this.resService.getCriteriaDefinition(this.form.bookingID, {templateID: templateId, sessionID: this.state.sessionID})
+    //this._http._get("booking/"+this.form.bookingID+"/SearchCriteriaDefinition", {templateID: templateId})
       .subscribe(data => {
-        this.state.selectedTemplate= data;
-        if(this.state.selectedTemplate['resources'].length>0) {
-          this.state.selectedTemplate['resources'][this.state.selectedTemplate['resources'].length-1].isOpen = true;
-        }
-        if(this.state.selectedTemplate['isDynamic']) {
-          this.state.selectedTemplate['$resources'] =this.state.selectedTemplate['resources'];
-          if(this.state.selectedTemplate['$resources'].length == 1) {
-            this.state.selectedResource = this.state.selectedTemplate['$resources'][0]
+        if(data['status'] == 200) {
+          this.state.selectedTemplate = data['data'];
+          if (this.state.selectedTemplate['resources'].length > 0) {
+            this.state.selectedTemplate['resources'][this.state.selectedTemplate['resources'].length - 1].isOpen = true;
           }
-          this.state.selectedTemplate['resources'] = [];
+          if (this.state.selectedTemplate['isDynamic']) {
+            this.state.selectedTemplate['$resources'] = this.state.selectedTemplate['resources'];
+            if (this.state.selectedTemplate['$resources'].length == 1) {
+              this.state.selectedResource = this.state.selectedTemplate['$resources'][0]
+            }
+            this.state.selectedTemplate['resources'] = [];
+          }
+          this.setResourcesDate();
         }
         this.state.loadingTemplate = false;
-        this.setResourcesDate();
+
 
         //this.setResourceItems();
       },
@@ -383,14 +404,15 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     }
 
     this.state.isSearching = true;
-    this._http._post("Booking/"+this.form.bookingID+"/Book", postBody['resultsToBook'], {'bookingID': this.form.bookingID})
+    this.resService.makeBooking(this.form.bookingID, postBody['resultsToBook'], {'bookingID': this.form.bookingID, sessionID: this.state.sessionID})
+    //this._http._post("Booking/"+this.form.bookingID+"/Book", postBody['resultsToBook'], {'bookingID': this.form.bookingID})
       .subscribe(data => {
           this.state.isSearching =false;
-          console.log(data)
-          if(data.toString().indexOf('BusinessProfile') == -1) {
-            this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['resourceTypeID']]);
-          } else {
+          //console.log(data)
+          if(data['data']['allResourceBooked']) {
             this.router.navigate(['/reservation/' + this.form.bookingID + '/business-profile/']);
+          } else {
+            this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['resourceTypeID']]);
           }
         },
         error => {
@@ -589,10 +611,14 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     let searchDefinitions = this.resService.renderSearchCriteriaItems(fields, this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
     if(this.state.selectedTemplate['resources'][resourceIndex]['processing']) return;
     this.state.selectedTemplate['resources'][resourceIndex]['processing'] = true;
-    this._http._post('booking/'+this.form.bookingID+'/AllSearchCriteriaOptions',
+    //this._http._post('booking/'+this.form.bookingID+'/AllSearchCriteriaOptions',
+    this.resService.setCriteriaDefinition(this.form.bookingID,
       {
         'selectedItems': selectedItems,
         'lookupSearchCriterias': searchDefinitions
+      },
+      {
+        'sessionID': this.state.sessionID
       }
     )
       .subscribe(data => {
@@ -601,7 +627,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         //console.log(data)
         //this.definition = data;
         this.state.selectedTemplate['resources'][resourceIndex]['searchFields'] = fields
-        this.state.selectedTemplate['resources'][resourceIndex]['definitions'] = data;
+        this.state.selectedTemplate['resources'][resourceIndex]['definitions'] = data['data'];
         //console.log(this.state.selectedTemplate['resources'][resourceIndex].searchFields);
 
       }, error => {
