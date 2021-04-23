@@ -14,9 +14,9 @@ export const routes: Routes = [
   { path: '', component:ReservationNewComponent, canActivate: [AuthGuard]  }, // default route of the module
   { path: 'old', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
   { path: 'manage', component:ManageReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
-  { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
-  { path: ":booking_id/business-profile", component:BusinessProfileComponent, canActivate: [AuthGuard] },
-  { path: ":booking_id/booking", component:BookingComponent, canActivate: [AuthGuard] },
+  { path: ":booking_id/search/:search_id/:session_id", component:ResultListComponent, canActivate: [AuthGuard] },
+  { path: ":booking_id/business-profile/:session_id", component:BusinessProfileComponent, canActivate: [AuthGuard] },
+  { path: ":booking_id/booking/:session_id", component:BookingComponent, canActivate: [AuthGuard] },
   { path: ":booking_id/book-profile", component:BookProfileComponent, canActivate: [AuthGuard] },
 ]
 

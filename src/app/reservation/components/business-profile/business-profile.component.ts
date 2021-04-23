@@ -6,6 +6,7 @@ import * as $ from 'jquery';
 import {TemplateService} from "../../../_services/template.service";
 import {ReservationService} from "../../../_services/reservation.service";
 import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal.component";
+import {ReservationServiceV4} from "../../../_services/reservation_v4.service";
 
 
 @Component({
@@ -21,6 +22,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
   definition = <any>[]
   form = {}
   state={
+    sessionID: '',
     processing: false,
     error: {message: ''},
     errorMsg: '',
@@ -34,7 +36,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
               public template: TemplateService,
               private cdRef : ChangeDetectorRef,
               public router: Router,
-              public resService:ReservationService,
+              public resService:ReservationServiceV4,
               private ref: ChangeDetectorRef,
   ) {
   }
@@ -46,6 +48,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     this.activatedRoute.params.subscribe(params => {
       this.state.bookingID = params["booking_id"];
       this.state.searchId = params['search_id'];
+      this.state.sessionID = params['session_id'];
     });
     this.setProfile();
   }
@@ -62,12 +65,13 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
   setProfile(){
     //​/api2​/booking​/{bookingID}​/Reporting
     this.state.processing = true;
-    this._http._get('booking/'+this.state.bookingID+'/Reporting', {})
+    this.resService.getBusinessProfileReporting(this.state.bookingID, {sessionID: this.state.sessionID})
+    //this._http._get('booking/'+this.state.bookingID+'/Reporting', {})
       .subscribe(data => {
         this.state.processing=false;
-        console.log(data)
+        console.log(data['data'])
         //this.formFields = data;
-        this.loadFields(data);
+        this.loadFields(data['data']['searchFields']);
 
       }, error => {
         console.log(error)
@@ -81,17 +85,26 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     let searchDefinitions = this.resService.renderSearchCriteriaItems(fields)
 
     this.state.processing = true;
-    this._http._patch('booking/'+this.state.bookingID+'/ReportingOptions',
+    /*this._http._patch('booking/'+this.state.bookingID+'/ReportingOptions',
       {
         'selectedItems': selectedItems,
         'lookupSearchCriterias': searchDefinitions
+      }
+    )*/
+    this.resService.reportingOptions(this.state.bookingID,
+      {
+        'selectedItems': selectedItems,
+        'lookupSearchCriterias': searchDefinitions
+      },
+      {
+        'sessionID': this.state.sessionID
       }
     )
       .subscribe(data => {
         this.state.processing=false;
         //console.log(data)
         this.formFields = fields;
-        this.definition = data;
+        this.definition = data['data'];
         if(eventData['fieldType'] == 'checkbox'){
           this.formFields[eventData['fieldIndex']].model = JSON.parse(JSON.stringify(eventData['field'].model));
           if(this.definition[eventData['fieldIndex']].results && eventData['field'].selectedIndex>=0) {
@@ -107,6 +120,9 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
         for(let index=0; index<this.formFields.length; index++){
           this.formFields[index]['fieldDefinition'] = this.definition[index];
           this.formFields[index]['visible'] = this.definition[index]['isValidForSelection'] == true;
+          if(!this.formFields[index].isRequired && this.formFields[index]['fieldDefinition']['results'].length<=0 && (this.formFields[index] != 'autocomplete' && this.formFields[index] != 'text')){
+            this.formFields[index]['visible'] = false
+          }
           if(this.definition[index].results){
             let selectedValue = this.definition[index].results.filter(item =>{
               //console.log(index, item.value == this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].selectedValue)
@@ -156,11 +172,17 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     }
     let body= this.resService.renderSelectedItems(this.formFields);
     this.state.processing = true;
-    this.resService.saveReservation(this.state.bookingID,body)
+    this.resService.saveReservation(this.state.bookingID,body, {sessionID: this.state.sessionID})
       .subscribe(
         res=>{
           this.state.processing = false;
-          this.router.navigate([`/reservation/${this.state.bookingID}/booking`]);
+          if(res['data']) {
+            this.router.navigate([`/reservation/${this.state.bookingID}/booking/${this.state.sessionID}`]);
+          }
+          else{
+            console.log(res)
+          }
+
         },
         error => {
           console.log(error)

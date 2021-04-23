@@ -410,9 +410,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
           this.state.isSearching =false;
           //console.log(data)
           if(data['data']['allResourceBooked']) {
-            this.router.navigate(['/reservation/' + this.form.bookingID + '/business-profile/']);
+            this.router.navigate(['/reservation/' + this.form.bookingID + '/business-profile/'+this.state.sessionID]);
           } else {
-            this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['resourceTypeID']]);
+            this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['resourceTypeID']+"/"+this.state.sessionID]);
           }
         },
         error => {
