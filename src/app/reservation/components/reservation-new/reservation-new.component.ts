@@ -255,12 +255,13 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
     let body = this.resService.prepareBody(resource, resourceTypeID, selectedItems)
     this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = true;
-    this._http._post(`booking/${this.form.bookingID}/Search`, body)
+    //this._http._post(`booking/${this.form.bookingID}/Search`, body)
+    this.resService.makeSearch(this.form.bookingID, body, {sessionID: this.state.sessionID})
       .subscribe(data => {
           console.log(data);
      //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
-          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID'] = data['searchID'];
-          this.getSearchResults(fields, resource, resourceIndex, resourceItemIndex, resourceTypeID);
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID'] = data['data']['searchID'];
+          this.getSearchResults(fields, resource, resourceIndex, resourceItemIndex, data['data']['searchIndeces'][0], resourceTypeID);
 
         },
         err => {
@@ -269,16 +270,17 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       });
   }
 
-  getSearchResults (bodyfields, resource, resourceIndex, resourceItemIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+  getSearchResults (bodyfields, resource, resourceIndex, resourceItemIndex, searchIndeces, resourceTypeID='00000000-0000-0000-0000-000000000000') {
     this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = true;
-    this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID']}`,
-
+    //this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID']}`,
+    this.resService.getSearchResults(this.form.bookingID, this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID'], searchIndeces,
       {
         searchIndex:0,
         flattenValues:true,
         bookingItemProperties: 'Text|UniqueID',
         sortProperties: 'BookingItem.BeginDate',
-        isAscending:true
+        isAscending:true,
+        sessionID: this.state.sessionID
        }
       )
       .subscribe(data => {
@@ -286,7 +288,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
           this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = false
           //this.form['searchID'] = data['searchID'];
           this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['model'] = '';
-          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['results'] =  data['results'];
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['results'] =  data['data']['results'];
         },
         err => {
           this.state.loadingGroups=false;
