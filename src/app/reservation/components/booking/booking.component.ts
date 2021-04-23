@@ -8,6 +8,7 @@ import {ReservationService} from "../../../_services/reservation.service";
 import {group} from "@angular/animations";
 import {LookupService} from "../../../_services/lookupService";
 import {ToastrService} from "ngx-toastr";
+import {ReservationServiceV4} from "../../../_services/reservation_v4.service";
 
 @Component({
   selector: 'app-booking',
@@ -36,6 +37,7 @@ export class BookingComponent implements OnInit {
     error: {message: ''},
     errorMsg: '',
     bookingID: '',
+    sessionID: '',
     searchId: '',
     isLoadingTraveler:false
   };
@@ -45,7 +47,7 @@ export class BookingComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public template: TemplateService,
     public router: Router,
-    public resService: ReservationService,
+    public resService: ReservationServiceV4,
     public lookupService: LookupService,
     private toastr: ToastrService,
   ) {
@@ -54,9 +56,10 @@ export class BookingComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.state.bookingID = params["booking_id"];
+      this.state.sessionID = params["session_id"];
     });
     this.state.processing=true;
-    this.resService.isCloneAllBooking(this.state.bookingID).subscribe(res=>{
+    this.resService.isCloneAllBooking(this.state.bookingID, {sessionID: this.state.sessionID}).subscribe(res=>{
       this.state.processing=false;
       if(res['success']) {
         this.isCloneAll = res['data']
@@ -90,7 +93,7 @@ export class BookingComponent implements OnInit {
 
     if(this.state.processing) return;
     this.state.processing = true;
-    this.resService.getReservSkeleton(bookingId || this.state.bookingID)
+    this.resService.getReservSkeleton((bookingId || this.state.bookingID), {sessionID: this.state.sessionID})
       .subscribe(
         res=>{
           this.state.processing=false
@@ -146,11 +149,15 @@ export class BookingComponent implements OnInit {
 
   loadFieldOptions(profileIndex, field, fieldIndex, groupIndex, bookingId=''){
     this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = true;
-    this.canceler=this.lookupService.findResults((bookingId || this.state.bookingID), [], {
-        definitionType: 2,
-        resourceTypeID: '00000000-0000-0000-0000-000000000000',
-        searchCriteriaID: field.searchField.searchCriteriaID,
-        filter: ''
+    //this.canceler=this.lookupService.findResults((bookingId || this.state.bookingID), [], {
+    this.canceler=this.resService.setCriteriaDefinition((bookingId || this.state.bookingID), [
+
+    ], {
+      sessionID: this.state.sessionID,
+      definitionType: 2,
+      resourceTypeID: '00000000-0000-0000-0000-000000000000',
+      searchCriteriaID: field.searchField.searchCriteriaID,
+      filter: '',
       })
         .subscribe(
           res=>{
@@ -182,6 +189,7 @@ export class BookingComponent implements OnInit {
   getloadProfiles (event) {
     let params = {searchTerm: event};
     params['criteria'] = '00000000-0000-0000-0000-000000000000';
+    params['sessionID'] = this.state.sessionID;
     this.travelerList =[];
     this.state.isLoadingTraveler =true;
     if(this.canceler) {this.canceler.unsubscribe();}
@@ -210,7 +218,7 @@ export class BookingComponent implements OnInit {
 
     if(!this.isCloneAll) {
       this.state.isLoadingTraveler = true;
-      this.resService.setProfile(this.state.bookingID, {guestProfileID: $event.id})
+      this.resService.setProfile(this.state.bookingID, {guestProfileID: $event.id, sessionID: this.state.sessionID})
         .subscribe(data => {
           this.state.isLoadingTraveler = false;
           if (data['status'] == 500) {
@@ -235,7 +243,11 @@ export class BookingComponent implements OnInit {
   makeBookingClone(profileId, isNewGuest=false, forcePush = false) {
     if(this.state.isLoadingTraveler)  return;
     this.state.isLoadingTraveler = true;
-    this.resService.cloneBooking(this.state.bookingID, {guestProfileID: profileId, isNewGuest: isNewGuest})
+    this.resService.cloneBooking(this.state.bookingID, {
+      guestProfileID: profileId,
+      isNewGuest: isNewGuest,
+      sessionID: this.state.sessionID
+    })
       .subscribe(data => {
         this.state.isLoadingTraveler = false;
         if (data['status'] == 500) {
