@@ -326,7 +326,7 @@ export class BookingComponent implements OnInit {
     })
     if(this.profiles[index]['processing']) return;
     this.profiles[index]['processing'] = true;
-    this.resService.bookProfile(profile.bookingID, body)
+    this.resService.bookProfile(profile.bookingID, body, {sessionID: this.state.sessionID})
       .subscribe(
         res=>{
           this.profiles[index]['processing'] = false;

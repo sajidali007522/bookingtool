@@ -87,8 +87,8 @@ export class ReservationServiceV4 {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/Reserve`, {params: params});
   }
 
-  public bookProfile (bookingId, body) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body);
+  public bookProfile (bookingId, body, params={}) {
+    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body, {params: params});
   }
 
   public getProfiles(bookingId, params) {
