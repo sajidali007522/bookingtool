@@ -411,10 +411,15 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       .subscribe(data => {
           this.state.isSearching =false;
           //console.log(data)
-          if(data['data']['allResourceBooked']) {
-            this.router.navigate(['/reservation/' + this.form.bookingID + '/business-profile/'+this.state.sessionID]);
+          if(data['status'] != 500) {
+            if (data['data']['allResourceBooked']) {
+              this.router.navigate(['/reservation/' + this.form.bookingID + '/business-profile/' + this.state.sessionID]);
+            } else {
+              this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['resourceTypeID'] + "/" + this.state.sessionID]);
+            }
           } else {
-            this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['resourceTypeID']+"/"+this.state.sessionID]);
+            let err = data['message'].split('.');
+            this.toastr.error(err[0], 'Error!');
           }
         },
         error => {

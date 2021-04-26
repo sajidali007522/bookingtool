@@ -150,22 +150,23 @@ export class BookingComponent implements OnInit {
   loadFieldOptions(profileIndex, field, fieldIndex, groupIndex, bookingId=''){
     this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = true;
     //this.canceler=this.lookupService.findResults((bookingId || this.state.bookingID), [], {
-    this.canceler=this.resService.setCriteriaDefinition((bookingId || this.state.bookingID), [
-
-    ], {
-      sessionID: this.state.sessionID,
-      definitionType: 2,
-      resourceTypeID: '00000000-0000-0000-0000-000000000000',
-      searchCriteriaID: field.searchField.searchCriteriaID,
-      filter: '',
+    this.canceler=this.resService.getReserveOption((bookingId || this.state.bookingID), {
+      selectedItems: [],
+      lookupSearchCriterias: [{
+        "resourceTypeID": '00000000-0000-0000-0000-000000000000',
+        "searchCriteriaID": field.searchField.searchCriteriaID,
+        "filter": ""
+      }]
+    }, {
+      sessionID: this.state.sessionID
       })
         .subscribe(
           res=>{
             this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['processing'] = false;
             //console.log(res['data'].results)
             if(res['success']) {
-              this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['emptyValue'] = res['data']['emptyValue'] || ''
-              this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['searchField']['list'] = res['data']['results']
+              this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['emptyValue'] = res['data'][0]['emptyValue'] || ''
+              this.profiles[profileIndex]['inputGroups'][groupIndex]['inputFields'][fieldIndex]['searchField']['list'] = res['data'][0]['results']
             }
 
           },

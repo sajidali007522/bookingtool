@@ -38,9 +38,16 @@ export class ReservationServiceV4 {
   public setCriteriaDefinition (bookingID, body, params={}){
     return this.http.patch(`${this.baseUrl}booking/${bookingID}/SearchCriteriaOptions`, body, { params:params})
   }
+
+
   ///api4/booking/{bookingID}/SearchCriteriaOption
   public setSearchCriteriaOption (bookingID, body, params={}){
     return this.http.patch(`${this.baseUrl}booking/${bookingID}/SearchCriteriaOptions`, body, { params:params})
+  }
+
+  ////api4/booking/{bookingID}/ReserveOptions
+  public getReserveOption (bookingID, body, params={}){
+    return this.http.patch(`${this.baseUrl}booking/${bookingID}/ReserveOptions`, body, { params:params})
   }
 
   public makeBooking (bookingID, body, params){
