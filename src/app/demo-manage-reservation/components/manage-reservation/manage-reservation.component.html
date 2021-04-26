@@ -46,29 +46,26 @@
 
   <div class="reservation-content-area">
     <div class="reservation-content-inner">
-      <div class="" >
+      <div class="banner-manage-reserve-wrap" *ngIf="!state.showGrid && !state.showForm">
+        <div class="banner-manage-reserve">
+          <div class="mng-title">
+            <h1>Manage Reservations</h1>
+            <h2>Please Select from Sidebar</h2>
+            <div class="mng-banner-info">
+              <p>You need to select something from leftsidear then related results should be appear according to specific search and after that can view more in detail. </p>
+            </div>
+            <div class="mng-btn">
+              <a href="javascript:void(0)">Search More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="" *ngIf="state.showGrid || state.showForm">
         <div class="box position-relative box-skin" id="container">
           <div class="box-header">
             Manage Reservations
           </div>
           <div class="box-body" [ngClass]="{'table-loader': (state.loading.results || state.loading.column) }">
-
-
-            <div class="banner-manage-reserve-wrap" *ngIf="!state.showGrid && !state.showForm">
-              <div class="banner-manage-reserve">
-                <div class="mng-title">
-                  <h1>Manage Reservations</h1>
-                  <h2>Please Select from Sidebar</h2>
-                  <div class="mng-banner-info">
-                    <p>You need to select something from leftsidear then related results should be appear according to specific search and after that can view more in detail. </p>
-                  </div>
-                  <div class="mng-btn">
-                    <a href="javascript:void(0)">Search More</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <ng-container *ngIf="state.showGrid">
               <div class="table-responsive table-housekeeping-wrap" *ngIf="state.grid.items.length > 0">
                 <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin">
@@ -166,7 +163,6 @@
                               <div class="col-sm-6">
                                   <div class="form-group" *ngFor="let prop of state.selectedReservation['reservationProfiles']">
                                     <label class="control-label"><strong>{{prop.roleName}}:</strong> {{prop.lastOrCompany}}</label>
-
                                   </div>
                               </div>
                             </div>
@@ -177,8 +173,6 @@
                   </div>
                 </div>
               </div>
-
-
             </ng-container>
 
           </div>
