@@ -648,6 +648,12 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         for(let index=0; index<this.state.selectedTemplate['resources'][resourceIndex].searchFields.length; index++){
             this.state.selectedTemplate['resources'][resourceIndex].searchFields[index]['fieldDefinition'] = this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index];
             this.state.selectedTemplate['resources'][resourceIndex].searchFields[index]['visible'] = this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index]['isValidForSelection'] == true
+            if(this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].validationError &&
+              this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].validationError != 'passed' &&
+              this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].selectedValue != ''
+            ) {
+              this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].validationError = 'passed'
+            }
             if(this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].results){
               let selectedValue = this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].results.filter(item =>{
                 console.log(index, item.value == this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].selectedValue)
