@@ -30,6 +30,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       column:false,
       results:false
     },
+    messageNotFound: 'Processing...',
     searchForm: <any>[],
     doingAdvanceSearch: false,
     showGrid: false,
@@ -92,11 +93,14 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
     this.state.loading.results = true;
     this.state.showGrid = true;
     this.state.showForm = false;
+    this.state.messageNotFound = 'Processing...'
     this.resSearch.makeSearch(this.renderSearchForm()).subscribe(
       res=>{
         this.state.loading.results = false;
-
         this.state.grid.items = res['data']['results']
+        if(res['data']['results'].length){
+          this.state.messageNotFound = 'No Record Found'
+        }
       },
       error => {
         this.state.loading.results = false;

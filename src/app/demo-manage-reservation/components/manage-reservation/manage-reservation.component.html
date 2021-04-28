@@ -88,7 +88,7 @@
                   </tbody>
                 </table>
               </div>
-              <h3 *ngIf="state.grid.items.length<=0">No Record Found.</h3>
+              <h3 *ngIf="state.grid.items.length<=0">{{state.messageNotFound}}</h3>
             </ng-container>
             <ng-container *ngIf="state.showForm">
               <div class="table-responsive table-housekeeping-wrap">
