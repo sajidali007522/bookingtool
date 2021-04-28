@@ -14,7 +14,7 @@
         <div class="accordion-body">
           <ul style="max-height: inherit;">
             <li *ngFor="let field of this.state.searchForm.searchFields">
-              <input type="text" [(ngModel)]="field.model" placeholder="{{field.name}}" class="select-field-secondary" />
+              <input type="text" [(ngModel)]="field.model" placeholder="{{field.name}}" class="select-field-secondary" (keyup.enter)="startSearch();getResults()"/>
             </li>
             <li><button class="btn btn-info btn-block" (click)="startSearch();getResults()">Search Reservations</button></li>
           </ul>
@@ -80,7 +80,7 @@
                     <tr *ngFor="let item of state.grid.items">
                       <td *ngFor="let column of state.grid.columns.searchFields">{{item[column.property]}}</td>
                       <td>
-                        <a href="javascript:void(0)" (click)="selectReservation(item)">
+                        <a href="javascript:void(0)" tooltip="View Details" (click)="selectReservation(item)">
                           <span class="fa fa-eye skin-color"></span>
                         </a>
                       </td>
@@ -163,7 +163,8 @@
                             <div class="row">
                               <div class="col-sm-6">
                                   <div class="form-group" *ngFor="let prop of state.selectedReservation['reservationProfiles']">
-                                    <label class="control-label"><strong>{{prop.roleName}}:</strong> {{prop.lastOrCompany}}</label>
+                                    <label class="control-label"><strong>{{prop.roleName}}:</strong> </label>
+                                    <input class="form-control" type="text" [disabled]="true" [(ngModel)]="prop.lastOrCompany" />
                                   </div>
                               </div>
                             </div>

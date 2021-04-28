@@ -19,6 +19,7 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { NgxBootstrapMultiselectModule } from 'ngx-bootstrap-multiselect';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import {TooltipModule} from "ngx-bootstrap/tooltip";
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
@@ -31,18 +32,19 @@ export class MyHammerConfig extends HammerGestureConfig {
   declarations: [
     ManageReservationComponent,
   ],
-  imports: [
-    CommonModule,
-    routing,
-    FormsModule,
-    ReactiveFormsModule,
-    ImageCropperModule,
-    AutocompleteLibModule,
-    SharedModuleModule,
-    NgxBootstrapMultiselectModule,
-    LightboxModule,
-    PopoverModule.forRoot()
-  ],
+    imports: [
+        CommonModule,
+        routing,
+        FormsModule,
+        ReactiveFormsModule,
+        ImageCropperModule,
+        AutocompleteLibModule,
+        SharedModuleModule,
+        NgxBootstrapMultiselectModule,
+        LightboxModule,
+        PopoverModule.forRoot(),
+        TooltipModule
+    ],
   providers:[
     {provide: LocationStrategy, useClass: HashLocationStrategy},
   ]
