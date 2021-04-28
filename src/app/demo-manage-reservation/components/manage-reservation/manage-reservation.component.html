@@ -46,6 +46,7 @@
 
   <div class="reservation-content-area">
     <div class="reservation-content-inner">
+
       <div class="banner-manage-reserve-wrap" *ngIf="!state.showGrid && !state.showForm">
         <div class="banner-manage-reserve">
           <div class="mng-title">
@@ -166,6 +167,88 @@
                                   </div>
                               </div>
                             </div>
+
+                            <div class="tabs-secondary-wrap pt-3">
+                              <ul class="nav nav-tabs text-center" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                  <a aria-selected="false" class="nav-link active" data-toggle="tab" href="#content-11" role="tab">Guest Name</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a aria-selected="true" class="nav-link" data-toggle="tab" href="#content-12" role="tab">Address</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" data-toggle="tab" href="#content-13" role="tab">Additional Guest</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" data-toggle="tab" href="#content-13" role="tab">Notest</a>
+                                </li>
+                              </ul>
+                              <div class="tab-content" id="myTabContent2">
+                                <div class="tab-pane fade" id="content-11" role="tabpanel">
+                                  <div class="form-wrap">
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <label>Home</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label>Address 2</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <label>City</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label>State</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade active show" id="content-12" role="tabpanel">
+                                  <div class="form-wrap">
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <label>Address 1</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label>Address 2</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <label>City</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label>State</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade" id="content-13" role="tabpanel">
+                                  <div class="form-wrap">
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <label>Guest 1</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label>Guest 2</label>
+                                        <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
                           </div>
                         </div>
                       </div>
