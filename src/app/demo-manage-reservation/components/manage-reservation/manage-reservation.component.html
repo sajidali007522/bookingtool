@@ -161,15 +161,15 @@
                           <h3 class=""><a href="javascript:void(0)"> {{guest['firstName']}} {{guest['lastName']}}</a></h3>
                           <div class="custom-accordion-content exp">
                             <div class="row">
-                              <div class="col-sm-6">
-                                  <div class="form-group" *ngFor="let prop of state.selectedReservation['reservationProfiles']">
+                              <div class="col-sm-6" *ngFor="let prop of state.selectedReservation['reservationProfiles']">
+                                  <div class="form-group">
                                     <label class="control-label"><strong>{{prop.roleName}}:</strong> </label>
                                     <input class="form-control" type="text" [disabled]="true" [(ngModel)]="prop.lastOrCompany" />
                                   </div>
                               </div>
                             </div>
 
-                            <div class="tabs-secondary-wrap pt-3">
+                            <div class="tabs-secondary-wrap pt-5">
                               <ul class="nav nav-tabs text-center" id="myTab" role="tablist">
                                 <li class="nav-item">
                                   <a aria-selected="false" class="nav-link active" data-toggle="tab" href="#content-11" role="tab">Guest Name</a>
@@ -213,7 +213,7 @@
                                   <div class="form-wrap">
                                     <div class="row">
                                       <div class="col-md-6">
-                                        <label>Address 1</label>
+                                        <label>Address</label>
                                         <p><input class="form-control" type="text" value=""></p>
                                       </div>
                                       <div class="col-md-6">
@@ -223,11 +223,11 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-md-6">
-                                        <label>City</label>
+                                        <label>Zip Code</label>
                                         <p><input class="form-control" type="text" value=""></p>
                                       </div>
                                       <div class="col-md-6">
-                                        <label>State</label>
+                                        <label>City</label>
                                         <p><input class="form-control" type="text" value=""></p>
                                       </div>
                                     </div>

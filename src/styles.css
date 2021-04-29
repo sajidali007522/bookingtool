@@ -431,10 +431,10 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
         cursor: pointer;
     }
 .nav.nav-tabs{
-  margin-bottom: 25px;
 }
   .nav.nav-tabs a{
     display: inline-block;
+    padding: 11px 20px;
     color: #fff;
     width: 100%;
     background: #3f7892;
@@ -447,10 +447,26 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
     background: #09425d;
     color: #fff;
   }
+  .nav.nav-tabs > li:first-child a{
+    border-radius: 5px 0 0 0;
+  }
+  .nav.nav-tabs > li:last-child a{
+    border-radius: 0 5px 0 0;
+  }
   .nav-three li{width: 33.33%;}
   .nav-four li{width: 25%;}
   .nav-five li{width: 20%;}
   .nav-six li{width: 16.66%;}
+
+  .tab-content{
+    padding: 25px;
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
+    -moz-box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
+    -webkit-box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
+    box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
+  }
 
   .tx-lg-modal{
     text-align: center;
