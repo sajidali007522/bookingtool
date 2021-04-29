@@ -98,7 +98,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       res=>{
         this.state.loading.results = false;
         this.state.grid.items = res['data']['results']
-        if(res['data']['results'].length){
+        if(res['data']['results'].length <= 0){
           this.state.messageNotFound = 'No Record Found'
         }
       },
