@@ -97,7 +97,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   selectTraveler ($event) {
     console.log($event)
-    this.resService.setProfile(this.form.bookingID, {guestProfileID: $event.id})
+    this.resService.setProfile(this.form.bookingID, {guestProfileID: $event.id, sessionID: this.state.sessionID})
       .subscribe(data => {
         if(data['success']) {
           // this.defaultSelection = data['data']['defaultValue'];
@@ -133,7 +133,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   getloadProfiles (event) {
     let params = {searchTerm: event};
-    params['criteria'] = this.profileTypeSelected;
+    params['criteria'] = this.form.ResourceTypeID;
+    params['sessionID'] = this.state.sessionID;
 
     this.travelerList =[];
     this.state.isLoadingTraveler =true;

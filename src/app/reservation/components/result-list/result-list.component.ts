@@ -137,7 +137,17 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     });
     console.log(this.state.bookingID, this.state.searchId )
     this.state.resources = JSON.parse(window.localStorage.getItem('resources')) || this.state.resources;
-    this.checkSearchStatus();
+    this.resService.makeSearch(this.state.bookingID, {}, {sessionID: this.state.sessionID})
+      .subscribe(data => {
+          console.log(data);
+          //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
+          this.state.searchId = data['data']['searchID'];
+          this.checkSearchStatus();
+          },
+        err => {
+          console.log(err)
+        });
+
     //this.getSortFields();
   }
 
