@@ -4,6 +4,8 @@ import {HttpService} from "../../../http.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import * as $ from "jquery";
 import {split} from "ts-node";
+import {ReservationServiceV4} from "../../../_services/reservation_v4.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-result-list',
@@ -20,6 +22,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     ceil: 100
   };
   state= {
+    sessionID: '',
     gridCell: '00',
     resources: {resources: []},
     bookingContentArea: false,
@@ -119,7 +122,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
 
   constructor( private renderer: Renderer2,
                private _http: HttpService,
-               private activatedRoute: ActivatedRoute
+               private activatedRoute: ActivatedRoute,
+               public resService:ReservationServiceV4,
+               private toastr: ToastrService,
   ) {
     this.renderer.removeClass(document.body, 'menu-fullwidth');
   }
@@ -127,6 +132,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.state.bookingID = params["booking_id"];
+      this.state.sessionID = params["session_id"];
       this.state.searchId = params['search_id'];
     });
     console.log(this.state.bookingID, this.state.searchId )
@@ -146,13 +152,20 @@ export class ResultListComponent implements OnInit,AfterViewInit {
 
   checkSearchStatus () {
     this.state.processing = true;
-    this._http._get('booking/'+this.state.bookingID+'/Search/'+this.state.searchId, {})
+    //this._http._get('booking/'+this.state.bookingID+'/Search/'+this.state.searchId, {sessionID: this.state.sessionID})
+    this.resService.getSearchStatus(this.state.bookingID, this.state.searchId,  {sessionID: this.state.sessionID})
       .subscribe(data => {
-        if(data['isCompleted']) {
-          this.state.processing = false;
-          this.getSortFields();
+        if(data['status'] != 500 ) {
+          if(data['data']['isCompleted']) {
+            this.state.processing = false;
+            this.getSortFields();
+          } else {
+            this.checkSearchStatus();
+          }
         } else {
-          this.checkSearchStatus();
+          this.state.processing = false;
+          let err = data['message'].split('.');
+          this.toastr.error(err[0], 'Error!');
         }
       })
   }
@@ -160,7 +173,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
   getSortFields () {
     // /api2/booking/{bookingID}/GetSearchSortFields/{searchID}/{searchIndex}
     this.state.processing=true;
-    this._http._get('booking/'+this.state.bookingID+'/GetSearchSortFields/'+this.state.searchId+'/0', {})
+    //this._http._get('booking/'+this.state.bookingID+'/GetSearchSortFields/'+this.state.searchId+'/0', {})
+    this.resService.getSortFields(this.state.bookingID, this.state.searchId, 0 , {sessionID: this.state.sessionID})
       .subscribe(data => {
         this.state.processing=false;
         this.getSearchResults();

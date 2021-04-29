@@ -70,6 +70,15 @@ export class ReservationServiceV4 {
     return this.http.get( `${this.baseUrl}booking/${bookingID}/Search/${searchID}/${searchIndex}`, {params: params} );
   }
 
+  public getSearchStatus(bookingID, searchID, params={}) {
+    return this.http.get( `${this.baseUrl}booking/${bookingID}/Search/${searchID}`, {params: params} );
+  }
+
+  public getSortFields(bookingID, searchID, searchIndex=0, params={}){
+    ///api4/booking/{bookingID}/Search/{searchID}/{searchIndex}/SortFields
+    return this.http.get( `${this.baseUrl}booking/${bookingID}/Search/${searchID}/${searchIndex}/SortFields`, {params: params} );
+  }
+
   //Old
   public loadSingleResource (bookingId, params={}) {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/TemplateGroups`, {params: params} );
