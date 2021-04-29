@@ -415,7 +415,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
             if (data['data']['allResourceBooked']) {
               this.router.navigate(['/reservation/' + this.form.bookingID + '/business-profile/' + this.state.sessionID]);
             } else {
-              this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['resourceTypeID'] + "/" + this.state.sessionID]);
+              this.router.navigate(['/reservation/' + this.form.bookingID + '/search/' + data['data']['dedicatedDisplay']['resourceTypeID'] + "/" + this.state.sessionID]);
             }
           } else {
             let err = data['message'].split('.');
