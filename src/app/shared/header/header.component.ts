@@ -89,7 +89,8 @@ export class HeaderComponent implements OnInit {
   haveSideBar () {
     let noSideBarPages = ['home', 'reservation', 'flight-setup', 'business-profile', 'booking']
     let pageChunks = this.page.split("/");
-    return noSideBarPages.indexOf(pageChunks[pageChunks.length-1]) == -1
+    console.log(pageChunks)
+    return noSideBarPages.indexOf(pageChunks[1]) == -1
   }
 
 }
