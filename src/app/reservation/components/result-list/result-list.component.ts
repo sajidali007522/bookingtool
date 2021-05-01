@@ -6,6 +6,8 @@ import * as $ from "jquery";
 import {split} from "ts-node";
 import {ReservationServiceV4} from "../../../_services/reservation_v4.service";
 import {ToastrService} from "ngx-toastr";
+import {AuthService} from "../../../auth.service";
+import {DateParser} from "../../../_helpers/dateParser";
 
 @Component({
   selector: 'app-result-list',
@@ -22,9 +24,12 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     ceil: 100
   };
   state= {
+    searchSkeleton: {},
+    searchIndeces: [],
     sessionID: '',
+    resourceTypeID: '',
     gridCell: '00',
-    resources: {resources: []},
+    resources: [],
     bookingContentArea: false,
     bookingID: '',
     searchId: '',
@@ -125,6 +130,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
                private activatedRoute: ActivatedRoute,
                public resService:ReservationServiceV4,
                private toastr: ToastrService,
+               private dateParse: DateParser,
   ) {
     this.renderer.removeClass(document.body, 'menu-fullwidth');
   }
@@ -133,22 +139,69 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     this.activatedRoute.params.subscribe(params => {
       this.state.bookingID = params["booking_id"];
       this.state.sessionID = params["session_id"];
-      this.state.searchId = params['search_id'];
+      this.state.resourceTypeID = params['resource_typeid'];
     });
     console.log(this.state.bookingID, this.state.searchId )
-    this.state.resources = JSON.parse(window.localStorage.getItem('resources')) || this.state.resources;
-    this.resService.makeSearch(this.state.bookingID, {}, {sessionID: this.state.sessionID})
-      .subscribe(data => {
-          console.log(data);
-          //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
-          this.state.searchId = data['data']['searchID'];
-          this.checkSearchStatus();
-          },
-        err => {
-          console.log(err)
-        });
+    //this.state.resources = JSON.parse(window.localStorage.getItem('resources')) || this.state.resources;
+    ///api4/booking/{bookingID}/SearchCriteriaDefinition/{resourceTypeID}
+    this.state.processing=true;
+    this.resService.getSearchCriteriaForResource(this.state.bookingID, this.state.resourceTypeID, {sessionID: this.state.sessionID}).subscribe(
+      res => {
+        this.state.resources = res['data']['resources'];
+        this.state.searchSkeleton = res['data']
+        this.resService.makeSearch(this.state.bookingID, this.prepareBodyForSearchID(res['data']), {sessionID: this.state.sessionID})
+          .subscribe(data => {
+              console.log(data);
+              //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
+              this.state.searchId = data['data']['searchID'];
+              this.state.searchIndeces = data['data']['searchIndeces']
+              this.checkSearchStatus();
+            },
+            err => {
+              console.log(err)
+            });
+      },
+      err => {
+        console.log(err);
+      }
+    )
+
 
     //this.getSortFields();
+  }
+
+  prepareBodyForSearchID(data){
+    let selectedItems = []
+    data.resources.filter(resource=>{
+      resource.searchFields.filter(field=>{
+          selectedItems.push(
+            {
+              "relation": field.fieldRelation,
+              "selection": field.defaultValue,
+              "type": 1,
+              "selectionText": field.defaultText
+            }
+          )
+      })
+    });
+
+    return {
+      "resourceTypeID": this.state.resourceTypeID,
+      "criteria": [
+        {
+          "isReturn": data.isDynamic,
+          "beginDate": this.dateParse.parseDate(data['beginDate']),
+          "endDate": this.dateParse.parseDate(data['endDate']),
+          "beginTime": (data['beginTime'] ? this.dateParse.parseDate(data['beginTime']) : ""),
+          "endTime": (data['beginTime'] ? this.dateParse.parseDate(data['beginTime']) : ""),
+          "selectedItems": selectedItems,
+          "searchIndeces": [
+            0
+          ]
+        }
+      ]
+    }
+
   }
 
   ngAfterViewInit() {
@@ -184,7 +237,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     // /api2/booking/{bookingID}/GetSearchSortFields/{searchID}/{searchIndex}
     this.state.processing=true;
     //this._http._get('booking/'+this.state.bookingID+'/GetSearchSortFields/'+this.state.searchId+'/0', {})
-    this.resService.getSortFields(this.state.bookingID, this.state.searchId, 0 , {sessionID: this.state.sessionID})
+    this.resService.getSortFields(this.state.bookingID, this.state.searchId, this.state.searchIndeces[0] , {sessionID: this.state.sessionID})
       .subscribe(data => {
         this.state.processing=false;
         this.getSearchResults();
@@ -454,104 +507,114 @@ export class ResultListComponent implements OnInit,AfterViewInit {
   getSearchResults () {
     // /api2/booking/{bookingID}/SearchResults/{searchID}
     this.state.processing=true;
-    this._http._get('booking/'+this.state.bookingID+'/SearchResults/'+this.state.searchId+'', {
+    //this._http._get('booking/'+this.state.bookingID+'/SearchResults/'+this.state.searchId+'', {
+    this.resService.getSearchResults(this.state.bookingID, this.state.searchId,  this.state.searchIndeces[0] ,{
+      sessionID: this.state.sessionID,
       flattenValues: true,
-      searchIndex:0,
+      searchIndex: this.state.searchIndeces[0] ,
       sortProperties:'LowestPrice',
       isAscending: true,
       bookingItemProperties: 'BeginDate|EndDate|From|FromName|To|ToName|ProviderName|UniqueID|ProviderLogo|ConnectionDescriptionExtended|FullConnectionDescription|SegmentCount|Provider',
       priceProperties: 'TotalPrice|UniqueID|GetFareNameShort|BasePrice',
       tripProperties: 'BeginDate|EndDate|From|FromName|To|ToName|ProviderName|ProviderLogo|Provider|Identifier'
     })
-      .subscribe(data => {
-          //setting up data to render
-          for (let index =0; index < data['metadata'].length; index++){
-            //checking for price
-            if(data['metadata'][index].name == 'Price') {
-              this.state.filter.price.value = Number(data['metadata'][index]['metadataItems'][0].key);
-              this.state.filter.price.highValue= Number(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length -1 ].key);
-              this.state.price.options.floor = Number(data['metadata'][index]['metadataItems'][0].key);
-              this.state.price.options.ceil = Number(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length -1 ].key);
-              this.state.price.options['step'] = data['metadata'][index].interval;
-              this.state.price.metadataitems = data['metadata'][index].metadataItems;
-            }
-            //checking for Departure
-            if(data['metadata'][index].name == "Departure") {
-              this.state.filter.departure.value = Date.parse(data['metadata'][index]['metadataItems'][0].key);
-              this.state.filter.departure.highValue= Date.parse(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length -1 ].key);
-              this.state.departure.options.floor = Date.parse(data['metadata'][index]['metadataItems'][0].key);
-              this.state.departure.options.ceil = Date.parse(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length -1 ].key)
-              this.state.departure.options['step'] = data['metadata'][index].interval;
-              this.state.departure.metadataitems = data['metadata'][index].metadataItems;
-              this.state.departure.options['translate'] = (value: number, label: LabelType): string => {
-                return this.parseTime(value)
+      .subscribe(res => {
+          if(res['success']) {
+            let data = res['data']
+            //setting up data to render
+            for (let index = 0; index < data['metadata'].length; index++) {
+              //checking for price
+              if (data['metadata'][index].name == 'Price' && data['metadata'][index]['metadataItems'].length > 0 ) {
+
+                this.state.filter.price.value = Number(data['metadata'][index]['metadataItems'][0].key);
+                this.state.filter.price.highValue = Number(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length - 1].key);
+                this.state.price.options.floor = Number(data['metadata'][index]['metadataItems'][0].key);
+                this.state.price.options.ceil = Number(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length - 1].key);
+                this.state.price.options['step'] = data['metadata'][index].interval;
+                this.state.price.metadataitems = data['metadata'][index].metadataItems;
+
               }
-            }
-            //checking for arrival
-            if(data['metadata'][index].name == "Arrival") {
-              this.state.filter.arrival.value = Date.parse(data['metadata'][index]['metadataItems'][0].key);
-              this.state.filter.arrival.highValue= Date.parse(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length -1 ].key);
-              this.state.arrival.options.floor = Date.parse(data['metadata'][index]['metadataItems'][0].key);
-              this.state.arrival.options.ceil = Date.parse(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length -1 ].key)
-              this.state.arrival.options['step'] = data['metadata'][index].interval;
-              this.state.arrival.metadataitems = data['metadata'][index].metadataItems;
-              this.state.arrival.options['translate'] = (value: number, label: LabelType): string => {
-                return this.parseTime(value)
-              }
-            }
-            //checking for Max Number of Stops
-            if(data['metadata'][index].name == "Max Stop Time") {
-              this.state.filter.maxStoptime.value = Number(data['metadata'][index]['metadataItems'][0].key) * data['metadata'][index].interval;
-              this.state.filter.maxStoptime.highValue= Number(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length -1 ].key) * data['metadata'][index].interval;
-              this.state.maxStoptime.options.floor = Number(data['metadata'][index]['metadataItems'][0].key) * data['metadata'][index].interval;
-              this.state.maxStoptime.options.ceil = Number(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length -1 ].key) * data['metadata'][index].interval;
-              this.state.maxStoptime.options['step'] = data['metadata'][index].interval;
-              this.state.maxStoptime.metadataitems = data['metadata'][index].metadataItems;
-              this.state.maxStoptime.interval = data['metadata'][index].interval;
-              this.state.maxStoptime.options['translate'] = (value: number, label: LabelType): string => {
-                if(value <= 0) {
-                  return 'non stop';
+              //checking for Departure
+              if (data['metadata'][index].name == "Departure" && data['metadata'][index]['metadataItems'].length > 0) {
+
+                this.state.filter.departure.value = Date.parse(data['metadata'][index]['metadataItems'][0].key);
+                this.state.filter.departure.highValue = Date.parse(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length - 1].key);
+                this.state.departure.options.floor = Date.parse(data['metadata'][index]['metadataItems'][0].key);
+                this.state.departure.options.ceil = Date.parse(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length - 1].key)
+                this.state.departure.options['step'] = data['metadata'][index].interval;
+                this.state.departure.metadataitems = data['metadata'][index].metadataItems;
+                this.state.departure.options['translate'] = (value: number, label: LabelType): string => {
+                  return this.parseTime(value)
                 }
-                let hour = Math.floor(value/60);
-                let mins = value%60;
-                return hour+" hours and "+mins+ "Minutes";
+              }
+              //checking for arrival
+              if (data['metadata'][index].name == "Arrival" && data['metadata'][index]['metadataItems'].length > 0) {
+                this.state.filter.arrival.value = Date.parse(data['metadata'][index]['metadataItems'][0].key);
+                this.state.filter.arrival.highValue = Date.parse(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length - 1].key);
+                this.state.arrival.options.floor = Date.parse(data['metadata'][index]['metadataItems'][0].key);
+                this.state.arrival.options.ceil = Date.parse(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length - 1].key)
+                this.state.arrival.options['step'] = data['metadata'][index].interval;
+                this.state.arrival.metadataitems = data['metadata'][index].metadataItems;
+                this.state.arrival.options['translate'] = (value: number, label: LabelType): string => {
+                  return this.parseTime(value)
+                }
+              }
+              //checking for Max Number of Stops
+              if (data['metadata'][index].name == "Max Stop Time" && data['metadata'][index]['metadataItems'].length > 0) {
+                this.state.filter.maxStoptime.value = Number(data['metadata'][index]['metadataItems'][0].key) * data['metadata'][index].interval;
+                this.state.filter.maxStoptime.highValue = Number(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length - 1].key) * data['metadata'][index].interval;
+                this.state.maxStoptime.options.floor = Number(data['metadata'][index]['metadataItems'][0].key) * data['metadata'][index].interval;
+                this.state.maxStoptime.options.ceil = Number(data['metadata'][index]['metadataItems'][data['metadata'][index]['metadataItems'].length - 1].key) * data['metadata'][index].interval;
+                this.state.maxStoptime.options['step'] = data['metadata'][index].interval;
+                this.state.maxStoptime.metadataitems = data['metadata'][index].metadataItems;
+                this.state.maxStoptime.interval = data['metadata'][index].interval;
+                this.state.maxStoptime.options['translate'] = (value: number, label: LabelType): string => {
+                  if (value <= 0) {
+                    return 'non stop';
+                  }
+                  let hour = Math.floor(value / 60);
+                  let mins = value % 60;
+                  return hour + " hours and " + mins + "Minutes";
+                }
+              }
+              //checking for Policy
+              if (data['metadata'][index].name == "Policy") {
+                this.state.filter.policy = this.renderMetaDataItems(data['metadata'][index], "checkbox");
+              }
+              //checking for Airlines
+              if (data['metadata'][index].name == "Airlines") {
+                this.state.filter.airlines = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
+              }
+              //checking for Airlines
+              if (data['metadata'][index].name == "Stops") {
+                this.state.filter.stops = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
+              }
+              //checking for Airlines
+              if (data['metadata'][index].name == "Channel") {
+                this.state.filter.channel = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
+              }
+              //checking for Airlines
+              if (data['metadata'][index].name == "Options") {
+                this.state.filter.options = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
+              }
+              //checking for Airlines
+              if (data['metadata'][index].name == "Connecting City") {
+                this.state.filter.connectingCity = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
+              }
+              //checking for Airlines
+              if (data['metadata'][index].name == "Fare Type") {
+                this.state.filter.fareType = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
               }
             }
-            //checking for Policy
-            if(data['metadata'][index].name == "Policy") {
-              this.state.filter.policy = this.renderMetaDataItems(data['metadata'][index], "checkbox");
-            }
-            //checking for Airlines
-            if(data['metadata'][index].name == "Airlines") {
-              this.state.filter.airlines = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
-            }
-            //checking for Airlines
-            if(data['metadata'][index].name == "Stops") {
-              this.state.filter.stops = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
-            }
-            //checking for Airlines
-            if(data['metadata'][index].name == "Channel") {
-              this.state.filter.channel = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
-            }
-            //checking for Airlines
-            if(data['metadata'][index].name == "Options") {
-              this.state.filter.options = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
-            }
-            //checking for Airlines
-            if(data['metadata'][index].name ==  "Connecting City") {
-              this.state.filter.connectingCity = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
-            }
-            //checking for Airlines
-            if(data['metadata'][index].name ==  "Fare Type") {
-              this.state.filter.fareType = this.renderMetaDataItems(data['metadata'][index], 'checkbox');
+            this.state.filterBk = this.copyObject(this.state.filter);
+            this.state.processing = false;
+            if(data['metadataGridOptions'].length > 0 ) {
+              this.state.metaDataGridOptions = data['metadataGridOptions'];
+              this.state.grid_filter = data['metadataGridOptions'][0].value;
+              this.state.bookingRows = data['results'];
+              this.renderFilterGrid();
             }
           }
-          this.state.filterBk = this.copyObject(this.state.filter);
-          this.state.processing=false;
-          this.state.metaDataGridOptions = data['metadataGridOptions'];
-          this.state.grid_filter = data['metadataGridOptions'][0].value;
-          this.state.bookingRows = data['results'];
-          this.renderFilterGrid();
         },
         error => {
         this.state.processing = false;
@@ -588,12 +651,16 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     this.state.processing=true;
     ///api2/booking/{bookingID}/SearchFilterGrid/{searchID}/{searchIndex}/{columnMetadataKey}/{rowMetadataKey}
     let filterOption = this.state.grid_filter.split("|");
-    this._http._get('booking/'+this.state.bookingID+'/SearchFilterGrid/'+this.state.searchId+'/0/'+filterOption[0]+"/"+filterOption[1], {})
-      .subscribe(data => {
-        this.state.processing=false;
-        this.state.gridFilter.rows = data['rows'];
-        this.state.gridFilter.columns = data['columns'];
-        this.state.gridFilter['totalResults'] = data['totalResults'];
+    //this._http._get('booking/'+this.state.bookingID+'/SearchFilterGrid/'+this.state.searchId+'/0/'+filterOption[0]+"/"+filterOption[1], {})
+    this.resService.renderFilterGrid(this.state.bookingID, this.state.searchId, 0, filterOption[0], filterOption[1], {sessionID: this.state.sessionID})
+      .subscribe(res => {
+        if(res['success']) {
+          let data = res['data']
+          this.state.processing = false;
+          this.state.gridFilter.rows = data['rows'];
+          this.state.gridFilter.columns = data['columns'];
+          this.state.gridFilter['totalResults'] = data['totalResults'];
+        }
       });
   }
 

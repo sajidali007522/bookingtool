@@ -152,8 +152,8 @@
           <div class="row align-items-center row-break-1300">
             <div class="col-lg-6">
               <div class="reservation-tabs">
-                <ul *ngIf="state.resources.resources[0].resourceItems">
-                  <li *ngFor="let resource of state.resources.resources[0].resourceItems">
+                <ul *ngIf="state.resources[0].resourceItems">
+                  <li *ngFor="let resource of state.resources[0].resourceItems">
                     <a href="javascript:void(0);"><strong>{{parseDate(resource.beginDate, 'month')}}</strong> {{parseDate(resource.beginDate, 'date')}}</a>
                   </li>
                 </ul>

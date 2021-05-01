@@ -74,9 +74,18 @@ export class ReservationServiceV4 {
     return this.http.get( `${this.baseUrl}booking/${bookingID}/Search/${searchID}`, {params: params} );
   }
 
+  public renderFilterGrid(bookingID, searchID, searchIndex, columnKey, rowKey, params={}) {
+    return this.http.get( `${this.baseUrl}booking/${bookingID}/SearchFilterGrid/${searchID}/${searchIndex}/${columnKey}/${rowKey}`, {params: params} );
+  }
+
   public getSortFields(bookingID, searchID, searchIndex=0, params={}){
     ///api4/booking/{bookingID}/Search/{searchID}/{searchIndex}/SortFields
     return this.http.get( `${this.baseUrl}booking/${bookingID}/Search/${searchID}/${searchIndex}/SortFields`, {params: params} );
+  }
+
+  public getSearchCriteriaForResource (bookingID, resourceTypeID, params={}) {
+    ///api4/booking/{bookingID}/SearchCriteriaDefinition/{resourceTypeID}
+    return this.http.get( `${this.baseUrl}booking/${bookingID}/SearchCriteriaDefinition/${resourceTypeID}`, {params: params} );
   }
 
   //Old
