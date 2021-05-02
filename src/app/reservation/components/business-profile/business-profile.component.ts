@@ -196,8 +196,8 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     this.formFields.filter(field => {
       field['validationError'] = 'passed'
 
-      if(!field.model && field.isRequired && field.visible && !field.isCheckbox){
-        console.log(field)
+      if(!field.model.split(" ").join("") && field.isRequired && field.visible && !field.isCheckbox){
+        //console.log(field)
         field['validationError'] = field.name+ ' is required field';
         validated = false;
       }
