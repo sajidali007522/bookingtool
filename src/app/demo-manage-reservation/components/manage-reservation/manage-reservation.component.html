@@ -23,7 +23,9 @@
 
 
       <div class="accordion-group group-active" *ngIf="state.showForm">
-        <div class="accordon-heading"><a href="javascript:void(0);">Button Styles <span class="fa fa-spin fa-spinner" *ngIf="this.state.loading.searchForm"></span></a></div>
+        <div class="accordon-heading">
+          <a href="javascript:void(0);">Button Styles <span class="fa fa-spin fa-spinner" *ngIf="this.state.loading.searchForm"></span></a>
+        </div>
         <div class="accordion-body">
           <div class="combine-btns">
             <ul>
@@ -46,7 +48,9 @@
 
   <div class="reservation-content-area">
     <div class="reservation-content-inner">
-
+      <div class="filter-btn-wrap for-mobile" >
+        <a href="javascript:void(0)" (click)="openFilterBar()" class="filters-btn">Filters <span  class="fa fa-filter"></span></a>
+      </div>
       <div class="banner-manage-reserve-wrap" *ngIf="!state.showGrid && !state.showForm">
         <div class="banner-manage-reserve">
           <div class="mng-title">
@@ -160,32 +164,29 @@
                         <div class="custom-accordion" *ngFor="let guest of state.selectedReservation['guests']; let secIndex=index;">
                           <h3 class=""><a href="javascript:void(0)"> {{guest['firstName']}} {{guest['lastName']}}</a></h3>
                           <div class="custom-accordion-content exp">
-                            <div class="row">
-                              <div class="col-sm-6" *ngFor="let prop of state.selectedReservation['reservationProfiles']">
-                                  <div class="form-group">
-                                    <label class="control-label"><strong>{{prop.roleName}}:</strong> </label>
-                                    <input class="form-control" type="text" [disabled]="true" [(ngModel)]="prop.lastOrCompany" />
-                                  </div>
-                              </div>
-                            </div>
-
                             <div class="tabs-secondary-wrap pt-5">
-                              <ul class="nav nav-tabs text-center" id="myTab" role="tablist">
+                              <ul class="nav nav-tabs text-center" id="myTab_{{secIndex}}" role="tablist">
                                 <li class="nav-item">
-                                  <a aria-selected="false" class="nav-link active" data-toggle="tab" href="#content-11" role="tab">Guest Name</a>
+                                  <a aria-selected="false" class="nav-link active" data-toggle="tab" href="#content-11-{{secIndex}}" role="tab">Guest Name</a>
                                 </li>
                                 <li class="nav-item">
-                                  <a aria-selected="true" class="nav-link" data-toggle="tab" href="#content-12" role="tab">Address</a>
+                                  <a aria-selected="true" class="nav-link" data-toggle="tab" href="#content-12-{{secIndex}}" role="tab">Address</a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="nav-link" data-toggle="tab" href="#content-13" role="tab">Additional Guest</a>
+                                  <a class="nav-link" data-toggle="tab" href="#content-13-{{secIndex}}" role="tab">Additional Guest</a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="nav-link" data-toggle="tab" href="#content-13" role="tab">Notest</a>
+                                  <a class="nav-link" data-toggle="tab" href="#content-13-{{secIndex}}" role="tab">Notes</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" data-toggle="tab" href="#content-14-{{secIndex}}" role="tab">Marketing Codes</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" data-toggle="tab" href="#content-15-{{secIndex}}" role="tab">Reservation Profiles</a>
                                 </li>
                               </ul>
-                              <div class="tab-content" id="myTabContent2">
-                                <div class="tab-pane fade" id="content-11" role="tabpanel">
+                              <div class="tab-content" id="myTabContent2-{{secIndex}}">
+                                <div class="tab-pane fade" id="content-11-{{secIndex}}" role="tabpanel">
                                   <div class="form-wrap">
                                     <div class="row">
                                       <div class="col-md-6">
@@ -209,7 +210,7 @@
                                     </div>
                                   </div>
                                 </div>
-                                <div class="tab-pane fade active show" id="content-12" role="tabpanel">
+                                <div class="tab-pane fade active show" id="content-12-{{secIndex}}" role="tabpanel">
                                   <div class="form-wrap">
                                     <div class="row">
                                       <div class="col-md-6">
@@ -233,7 +234,7 @@
                                     </div>
                                   </div>
                                 </div>
-                                <div class="tab-pane fade" id="content-13" role="tabpanel">
+                                <div class="tab-pane fade" id="content-13-{{secIndex}}" role="tabpanel">
                                   <div class="form-wrap">
                                     <div class="row">
                                       <div class="col-md-6">
@@ -243,6 +244,30 @@
                                       <div class="col-md-6">
                                         <label>Guest 2</label>
                                         <p><input class="form-control" type="text" value=""></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade" id="content-14-{{secIndex}}" role="tabpanel">
+                                  <div class="form-wrap">
+                                    <div class="row">
+                                      <div class="col-sm-6" *ngFor="let prop of state.selectedReservation['marketingCodes']">
+                                        <div class="form-group">
+                                          <label class="control-label"><strong>{{prop.marketingCodeType}}:</strong> </label>
+                                          <input class="form-control" type="text" [disabled]="true" [(ngModel)]="prop.marketingCodeDescription" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade" id="content-15-{{secIndex}}" role="tabpanel">
+                                  <div class="form-wrap">
+                                    <div class="row">
+                                      <div class="col-sm-6" *ngFor="let prop of state.selectedReservation['reservationProfiles']">
+                                        <div class="form-group">
+                                          <label class="control-label"><strong>{{prop.roleName}}:</strong> </label>
+                                          <input class="form-control" type="text" [disabled]="true" [(ngModel)]="prop.lastOrCompany" />
+                                        </div>
                                       </div>
                                     </div>
                                   </div>

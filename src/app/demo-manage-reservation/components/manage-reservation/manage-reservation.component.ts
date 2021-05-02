@@ -7,6 +7,7 @@ import {ReservationSearchService} from "../../../_services/reservation-search.se
 import {DateFormatsService} from "../../../_services/date-formats.service";
 import {DateParser} from "../../../_helpers/dateParser";
 import {ToastrService} from "ngx-toastr";
+import {ConfigService} from "../../../config.service";
 
 
 // const SHIFTS: Shift [] = [
@@ -44,6 +45,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
   constructor(public dateParse: DateParser,
               private renderer: Renderer2,
               private toastr: ToastrService,
+              private appConfigService: ConfigService,
               private resSearch: ReservationSearchService) {
     //searchForm
     this.state.loading.searchForm = true
@@ -74,6 +76,9 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if(this.isMobileDevice()) {
+      this.closeFilterBar();
+    }
   }
   validateForm (){
     let emptyForm = this.state.searchForm.searchFields.filter(field=> {
@@ -105,6 +110,11 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       error => {
         this.state.loading.results = false;
         console.log(error)
+      },
+      () => {
+        if(true){
+          this.closeFilterBar()
+        }
       }
     )
 
@@ -165,7 +175,9 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
     this.state.showGrid = true;
   }
 
-
+  isMobileDevice(){
+    return this.appConfigService['userDevice'] == 'mobile';
+  }
 
 
 }
