@@ -8,6 +8,7 @@ import {DateFormatsService} from "../../../_services/date-formats.service";
 import {DateParser} from "../../../_helpers/dateParser";
 import {ToastrService} from "ngx-toastr";
 import {ConfigService} from "../../../config.service";
+import {HttpService} from "../../../http.service";
 
 
 // const SHIFTS: Shift [] = [
@@ -46,13 +47,25 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
               private renderer: Renderer2,
               private toastr: ToastrService,
               private appConfigService: ConfigService,
-              private resSearch: ReservationSearchService) {
+              private resSearch: ReservationSearchService,
+              private _http: HttpService) {
     //searchForm
     this.state.loading.searchForm = true
     this.resSearch.loadCriteriaDefinition().subscribe(
       res =>{
         this.state.searchForm=res['data'];
         this.state.loading.searchForm = false
+        console.log(res['data']['searchFields'].length)
+        for (let index=0; index < res['data']['searchFields'].length; index++){
+          //console.log(res['data']['searchFields'][index])
+          if(res['data']['searchFields'][index].lookupSearch != '') {
+            this._http._get('lookup/' + res['data']['searchFields'][index].lookupSearch)
+              .subscribe(res => {
+                this.state.searchForm['searchFields'][index]['model'] = '00000000-0000-0000-0000-000000000000'
+                this.state.searchForm['searchFields'][index]['results'] = res['data']['results'];
+              })
+          }
+        }
       },
       err =>{
         this.state.loading.searchForm = false
@@ -64,6 +77,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       res =>{
         this.state.loading.column = false
         this.state.grid.columns = res['data']
+
         //this.getResults();
       },
       err =>{
@@ -80,7 +94,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       this.closeFilterBar();
     }
   }
-  validateForm (){
+  validateForm () {
     let emptyForm = this.state.searchForm.searchFields.filter(field=> {
       if (!field.model) {
         return field
@@ -88,6 +102,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
     });
     return !(this.state.searchForm.searchFields.length == emptyForm.length);
   }
+
   getResults(){
     if(!this.validateForm()) {
       this.toastr.error('Please select some search criteria.', 'Error!')

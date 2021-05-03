@@ -14,7 +14,16 @@
         <div class="accordion-body">
           <ul style="max-height: inherit;">
             <li *ngFor="let field of this.state.searchForm.searchFields">
-              <input type="text" [(ngModel)]="field.model" placeholder="{{field.name}}" class="select-field-secondary" (keyup.enter)="startSearch();getResults()"/>
+              <ng-container *ngIf="!field.lookupSearch">
+                <input type="text" [(ngModel)]="field.model" placeholder="{{field.name}}" class="select-field-secondary" (keyup.enter)="startSearch();getResults()"/>
+              </ng-container>
+              <ng-container *ngIf="field.lookupSearch">
+                <select [(ngModel)]="field.model" class="select-field-secondary" (change)="startSearch();getResults()">
+                  <option value="00000000-0000-0000-0000-000000000000"> Any</option>
+                  <option *ngFor="let site of field.results" [ngValue]="site.value"> {{site.text}}</option>
+                </select>
+              </ng-container>
+
             </li>
             <li><button class="btn btn-info btn-block" (click)="startSearch();getResults()">Search Reservations</button></li>
           </ul>
