@@ -102,9 +102,14 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
     this.resSearch.makeSearch(this.renderSearchForm()).subscribe(
       res=>{
         this.state.loading.results = false;
-        this.state.grid.items = res['data']['results']
-        if(res['data']['results'].length <= 0){
-          this.state.messageNotFound = 'No Record Found'
+        if(res['status'] != 500) {
+          this.state.grid.items = res['data']['results']
+          if (res['data']['results'].length <= 0) {
+            this.state.messageNotFound = 'No Record Found'
+          }
+        } else {
+          this.toastr.error(res['message'], 'Error!');
+          this.state.messageNotFound = res['message'];
         }
       },
       error => {
@@ -112,7 +117,7 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
         console.log(error)
       },
       () => {
-        if(true){
+        if(this.isMobileDevice()){
           this.closeFilterBar()
         }
       }
