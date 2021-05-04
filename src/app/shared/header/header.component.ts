@@ -30,7 +30,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.switchSkinColor();
-    this.switchContainerWidth();
+    //this.switchContainerWidth();
+    this.renderer.removeClass(document.body, 'menu-fullwidth');
+    this.isFullWidth = false
     var ua = navigator.userAgent;
     //console.log(ua, window.innerWidth);
     if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua) && window.innerWidth <= 767) {
@@ -49,8 +51,14 @@ export class HeaderComponent implements OnInit {
 
   setWidth ($event, fullWidth=false) {
     $event.preventDefault();
-    localStorage.setItem('container_width', fullWidth ? 'full' : 'no');
-    this.switchContainerWidth();
+    this.isFullWidth = !this.isFullWidth;
+    if(this.isFullWidth) {
+      this.renderer.addClass(document.body, 'menu-fullwidth');
+    } else {
+      this.renderer.removeClass(document.body, 'menu-fullwidth');
+    }
+    //localStorage.setItem('container_width', fullWidth ? 'full' : 'no');
+    //this.switchContainerWidth();
   }
 
   setLocale ($event, language = 'en') {
@@ -64,7 +72,7 @@ export class HeaderComponent implements OnInit {
   }
 
   switchContainerWidth () {
-    this.isFullWidth = localStorage.getItem('container_width') || 'no';
+    this.isFullWidth = 'full'; //localStorage.getItem('container_width') || 'no';
     this.renderer.removeClass(document.body, 'menu-fullwidth')
     if(this.isFullWidth === 'full') {
       this.renderer.addClass(document.body, 'menu-fullwidth');
