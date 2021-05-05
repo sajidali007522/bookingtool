@@ -24,6 +24,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     ceil: 100
   };
   state= {
+    selectedResource: {},
     searchSkeleton: {},
     searchIndeces: [],
     sessionID: '',
@@ -148,7 +149,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     this.resService.getSearchCriteriaForResource(this.state.bookingID, this.state.resourceTypeID, {sessionID: this.state.sessionID}).subscribe(
       res => {
         this.state.resources = res['data']['resources'];
-        this.state.searchSkeleton = res['data']
+        this.state.searchSkeleton = res['data'];
+        this.state.selectedResource =this.state.resources[0]['resourceItems'][0];
         this.resService.makeSearch(this.state.bookingID, this.prepareBodyForSearchID(res['data']), {sessionID: this.state.sessionID})
           .subscribe(data => {
               console.log(data);
@@ -170,6 +172,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     //this.getSortFields();
   }
 
+  selectResource(resource) {
+    this.state.selectedResource= resource;
+  }
   prepareBodyForSearchID(data){
     let selectedItems = []
     data.resources.filter(resource=>{
@@ -259,7 +264,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     let postBody = [];
     postBody.push({
       "resultID": bookRow.UniqueID,
-      "searchID": "00000000-0000-0000-0000-000000000000",
+      "searchID": this.state.searchId,
       "searchIndex": 0,
       "priceID": currentItem.values2.UniqueID,
       "beginDate": this.parseDateIntoObject(bookRow.BeginDate).toDateString(),
@@ -272,8 +277,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       "isDynamic": false
     });
 
-    this._http._post('booking/'+this.state.bookingID+'/Book',postBody,
-      {resourceTypeID: "ECF6F1A3-8867-40CC-8118-5DEFB120D5EE"})
+    //this._http._post('booking/'+this.state.bookingID+'/Book',postBody,
+    this.resService.bookResource(this.state.bookingID, postBody,
+      {resourceTypeID: "ECF6F1A3-8867-40CC-8118-5DEFB120D5EE", sessionID: this.state.sessionID})
       .subscribe(data => {
         currentItem.$isProcessing = false;
         this.markAsAddedToCart(bookRow, bookIndex, currentItem, check, String(data))

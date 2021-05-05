@@ -152,10 +152,12 @@
           <div class="row align-items-center row-break-1300">
             <div class="col-lg-6">
               <div class="reservation-tabs">
-                <ul *ngIf="state.resources[0].resourceItems">
-                  <li *ngFor="let resource of state.resources[0].resourceItems">
-                    <a href="javascript:void(0);"><strong>{{parseDate(resource.beginDate, 'month')}}</strong> {{parseDate(resource.beginDate, 'date')}}</a>
-                  </li>
+                <ul *ngIf="state.resources">
+                  <ng-container *ngFor="let resource of state.resources">
+                    <li *ngFor="let item of resource.resourceItems">
+                      <a href="javascript:void(0);" (click)="selectResource(item)"><strong>{{parseDate((item.isReturn ? item.endDate : item.beginDate), 'month')}}</strong> {{parseDate((item.isReturn ? item.endDate : item.beginDate), 'date')}}</a>
+                    </li>
+                  </ng-container>
                 </ul>
               </div>
             </div>

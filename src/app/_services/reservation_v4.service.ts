@@ -88,6 +88,11 @@ export class ReservationServiceV4 {
     return this.http.get( `${this.baseUrl}booking/${bookingID}/SearchCriteriaDefinition/${resourceTypeID}`, {params: params} );
   }
 
+  public bookResource (bookingID, body, params={}) {
+    ///api4/booking/{bookingID}/SearchCriteriaDefinition/{resourceTypeID}
+    return this.http.post( `${this.baseUrl}booking/${bookingID}/Book`, body, {params: params} );
+  }
+
   //Old
   public loadSingleResource (bookingId, params={}) {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/TemplateGroups`, {params: params} );

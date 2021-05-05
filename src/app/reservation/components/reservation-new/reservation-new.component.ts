@@ -397,7 +397,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       return;
     }
     let postBody = {
-      "sessionID": "undefined",
+      "sessionID": this.state.sessionID,
       'bookingID': this.form.bookingID,
       'resultsToBook': this.renderResources(),
       'resourceIndex': null,
@@ -451,14 +451,14 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         let resourceItems = [];
         if(this.state.selectedTemplate['resources'][index].resourceItems.length) {
           this.state.selectedTemplate['resources'][index].resourceItems.filter(item => {
-            if(item.isBlockable){
+            if(item.isBlockable || true){
               resourceItems.push(item);
             }
           })
         }
         if(resourceItems.length>0){
           this.state.selectedTemplate['resources'][index].resourceItems.filter(item => {
-            if(item.isBlockable) {
+            if(item.isBlockable || true) {
               resources.push({
                 "resultID": (item.model?item.model.UniqueID : ''),
                 "searchID": (item['searchID'] || "00000000-0000-0000-0000-000000000000"),
@@ -476,7 +476,8 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
               });
             }
           });
-        } else {
+        }
+        else {
           //
           resources.push({
             "resultID": "",
@@ -490,7 +491,6 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
             "isReturn": (resource['IsReturn'] || false),
             "selectedItems": this.renderResouceFields(resource),
             "isDynamic": this.state.selectedTemplate['isDynamic'],
-
             "beginTime": "",
             "endTime": "",
           });
