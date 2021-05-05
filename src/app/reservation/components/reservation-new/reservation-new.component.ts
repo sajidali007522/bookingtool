@@ -457,12 +457,13 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
           })
         }
         if(resourceItems.length>0){
+          let i = 0
           this.state.selectedTemplate['resources'][index].resourceItems.filter(item => {
             if(item.isBlockable || true) {
               resources.push({
                 "resultID": (item.model?item.model.UniqueID : ''),
                 "searchID": (item['searchID'] || "00000000-0000-0000-0000-000000000000"),
-                "searchIndex": 0,
+                "searchIndex": i,
                 "priceID": "",
                 "beginDate": departure.getFullYear() + '-' + (departure.getMonth() + 1) + "-" + departure.getDate(),
                 "endDate": arrival.getFullYear() + '-' + (arrival.getMonth() + 1) + "-" + arrival.getDate(),
@@ -474,6 +475,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
                 "beginTime": "",
                 "endTime": "",
               });
+              i++;
             }
           });
         }

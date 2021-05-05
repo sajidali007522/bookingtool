@@ -152,9 +152,9 @@
           <div class="row align-items-center row-break-1300">
             <div class="col-lg-6">
               <div class="reservation-tabs">
-                <ul *ngIf="state.resources">
-                  <ng-container *ngFor="let resource of state.resources">
-                    <li *ngFor="let item of resource.resourceItems">
+                <ul *ngIf="state.resources;">
+                  <ng-container *ngFor="let resource of state.resources; let resourceIndex= index">
+                    <li *ngFor="let item of resource.resourceItems; let itemIndex=index" [ngClass]="{'active': state.selectedIndece==(resourceIndex+itemIndex)}">
                       <a href="javascript:void(0);" (click)="selectResource(item)"><strong>{{parseDate((item.isReturn ? item.endDate : item.beginDate), 'month')}}</strong> {{parseDate((item.isReturn ? item.endDate : item.beginDate), 'date')}}</a>
                     </li>
                   </ng-container>
