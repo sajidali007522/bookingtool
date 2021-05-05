@@ -91,7 +91,7 @@
                   </thead>
                   <tbody class="mobile-slider">
                     <tr *ngFor="let item of state.grid.items">
-                      <td *ngFor="let column of state.grid.columns.searchFields">{{item[column.property]}}</td>
+                      <td data-title="{{column.name}}" *ngFor="let column of state.grid.columns.searchFields">{{item[column.property]}}</td>
                       <td>
                         <a href="javascript:void(0)" tooltip="View Details" (click)="selectReservation(item)">
                           <span class="fa fa-eye skin-color"></span>
@@ -107,10 +107,10 @@
               <div class="table-responsive table-housekeeping-wrap">
                 <div class="table-list">
                   <ul>
-                    <li><strong>Confirmation#:</strong> <span>{{state.selectedReservation['number']}}</span></li>
-                    <li><strong>Status:</strong> <span>{{state.selectedReservation['statusName']}}</span></li>
-                    <li><strong>In House Status:</strong> <span></span></li>
-                    <li><strong>Site:</strong> <span></span></li>
+                    <li><strong>Confirmation#:</strong> <span class="list-dynamic">{{state.selectedReservation['number']}}</span></li>
+                    <li><strong>Status:</strong> <span class="list-dynamic">{{state.selectedReservation['statusName']}}</span></li>
+                    <li><strong>In House Status:</strong> <span class="list-dynamic"></span></li>
+                    <li><strong>Site:</strong> <span class="list-dynamic"></span></li>
                   </ul>
                 </div>
               </div>
@@ -126,7 +126,7 @@
                     </h2>
                   </div>
                   <div id="collaps-requests" class="collapse show" [attr.data-parent]="'#accordionExample_requests'">
-                    <div class="box-primary box-lr box-theme rounded-0 form-primary">
+                    <div class="box-primary box-space box-theme rounded-0 form-primary">
 
                       <div class="custom-accordion-wrap">
                         <div class="custom-accordion" *ngFor="let request of state.selectedReservation['requests']; let secIndex=index;">
@@ -167,14 +167,14 @@
                     </h2>
                   </div>
                   <div id="collaps-guests" class="collapse show" [attr.data-parent]="'#accordionExample_Guests'">
-                    <div class="box-primary box-lr rounded-0 form-primary">
+                    <div class="box-primary box-space rounded-0 form-primary">
 
                       <div class="custom-accordion-wrap">
                         <div class="custom-accordion" *ngFor="let guest of state.selectedReservation['guests']; let secIndex=index;">
                           <h3 class=""><a href="javascript:void(0)"> {{guest['firstName']}} {{guest['lastName']}}</a></h3>
                           <div class="custom-accordion-content exp">
-                            <div class="tabs-secondary-wrap pt-5">
-                              <ul class="nav nav-tabs text-center" id="myTab_{{secIndex}}" role="tablist">
+                            <div class="tabs-secondary-wrap">
+                              <ul class="nav nav-tabs flex-column flex-md-row" id="myTab_{{secIndex}}" role="tablist">
                                 <li class="nav-item">
                                   <a aria-selected="false" class="nav-link active" data-toggle="tab" href="#content-11-{{secIndex}}" role="tab">Guest Name</a>
                                 </li>

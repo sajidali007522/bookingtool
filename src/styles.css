@@ -140,6 +140,9 @@ h3{
   padding-left: 35px;
   padding-right: 35px;
 }
+.box-space{
+  padding: 35px 20px;
+}
 .box-full{
   height: 100%;
 }
@@ -446,12 +449,6 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
   .nav.nav-tabs .nav-link.active{
     background: #09425d;
     color: #fff;
-  }
-  .nav.nav-tabs > li:first-child a{
-    border-radius: 5px 0 0 0;
-  }
-  .nav.nav-tabs > li:last-child a{
-    border-radius: 0 5px 0 0;
   }
   .nav-three li{width: 33.33%;}
   .nav-four li{width: 25%;}
@@ -1394,6 +1391,9 @@ body.menu-fullwidth .reservation-content-area{
   .box{
     padding-left: 15px;
     padding-right: 15px;
+  }
+  .box-space{
+    padding: 15px;
   }
   .checks-outer{
     display: block !important;
