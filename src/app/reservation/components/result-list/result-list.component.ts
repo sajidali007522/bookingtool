@@ -283,9 +283,19 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       "isDynamic": false
     });
     console.log(this.state.searchIndeces, this.state.selectedIndece, postBody)
+    if((this.state.selectedIndece+1) <= this.state.searchIndeces.length){
+      this.state.selectedIndece = this.state.selectedIndece+1;
+      this.getSearchResults()
+      this.state.cart.push(postBody[0]);
+      if(this.state.selectedIndece < this.state.searchIndeces.length){
+        return;
+      }
+      //this.markAsAddedToCart(bookRow, bookIndex, currentItem, check, JSON.stringify(postBody[0]))
+
+    }
 
     //this._http._post('booking/'+this.state.bookingID+'/Book',postBody,
-    this.resService.bookResource(this.state.bookingID, postBody,
+    this.resService.bookResource(this.state.bookingID, this.state.cart,
       {resourceTypeID: "ECF6F1A3-8867-40CC-8118-5DEFB120D5EE", sessionID: this.state.sessionID})
       .subscribe(data => {
         currentItem.$isProcessing = false;
