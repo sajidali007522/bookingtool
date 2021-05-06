@@ -96,7 +96,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       contractorID: 'None',
       includeHolds: false
     },
-    massEditForm: {number: 0, roomType: '00000000-0000-0000-0000-000000000000' }
+    massEditForm: {number: '', roomType: '00000000-0000-0000-0000-000000000000' }
   }
   constructor( private renderer: Renderer2,
                private lookupService: LookupService,
@@ -308,6 +308,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       this.loadRoomFeatures(this.state.resourceTypeValue);
     }
     this.loadRecords();
+    this.state.massEditForm={number: '', roomType: '00000000-0000-0000-0000-000000000000' }
     this.state.isMassEditting= true;
   }
 
@@ -535,7 +536,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     }
     if(this.state.massEdit.items.length <= 0){
       this.resetMassEdit();
-      this.toastr.warning("There is no record selected for mass edit operation", 'Warning!');
+      //this.toastr.warning("There is no record selected for mass edit operation", 'Warning!');
     }
     return;
   }
