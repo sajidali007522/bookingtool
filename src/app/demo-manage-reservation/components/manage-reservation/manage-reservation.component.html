@@ -10,7 +10,9 @@
       </div>
 
       <div class="accordion-group group-active">
-        <div class="accordon-heading"><a href="javascript:void(0);">Detail Search <span class="fa fa-spin fa-spinner" *ngIf="this.state.loading.searchForm"></span></a></div>
+        <div class="accordon-heading">
+          <a href="javascript:void(0);">Detail Search <span class="fa fa-spin fa-spinner" *ngIf="this.state.loading.searchForm"></span></a>
+        </div>
         <div class="accordion-body">
           <ul style="max-height: inherit;">
             <li *ngFor="let field of this.state.searchForm.searchFields">

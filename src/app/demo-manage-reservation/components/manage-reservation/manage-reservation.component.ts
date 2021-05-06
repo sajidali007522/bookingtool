@@ -1,7 +1,7 @@
 import {
   Component,
   OnInit,
-  Renderer2, OnDestroy
+  Renderer2, OnDestroy, AfterViewInit
 } from '@angular/core';
 import {ReservationSearchService} from "../../../_services/reservation-search.service";
 import {DateFormatsService} from "../../../_services/date-formats.service";
@@ -9,6 +9,7 @@ import {DateParser} from "../../../_helpers/dateParser";
 import {ToastrService} from "ngx-toastr";
 import {ConfigService} from "../../../config.service";
 import {HttpService} from "../../../http.service";
+import * as $ from "jquery";
 
 
 // const SHIFTS: Shift [] = [
@@ -22,7 +23,7 @@ import {HttpService} from "../../../http.service";
   templateUrl: './manage-reservation.component.html',
   styleUrls: ['./manage-reservation.component.css']
 })
-export class ManageReservationComponent implements OnInit, OnDestroy {
+export class ManageReservationComponent implements OnInit, OnDestroy, AfterViewInit {
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
 
   state={
@@ -94,6 +95,12 @@ export class ManageReservationComponent implements OnInit, OnDestroy {
       this.closeFilterBar();
     }
   }
+  ngAfterViewInit() {
+    $(".reservation-sidebar-inner").on('click', ".accordion-group > .accordon-heading",function(){
+      $(this).parents('.accordion-group').toggleClass('group-active')
+    });
+  }
+
   validateForm () {
     let emptyForm = this.state.searchForm.searchFields.filter(field=> {
       if (!field.model) {
