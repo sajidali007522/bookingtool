@@ -271,7 +271,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     postBody.push({
       "resultID": bookRow.UniqueID,
       "searchID": this.state.searchId,
-      "searchIndex": 0,
+      "searchIndex": this.state.searchIndeces[this.state.selectedIndece],
       "priceID": currentItem.values2.UniqueID,
       "beginDate": this.parseDateIntoObject(bookRow.BeginDate).toDateString(),
       "endDate": this.parseDateIntoObject(bookRow.EndDate).toDateString(),
@@ -282,6 +282,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       "endTime": "",
       "isDynamic": false
     });
+    console.log(this.state.searchIndeces, this.state.selectedIndece, postBody)
 
     //this._http._post('booking/'+this.state.bookingID+'/Book',postBody,
     this.resService.bookResource(this.state.bookingID, postBody,
@@ -291,7 +292,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
         if(data['data']['allResourceBooked']){
           this.router.navigate(['/reservation/' + this.state.bookingID + '/business-profile/' + this.state.sessionID]);
         } else {
-          this.state.selectedIndece++;
+          this.state.selectedIndece = this.state.selectedIndece+1;
           this.getSearchResults()
           this.markAsAddedToCart(bookRow, bookIndex, currentItem, check, String(data))
         }
