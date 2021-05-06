@@ -24,6 +24,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     ceil: 100
   };
   state= {
+    selectedIndece: 0,
+    selectedResource: {},
     searchSkeleton: {},
     searchIndeces: [],
     sessionID: '',
@@ -126,6 +128,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
   }
 
   constructor( private renderer: Renderer2,
+               private router: Router,
                private _http: HttpService,
                private activatedRoute: ActivatedRoute,
                public resService:ReservationServiceV4,
@@ -148,13 +151,15 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     this.resService.getSearchCriteriaForResource(this.state.bookingID, this.state.resourceTypeID, {sessionID: this.state.sessionID}).subscribe(
       res => {
         this.state.resources = res['data']['resources'];
-        this.state.searchSkeleton = res['data']
+        this.state.searchSkeleton = res['data'];
+        this.state.selectedResource =this.state.resources[0]['resourceItems'][0];
         this.resService.makeSearch(this.state.bookingID, this.prepareBodyForSearchID(res['data']), {sessionID: this.state.sessionID})
           .subscribe(data => {
               console.log(data);
               //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
               this.state.searchId = data['data']['searchID'];
               this.state.searchIndeces = data['data']['searchIndeces']
+              this.state.selectedIndece = 0;
               this.checkSearchStatus();
             },
             err => {
@@ -170,11 +175,26 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     //this.getSortFields();
   }
 
+  selectResource(resource) {
+    this.state.selectedResource= resource;
+  }
   prepareBodyForSearchID(data){
     let selectedItems = []
+    let index=0;
     data.resources.filter(resource=>{
-      resource.searchFields.filter(field=>{
-          selectedItems.push(
+      console.log(resource)
+      resource.resourceItems.filter(rItem=> {
+        let items = {
+          "isReturn": rItem.isReturn,
+          "beginDate": this.dateParse.parseDate(rItem['beginDate']),
+          "endDate": this.dateParse.parseDate(rItem['endDate']),
+          "beginTime": (rItem['beginTime'] ? this.dateParse.parseDate(rItem['beginTime']) : ""),
+          "endTime": (rItem['beginTime'] ? this.dateParse.parseDate(rItem['beginTime']) : ""),
+          "searchIndeces": [0],
+          "selectedItems": [],
+        };
+        resource.searchFields.filter(field=>{
+          items.selectedItems.push(
             {
               "relation": field.fieldRelation,
               "selection": field.defaultValue,
@@ -182,24 +202,15 @@ export class ResultListComponent implements OnInit,AfterViewInit {
               "selectionText": field.defaultText
             }
           )
+        })
+        selectedItems.push(items)
       })
+
     });
 
     return {
       "resourceTypeID": this.state.resourceTypeID,
-      "criteria": [
-        {
-          "isReturn": data.isDynamic,
-          "beginDate": this.dateParse.parseDate(data['beginDate']),
-          "endDate": this.dateParse.parseDate(data['endDate']),
-          "beginTime": (data['beginTime'] ? this.dateParse.parseDate(data['beginTime']) : ""),
-          "endTime": (data['beginTime'] ? this.dateParse.parseDate(data['beginTime']) : ""),
-          "selectedItems": selectedItems,
-          "searchIndeces": [
-            0
-          ]
-        }
-      ]
+      "criteria": selectedItems
     }
 
   }
@@ -237,7 +248,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     // /api2/booking/{bookingID}/GetSearchSortFields/{searchID}/{searchIndex}
     this.state.processing=true;
     //this._http._get('booking/'+this.state.bookingID+'/GetSearchSortFields/'+this.state.searchId+'/0', {})
-    this.resService.getSortFields(this.state.bookingID, this.state.searchId, this.state.searchIndeces[0] , {sessionID: this.state.sessionID})
+    this.resService.getSortFields(this.state.bookingID, this.state.searchId, this.state.searchIndeces[this.state.selectedIndece] , {sessionID: this.state.sessionID})
       .subscribe(data => {
         this.state.processing=false;
         this.getSearchResults();
@@ -259,7 +270,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     let postBody = [];
     postBody.push({
       "resultID": bookRow.UniqueID,
-      "searchID": "00000000-0000-0000-0000-000000000000",
+      "searchID": this.state.searchId,
       "searchIndex": 0,
       "priceID": currentItem.values2.UniqueID,
       "beginDate": this.parseDateIntoObject(bookRow.BeginDate).toDateString(),
@@ -272,11 +283,18 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       "isDynamic": false
     });
 
-    this._http._post('booking/'+this.state.bookingID+'/Book',postBody,
-      {resourceTypeID: "ECF6F1A3-8867-40CC-8118-5DEFB120D5EE"})
+    //this._http._post('booking/'+this.state.bookingID+'/Book',postBody,
+    this.resService.bookResource(this.state.bookingID, postBody,
+      {resourceTypeID: "ECF6F1A3-8867-40CC-8118-5DEFB120D5EE", sessionID: this.state.sessionID})
       .subscribe(data => {
         currentItem.$isProcessing = false;
-        this.markAsAddedToCart(bookRow, bookIndex, currentItem, check, String(data))
+        if(data['data']['allResourceBooked']){
+          this.router.navigate(['/reservation/' + this.state.bookingID + '/business-profile/' + this.state.sessionID]);
+        } else {
+          this.state.selectedIndece++;
+          this.getSearchResults()
+          this.markAsAddedToCart(bookRow, bookIndex, currentItem, check, String(data))
+        }
     })
 
 
@@ -508,10 +526,10 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     // /api2/booking/{bookingID}/SearchResults/{searchID}
     this.state.processing=true;
     //this._http._get('booking/'+this.state.bookingID+'/SearchResults/'+this.state.searchId+'', {
-    this.resService.getSearchResults(this.state.bookingID, this.state.searchId,  this.state.searchIndeces[0] ,{
+    this.resService.getSearchResults(this.state.bookingID, this.state.searchId,  this.state.searchIndeces[this.state.selectedIndece] ,{
       sessionID: this.state.sessionID,
       flattenValues: true,
-      searchIndex: this.state.searchIndeces[0] ,
+      searchIndex: this.state.searchIndeces[this.state.selectedIndece] ,
       sortProperties:'LowestPrice',
       isAscending: true,
       bookingItemProperties: 'BeginDate|EndDate|From|FromName|To|ToName|ProviderName|UniqueID|ProviderLogo|ConnectionDescriptionExtended|FullConnectionDescription|SegmentCount|Provider',
