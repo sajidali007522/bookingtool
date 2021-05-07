@@ -275,7 +275,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       "priceID": currentItem.values2.UniqueID,
       "beginDate": this.parseDateIntoObject(bookRow.BeginDate).toDateString(),
       "endDate": this.parseDateIntoObject(bookRow.EndDate).toDateString(),
-      "resourceTypeID": "ecf6f1a3-8867-40cc-8118-5defb120d5ee",
+      "resourceTypeID": "00000000-0000-0000-0000-000000000000",//"ecf6f1a3-8867-40cc-8118-5defb120d5ee",
       "isReturn": false,
       "timePropertyID": "00000000-0000-0000-0000-000000000000",
       "beginTime": "",
@@ -299,12 +299,18 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       {resourceTypeID: "ECF6F1A3-8867-40CC-8118-5DEFB120D5EE", sessionID: this.state.sessionID})
       .subscribe(data => {
         currentItem.$isProcessing = false;
-        if(data['data']['allResourceBooked']){
-          this.router.navigate(['/reservation/' + this.state.bookingID + '/business-profile/' + this.state.sessionID]);
-        } else {
-          this.state.selectedIndece = this.state.selectedIndece+1;
-          this.getSearchResults()
-          this.markAsAddedToCart(bookRow, bookIndex, currentItem, check, String(data))
+        if(data['staus'] == 500) {
+          let err = data['message'].split('.');
+          this.toastr.error(data['message'], 'Error!');
+        }
+        else {
+          if (data['data']['allResourceBooked']) {
+            this.router.navigate(['/reservation/' + this.state.bookingID + '/business-profile/' + this.state.sessionID]);
+          } else {
+            this.state.selectedIndece = this.state.selectedIndece + 1;
+            this.getSearchResults()
+            this.markAsAddedToCart(bookRow, bookIndex, currentItem, check, String(data))
+          }
         }
     })
 
