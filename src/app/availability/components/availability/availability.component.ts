@@ -297,6 +297,8 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   setMassEdit(){
+
+    this.state.massEditForm = { number: '', roomType: '00000000-0000-0000-0000-000000000000' }
     this.loadRoomFeatures(this.state.resourceTypeValue);
     return;
     if(this.remoteData.length <= 0 ) return;
@@ -308,7 +310,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
       this.loadRoomFeatures(this.state.resourceTypeValue);
     }
     this.loadRecords();
-    this.state.massEditForm={number: '', roomType: '00000000-0000-0000-0000-000000000000' }
+    this.state.massEditForm = { number: '', roomType: '00000000-0000-0000-0000-000000000000' }
     this.state.isMassEditting= true;
   }
 
