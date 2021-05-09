@@ -490,7 +490,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   completeMultipleSelect(event){
-    if(!this.state.filterForm.includeHolds) return;
+    if(!this.state.filterForm.includeHolds || this.dvcService.isMobile()) return;
     event = JSON.parse(event);
 
     let start = event.start;
