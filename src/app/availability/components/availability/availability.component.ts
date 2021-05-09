@@ -132,6 +132,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
 
   ngAfterViewInit() {
     $("body").on('click', ".accordion-group .accordon-heading", function(){
+      //alert("ha")
       $(this).parents('.accordion-group').toggleClass('group-active')
     })
   }
@@ -496,6 +497,10 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
     let start = event.start;
     let limit = event.limit;
     let shiftKey = event.shiftKey;
+    if(!shiftKey && event.start > event.limit) {
+      start = event.limit;
+      limit = event.start;
+    }
     if(shiftKey && event.start > event.limit) {
       start = event.limit;
       limit = event.start;

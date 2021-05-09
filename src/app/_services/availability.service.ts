@@ -31,7 +31,7 @@ export class AvailabilityService {
       filterParams.businessProfileID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
       ((
         filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
-        filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' ) && resourceType == 1)
+        filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' ))
     ) {
 
       /*if(filterParams.siteID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
@@ -42,8 +42,8 @@ export class AvailabilityService {
         this.state.errorMessages.push('Select Business Profile before continue.');
       }
 
-      if(filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '' && resourceType == 1) {
-        this.state.errorMessages.push('Please select Contractor to continue.');
+      if(filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '' ) {
+        this.state.errorMessages.push('Please select Contract to continue.');
       }
 
       if(filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' && resourceType == 1) {
