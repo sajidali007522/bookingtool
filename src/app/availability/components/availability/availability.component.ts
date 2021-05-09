@@ -576,7 +576,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         this.modalComp.openModal();
         return false;
     }
-    else if(this.state.resourceTypeValue == 2 && Number(this.state.massEditForm.number) < 0){
+    else if(this.state.resourceTypeValue == 2 && Number(this.state.massEditForm.number) <= 0){
       this.state.modal.title = "Validation Error!"
       this.state.modal.message = "Number should be greater than 0"
       this.modalComp.openModal();
