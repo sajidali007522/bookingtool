@@ -299,7 +299,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       {resourceTypeID: "ECF6F1A3-8867-40CC-8118-5DEFB120D5EE", sessionID: this.state.sessionID})
       .subscribe(data => {
         currentItem.$isProcessing = false;
-        if(data['staus'] == 500) {
+        if(data['status'] == 500) {
           let err = data['message'].split('.');
           this.toastr.error(data['message'], 'Error!');
         }
