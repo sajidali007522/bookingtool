@@ -186,7 +186,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       resource.resourceItems.filter(rItem=> {
         let items = {
           "isReturn": rItem.isReturn,
-          "beginDate": this.dateParse.parseDate(rItem['beginDate']),
+          "beginDate": ( rItem.isReturn ? this.dateParse.parseDate(rItem['endDate']) : this.dateParse.parseDate(rItem['beginDate'])),
           "endDate": this.dateParse.parseDate(rItem['endDate']),
           "beginTime": (rItem['beginTime'] ? this.dateParse.parseDate(rItem['beginTime']) : ""),
           "endTime": (rItem['beginTime'] ? this.dateParse.parseDate(rItem['beginTime']) : ""),
