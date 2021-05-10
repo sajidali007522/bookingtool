@@ -295,15 +295,19 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     }
 
     //this._http._post('booking/'+this.state.bookingID+'/Book',postBody,
+    if(this.state.processing) return;
+    this.state.processing=true;
     this.resService.bookResource(this.state.bookingID, this.state.cart,
       {resourceTypeID: "ECF6F1A3-8867-40CC-8118-5DEFB120D5EE", sessionID: this.state.sessionID})
       .subscribe(data => {
         currentItem.$isProcessing = false;
+        this.state.processing=false;
         if(data['status'] == 500) {
           let err = data['message'].split('.');
           this.toastr.error(data['message'], 'Error!');
         }
         else {
+          this.state.processing=false;
           if (data['data']['allResourceBooked']) {
             this.router.navigate(['/reservation/' + this.state.bookingID + '/business-profile/' + this.state.sessionID]);
           } else {
