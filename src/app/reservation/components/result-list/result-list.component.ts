@@ -285,9 +285,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     console.log(this.state.searchIndeces, this.state.selectedIndece, postBody)
     if((this.state.selectedIndece+1) <= this.state.searchIndeces.length){
       this.state.selectedIndece = this.state.selectedIndece+1;
-      this.getSearchResults()
       this.state.cart.push(postBody[0]);
       if(this.state.selectedIndece < this.state.searchIndeces.length){
+        this.getSearchResults()
         return;
       }
       //this.markAsAddedToCart(bookRow, bookIndex, currentItem, check, JSON.stringify(postBody[0]))
@@ -413,6 +413,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       if(i!=column && column != -100) { continue;}
       if(i==column || column == -100) {
         items[i].bookingItemIDs.filter((bookId) => {
+          console.log(bookId)
           if(bookId) {
             bookId = this.makeValidEleId(bookId);
             this.setStyleProperty("div_" + bookId, 'display', '');
