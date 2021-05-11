@@ -417,7 +417,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       if(i!=column && column != -100) { continue;}
       if(i==column || column == -100) {
         items[i].bookingItemIDs.filter((bookId) => {
-          console.log(bookId)
+          console.log(this.makeValidEleId(bookId))
           if(bookId) {
             bookId = this.makeValidEleId(bookId);
             this.setStyleProperty("div_" + bookId, 'display', '');
@@ -692,7 +692,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     ///api2/booking/{bookingID}/SearchFilterGrid/{searchID}/{searchIndex}/{columnMetadataKey}/{rowMetadataKey}
     let filterOption = this.state.grid_filter.split("|");
     //this._http._get('booking/'+this.state.bookingID+'/SearchFilterGrid/'+this.state.searchId+'/0/'+filterOption[0]+"/"+filterOption[1], {})
-    this.resService.renderFilterGrid(this.state.bookingID, this.state.searchId, 0, filterOption[0], filterOption[1], {sessionID: this.state.sessionID})
+    this.resService.renderFilterGrid(this.state.bookingID, this.state.searchId,  this.state.searchIndeces[this.state.selectedIndece], filterOption[0], filterOption[1], {sessionID: this.state.sessionID})
       .subscribe(res => {
         if(res['success']) {
           let data = res['data']
@@ -700,6 +700,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
           this.state.gridFilter.rows = data['rows'];
           this.state.gridFilter.columns = data['columns'];
           this.state.gridFilter['totalResults'] = data['totalResults'];
+          //this.resetFilterState();
+          //this.setGridCell('00');
+          //this.resetFilters();
         }
       });
   }
