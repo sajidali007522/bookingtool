@@ -22,10 +22,17 @@ export class AvailabilityService {
     return this._http._get('availability/'+resourceTypeID+"/AvailabilityType", {});
   }
 
-  public validateFilters (filterParams, resourceType) {
+  public validateFilters (filterParams, resourceType, includeHolds=false) {
     if(filterParams.resourceTypeID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
       this.state.errorMessages.push('Select resource type before continue.');
     }
+
+    if(includeHolds) {
+      if (filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
+        this.state.errorMessages.push('Please select Contract to continue.');
+      }
+    }
+
     if(
       //filterParams.siteID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
       filterParams.businessProfileID.split('00000000-0000-0000-0000-000000000000').join('') == '' ||
@@ -40,10 +47,6 @@ export class AvailabilityService {
 
       if(filterParams.businessProfileID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
         this.state.errorMessages.push('Select Business Profile before continue.');
-      }
-
-      if(filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '' ) {
-        this.state.errorMessages.push('Please select Contract to continue.');
       }
 
       if(filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' && resourceType == 1) {

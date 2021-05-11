@@ -232,7 +232,7 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   loadRecords (avtiveIndex= 0, includeHolds=false) {
     if(this.state.loading.records == true) return;
     this.availService.resetErrors();
-    if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue)){
+    if(!this.availService.validateFilters(this.state.filterForm, this.state.resourceTypeValue, includeHolds)){
       this.state.errorMessages = this.availService.getErrorMessages();
       this.childcomp.openAlertModal()
       return;
@@ -583,9 +583,9 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
         this.modalComp.openModal();
         return false;
     }
-    else if(this.state.resourceTypeValue == 2 && Number(this.state.massEditForm.number) <= 0){
+    else if(this.state.resourceTypeValue == 2 && Number(this.state.massEditForm.number) < 0){
       this.state.modal.title = "Validation Error!"
-      this.state.modal.message = "Number should be greater than 0"
+      this.state.modal.message = "Number should be greater than or equal to 0"
       this.modalComp.openModal();
       return false;
     } else if (!reg.test(this.state.massEditForm.number+'')){
