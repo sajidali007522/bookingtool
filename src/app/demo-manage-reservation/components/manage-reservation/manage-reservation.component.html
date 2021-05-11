@@ -71,11 +71,19 @@
               <p>You need to select something from leftsidear then related results should be appear according to specific search and after that can view more in detail. </p>
             </div>
             <div class="mng-btn">
-              <a href="javascript:void(0)">Search More</a>
+              <a href="javascript:void(0)">Search More</a> <br>
+
+              
+<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success"> Launch demo modal </button>
+
+
             </div>
           </div>
         </div>
       </div>
+
+
+
       <div class="" *ngIf="state.showGrid || state.showForm">
         <div class="box position-relative box-skin" id="container">
           <div class="box-header">
@@ -303,3 +311,126 @@
   </div>
 
 </div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Booking</h5><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="modal-topbar form-primary form-grey">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label>Add Traveler</label>
+                <div class="field-icon-wrap">
+                  <span class="user field-icon mt-secon"></span>
+                  <input type="text" placeholder="Search by last name, first name" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label>Add / Replace</label>
+                <div class="field-icon-wrap">
+                  <span class="fa fa-refresh field-icon mt-secon"></span>
+                  <select class="form-control">
+                    <option>Select Resources</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="custom-accordion-wrap plr-20">
+          <div class="custom-accordion">
+            <h3 class="has-icons active">
+              <a href="javascript:void(0)">Add Room Tues, April 5 - Jan 10</a>
+              <div class="custom-acc-icons">
+                <span class="#" class="fa fa-trash-o remove-accordion align-self-center"></span>
+                <span class="btn btn-info btn-addmore">Add</span>
+              </div>
+            </h3>
+            <div class="custom-accordion-content exp">
+              <div class="form-primary">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label>Date</label>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label>End Date</label>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label>Site</label>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label>Room Type</label>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label>Contract</label>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-cart-wrap">
+            <table class="table">
+              <tr>
+                <td><strong>Westjet</strong></td>
+                <td>WS 115 Aug 24</td>
+                <td>08:00 AM: Calgary Intl. Airport</td>
+                <td>08:00 AM: Vancouver Intl. Airport</td>
+                <td><strong>Flex $326.35</strong></td>
+                <td><a href="#" class="btn btn-sm btn-outline-info">Remove</a></td>
+              </tr>
+              <tr>
+                <td><strong>Room</strong></td>
+                <td>WS 115 Aug 24</td>
+                <td>Site: McClelland Lake Lodge</td>
+                <td>Room Type: Standard Room</td>
+                <td><strong>Flex $326.35</strong></td>
+                <td><a href="#" class="btn btn-sm btn-outline-info">Remove</a></td>
+              </tr>
+              <tr>
+                <td><strong>Westjet</strong></td>
+                <td>WS 115 Aug 24</td>
+                <td>12:00 AM: Calgary Intl. Airport</td>
+                <td>12:00 AM: Vancouver Intl. Airport</td>
+                <td><strong>Econo $94.35</strong></td>
+                <td><a href="#" class="btn btn-sm btn-outline-info">Remove</a></td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" data-dismiss="modal" type="button">Close</button><button class="btn btn-success" type="button">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
