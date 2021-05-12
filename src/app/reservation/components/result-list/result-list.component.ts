@@ -24,6 +24,10 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     ceil: 100
   };
   state= {
+    replacement:{
+      cartIndex:-1,
+      uniqueId:''
+    },
     selectedIndece: 0,
     selectedResource: {},
     searchSkeleton: {},
@@ -175,7 +179,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     //this.getSortFields();
   }
 
-  selectResource(resource) {
+  selectResource(resource, resourceIndex, itemIndex, searchIndex) {
     this.state.selectedResource= resource;
   }
   prepareBodyForSearchID(data){
@@ -261,14 +265,23 @@ export class ResultListComponent implements OnInit,AfterViewInit {
 
   selectIt (bookRow, bookIndex, currentItem, priceArray) {
     this.shakeIt(true);
-    let check = currentItem.values2.$selected;
-    if(check) {
-      this.markAsAddedToCart(bookRow, bookIndex, currentItem, check);
-      return;
-    }
+    // let check = currentItem.values2.$selected;
+    // if(check) {
+    //   this.markAsAddedToCart(bookRow, bookIndex, currentItem, check);
+    //   return;
+    // }
+    let check = false
     currentItem.$isProcessing = true;
     let postBody = [];
     postBody.push({
+      UniqueID: bookRow.UniqueID,
+      provider: bookRow.ProviderName,
+      providerLogo: bookRow.ProviderLogo.split('.png').join('_50.png'),
+      Date: this.getDateFromDateTime(bookRow.BeginDate),
+      From: this.formatDateIntoTime(bookRow.BeginDate)+": "+bookRow.From,
+      To: this.formatDateIntoTime(bookRow.EndDate)+": "+bookRow.To,
+      Price: currentItem,
+      searchIndece: this.state.selectedIndece,
       "resultID": bookRow.UniqueID,
       "searchID": this.state.searchId,
       "searchIndex": this.state.searchIndeces[this.state.selectedIndece],
@@ -285,6 +298,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     console.log(this.state.searchIndeces, this.state.selectedIndece, postBody)
     if((this.state.selectedIndece+1) <= this.state.searchIndeces.length){
       this.state.selectedIndece = this.state.selectedIndece+1;
+      if(this.state.replacement.cartIndex>=0){
+        this.state.cart.splice(this.state.replacement.cartIndex, 1)
+      }
       this.state.cart.push(postBody[0]);
       if(this.state.selectedIndece < this.state.searchIndeces.length){
         this.getSearchResults()
@@ -367,19 +383,29 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     }
   }
 
-  removeItemFromCart(UniqueId, index) {
+  removeItemFromCart(UniqueId, index, priceId) {
     this.shakeIt(true);
-    this.state.bookingRows.filter(row => {
+    /*this.state.bookingRows.filter(row => {
       //console.log(row.values2.UniqueID == UniqueId, row.values2.UniqueID, '==', UniqueId)
       if(row.values2.UniqueID == UniqueId) {
         row.bookingChannels = this.resetBookingChannels(row.bookingChannels);
       }
-    });
+    });*/
+    this.state.selectedIndece=this.state.cart[index].searchIndece;
+    this.getSearchResults();
     this.state.cart.splice(index, 1);
-    if(this.state.cart.length == 0) {
+    /*if(this.state.cart.length == 0) {
       this.toggleBookingContentArea(false);
-    }
+    }*/
     this.shakeIt();
+  }
+
+  reselectResource(uniqueId, index, priceId){
+    console.log(this.state.cart)
+    this.state.selectedIndece=this.state.cart[index].searchIndece;
+    this.state.replacement.cartIndex=index;
+    this.state.replacement.uniqueId =priceId;
+    this.getSearchResults();
   }
 
   resetBookingChannels(bookingChannels){
@@ -659,6 +685,16 @@ export class ResultListComponent implements OnInit,AfterViewInit {
         error => {
         this.state.processing = false;
         console.log(error);
+        },
+        ()=>{
+          if(this.state.cart.length > 0){
+            this.state.replacement.uniqueId = '';
+            this.state.cart.filter(item=>{
+              if(item.searchIndece == this.state.selectedIndece){
+                this.state.replacement.uniqueId = item.priceID
+              }
+            })
+          }
         })
   }
 

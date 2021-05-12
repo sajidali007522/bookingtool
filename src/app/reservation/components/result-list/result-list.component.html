@@ -155,7 +155,7 @@
                 <ul *ngIf="state.resources;">
                   <ng-container *ngFor="let resource of state.resources; let resourceIndex= index">
                     <li *ngFor="let item of resource.resourceItems; let itemIndex=index" [ngClass]="{'active': state.selectedIndece==(resourceIndex+itemIndex)}">
-                      <a href="javascript:void(0);" (click)="selectResource(item)"><strong>{{parseDate((item.isReturn ? item.endDate : item.beginDate), 'month')}}</strong> {{parseDate((item.isReturn ? item.endDate : item.beginDate), 'date')}}</a>
+                      <a href="javascript:void(0);"><strong>{{parseDate((item.isReturn ? item.endDate : item.beginDate), 'month')}}</strong> {{parseDate((item.isReturn ? item.endDate : item.beginDate), 'date')}}</a>
                     </li>
                   </ng-container>
                 </ul>
@@ -244,7 +244,7 @@
                   <table class="table table-border table-price-tickets" id="table_{{makeValidEleId(row.values2.UniqueID)}}">
                     <tbody>
                     <tr *ngFor="let channel of row.bookingChannels">
-                      <td *ngFor="let price of channel.prices" [ngClass]="{'active': price.values2.$selected, 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
+                      <td *ngFor="let price of channel.prices" [ngClass]="{'active': (price.values2.$selected || state.replacement.uniqueId == price.values2.UniqueID), 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
                         <a href="javascript:void(0)" class="selectMe" (click)="selectIt(row.values2, index, price, channel.prices)"
                            *ngIf="price.values2.BasePrice"
                         >
@@ -293,9 +293,11 @@
       </div>
       <div class="booking-art-inner">
         <ul>
-          <li *ngFor="let item of state.cart; let index = $index;">
+          <li *ngFor="let item of state.cart; let index = index;">
             <h4>
-              <img src="{{item.providerLogo}}" width="20"/>{{item.provider}} <a href="javascript:void(0)" class="remove-booking" (click)="removeItemFromCart(item.UniqueID, index)">Remove</a></h4>
+              <img src="{{item.providerLogo}}" width="20"/>{{item.provider}}
+              <a href="javascript:void(0)" class="remove-booking" (click)="removeItemFromCart(item.UniqueID, index, item.priceID)">Remove</a>
+              <a href="javascript:void(0)" class="remove-booking" (click)="reselectResource(item.UniqueID, index, item.priceID)">Replace</a></h4>
             <h5><span>{{item.Date}}</span></h5>
             <p>{{item.From}}</p>
             <p>{{item.To}}</p>
