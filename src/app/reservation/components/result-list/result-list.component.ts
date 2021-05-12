@@ -398,6 +398,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       this.toggleBookingContentArea(false);
     }*/
     this.shakeIt();
+    this.toggleBookingContentArea(false)
   }
 
   reselectResource(uniqueId, index, priceId){
@@ -406,6 +407,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     this.state.replacement.cartIndex=index;
     this.state.replacement.uniqueId =priceId;
     this.getSearchResults();
+    this.toggleBookingContentArea(false)
   }
 
   resetBookingChannels(bookingChannels){

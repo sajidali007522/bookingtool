@@ -293,7 +293,7 @@
       </div>
       <div class="booking-art-inner">
         <ul>
-          <li *ngFor="let item of state.cart; let index = index;">
+          <li *ngFor="let item of state.cart; let index = index;" [ngClass]="{'active': state.replacement.cartIndex == index }">
             <h4>
               <img src="{{item.providerLogo}}" width="20"/>{{item.provider}}
               <a href="javascript:void(0)" class="remove-booking" (click)="removeItemFromCart(item.UniqueID, index, item.priceID)">Remove</a>
