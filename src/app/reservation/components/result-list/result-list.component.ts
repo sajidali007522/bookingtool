@@ -274,28 +274,30 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     currentItem.$isProcessing = true;
     let postBody = [];
     postBody.push({
-      UniqueID: bookRow.UniqueID,
-      provider: bookRow.ProviderName,
-      providerLogo: bookRow.ProviderLogo.split('.png').join('_50.png'),
-      Date: this.getDateFromDateTime(bookRow.BeginDate),
-      From: this.formatDateIntoTime(bookRow.BeginDate)+": "+bookRow.From,
-      To: this.formatDateIntoTime(bookRow.EndDate)+": "+bookRow.To,
-      Price: currentItem,
-      searchIndece: this.state.selectedIndece,
+      cartPreview: {
+        UniqueID: bookRow.UniqueID,
+        provider: bookRow.ProviderName,
+        providerLogo: bookRow.ProviderLogo.split('.png').join('_50.png'),
+        Date: this.getDateFromDateTime(bookRow.BeginDate),
+        From: this.formatDateIntoTime(bookRow.BeginDate) + ": " + bookRow.From,
+        To: this.formatDateIntoTime(bookRow.EndDate) + ": " + bookRow.To,
+        Price: currentItem,
+        searchIndece: this.state.selectedIndece
+      },
       "resultID": bookRow.UniqueID,
       "searchID": this.state.searchId,
       "searchIndex": this.state.searchIndeces[this.state.selectedIndece],
       "priceID": currentItem.values2.UniqueID,
       "beginDate": this.parseDateIntoObject(bookRow.BeginDate).toDateString(),
       "endDate": this.parseDateIntoObject(bookRow.EndDate).toDateString(),
-      "resourceTypeID": "00000000-0000-0000-0000-000000000000",//"ecf6f1a3-8867-40cc-8118-5defb120d5ee",
+      "resourceTypeID":  "00000000-0000-0000-0000-000000000000",//"ecf6f1a3-8867-40cc-8118-5defb120d5ee",
       "isReturn": false,
       "timePropertyID": "00000000-0000-0000-0000-000000000000",
       "beginTime": "",
       "endTime": "",
       "isDynamic": false
     });
-    console.log(this.state.searchIndeces, this.state.selectedIndece, postBody)
+    //console.log(this.state.searchIndeces, this.state.selectedIndece, postBody)
     if((this.state.selectedIndece+1) <= this.state.searchIndeces.length){
       this.state.selectedIndece = this.state.selectedIndece+1;
       if(this.state.replacement.cartIndex>=0){
@@ -315,7 +317,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     //this._http._post('booking/'+this.state.bookingID+'/Book',postBody,
     if(this.state.processing) return;
     this.state.processing=true;
-    this.resService.bookResource(this.state.bookingID, this.state.cart,
+    let cart = JSON.parse(JSON.stringify(this.state.cart));
+    cart.filter(item=>{delete item['cartPreview']})
+    this.resService.bookResource(this.state.bookingID, cart,
       {resourceTypeID: "ECF6F1A3-8867-40CC-8118-5DEFB120D5EE", sessionID: this.state.sessionID})
       .subscribe(data => {
         currentItem.$isProcessing = false;
@@ -323,6 +327,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
         if(data['status'] == 500) {
           let err = data['message'].split('.');
           this.toastr.error(data['message'], 'Error!');
+          this.state.selectedIndece = this.state.selectedIndece-1;
+          this.state.cart.splice(this.state.cart.length-1, 1)
         }
         else {
           this.state.processing=false;
@@ -694,7 +700,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
           if(this.state.cart.length > 0){
             this.state.replacement.uniqueId = '';
             this.state.cart.filter(item=>{
-              if(item.searchIndece == this.state.selectedIndece){
+              if(item.cart.searchIndece == this.state.selectedIndece){
                 this.state.replacement.uniqueId = item.priceID
               }
             })

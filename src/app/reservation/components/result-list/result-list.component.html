@@ -295,14 +295,14 @@
         <ul>
           <li *ngFor="let item of state.cart; let index = index;" [ngClass]="{'active': state.replacement.cartIndex == index }">
             <h4>
-              <img src="{{item.providerLogo}}" width="20"/>{{item.provider}}
-              <a href="javascript:void(0)" class="remove-booking" (click)="removeItemFromCart(item.UniqueID, index, item.priceID)">Remove</a>
-              <a href="javascript:void(0)" class="remove-booking" (click)="reselectResource(item.UniqueID, index, item.priceID)">Replace</a></h4>
+              <img src="{{item.cartPreview.providerLogo}}" width="20"/>{{item.cartPreview.provider}}
+              <a href="javascript:void(0)" class="remove-booking" (click)="removeItemFromCart(item.cartPreview.UniqueID, index, item.priceID)">Remove</a>
+              <a href="javascript:void(0)" class="remove-booking" (click)="reselectResource(item.cartPreview.UniqueID, index, item.priceID)">Replace</a></h4>
             <h5><span>{{item.Date}}</span></h5>
             <p>{{item.From}}</p>
             <p>{{item.To}}</p>
             <div class="booking-subtotal">
-              <span>{{item.Price.values2.GetFareNameShort}}</span> <strong>{{item.Price.values2.TotalPrice}}</strong>
+              <span>{{item.cartPreview.Price.values2.GetFareNameShort}}</span> <strong>{{item.cartPreview.Price.values2.TotalPrice}}</strong>
             </div>
           </li>
 
