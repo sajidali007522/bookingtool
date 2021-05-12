@@ -122,7 +122,7 @@
             <div class="trip-radio-wrap">
               <div class="custom-control custom-radio custom-control-inline" *ngFor="let template of state.selectedGroup['templates']; let index=index">
                 <input type="radio" id="template_{{index}}" [(ngModel)]="form.template" value="{{template.templateID}}" name="template" class="custom-control-input">
-                <label class="custom-control-label" (click)="loadTemplate(template.templateID)" for="template_{{index}}">{{template.name}}</label>
+                <label class="custom-control-label" (click)="loadTemplate(template.templateID, template.name)" for="template_{{index}}">{{template.name}}</label>
               </div>
             </div>
           </ng-container>

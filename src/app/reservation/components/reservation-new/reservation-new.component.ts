@@ -223,7 +223,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
     this.form.template= '00000000-0000-0000-0000-000000000000';
 
     if(typeof this.state.selectedGroup['templates'][0]['templateID'] !== 'undefined') {
-      this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID']);
+      this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID'],this.state.selectedGroup['templates'][0]['name']);
     }
   }
 
@@ -307,15 +307,22 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
         this.state.templateGroups = data['data']['templateGroups'];
         this.state.selectedGroup = data['data']['templateGroups'][0]
         if(typeof this.state.selectedGroup['templates'][0]['templateID'] !== 'undefined') {
-          this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID']);
+          this.loadTemplate(this.state.selectedGroup['templates'][0]['templateID'],this.state.selectedGroup['templates'][0]['name']);
         }
         this.state.loadingGroups = false;
       },
         err => {this.state.loadingGroups=false});
   }
 
-  loadTemplate (templateId){
+  loadTemplate (templateId, name=''){
     if(typeof templateId == 'undefined' || templateId == '00000000-0000-0000-0000-000000000000') return;
+    if(name==''){
+      this.state.selectedGroup['templates'].filter(template =>{
+        if(templateId==template.templateID){
+          name=template.name
+        }
+      });
+    }
     if(this.state.loadingTemplate) return
     this.state.loadingTemplate = true;
     this.form.template = templateId;
@@ -334,7 +341,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
             }
             this.state.selectedTemplate['resources'] = [];
           }
-          this.setResourcesDate();
+          this.setResourcesDate(name);
         }
         this.state.loadingTemplate = false;
 
@@ -366,7 +373,7 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       })
   }
 
-  setResourcesDate () {
+  setResourcesDate (name='') {
     for (let index =0; index<this.state.selectedTemplate['resources'].length; index++) {
       this.state.selectedTemplate['resources'][index]['BeginDate'] = new Date();
       //this.state.selectedTemplate['resources'][index]['BeginDate'].setDate(this.state.selectedTemplate['resources'][index]['BeginDate']);
@@ -375,7 +382,11 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       this.state.selectedTemplate['resources'][index]['ReturnTimeFormat'] = ''
       this.state.selectedTemplate['resources'][index]['BeginTimeFormat'] = ''
       //this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate']);
-      //alert(this.state.selectedGroup['name'])
+      //alert(name)
+      if(name == 'Round Trip'){
+        this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate'].getDate()+1)
+        //alert(this.state.selectedTemplate['resources'][index]['EndDate'])
+      }
       if(this.state.selectedGroup['name'] == 'Templates') {
         this.state.selectedTemplate['resources'][index]['definitions'] = this.state.selectedTemplate['resources'][index].searchFields
         this.loadFields(this.state.selectedTemplate['resources'][index].searchFields, index, -1)
