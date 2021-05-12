@@ -302,6 +302,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
         this.state.cart.splice(this.state.replacement.cartIndex, 1)
       }
       this.state.cart.push(postBody[0]);
+      this.state.replacement.cartIndex=-1;
+      this.state.replacement.uniqueId='';
       if(this.state.selectedIndece < this.state.searchIndeces.length){
         this.getSearchResults()
         return;
