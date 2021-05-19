@@ -35,7 +35,7 @@
               </div>
               <div class="reservation-bot-btns d-flex">
                 <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                  Cancel
+                  Back
                 </a>
                 <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
               </div>
@@ -133,15 +133,16 @@
 
           <div class="table-cart-wrap">
             <table class="table">
-              <tr *ngFor="let segment of state.bookedSegments">
-                <td><strong>{{segment.resourceName}}</strong></td>
-                <td>{{dateParse.parseDate(segment.beginDate)}}</td>
-                <td>{{dateParse.parseDateToTime(segment.segments[0].beginDate)}}: {{segment.segments[0].from}}</td>
-                <td>{{dateParse.parseDateToTime(segment.segments[0].endDate)}}: {{segment.segments[0].to}} </td>
-
-                <td><strong>{{segment.priceName}} ${{segment.totalPrice}}</strong></td>
-                <td><a href="#" class="btn btn-sm btn-outline-info">Remove</a></td>
-              </tr>
+              <ng-container *ngFor="let segment of state.bookedSegments">
+                <tr *ngFor="let seg of segment.segments">
+                  <td><img src="{{seg.providerLogoUrl.split('.png').join('_50.png')}}" /><strong>{{segment.resourceName}}</strong></td>
+                  <td>{{dateParse.parseDate(segment.beginDate)}}</td>
+                  <td>{{dateParse.parseDateToTime(seg.beginDate)}}: {{seg.from}}</td>
+                  <td>{{dateParse.parseDateToTime(seg.endDate)}}: {{seg.to}} </td>
+                  <td><strong>{{segment.priceName}} ${{segment.totalPrice}}</strong></td>
+                  <td><a href="javascript:void(0)" class="btn btn-sm btn-outline-info">Remove</a></td>
+                </tr>
+              </ng-container>
 
             </table>
           </div>
