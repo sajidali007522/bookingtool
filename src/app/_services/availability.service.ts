@@ -31,6 +31,9 @@ export class AvailabilityService {
       if (filterParams.contractID.split('00000000-0000-0000-0000-000000000000').join('') == '') {
         this.state.errorMessages.push('Please select Contract to continue.');
       }
+      if(filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' ) {
+        this.state.errorMessages.push('Please Select Lodge site to continue.');
+      }
     }
 
     if(
@@ -49,9 +52,7 @@ export class AvailabilityService {
         this.state.errorMessages.push('Select Business Profile before continue.');
       }
 
-      if(filterParams.ContractSite.split('00000000-0000-0000-0000-000000000000').join('') == '' && resourceType == 1) {
-        this.state.errorMessages.push('Please Select Lodge site to continue.');
-      }
+
     }
     //console.log(filterParams);
     if(filterParams.beginDate == null) {
