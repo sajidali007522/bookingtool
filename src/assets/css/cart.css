@@ -1,6 +1,6 @@
 /* Cart start */
 .booking-article-bot{
-  position: absolute;
+  position: fixed;
   right: 40px;
   bottom: 0;
 }
@@ -13,6 +13,7 @@
       text-align: center;
       color: #fff;
       position: relative;
+      margin-bottom: 10px;
       border-radius: 50%;
   }
   .new-booking span{
