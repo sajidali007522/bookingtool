@@ -135,7 +135,7 @@
             <table class="table">
               <ng-container *ngFor="let segment of state.bookedSegments">
                 <tr *ngFor="let seg of segment.segments">
-                  <td><img src="{{seg.providerLogoUrl.split('.png').join('_50.png')}}" /><strong>{{segment.resourceName}}</strong></td>
+                  <td><img src="{{seg.providerLogoUrl.split('.png').join('_30.png')}}" /><strong>{{segment.resourceName}}</strong></td>
                   <td>{{dateParse.parseDate(segment.beginDate)}}</td>
                   <td>{{dateParse.parseDateToTime(seg.beginDate)}}: {{seg.from}}</td>
                   <td>{{dateParse.parseDateToTime(seg.endDate)}}: {{seg.to}} </td>
