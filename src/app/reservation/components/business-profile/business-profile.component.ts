@@ -7,6 +7,7 @@ import {TemplateService} from "../../../_services/template.service";
 import {ReservationService} from "../../../_services/reservation.service";
 import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal.component";
 import {ReservationServiceV4} from "../../../_services/reservation_v4.service";
+import {DateParser} from "../../../_helpers/dateParser";
 
 
 @Component({
@@ -27,7 +28,8 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     error: {message: ''},
     errorMsg: '',
     bookingID: '',
-    searchId: ''
+    searchId: '',
+    bookedSegments: []
   };
 
   constructor(
@@ -38,6 +40,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
               public router: Router,
               public resService:ReservationServiceV4,
               private ref: ChangeDetectorRef,
+              public dateParse: DateParser
   ) {
   }
 
@@ -51,6 +54,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       this.state.sessionID = params['session_id'];
     });
     this.setProfile();
+    this.getBookedSegment();
   }
 
   ngAfterViewInit() {
@@ -60,6 +64,20 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       //this.selectDefaultValue($(event.target).parents('ng-autocomplete').attr('name'));
     });
 
+  }
+
+  getBookedSegment(){
+    ///api4/booking/{bookingID}/BookedSegments
+    this.resService.getBookedSegments(this.state.bookingID, {
+      'sessionID': this.state.sessionID
+    })
+      .subscribe(res=>{
+        if(res['status'] == 200) {
+          this.state.bookedSegments = res['data'];
+        } else {
+
+        }
+      })
   }
 
   setProfile(){

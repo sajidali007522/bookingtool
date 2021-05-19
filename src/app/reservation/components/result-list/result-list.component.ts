@@ -399,7 +399,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
         row.bookingChannels = this.resetBookingChannels(row.bookingChannels);
       }
     });*/
-    this.state.selectedIndece=this.state.cart[index].searchIndece;
+    this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
     this.getSearchResults();
     this.state.cart.splice(index, 1);
     /*if(this.state.cart.length == 0) {
@@ -411,7 +411,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
 
   reselectResource(uniqueId, index, priceId){
     console.log(this.state.cart)
-    this.state.selectedIndece=this.state.cart[index].searchIndece;
+    this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
     this.state.replacement.cartIndex=index;
     this.state.replacement.uniqueId =priceId;
     this.getSearchResults();
@@ -700,7 +700,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
           if(this.state.cart.length > 0){
             this.state.replacement.uniqueId = '';
             this.state.cart.filter(item=>{
-              if(item.cart.searchIndece == this.state.selectedIndece){
+              if(item.cartPreview.searchIndece == this.state.selectedIndece){
                 this.state.replacement.uniqueId = item.priceID
               }
             })
