@@ -836,6 +836,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
 
   resetFilters () {
     this.state.filter = this.copyObject(this.state.filterBk);
+    $(document).find(".content-booking-wrapper > div").css({'display': ''});
+    $(document).find(".content-booking-wrapper > div td").css({'display': ''});
   }
 
   resetLeftFilters(object) {
