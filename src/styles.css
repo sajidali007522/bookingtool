@@ -8,6 +8,9 @@
 
 @import url('./assets/css/availability.css');
 
+@import url('./assets/css/cart.css');
+/* using in Source selection page and business profile page */
+
 body{
   font-family: 'open_sansregular';
   font-size: 16px;
@@ -1342,8 +1345,6 @@ body.menu-fullwidth .reservation-content-area{
       transform: translate3d(4px, 0, 0);
     }
   }
-
-
 .not-show{
   display: none;
 }

@@ -1,0 +1,177 @@
+/* Cart start */
+.booking-article-bot{
+  position: absolute;
+  right: 40px;
+  bottom: 0;
+}
+  .new-booking{
+      display: block;
+      background:#125D81 url(../images/reservation/booking-icon.png) center center no-repeat;
+      width: 70px;
+      height: 70px;
+      line-height: 70px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      border-radius: 50%;
+  }
+  .new-booking span{
+      display: inline-block;
+      font-size: 14px;
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      text-align: center;
+      color: #fff;
+      background: #60CEFF;
+      position: absolute;
+      right: -5px;
+      top: -8px;
+      border-radius: 50%;
+  }
+  .shakeClass{
+      animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      perspective: 1000px;
+  }
+  @keyframes shake {
+      10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+      }
+
+      20%, 80% {
+        transform: translate3d(2px, 0, 0);
+      }
+
+      30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+      }
+
+      40%, 60% {
+        transform: translate3d(4px, 0, 0);
+      }
+    }
+    .booking-content-area{
+      display: none;
+      background: #fff;
+      width: 300px;
+      color: #000;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0, 0.3);
+      border-radius: 7px 7px 0 0;
+    }
+      .booking-top{
+          background:#125D81;
+          color:#fff;
+          padding: 0 15px;
+      }
+      .close-booking{
+          position: absolute;
+          right: 6px;
+          top: 8px;
+          color: #fff;
+          width: 30px;
+          height: 30px;
+          line-height: 25px;
+          text-align: center;
+          border:1px solid #fff;
+          border-radius: 0 7px 0 0;
+          border-radius: 50%;
+      }
+      .close-booking:hover{
+        color: #fff;
+      }
+      .booking-art-title{
+          padding: 18px 0 10px;
+          border-bottom: 1px solid #ccc;
+      }
+      .booking-art-title h3{
+          font-size: 18px;
+          margin: 0 0 5px;
+      }
+      .booking-search{
+      }
+      .booking-search .form-control{
+          background: none;
+          border: none;
+          color: #fff;
+          border-bottom: 1px solid #999;
+          padding: 10px 0 12px;
+          height: auto;
+      }
+      .booking-search ::-webkit-input-placeholder {color: #fff;}
+      .booking-search :-ms-input-placeholder {color: #fff;}
+      .booking-search ::placeholder { color: #fff;}
+      .booking-content-area ul,
+      .booking-content-area li{
+          list-style: none;
+          margin:0;
+          padding: 0;
+      }
+      .booking-art-inner{
+          font-size: 12px;
+          max-height: 50vh;
+          padding: 15px;
+          overflow-y: auto;
+      }
+          .booking-content-area ::-webkit-scrollbar {
+              width: 5px;
+          }
+          .booking-content-area ::-webkit-scrollbar-track {
+              background: rgba(0,0,0, 0.2);
+          }
+          .booking-content-area ::-webkit-scrollbar-thumb {
+              background: rgba(0,0,0, 0.2);
+          }
+          .booking-content-area ::-webkit-scrollbar-thumb:hover {
+              background: #83157b;
+          }
+      .booking-art-inner li{
+          padding: 0 0 20px;
+          border-bottom: 1px solid #999;
+          margin: 0 0 20px;
+      }
+      .booking-art-inner li:last-child{
+          border-bottom: none;
+          margin-bottom: 0;
+      }
+      .booking-art-inner li h4{
+          font-size: 18px;
+          display: flex;
+          flex-wrap: wrap;
+          margin: 0 0 5px;
+      }
+      .booking-art-inner li h4 img{
+          max-width: 20px;
+          height: auto;
+          margin-right: 4px;
+      }
+      .booking-art-inner li h4 a{
+          margin-left: auto;
+          display: block;
+          background: #60CEFF;
+          color: #000;
+          font-weight: bold;
+          text-decoration: none;
+          padding: 4px 10px;
+          font-size: 12px;
+          border-radius: 4px;
+      }
+      .booking-art-inner li h5{
+          font-size: 15px;
+      }
+      .booking-art-inner li p{
+          margin: 0 0 2px;
+      }
+      .booking-subtotal{
+          display: flex;
+          flex-wrap: wrap;
+          font-size: 16px;
+      }
+      .booking-subtotal strong{
+          display: block;
+          margin-left: auto;
+      }
+/* Cart End */
