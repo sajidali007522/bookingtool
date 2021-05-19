@@ -23,6 +23,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
   definition = <any>[]
   form = {}
   state={
+    bookingContentArea: false,
     sessionID: '',
     processing: false,
     error: {message: ''},
@@ -249,5 +250,10 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     if($event){
       this.router.navigate(['/reservation']);
     }
+  }
+
+
+  toggleBookingContentArea (state) {
+    this.state.bookingContentArea = state;
   }
 }

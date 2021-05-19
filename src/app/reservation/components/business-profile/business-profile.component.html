@@ -39,11 +39,43 @@
                 </a>
                 <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
               </div>
+              <div class="booking-article-bot">
+                <a href="javascript:void(0);" *ngIf="!state.bookingContentArea" (click)="toggleBookingContentArea(true);" class="new-booking">
+                  <span *ngIf="state.bookedSegments.length>0">{{state.bookedSegments.length}}</span>
+                </a>
+                <div class="booking-content-area" *ngIf="state.bookingContentArea" style="display:block;">
+                  <div class="booking-top" >
+                    <a href="javascript:void(0)" class="close-booking" (click)="toggleBookingContentArea(false);"><span class="fa fa-close"></span></a>
+                    <div class="booking-art-title"><h3>New Booking</h3></div>
+                    <div class="booking-search"><input type="text" placeholder="Search by name" class="form-control"></div>
+                  </div>
+                  <div class="booking-art-inner">
+                    <ul>
+
+                      <ng-container *ngFor="let segment of state.bookedSegments">
+                        <li  *ngFor="let seg of segment.segments">
+                          <h4>
+                            <img src="{{segment.cartPreview.providerLogo}}" width="20"/>{{segment.resourceName}}
+                          </h4>
+                          <h5><span>{{dateParse.parseDate(seg.beginDate)}}</span></h5>
+                          <p>{{seg.from}}</p>
+                          <p>{{seg.to}}</p>
+                          <div class="booking-subtotal">
+                            <span></span> <strong>{{segment.totalPrice}}</strong>
+                          </div>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+
         </ng-container>
         <!--<br/>
         <button type="submit" class="btn btn-info btn-block" (click)="submitForm()" [disabled]="state.processing">Next <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>-->
+
       </div>
       <app-confirm-modal [confirmationMessage]="'Do you want to restart reservation?'" (isConfirmed)="restartReservation($event)"></app-confirm-modal>
     </ng-container>
@@ -135,7 +167,7 @@
             <table class="table">
               <ng-container *ngFor="let segment of state.bookedSegments">
                 <tr *ngFor="let seg of segment.segments">
-                  <td><img src="{{seg.providerLogoUrl.split('.png').join('_30.png')}}" /><strong>{{segment.resourceName}}</strong></td>
+                  <td><img src="{{segment.providerLogoUrl.split('.png').join('_30.png')}}" /><strong>{{segment.resourceName}}</strong></td>
                   <td>{{dateParse.parseDate(segment.beginDate)}}</td>
                   <td>{{dateParse.parseDateToTime(seg.beginDate)}}: {{seg.from}}</td>
                   <td>{{dateParse.parseDateToTime(seg.endDate)}}: {{seg.to}} </td>
