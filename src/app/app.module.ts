@@ -56,7 +56,8 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
     HammerModule,
     ToastrModule.forRoot({
       preventDuplicates: true,
-      closeButton: true
+      closeButton: true,
+      maxOpened:1
     }),
 //    AuthenticationModule
   ],
