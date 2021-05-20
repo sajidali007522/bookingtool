@@ -498,9 +498,9 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
         }
       }
     });
-    $(".reservation-sidebar-inner").on('click', ".accordion-group > .accordon-heading",function(){
-      $(this).parents('.accordion-group').toggleClass('group-active')
-    });
+    // $(".reservation-sidebar-inner").on('click', ".accordion-group > .accordon-heading",function(){
+    //   $(this).parents('.accordion-group').toggleClass('group-active')
+    // });
   }
   public expandContainer (event, group) {
     group.expanded = !group.expanded
@@ -518,6 +518,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     script.src = src;
     this.renderer.appendChild(document.body, script);
     return script;
+  }
+  toggleAccordion(ele:any){
+    //console.log(ele.target)
+    $(ele.target).parents('.accordion-group').toggleClass('group-active')
   }
 
   resetFileObject($event, roomId) {

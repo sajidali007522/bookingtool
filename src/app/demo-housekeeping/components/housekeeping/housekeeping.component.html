@@ -13,7 +13,7 @@
       </div>
 
       <div class="accordion-group group-active">
-        <div class="accordon-heading">
+        <div class="accordon-heading" (click)="toggleAccordion($event)">
           <a href="javascript:void(0)">Sites
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
           </a>
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="accordion-group group-active">
-        <div class="accordon-heading">
+        <div class="accordon-heading" (click)="toggleAccordion($event)">
           <a href="javascript:void(0)">Search</a>
         </div>
         <div class="accordion-body">
@@ -64,7 +64,7 @@
         </div>
       </div>
       <div class="accordion-group " [ngClass]="{'group-active': group.isOpen}" *ngFor="let group of metaDataGroups">
-        <div class="accordon-heading">
+        <div class="accordon-heading" (click)="toggleAccordion($event)">
           <a href="javascript:void(0)">{{group.name}}
             <i class="fa fa-spin fa-spinner" *ngIf="state.isLoadingConfig"></i>
           </a>

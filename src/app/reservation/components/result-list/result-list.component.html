@@ -9,7 +9,7 @@
           <a href="javascript:void(0)" (click)="resetFilters()" class="btn btn-sm btn-success">Reset <span class="fa fa-refresh"></span> </a>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);" class="icon-contain icon-price">Price</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('price')"></i>-->
           </div>
@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);" class="icon-contain icon-departure">Departure</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('departure')"></i>-->
           </div>
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);" class="icon-contain icon-arrival">Arrival</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('arrival')"></i>-->
           </div>
@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="accordion-group group-active">
-          <div class="accordon-heading">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);" class="icon-contain icon-time">Max Stop Time</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('max-stops')"></i>-->
           </div>
@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="accordion-group group-active" *ngIf="state.filter.policy.length > 1">
-          <div class="accordon-heading">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);">Policy</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('policy', state.filter.policy)"></i>-->
           </div>
@@ -64,7 +64,7 @@
           </div>
         </div>
         <div class="accordion-group group-active" *ngIf="state.filter.airlines.length > 1">
-          <div class="accordon-heading">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);">Airlines</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('airlines', state.filter.airlines)"></i>-->
           </div>
@@ -80,7 +80,7 @@
           </div>
         </div>
         <div class="accordion-group" *ngIf="state.filter.stops.length > 1">
-          <div class="accordon-heading">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);">Stops</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('stops', state.filter.stops)"></i>-->
           </div>
@@ -96,7 +96,7 @@
           </div>
         </div>
         <div class="accordion-group"*ngIf="state.filter.options.length > 1">
-          <div class="accordon-heading">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);">Options</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('options', state.filter.options)"></i>-->
           </div>
@@ -112,7 +112,7 @@
           </div>
         </div>
         <div class="accordion-group" *ngIf="state.filter.connectingCity.length > 1">
-          <div class="accordon-heading">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);">Connecting City</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('connecting-city', state.filter.connectingCity)"></i>-->
           </div>
@@ -127,8 +127,8 @@
             </ul>
           </div>
         </div>
-        <div class="accordion-group"*ngIf="state.filter.fareType.length > 1">
-          <div class="accordon-heading">
+        <div class="accordion-group" *ngIf="state.filter.fareType.length > 1">
+          <div class="accordon-heading" (click)="toggleAccordion($event)">
             <a href="javascript:void(0);">Fare Type</a>
 <!--            <i class="fa fa-trash" (click)="resetFilter('fare-type', state.filter.fareType)"></i>-->
           </div>

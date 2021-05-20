@@ -182,6 +182,10 @@ export class ResultListComponent implements OnInit,AfterViewInit {
   selectResource(resource, resourceIndex, itemIndex, searchIndex) {
     this.state.selectedResource= resource;
   }
+  toggleAccordion(ele:any){
+    //console.log(ele.target)
+    $(ele.target).parents('.accordion-group').toggleClass('group-active')
+  }
   prepareBodyForSearchID(data){
     let selectedItems = []
     let index=0;
@@ -220,9 +224,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit() {
-    $("body").on("click", ".accordon-heading a", function(){
-      $(this).parent().parent().toggleClass('group-active');
-    });
+    // $("body").on("click", ".accordon-heading a", function(){
+    //   $(this).parent().parent().toggleClass('group-active');
+    // });
     $(document).on("click", '.display-detail', function(){
       $(this).parents('.article-content-booking').find('.more-reservation-wrap').slideToggle();
     });

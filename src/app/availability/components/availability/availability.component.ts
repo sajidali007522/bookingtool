@@ -131,10 +131,15 @@ export class AvailabilityComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   ngAfterViewInit() {
-    $("body").on('click', ".accordion-group .accordon-heading", function(){
+    /*$("body").on('click', ".accordion-group .accordon-heading", function(){
       //alert("ha")
-      $(this).parents('.accordion-group').toggleClass('group-active')
-    })
+
+    })*/
+  }
+
+  toggleAccordion(ele:any){
+    //console.log(ele.target)
+    $(ele.target).parents('.accordion-group').toggleClass('group-active')
   }
   setToDate() {
     let date = new Date(Date.parse(this.state.filterForm.beginDate));
