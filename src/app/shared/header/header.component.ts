@@ -50,6 +50,8 @@ export class HeaderComponent implements OnInit {
   }
 
   setWidth ($event, fullWidth=false) {
+
+    if($event.x==0 && $event.y == 0 ){ return}
     $event.preventDefault();
     this.isFullWidth = !this.isFullWidth;
     if(this.isFullWidth) {
@@ -57,6 +59,8 @@ export class HeaderComponent implements OnInit {
     } else {
       this.renderer.removeClass(document.body, 'menu-fullwidth');
     }
+    $('body').trigger('click')
+    return false;
     //localStorage.setItem('container_width', fullWidth ? 'full' : 'no');
     //this.switchContainerWidth();
   }
