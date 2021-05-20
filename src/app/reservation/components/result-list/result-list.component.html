@@ -165,11 +165,12 @@
               <div class="reserve-top-filter">
                 <select class="form-control custom-select" [(ngModel)]="state.grid_filter" (ngModelChange)="renderFilterGrid()">
                   <!-- metadataGridOptions -->
+                  <option>Try Different Filter</option>
                   <option *ngFor="let item of state.metaDataGridOptions" value="{{item.value}}">{{item.text}}</option>
                 </select>
-                <select class="form-control custom-select">
-                  <option>Sort By: Time</option>
-                  <option>Sort By: Price</option>
+                <select class="form-control custom-select" [(ngModel)]="state.sortFilter" (ngModelChange)="getSearchResults()">
+                  <option value="LowestTime">Sort By: Time</option>
+                  <option value="LowestPrice">Sort By: Price</option>
                 </select>
               </div>
             </div>

@@ -23,7 +23,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
   definition = <any>[]
   form = {}
   state={
-    bookingContentArea: false,
+    bookingContentArea: true,
     sessionID: '',
     processing: false,
     error: {message: ''},

@@ -24,6 +24,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     ceil: 100
   };
   state= {
+    sortFilter: 'LowestPrice',
     replacement:{
       cartIndex:-1,
       uniqueId:''
@@ -592,7 +593,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       sessionID: this.state.sessionID,
       flattenValues: true,
       searchIndex: this.state.searchIndeces[this.state.selectedIndece] ,
-      sortProperties:'LowestPrice',
+      sortProperties:this.state.sortFilter,
       isAscending: true,
       bookingItemProperties: 'BeginDate|EndDate|From|FromName|To|ToName|ProviderName|UniqueID|ProviderLogo|ConnectionDescriptionExtended|FullConnectionDescription|SegmentCount|Provider',
       priceProperties: 'TotalPrice|UniqueID|GetFareNameShort|BasePrice',

@@ -39,36 +39,6 @@
                 </a>
                 <button type="submit" class="btn btn-success ml-auto" (click)="submitForm()" [disabled]="state.processing" >Next <span class="fa fa-angle-right"></span> <span class="fa fa-spin fa-spinner" *ngIf="state.processing"></span></button>
               </div>
-              <div class="booking-article-bot">
-                <a href="javascript:void(0);" *ngIf="!state.bookingContentArea" (click)="toggleBookingContentArea(true);" class="new-booking">
-                  <span *ngIf="state.bookedSegments.length>0">{{state.bookedSegments.length}}</span>
-                </a>
-                <div class="booking-content-area" *ngIf="state.bookingContentArea" style="display:block;">
-                  <div class="booking-top" >
-                    <a href="javascript:void(0)" class="close-booking" (click)="toggleBookingContentArea(false);"><span class="fa fa-close"></span></a>
-                    <div class="booking-art-title"><h3>New Booking</h3></div>
-                    <div class="booking-search"><input type="text" placeholder="Search by name" class="form-control"></div>
-                  </div>
-                  <div class="booking-art-inner">
-                    <ul>
-
-                      <ng-container *ngFor="let segment of state.bookedSegments">
-                        <li  *ngFor="let seg of segment.segments">
-                          <h4>
-                            <img src="{{segment.cartPreview.providerLogo}}" width="20"/>{{segment.resourceName}}
-                          </h4>
-                          <h5><span>{{dateParse.parseDate(seg.beginDate)}}</span></h5>
-                          <p>{{seg.from}}</p>
-                          <p>{{seg.to}}</p>
-                          <div class="booking-subtotal">
-                            <span></span> <strong>{{segment.totalPrice}}</strong>
-                          </div>
-                        </li>
-                      </ng-container>
-                    </ul>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <!-- data-toggle="modal" data-target="#exampleModal"-->
@@ -192,9 +162,11 @@
 
 <div class="booking-article-bot">
   <!-- <a href="javascript:void(0);" class="new-booking"><span></span></a> -->
-  <div class="booking-content-area" style="display: block;">
+  <a href="javascript:void(0);" *ngIf="!state.bookingContentArea" (click)="toggleBookingContentArea(true);" class="new-booking">
+  </a>
+  <div class="booking-content-area" *ngIf="state.bookingContentArea" style="display:block;">
     <div class="booking-top">
-      <a class="close-booking" href="javascript:void(0)"><span class="fa fa-close"></span></a>
+      <a class="close-booking" href="javascript:void(0)" (click)="toggleBookingContentArea(false);"><span class="fa fa-close"></span></a>
       <div class="booking-art-title">
         <h3>New Booking</h3>
       </div>
@@ -204,23 +176,19 @@
     </div>
     <div class="booking-art-inner">
       <ul>
+        <ng-container *ngFor="let segment of state.bookedSegments">
+          <li *ngFor="let seg of segment.segments; let i=index">
+            <h4><img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
+            <h5>{{seg.identifier}} <span>{{dateParse.parseDate(seg.beginDate)}}</span></h5>
+            <p>{{dateParse.parseDateToTime(seg.beginDate)}} : {{seg.from}}</p>
+            <p>{{dateParse.parseDateToTime(seg.endDate)}} : {{seg.to}}</p>
+            <div class="booking-subtotal" *ngIf="i==(segment.segments.length-1)">
+              <span>{{segment.priceName}}</span><strong>{{segment.totalPrice}}</strong>
+            </div>
+          </li>
+        </ng-container>
         <li>
-          <h4>Westjet <a class="remove-booking" href="javascript:void(0)">Remove</a></h4>
-          <h5>WS 115 <span>Aug 24</span></h5>
-          <p>08:00 AM: Calgary Intl. Airport</p>
-          <p>08:00 AM: Vancouver Intl. Airport</p>
-          <div class="booking-subtotal">
-            <span>Flex</span><strong>326.35</strong>
-          </div>
-        </li>
-        <li>
-          <h4>Westjet <a class="remove-booking" href="javascript:void(0)">Remove</a></h4>
-          <h5>WS 115 <span>Aug 24</span></h5>
-          <p>08:00 AM: Calgary Intl. Airport</p>
-          <p>08:00 AM: Vancouver Intl. Airport</p>
-          <div class="booking-subtotal">
-            <span>Flex</span><strong>326.35</strong>
-          </div>
+          <button class="btn btn-primary pull-right" data-target="#exampleModal" data-toggle="modal">Add/Replace</button>
         </li>
       </ul>
     </div>
