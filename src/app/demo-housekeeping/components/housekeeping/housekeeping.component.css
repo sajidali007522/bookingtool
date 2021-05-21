@@ -87,6 +87,7 @@ td select.view-mode:active{
   line-height: 1;
   font-size: 12px;
 }
+
 .dataTable td{
   position: relative;
 }
