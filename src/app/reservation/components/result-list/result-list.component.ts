@@ -27,7 +27,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     sortFilter: 'LowestPrice',
     replacement:{
       cartIndex:-1,
-      uniqueId:''
+      priceId:'',
+      rowId:''
     },
     selectedIndece: 0,
     selectedResource: {},
@@ -310,7 +311,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       }
       this.state.cart.push(postBody[0]);
       this.state.replacement.cartIndex=-1;
-      this.state.replacement.uniqueId='';
+      this.state.replacement.priceId='';
+      this.state.replacement.rowId='';
       if(this.state.selectedIndece < this.state.searchIndeces.length){
         this.getSearchResults()
         return;
@@ -405,8 +407,12 @@ export class ResultListComponent implements OnInit,AfterViewInit {
       }
     });*/
     this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
-    this.getSearchResults();
     this.state.cart.splice(index, 1);
+    if(this.state.replacement.cartIndex == index){
+      this. state.replacement.priceId = '';
+      this. state.replacement.rowId = '';
+    }
+    this.getSearchResults();
     /*if(this.state.cart.length == 0) {
       this.toggleBookingContentArea(false);
     }*/
@@ -418,7 +424,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     console.log(this.state.cart)
     this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
     this.state.replacement.cartIndex=index;
-    this.state.replacement.uniqueId =priceId;
+    this.state.replacement.priceId =priceId;
+    this.state.replacement.rowId =uniqueId;
     this.getSearchResults();
     this.toggleBookingContentArea(false)
   }
@@ -703,10 +710,12 @@ export class ResultListComponent implements OnInit,AfterViewInit {
         },
         ()=>{
           if(this.state.cart.length > 0){
-            this.state.replacement.uniqueId = '';
+            this.state.replacement.priceId = '';
+            this.state.replacement.rowId = '';
             this.state.cart.filter(item=>{
               if(item.cartPreview.searchIndece == this.state.selectedIndece){
-                this.state.replacement.uniqueId = item.priceID
+                this.state.replacement.priceId = item.priceID
+                this.state.replacement.rowId = item.cartPreview.UniqueID
               }
             })
           }
