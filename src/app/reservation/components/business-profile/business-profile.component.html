@@ -143,7 +143,7 @@
 </div>
 
 
-<div class="booking-article-bot">
+<div class="booking-article-bot" *ngIf="state.bookedSegments.length>0">
   <!-- <a href="javascript:void(0);" class="new-booking"><span></span></a> -->
   <a href="javascript:void(0);" *ngIf="!state.bookingContentArea" (click)="toggleBookingContentArea(true);" class="new-booking">
   </a>
