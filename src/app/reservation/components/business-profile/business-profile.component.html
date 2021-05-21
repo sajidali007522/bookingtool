@@ -132,23 +132,6 @@
               </div>
             </div>
           </div>
-
-          <div class="table-cart-wrap">
-            <table class="table">
-              <ng-container *ngFor="let segment of state.bookedSegments">
-                <tr *ngFor="let seg of segment.segments">
-                  <td><img src="{{segment.providerLogoUrl.split('.png').join('_30.png')}}" /><strong>{{segment.resourceName}}</strong></td>
-                  <td>{{dateParse.parseDate(segment.beginDate)}}</td>
-                  <td>{{dateParse.parseDateToTime(seg.beginDate)}}: {{seg.from}}</td>
-                  <td>{{dateParse.parseDateToTime(seg.endDate)}}: {{seg.to}} </td>
-                  <td><strong>{{segment.priceName}} ${{segment.totalPrice}}</strong></td>
-                  <td><a href="javascript:void(0)" class="btn btn-sm btn-outline-info">Remove</a></td>
-                </tr>
-              </ng-container>
-
-            </table>
-          </div>
-
         </div>
 
       </div>
