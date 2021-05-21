@@ -81,11 +81,11 @@ td select.view-mode:active{
   background:none !important;
 }
 .table-btns .btn{
-  padding: 6px 14px;
+  padding: 6px 8px;
   margin: 0 2px 2px;
   border-radius: 0;
   line-height: 1;
-  font-size: 13px;
+  font-size: 12px;
 }
 .dataTable td{
   position: relative;
