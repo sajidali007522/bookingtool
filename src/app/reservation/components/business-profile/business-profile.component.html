@@ -160,15 +160,29 @@
     <div class="booking-art-inner">
       <ul>
         <ng-container *ngFor="let segment of state.bookedSegments">
-          <li *ngFor="let seg of segment.segments; let i=index">
-            <h4><img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
-            <h5>{{seg.identifier}} <span>{{dateParse.parseDate(seg.beginDate)}}</span></h5>
-            <p>{{dateParse.parseDateToTime(seg.beginDate)}} : {{seg.from}}</p>
-            <p>{{dateParse.parseDateToTime(seg.endDate)}} : {{seg.to}}</p>
-            <div class="booking-subtotal" *ngIf="i==(segment.segments.length-1)">
-              <span>{{segment.priceName}}</span><strong>{{segment.totalPrice}}</strong>
-            </div>
-          </li>
+          <ng-container *ngIf="segment.resourceName != 'Room'">
+            <li *ngFor="let seg of segment.segments; let i=index">
+              <h4><img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
+              <h5>{{seg.identifier}} <span>{{dateParse.parseDate(seg.beginDate)}}</span></h5>
+              <p>{{dateParse.parseDateToTime(seg.beginDate)}} : {{seg.from}}</p>
+              <p>{{dateParse.parseDateToTime(seg.endDate)}} : {{seg.to}}</p>
+              <div class="booking-subtotal" *ngIf="i==(segment.segments.length-1)">
+                <span>{{segment.priceName}}</span><strong>{{segment.totalPrice}}</strong>
+              </div>
+            </li>
+          </ng-container>
+          <ng-container *ngIf="segment.resourceName == 'Room'">
+            <li>
+              <h4><img *ngIf="segment.providerLogoUrl" src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
+              <h5> <span>{{dateParse.parseDate(segment.beginDate)}}</span></h5>
+              <p *ngFor="let field of segment.searchProperties">
+                {{field.fieldName}} : {{field.selection}}
+              </p>
+              <div class="booking-subtotal">
+                <span>{{segment.priceName}}</span><strong>{{segment.totalPrice}}</strong>
+              </div>
+            </li>
+          </ng-container>
         </ng-container>
         <li>
           <button class="btn btn-primary pull-right" data-target="#exampleModal" data-toggle="modal">Add/Replace</button>
