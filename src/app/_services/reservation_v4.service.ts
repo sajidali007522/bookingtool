@@ -97,6 +97,14 @@ export class ReservationServiceV4 {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/BookedSegments`, {params: params} );
   }
 
+  public loadAddableResourceTypes(bookingId, params){
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/AddableResourceTypes`, {params: params} );
+  }
+
+  public loadCriteriaDefinitions(bookingId, resourceTypeID, params){
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/AddableResourceTypes/SearchCriteriaDefinition/${resourceTypeID}`, {params: params} );
+  }
+
   //Old
   public loadSingleResource (bookingId, params={}) {
     return this.http.get( `${this.baseUrl}booking/${bookingId}/TemplateGroups`, {params: params} );

@@ -245,7 +245,7 @@
                   <table class="table table-border table-price-tickets" id="table_{{makeValidEleId(row.values2.UniqueID)}}">
                     <tbody>
                     <tr *ngFor="let channel of row.bookingChannels; let channelIndex=index">
-                      <td *ngFor="let price of channel.prices; let priceIndex=index" (load)="setSelectedValued(rowIndex, channelIndex, priceIndex, (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID))" [ngClass]="{'active': (price.values2.$selected || (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID)), 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
+                      <td *ngFor="let price of channel.prices; let priceIndex=index" (load)="setSelectedValued(index, channelIndex, priceIndex, (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID))" [ngClass]="{'active': (price.values2.$selected || (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID)), 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
                         <a href="javascript:void(0)" class="selectMe" (click)="selectIt(row.values2, index, price, channel.prices)"
                            *ngIf="price.values2.BasePrice"
                         >
