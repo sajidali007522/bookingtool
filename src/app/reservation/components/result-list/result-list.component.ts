@@ -271,12 +271,16 @@ export class ResultListComponent implements OnInit,AfterViewInit {
 
   selectIt (bookRow, bookIndex, currentItem, priceArray) {
     this.shakeIt(true);
-    // let check = currentItem.values2.$selected;
-    // if(check) {
-    //   this.markAsAddedToCart(bookRow, bookIndex, currentItem, check);
-    //   return;
-    // }
+
     let check = false
+    let target = 0;
+    this.state.cart.filter(item=>{
+      if(item.cartPreview.searchIndece == this.state.selectedIndece){
+        this.state.cart.splice(target,1);
+      }
+      target++
+
+    })
     currentItem.$isProcessing = true;
     let postBody = [];
     postBody.push({
@@ -592,7 +596,15 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     return (''+string).replace(/[|/:\s]/g,'_');
   }
 
-  getSearchResults () {
+  setSelectedValued (rowIndex, channelIndex, priceIndex, value) {
+    this.state.bookingRows[rowIndex].bookingChannels[channelIndex].price[priceIndex].values2.$selected =value;
+  }
+
+  switchResource (selectedIndece) {
+    this.state.selectedIndece = selectedIndece;
+    this.getSearchResults()
+  }
+  getSearchResults (loadGrid=true) {
     // /api2/booking/{bookingID}/SearchResults/{searchID}
     this.state.processing=true;
     //this._http._get('booking/'+this.state.bookingID+'/SearchResults/'+this.state.searchId+'', {
@@ -700,7 +712,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
               this.state.metaDataGridOptions = data['metadataGridOptions'];
               this.state.grid_filter = data['metadataGridOptions'][0].value;
               this.state.bookingRows = data['results'];
-              this.renderFilterGrid();
+              if(loadGrid) { this.renderFilterGrid(); }
             }
           }
         },

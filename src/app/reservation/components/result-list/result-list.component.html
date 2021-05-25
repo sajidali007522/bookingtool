@@ -155,7 +155,7 @@
                 <ul *ngIf="state.resources;">
                   <ng-container *ngFor="let resource of state.resources; let resourceIndex= index">
                     <li *ngFor="let item of resource.resourceItems; let itemIndex=index" [ngClass]="{'active': state.selectedIndece==(resourceIndex+itemIndex)}">
-                      <a href="javascript:void(0);"><strong>{{parseDate((item.isReturn ? item.endDate : item.beginDate), 'month')}}</strong> {{parseDate((item.isReturn ? item.endDate : item.beginDate), 'date')}}</a>
+                      <a href="javascript:void(0);" (click)="switchResource(resourceIndex+itemIndex)" ><strong>{{parseDate((item.isReturn ? item.endDate : item.beginDate), 'month')}}</strong> {{parseDate((item.isReturn ? item.endDate : item.beginDate), 'date')}}</a>
                     </li>
                   </ng-container>
                 </ul>
@@ -168,7 +168,7 @@
                   <option>Try Different Filter</option>
                   <option *ngFor="let item of state.metaDataGridOptions" value="{{item.value}}">{{item.text}}</option>
                 </select>
-                <select class="form-control custom-select" [(ngModel)]="state.sortFilter" (ngModelChange)="getSearchResults()">
+                <select class="form-control custom-select" [(ngModel)]="state.sortFilter" (ngModelChange)="getSearchResults(false)">
                   <option value="LowestTime">Sort By: Time</option>
                   <option value="LowestPrice">Sort By: Price</option>
                 </select>
@@ -226,7 +226,7 @@
           </div>
 
           <div class="content-booking-wrapper">
-            <div class="article-content-booking" *ngFor="let row of state.bookingRows; let index = $index;" id="div_{{makeValidEleId(row.values2.UniqueID)}}">
+            <div class="article-content-booking" *ngFor="let row of state.bookingRows; let index = index;" id="div_{{makeValidEleId(row.values2.UniqueID)}}">
               <div class="content-booking-left">
                 <h3>
                   <img src="{{row.values2.ProviderLogo.split('.png').join('_50.png')}}" alt="">
@@ -244,8 +244,8 @@
                 <div class="table-price-tickets-wrap table-responsive">
                   <table class="table table-border table-price-tickets" id="table_{{makeValidEleId(row.values2.UniqueID)}}">
                     <tbody>
-                    <tr *ngFor="let channel of row.bookingChannels">
-                      <td *ngFor="let price of channel.prices" [ngClass]="{'active': (price.values2.$selected || (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID)), 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
+                    <tr *ngFor="let channel of row.bookingChannels; let channelIndex=index">
+                      <td *ngFor="let price of channel.prices; let priceIndex=index" (load)="setSelectedValued(rowIndex, channelIndex, priceIndex, (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID))" [ngClass]="{'active': (price.values2.$selected || (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID)), 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
                         <a href="javascript:void(0)" class="selectMe" (click)="selectIt(row.values2, index, price, channel.prices)"
                            *ngIf="price.values2.BasePrice"
                         >
