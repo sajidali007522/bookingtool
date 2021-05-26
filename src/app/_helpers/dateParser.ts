@@ -59,12 +59,12 @@ export class DateParser {
 
   calculateDifferenceInTime(beginDate, endDate) {
     if(!beginDate || !endDate) return;
-    console.log(new Date(Date.parse(beginDate)).getTime(), new Date(Date.parse(endDate)).getTime())
+    //console.log(new Date(Date.parse(beginDate)).getTime(), new Date(Date.parse(endDate)).getTime())
     let date1 = new Date(Date.parse(beginDate)).getTime()
     let date2 = new Date(Date.parse(endDate)).getTime()
     var diff = date2 - date1;
     var diff_as_date = new Date(diff);
-    console.log(diff_as_date)
+    //console.log(diff_as_date)
     var hours = Math.floor(diff / 1000 / 60 / 60);
     diff -= hours * 1000 * 60 * 60;
     var minutes = Math.floor(diff / 1000 / 60);
