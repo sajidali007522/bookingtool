@@ -187,10 +187,14 @@
                 <tr>
                   <th (click)="resetFilterState(); setGridCell('00');resetFilters();" [ngClass]="{'active': this.state.gridCell == '00'}" ><h4>Show All</h4> {{state.gridFilter.totalResults}} Total Results</th>
                   <th *ngFor="let col of state.gridFilter.columns; let index=index;"
-                      (click)="filterResultSetByGrid([], -1, index, true);
+                      (click)="filterResultSetByGrid([], -1, index, true, col.resultCount);
                                 setGridCell('0'+(index+1));
                                 setFilterStateByGrid(-1, index)"
-                      [ngClass]="{'active': this.state.gridCell == '0'+(index+1)}"
+                      [ngClass]="{
+                      'active': this.state.gridCell == '0'+(index+1) || this.state.gridCell == '00',
+                      'disabled': col.resultCount == ''
+
+                      }"
                   >
                     <h4>{{col.name}}<br/><span>${{col.lowPrice}}</span></h4> {{col.resultCount}} Results
                   </th>
@@ -199,23 +203,30 @@
                 <tbody>
 
                 <tr *ngFor="let row of state.gridFilter.rows; let index = index">
-                  <td (click)="filterResultSetByGrid(row.items, index, -1, true);
+                  <td (click)="filterResultSetByGrid(row.items, index, -1, true, row.resultCount);
                                 setGridCell((index+1)+'0');
                                 setFilterStateByGrid(index, -1);
                               "
-                      [ngClass]="{'active': this.state.gridCell == (index+1)+'0'}">
+                      [ngClass]="{
+                      'active': (this.state.gridCell == (index+1)+'0' || this.state.gridCell == '00'),
+                      'disabled': row.resultCount == ''
+                      }"
+                  >
                     <h4>
                       <img src="{{row.logoUrl.split('.png').join('_50.png')}}" />
                       {{row.name}}
                     </h4><br/>
-                    {{row.resultCount}} Results
+                    {{row.resultCount ? row.resultCount + ' Results' : '-'}}
                   </td>
                   <td class="" *ngFor="let item of row.items; let i = index;"
-                      (click)="filterResultSetByGrid(row.items, index, i);
+                      (click)="filterResultSetByGrid(row.items, index, i, false, item.resultCount);
                       setGridCell((index+1)+''+(i+1));
                       setFilterStateByGrid(index, i);"
-                      [ngClass]="{'active': this.state.gridCell == ((index+1)+''+(i+1)) || this.state.gridCell == (index+1)+'0' || this.state.gridCell == '0'+(i+1) }">
-                    <p>{{item.lowPrice}}</p> {{item.resultCount}} Results
+                      [ngClass]="{
+                      'active': (this.state.gridCell == ((index+1)+''+(i+1)) || this.state.gridCell == (index+1)+'0' || this.state.gridCell == '0'+(i+1) || this.state.gridCell == '00' ),
+                      'disabled':  (item.resultCount == '' || row.resultCount == '')
+                      }">
+                    <p>{{item.lowPrice}}</p> {{item.resultCount ? item.resultCount + ' Results' : '-'}}
                   </td>
 
                 </tr>

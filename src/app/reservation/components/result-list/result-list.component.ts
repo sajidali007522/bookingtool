@@ -449,7 +449,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     this.applyFilters(item);
   }
 
-  filterResultSetByGrid ( items, row:number, column:number = -1, isMultipleArray:boolean=false ) {
+  filterResultSetByGrid ( items, row:number, column:number = -1, isMultipleArray:boolean=false, resultCount='' ) {
+    if(!resultCount) return
+    //for cell
     this.resetFilterState('none');
     this.resetPriceState('');
     if(isMultipleArray){
