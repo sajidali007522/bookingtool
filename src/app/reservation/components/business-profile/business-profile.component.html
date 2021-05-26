@@ -331,7 +331,7 @@
 
 <div class="booking-article-bot" *ngIf="state.bookedSegments.length>0">
   <!-- <a href="javascript:void(0);" class="new-booking"><span></span></a> -->
-  <a href="javascript:void(0);" (click)="toggleBookingContentArea(true);" class="new-booking">
+  <a href="javascript:void(0);" *ngIf="!state.bookingContentArea" (click)="toggleBookingContentArea(true);" class="new-booking">
   </a>
   <div class="booking-content-area" *ngIf="state.bookingContentArea" style="display:block;">
     <div class="booking-top">
@@ -345,26 +345,36 @@
     </div>
     <div class="booking-art-inner">
       <ul>
-        <ng-container *ngFor="let segment of state.bookedSegments">
+        <ng-container *ngFor="let segment of state.bookedSegments;let segmentIndex=index">
           <ng-container *ngIf="segment.resourceName != 'Room'">
-            <li *ngFor="let seg of segment.segments; let i=index">
+            <li *ngFor="let seg of segment.segments; let i=index"
+                [ngClass]="{'isStopover': seg.isStopover}"
+            >
               <h4><img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
-              <h5>{{seg.identifier}} <span>{{dateParse.parseDate(seg.beginDate)}}</span></h5>
-              <p>{{dateParse.parseDateToTime(seg.beginDate)}} : {{seg.from}}</p>
-              <p>{{dateParse.parseDateToTime(seg.endDate)}} : {{seg.to}}</p>
-              <div class="booking-subtotal" *ngIf="i==(segment.segments.length-1)">
+              <h5>
+                {{seg.identifier}}
+                <span>{{dateParse.formatDateForCart(seg.beginDate)}}</span>
+                <span *ngIf="seg.beingDate<seg.endDate">{{dateParse.formatDateForCart(seg.endDate)}}</span>
+              </h5>
+              <p>{{userService.getSettingByProp('timeFormat') == '' ? dateParse.formatDateBy12HourTime(seg.beginDate) : dateParse.parseDateToTime(seg.beginDate)}} : {{seg.from}}</p>
+              <p>{{userService.getSettingByProp('timeFormat') == '' ? dateParse.formatDateBy12HourTime(seg.endDate) : dateParse.parseDateToTime(seg.endDate)}} : {{seg.to}}</p>
+              <div class="booking-subtotal" *ngIf="i==(segment.segments.length-1) && segment.totalPrice">
                 <span>{{segment.priceName}}</span><strong>{{segment.totalPrice}}</strong>
               </div>
+              <span *ngIf="!seg.isStopover">{{dateParse.calculateDifferenceInTime(seg.endDate, state.bookedSegments[segmentIndex].segments[(i+1)].beginDate)}}</span>
             </li>
           </ng-container>
           <ng-container *ngIf="segment.resourceName == 'Room'">
             <li>
               <h4><img *ngIf="segment.providerLogoUrl" src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
-              <h5> <span>{{dateParse.parseDate(segment.beginDate)}}</span></h5>
+              <h5>
+                <<span>{{dateParse.formatDateForCart(segment.beginDate)}}</span>
+                <span *ngIf="segment.beingDate<segment.endDate">{{dateParse.formatDateForCart(segment.endDate)}}</span>
+              </h5>
               <p *ngFor="let field of segment.searchProperties">
                 {{field.fieldName}} : {{field.selection}}
               </p>
-              <div class="booking-subtotal">
+              <div class="booking-subtotal" *ngIf="segment.totalPrice">
                 <span>{{segment.priceName}}</span><strong>{{segment.totalPrice}}</strong>
               </div>
             </li>
