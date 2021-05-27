@@ -368,7 +368,7 @@
             <li>
               <h4><img *ngIf="segment.providerLogoUrl" src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
               <h5>
-                <<span>{{dateParse.formatDateForCart(segment.beginDate)}}</span>
+                <span>{{dateParse.formatDateForCart(segment.beginDate)}}</span>
                 <span *ngIf="segment.beingDate<segment.endDate">{{dateParse.formatDateForCart(segment.endDate)}}</span>
               </h5>
               <p *ngFor="let field of segment.searchProperties">
