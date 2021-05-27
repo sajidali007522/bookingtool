@@ -762,6 +762,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
   }
 
   renderFilterGrid () {
+    if(this.state.grid_filter == '00000000-0000-0000-0000-000000000000') return;
     this.state.processing=true;
     ///api2/booking/{bookingID}/SearchFilterGrid/{searchID}/{searchIndex}/{columnMetadataKey}/{rowMetadataKey}
     let filterOption = this.state.grid_filter.split("|");

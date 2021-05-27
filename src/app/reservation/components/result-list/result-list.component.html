@@ -165,7 +165,7 @@
               <div class="reserve-top-filter">
                 <select class="form-control custom-select" [(ngModel)]="state.grid_filter" (ngModelChange)="renderFilterGrid()">
                   <!-- metadataGridOptions -->
-                  <option>Try Different Filter</option>
+                  <option value="00000000-0000-0000-0000-000000000000">Try Different Filter</option>
                   <option *ngFor="let item of state.metaDataGridOptions" value="{{item.value}}">{{item.text}}</option>
                 </select>
                 <select class="form-control custom-select" [(ngModel)]="state.sortFilter" (ngModelChange)="getSearchResults(false)">
