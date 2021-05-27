@@ -24,6 +24,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     ceil: 100
   };
   state= {
+    isSideBarOpen: false,
     sortFilter: 'LowestPrice',
     replacement:{
       cartIndex:-1,
@@ -180,7 +181,9 @@ export class ResultListComponent implements OnInit,AfterViewInit {
 
     //this.getSortFields();
   }
-
+  toggleSideBar(){
+    this.state.isSideBarOpen = !this.state.isSideBarOpen;
+  }
   selectResource(resource, resourceIndex, itemIndex, searchIndex) {
     this.state.selectedResource= resource;
   }

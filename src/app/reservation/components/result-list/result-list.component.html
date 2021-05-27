@@ -383,8 +383,8 @@
 
 
 
-<div class="sidebar-overflow">
-  <a href="#" class="sidebar-toogle">
+<div class="sidebar-overflow" [ngClass]="{'open': state.isSideBarOpen}">
+  <a href="javascript:void(0)" (click)="toggleSideBar()" class="sidebar-toogle">
     <span class="fa fa-gear state-normal"></span>
     <span class="close-x state-active"></span>
   </a>
