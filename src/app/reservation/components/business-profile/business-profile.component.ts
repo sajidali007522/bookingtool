@@ -8,6 +8,10 @@ import {ReservationService} from "../../../_services/reservation.service";
 import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal.component";
 import {ReservationServiceV4} from "../../../_services/reservation_v4.service";
 import {DateParser} from "../../../_helpers/dateParser";
+import {UserService} from "../../../_services/user.service";
+import {TimepickerService} from "../../../_services/timepicker.service";
+import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -21,8 +25,23 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
 
   formFields = <any>[];
   definition = <any>[]
-  form = {}
+  form = {resourceTypeID:'', definition: []}
+  travelerList = []
+  keyword= "lastDashFirst";
+  timePickerkeyword="text";
+  myForm= {}
+  canceler;
+
+  minDateFrom= new Date();
+  maxDateFrom= new Date();
+
+  bsConfig: Partial<BsDatepickerConfig>;
   state={
+    selectedResource: '',
+    loadingGroups : false,
+    isLoadingTraveler:false,
+    beginTimeProcessing:false,
+    loadingTemplate: false,
     bookingContentArea: true,
     sessionID: '',
     processing: false,
@@ -30,7 +49,9 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     errorMsg: '',
     bookingID: '',
     searchId: '',
-    bookedSegments: []
+    bookedSegments: [],
+    addableResourceTypes: [],
+    selectedTemplate: {},
   };
 
   constructor(
@@ -41,11 +62,11 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
               public router: Router,
               public resService:ReservationServiceV4,
               private ref: ChangeDetectorRef,
-              public dateParse: DateParser
+              public dateParse: DateParser,
+              public userService:UserService,
+              public TPService: TimepickerService,
+              private toastr: ToastrService,
   ) {
-  }
-
-  selectTraveler ($event) {
   }
 
   ngOnInit(): void {
@@ -55,6 +76,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       this.state.sessionID = params['session_id'];
     });
     this.setProfile();
+    this.loadAddableResourceTypes();
     this.getBookedSegment();
   }
 
@@ -67,6 +89,18 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
 
   }
 
+  loadAddableResourceTypes() {
+    this.resService.loadAddableResourceTypes(this.state.bookingID, {
+      'sessionID': this.state.sessionID
+    })
+      .subscribe(res=>{
+        if(res['status'] == 200) {
+          this.state.addableResourceTypes = res['data'];
+        } else {
+
+        }
+      })
+  }
   getBookedSegment(){
     ///api4/booking/{bookingID}/BookedSegments
     this.resService.getBookedSegments(this.state.bookingID, {
@@ -81,6 +115,33 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       })
   }
 
+  loadCriteriaDefinitions(){
+    if(this.state.loadingTemplate) return
+    this.state.loadingTemplate = true
+    this.resService.loadCriteriaDefinitions(this.state.bookingID, this.form.resourceTypeID, {
+      'sessionID': this.state.sessionID
+    })
+      .subscribe(res=>{
+        if(res['status'] == 200) {
+          this.state.selectedTemplate = res['data'];
+          if (this.state.selectedTemplate['resources'].length > 0) {
+            this.state.selectedTemplate['resources'][this.state.selectedTemplate['resources'].length - 1].isOpen = true;
+          }
+          /*if (this.state.selectedTemplate['isDynamic']) {
+            this.state.selectedTemplate['$resources'] = this.state.selectedTemplate['resources'];
+            if (this.state.selectedTemplate['$resources'].length == 1) {
+              this.state.selectedResource = this.state.selectedTemplate['$resources'][0]
+            }
+            this.state.selectedTemplate['resources'] = [];
+          }*/
+          this.setResourcesDate();
+        }
+        this.state.loadingTemplate = false;
+      },
+        err=>{
+          this.state.loadingTemplate = false;
+        })
+  }
   setProfile(){
     //​/api2​/booking​/{bookingID}​/Reporting
     this.state.processing = true;
@@ -256,4 +317,271 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
   toggleBookingContentArea (state) {
     this.state.bookingContentArea = state;
   }
+
+  getloadProfiles (event) {
+    let params = {searchTerm: event};
+    params['criteria'] = this.form.resourceTypeID || '00000000-0000-0000-0000-000000000000';
+    params['sessionID'] = this.state.sessionID;
+
+    this.travelerList =[];
+    this.state.isLoadingTraveler =true;
+    if(this.canceler) { this.canceler.unsubscribe()}
+    this.canceler = this.resService.getProfiles(this.state.bookingID, params)
+      .subscribe(data => {
+        if(data['success']) {
+          // this.defaultSelection = data['data']['defaultValue'];
+          this.travelerList = data['data'];
+        }
+        this.state.isLoadingTraveler = false;
+
+      },error => {
+        this.state.error = error;
+        this.state.isLoadingTraveler = false;
+      });
+  }
+
+  selectTraveler ($event) {
+    console.log($event)
+    this.resService.setProfile(this.state.bookingID, {guestProfileID: $event.id, sessionID: this.state.sessionID})
+      .subscribe(data => {
+        if(data['success']) {
+          // this.defaultSelection = data['data']['defaultValue'];
+          console.log(data);
+        }
+        this.state.isLoadingTraveler = false;
+
+      },error => {
+        this.state.error = error;
+        this.state.isLoadingTraveler = false;
+      });
+  }
+  searchCleared(type) {
+    this.travelerList =[];
+  }
+
+  onFocused(e){
+    // do something when input is focused
+  }
+
+  removeResource(index){
+    if(!this.state.selectedTemplate['isDynamic']) return;
+    this.state.selectedTemplate['resources'].splice(index,1)
+  }
+
+  selectTime (item, resourceIndex, model) {
+    this.state.selectedTemplate['resources'][resourceIndex][model] = item.text;
+  }
+
+  setDateTo (resourceIndex) {
+    let beginDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate);
+    let endDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate);
+
+    if(beginDate > endDate) {
+      this.state.selectedTemplate['resources'][resourceIndex].EndDate = this.state.selectedTemplate['resources'][resourceIndex].BeginDate;
+    }
+    //if(this.state.selectedGroup['name'] == 'Templates'){
+      this.loadBookingFields(this.state.selectedTemplate['resources'][resourceIndex].searchFields, resourceIndex, -1)
+    //}
+  }
+
+
+  loadBookingFields(fields, resourceIndex, fieldIndex, eventData={}) {
+    ///api2/booking/{bookingID}/AllSearchCriteriaOptions
+    //console.log(JSON.parse(JSON.stringify(fields)))
+    console.log(resourceIndex)
+    let selectedItems = this.resService.renderSelectedItems(fields)
+    //alert(this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
+    let searchDefinitions = this.resService.renderSearchCriteriaItems(fields, this.state.selectedTemplate['resources'][resourceIndex]['resourceTypeID'])
+    if(this.state.selectedTemplate['resources'][resourceIndex]['processing']) return;
+    this.state.selectedTemplate['resources'][resourceIndex]['processing'] = true;
+    //this._http._post('booking/'+this.form.bookingID+'/AllSearchCriteriaOptions',
+    this.resService.setCriteriaDefinition(this.state.bookingID,
+      {
+        'selectedItems': selectedItems,
+        'lookupSearchCriterias': searchDefinitions
+      },
+      {
+        'sessionID': this.state.sessionID
+      }
+    )
+      .subscribe(data => {
+          //console.log(resourceIndex, fields, data)
+          this.state.selectedTemplate['resources'][resourceIndex]['processing']=false;
+          //console.log(data)
+          //this.definition = data;
+          this.state.selectedTemplate['resources'][resourceIndex]['searchFields'] = fields
+          this.state.selectedTemplate['resources'][resourceIndex]['definitions'] = data['data'];
+          //console.log(this.state.selectedTemplate['resources'][resourceIndex].searchFields);
+
+        }, error => {
+          console.log(error)
+          let message = error.split('.')
+          this.toastr.error(message[0], 'Error!')
+          this.state.selectedTemplate['resources'][resourceIndex]['processing'] = false;
+        },
+        ()=>{
+
+          for(let index=0; index<this.state.selectedTemplate['resources'][resourceIndex].searchFields.length; index++){
+            this.state.selectedTemplate['resources'][resourceIndex].searchFields[index]['fieldDefinition'] = this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index];
+            this.state.selectedTemplate['resources'][resourceIndex].searchFields[index]['visible'] = this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index]['isValidForSelection'] == true
+            if(this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].validationError &&
+              this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].validationError != 'passed' &&
+              this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].selectedValue != ''
+            ) {
+              this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].validationError = 'passed'
+            }
+            if(this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].results){
+              let selectedValue = this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].results.filter(item =>{
+                console.log(index, item.value == this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].selectedValue)
+                if(item.value == this.state.selectedTemplate['resources'][resourceIndex]['definitions'][index].selectedValue){
+                  console.log(item);
+                  return item;
+                }
+              });
+              if(selectedValue.length) {
+                this.state.selectedTemplate['resources'][resourceIndex].searchFields[index].model = selectedValue[0];
+              }
+            }
+          }
+          //this.setResourcesDate()
+        }
+      )
+  }
+
+  getSearchId (fields, resource, resourceIndex, resourceItemIndex, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+    //validateForSearch
+    if(!this.validateBookForm(false)) return;
+    if(this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing']) return;
+    let selectedItems = this.resService.renderSelectedItems(resource.searchFields, 1)
+    //console.log(JSON.parse(JSON.stringify(fields)))
+
+    let body = this.resService.prepareBody(resource, resourceTypeID, selectedItems)
+    this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = true;
+    //this._http._post(`booking/${this.form.bookingID}/Search`, body)
+    this.resService.makeSearch(this.state.bookingID, body, {sessionID: this.state.sessionID})
+      .subscribe(data => {
+          console.log(data);
+          //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID'] = data['data']['searchID'];
+          this.getSearchResults(fields, resource, resourceIndex, resourceItemIndex, data['data']['searchIndeces'][0], resourceTypeID);
+
+        },
+        err => {
+          this.state.loadingGroups=false;
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing']=false
+        });
+  }
+
+  getSearchResults (bodyfields, resource, resourceIndex, resourceItemIndex, searchIndeces, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+    this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = true;
+    //this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID']}`,
+    this.resService.getSearchResults(this.state.bookingID, this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID'], searchIndeces,
+      {
+        searchIndex:0,
+        flattenValues:true,
+        bookingItemProperties: 'Text|UniqueID',
+        sortProperties: 'BookingItem.BeginDate',
+        isAscending:true,
+        sessionID: this.state.sessionID
+      }
+    )
+      .subscribe(data => {
+          console.log(data);
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = false
+          //this.form['searchID'] = data['searchID'];
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['model'] = '';
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['results'] =  data['data']['results'];
+        },
+        err => {
+          this.state.loadingGroups=false;
+          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = false
+        }
+      );
+  }
+
+
+  validateBookForm(setError=true) {
+    let validated = true;
+    this.state.selectedTemplate['resources'].filter(resource => {
+      resource['errors'] = {};
+      //console.log(resource['BeginDate'])
+      if(!resource['BeginDate']) {
+        if(setError) {
+          resource['errors']['BeginDate'] = 'Begin Date is required field.'
+        }
+        validated = false;
+      }
+      //console.log(resource['EndDate'])
+      if(!resource['EndDate'] && resource.requiresEndDate) {
+        if(setError) {
+          resource['errors']['EndDate'] = 'End Date is required field.';
+        }
+        validated = false;
+      }
+      /*if(!resource['BeginTime'] && resource.canSearchByTime) {
+        resource['errors']['BeginTime'] = 'Begin time is required field.';
+        validated = false;
+      }
+
+      if(!resource['EndTime'] && resource.canSearchByTime && resource.requiresEndDate) {
+        resource['errors']['EndTime'] = 'End time is required field.';
+        validated = false;
+      }*/
+
+      resource.searchFields.filter(field=>{
+        field['validationError'] = 'passed'
+        if(field.isRequired && (!field.model || field.model == '00000000-0000-0000-0000-000000000000')){
+          if(setError) {
+            field['validationError'] = field.name+ ' is required field';
+          }
+          validated = false;
+        }
+      })
+    });
+    return validated;
+  }
+
+
+  setDateFrom(resourceIndex) {
+    // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate) > new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate))
+    // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate), typeof new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate))
+    // console.log(new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate))
+    // console.log(this.state.selectedTemplate['resources'][resourceIndex].BeginDate == '')
+    let beginDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate);
+    let endDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate);
+
+    if(this.state.selectedTemplate['resources'][resourceIndex].BeginDate == '' || beginDate > endDate) {
+      this.state.selectedTemplate['resources'][resourceIndex].BeginDate = this.state.selectedTemplate['resources'][resourceIndex].EndDate;
+    }
+
+      this.loadBookingFields(this.state.selectedTemplate['resources'][resourceIndex].searchFields, resourceIndex, -1)
+    //}
+  }
+  resetErrorState(resourceIndex, property){
+    this.state.selectedTemplate['resources'][resourceIndex]['errors'][property] = '';
+  }
+
+  setResourcesDate (name='') {
+    for (let index =0; index<this.state.selectedTemplate['resources'].length; index++) {
+      this.state.selectedTemplate['resources'][index]['BeginDate'] = new Date();
+      //this.state.selectedTemplate['resources'][index]['BeginDate'].setDate(this.state.selectedTemplate['resources'][index]['BeginDate']);
+      this.state.selectedTemplate['resources'][index]['EndDate'] = new Date();
+      this.state.selectedTemplate['resources'][index]['errors'] = {'BeginDate': '', 'EndDate': ''}
+      this.state.selectedTemplate['resources'][index]['ReturnTimeFormat'] = ''
+      this.state.selectedTemplate['resources'][index]['BeginTimeFormat'] = ''
+      //this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate']);
+      //alert(name)
+      if(name == 'Round Trip'){
+        this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate'].getDate()+1)
+        //alert(this.state.selectedTemplate['resources'][index]['EndDate'])
+      }
+      //if(this.state.selectedGroup['name'] == 'Templates') {
+        this.state.selectedTemplate['resources'][index]['definitions'] = this.state.selectedTemplate['resources'][index].searchFields
+        this.loadBookingFields(this.state.selectedTemplate['resources'][index].searchFields, index, -1)
+      //}
+    }
+  }
+
+
+
 }

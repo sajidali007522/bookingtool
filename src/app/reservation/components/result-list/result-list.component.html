@@ -157,7 +157,7 @@
                 <ul *ngIf="state.resources;">
                   <ng-container *ngFor="let resource of state.resources; let resourceIndex= index">
                     <li *ngFor="let item of resource.resourceItems; let itemIndex=index" [ngClass]="{'active': state.selectedIndece==(resourceIndex+itemIndex)}">
-                      <a href="javascript:void(0);"><strong>{{parseDate((item.isReturn ? item.endDate : item.beginDate), 'month')}}</strong> {{parseDate((item.isReturn ? item.endDate : item.beginDate), 'date')}}</a>
+                      <a href="javascript:void(0);" (click)="switchResource(resourceIndex+itemIndex)" ><strong>{{parseDate((item.isReturn ? item.endDate : item.beginDate), 'month')}}</strong> {{parseDate((item.isReturn ? item.endDate : item.beginDate), 'date')}}</a>
                     </li>
                   </ng-container>
                 </ul>
@@ -167,10 +167,10 @@
               <div class="reserve-top-filter">
                 <select class="form-control custom-select" [(ngModel)]="state.grid_filter" (ngModelChange)="renderFilterGrid()">
                   <!-- metadataGridOptions -->
-                  <option>Try Different Filter</option>
+                  <option value="00000000-0000-0000-0000-000000000000">Try Different Filter</option>
                   <option *ngFor="let item of state.metaDataGridOptions" value="{{item.value}}">{{item.text}}</option>
                 </select>
-                <select class="form-control custom-select" [(ngModel)]="state.sortFilter" (ngModelChange)="getSearchResults()">
+                <select class="form-control custom-select" [(ngModel)]="state.sortFilter" (ngModelChange)="getSearchResults(false)">
                   <option value="LowestTime">Sort By: Time</option>
                   <option value="LowestPrice">Sort By: Price</option>
                 </select>
@@ -189,10 +189,14 @@
                 <tr>
                   <th (click)="resetFilterState(); setGridCell('00');resetFilters();" [ngClass]="{'active': this.state.gridCell == '00'}" ><h4>Show All</h4> {{state.gridFilter.totalResults}} Total Results</th>
                   <th *ngFor="let col of state.gridFilter.columns; let index=index;"
-                      (click)="filterResultSetByGrid([], -1, index, true);
+                      (click)="filterResultSetByGrid([], -1, index, true, col.resultCount);
                                 setGridCell('0'+(index+1));
                                 setFilterStateByGrid(-1, index)"
-                      [ngClass]="{'active': this.state.gridCell == '0'+(index+1)}"
+                      [ngClass]="{
+                      'active': this.state.gridCell == '0'+(index+1) || this.state.gridCell == '00',
+                      'disabled': col.resultCount == ''
+
+                      }"
                   >
                     <h4>{{col.name}}<br/><span>${{col.lowPrice}}</span></h4> {{col.resultCount}} Results
                   </th>
@@ -201,23 +205,30 @@
                 <tbody>
 
                 <tr *ngFor="let row of state.gridFilter.rows; let index = index">
-                  <td (click)="filterResultSetByGrid(row.items, index, -1, true);
+                  <td (click)="filterResultSetByGrid(row.items, index, -1, true, row.resultCount);
                                 setGridCell((index+1)+'0');
                                 setFilterStateByGrid(index, -1);
                               "
-                      [ngClass]="{'active': this.state.gridCell == (index+1)+'0'}">
+                      [ngClass]="{
+                      'active': (this.state.gridCell == (index+1)+'0' || this.state.gridCell == '00'),
+                      'disabled': row.resultCount == ''
+                      }"
+                  >
                     <h4>
                       <img src="{{row.logoUrl.split('.png').join('_50.png')}}" />
                       {{row.name}}
                     </h4><br/>
-                    {{row.resultCount}} Results
+                    {{row.resultCount ? row.resultCount + ' Results' : '-'}}
                   </td>
                   <td class="" *ngFor="let item of row.items; let i = index;"
-                      (click)="filterResultSetByGrid(row.items, index, i);
+                      (click)="filterResultSetByGrid(row.items, index, i, false, item.resultCount);
                       setGridCell((index+1)+''+(i+1));
                       setFilterStateByGrid(index, i);"
-                      [ngClass]="{'active': this.state.gridCell == ((index+1)+''+(i+1)) || this.state.gridCell == (index+1)+'0' || this.state.gridCell == '0'+(i+1) }">
-                    <p>{{item.lowPrice}}</p> {{item.resultCount}} Results
+                      [ngClass]="{
+                      'active': (this.state.gridCell == ((index+1)+''+(i+1)) || this.state.gridCell == (index+1)+'0' || this.state.gridCell == '0'+(i+1) || this.state.gridCell == '00' ),
+                      'disabled':  (item.resultCount == '' || row.resultCount == '')
+                      }">
+                    <p>{{item.lowPrice}}</p> {{item.resultCount ? item.resultCount + ' Results' : '-'}}
                   </td>
 
                 </tr>
@@ -228,7 +239,7 @@
           </div>
 
           <div class="content-booking-wrapper">
-            <div class="article-content-booking" *ngFor="let row of state.bookingRows; let index = $index;" id="div_{{makeValidEleId(row.values2.UniqueID)}}">
+            <div class="article-content-booking" *ngFor="let row of state.bookingRows; let index = index;" id="div_{{makeValidEleId(row.values2.UniqueID)}}">
               <div class="content-booking-left">
                 <h3>
                   <img src="{{row.values2.ProviderLogo.split('.png').join('_50.png')}}" alt="">
@@ -246,8 +257,8 @@
                 <div class="table-price-tickets-wrap table-responsive">
                   <table class="table table-border table-price-tickets" id="table_{{makeValidEleId(row.values2.UniqueID)}}">
                     <tbody>
-                    <tr *ngFor="let channel of row.bookingChannels">
-                      <td *ngFor="let price of channel.prices" [ngClass]="{'active': (price.values2.$selected || (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID)), 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
+                    <tr *ngFor="let channel of row.bookingChannels; let channelIndex=index">
+                      <td *ngFor="let price of channel.prices; let priceIndex=index" (load)="setSelectedValued(index, channelIndex, priceIndex, (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID))" [ngClass]="{'active': (price.values2.$selected || (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID)), 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
                         <a href="javascript:void(0)" class="selectMe" (click)="selectIt(row.values2, index, price, channel.prices)"
                            *ngIf="price.values2.BasePrice"
                         >
