@@ -348,7 +348,7 @@
         <ng-container *ngFor="let segment of state.bookedSegments;let segmentIndex=index">
           <ng-container *ngIf="segment.resourceName != 'Room'">
             <li *ngFor="let seg of segment.segments; let i=index"
-                [ngClass]="{'isStopover': seg.isStopover}"
+                [ngClass]="{'isStopover': !seg.isStopover}"
             >
               <h4><img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
               <h5>
