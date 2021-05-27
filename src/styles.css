@@ -1000,6 +1000,9 @@ input[type="file"] {
   top: 12px;
   z-index: 1;
 }
+.field-gray-wrap.traveler-field .top-22{
+  top: 22px;
+}
 .field-gray-wrap.traveler-field .autocomplete-container input{
   padding-left: 45px !important;
 }

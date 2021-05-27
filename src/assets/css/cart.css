@@ -138,6 +138,10 @@
           border-bottom: none;
           margin-bottom: 0;
       }
+      .booking-art-inner li.isStopover{
+          border-bottom: none;
+          padding-bottom: 0;
+      }
       .booking-art-inner li h4{
           font-size: 18px;
           display: flex;
