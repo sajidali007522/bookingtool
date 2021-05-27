@@ -1,3 +1,5 @@
+<link type="text/css" rel="stylesheet" href="/assets/css/sidebar-overflow.css" />
+
 <div class="reservation-detail-wrap" *ngIf="state.processing">
   <app-loader [className]="'loader-reservation-results loader-lg'"></app-loader>
 </div>
@@ -367,3 +369,113 @@
     </div>
   </div>
 </div>
+
+
+
+<div class="sidebar-overflow">
+  <a href="#" class="sidebar-toogle">
+    <span class="fa fa-gear state-normal"></span>
+    <span class="close-x state-active"></span>
+  </a>
+  <div class="sidebar-overflow-inner">
+    <div class="sideov-title">
+      <h2>New Booking</h2>
+    </div>
+    <div class="side-topform">
+      <div class="mb-3 field-gray-wrap field-wrap">
+        <label>Add Traveler</label>
+        <div class="field-icon-wrap">
+          <span class="user field-icon mt-secon"></span><input class="form-control" placeholder="Search by last name, first name" type="text">
+        </div>
+      </div>
+      <div class="mb-3 field-gray-wrap field-wrap">
+        <label>Add / Replace</label>
+        <div class="field-icon-wrap">
+          <span class="fa fa-refresh field-icon mt-secon"></span><select class="form-control">
+            <option>Select Resources</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+    <nav>
+      <div class="nav nav-tabs" role="tablist">
+        <a class="nav-item nav-link active" data-toggle="tab" href="#content-aa" role="tab" aria-selected="true">Room</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#content-bb" role="tab" aria-selected="false">Selection</a>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="content-aa" role="tabpanel" aria-labelledby="content-aa">
+        <div class="detail-overinner">
+          <h3>Add Room Tues, April 5 - Jan 10</h3>
+
+          <div class="mb-3">
+            <label>Date</label>
+            <div class="field-wrap">
+              <span class="fa fa-calendar-o"></span>
+              <input class="form-control" type="text" value="">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label>End Date</label>
+            <div class="field-wrap">
+              <span class="fa fa-calendar-o"></span>
+              <input class="form-control" type="text" value="">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label>Site</label>
+            <input class="form-control" type="text" value="">
+          </div>
+          <div class="mb-3">
+            <label>Room Type</label>
+            <input class="form-control" type="text" value="">
+          </div>
+          <div class="mb-3">
+            <label>Contract</label>
+            <input class="form-control" type="text" value="">
+          </div>
+          <input type="submit" class="btn btn-info btn-block" value="Add">
+        </div>
+      </div>
+      <div class="tab-pane fade" id="content-bb" role="tabpanel" aria-labelledby="content-bb">
+        <div class="sidebar-cart-body">
+          <ul>
+            <li>
+              <h4>Westjet <a href="#" class="btn btn-sm btn-info">Remove</a></h4>
+              <h5>WS 115 Aug 24</h5>
+              <p>08:00 AM: Calgary Intl. Airport</p>
+              <p>08:00 AM: Vancouver Intl. Airport</p>
+              <div class="side-subtotal">
+                <span>Flex</span>
+                <strong class="stotal">$326.35</strong>
+              </div>
+            </li>
+            <li>
+              <h4>Westjet <a href="#" class="btn btn-sm btn-info">Remove</a></h4>
+              <h5>WS 115 Aug 24</h5>
+              <p>08:00 AM: Calgary Intl. Airport</p>
+              <p>08:00 AM: Vancouver Intl. Airport</p>
+              <div class="side-subtotal">
+                <span>Flex</span>
+                <strong class="stotal">$326.35</strong>
+              </div>
+            </li>
+            <li>
+              <h4>Westjet <a href="#" class="btn btn-sm btn-info">Remove</a></h4>
+              <h5>WS 115 Aug 24</h5>
+              <p>08:00 AM: Calgary Intl. Airport</p>
+              <p>08:00 AM: Vancouver Intl. Airport</p>
+              <div class="side-subtotal">
+                <span>Flex</span>
+                <strong class="stotal">$326.35</strong>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- sidebar-overflow -->

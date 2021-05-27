@@ -1,12 +1,11 @@
 .sidebar-overflow{
-    display: none;
     position: fixed;
-    right: 0;
+    right: -330px;
     top: 56px;
-    height: calc(100vh - 56px);
+    z-index: 1;
     min-height: 300px;
     background: #FFF;
-    width: 350px;
+    width: 330px;
     -webkit-transition: 0.5s;
     transition: 0.5s;
     -o-transition: 0.5s;
@@ -20,9 +19,63 @@
     right: 0;
     border-left: 2px solid rgba(48,53,73,0.28);
 }
+.sidebar-toogle{
+    position: absolute;
+    left: -55px;
+    top: 200px;
+    width: 55px;
+    height: 55px;
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px 8px 10px 11px;
+    color: #fff;
+    font-size: 22px;
+    border-right: 0;
+    border-radius: 50% 0 0 50%;
+    background: linear-gradient(to right, #3f7892 , #09425d);
+    border-color: #09425d;
+}
+.sidebar-toogle:hover{
+    color: #fff;
+}
+.state-active{
+    display: none;
+}
+.sidebar-overflow.open .state-normal{
+    display: none;
+}
+.sidebar-overflow.open .state-active{
+    display: block;
+}
+.close-x {
+    position: absolute;
+    left: 14px;
+    top: 16px;
+    width: 23px;
+    height: 23px;
+}
+.close-x:before, .close-x:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 23px;
+    width: 2px;
+    background-color: #fff;
+}
+.close-x:before {transform: rotate(45deg);}
+.close-x:after {transform: rotate(-45deg);}
+
 .sidebar-overflow-inner{
     padding: 30px 20px;
+    overflow-y: auto;
+    height: calc(100vh - 56px);
 }
+.sidebar-overflow ::-webkit-scrollbar {width: 7px;}
+.sidebar-overflow ::-webkit-scrollbar-track {background: #f1f1f1;}
+.sidebar-overflow ::-webkit-scrollbar-thumb {background: #555; }
+.sidebar-overflow ::-webkit-scrollbar-thumb:hover {background: #000; }
+
 .sideov-title{
     padding: 0 0 10px;
     border-bottom: 1px solid #e9e9e9;
@@ -33,21 +86,62 @@
     font-weight: bold;
     margin: 0 0 5px;
 }
+.field-wrap {
+    position: relative;
+    margin: 0 0 20px;
+}
+.field-wrap .fa {
+    position: absolute;
+    left: 17px;
+    top: 17px;
+}
+.field-wrap .form-control {
+    margin: 0;
+    border: 1px solid #eee;
+    background: #eeeeee;
+    font-size: 16px;
+    padding: 12px 15px 12px 45px;
+    height: 50px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+.side-topform .mt-secon{
+    top: 25px;
+}
+.side-topform .form-control{
+    margin: 0;
+    border: 1px solid #eee;
+    background: #eeeeee;
+    font-size: 16px;
+    padding: 12px 15px 12px 45px;
+    height: 50px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
 .sidebar-overflow .nav-tabs{
     display: flex;
     flex-wrap: wrap;
     background: #F6F7FB;
-    padding: 10px;
+    padding: 10px 5px 7px;
     border: none;
+    border-bottom: 2px solid #09425d;
 }
 .sidebar-overflow .nav-tabs a{
     width: 50%;
     text-align: center;
-    padding: 8px ​5px;
+    padding: 7px 5px;
+    color: #212529;
+    background: none;
+}
+.sidebar-overflow .nav.nav-tabs .nav-link.active{
+    background: #09425d;
+    background: linear-gradient(to right, #3f7892 , #09425d);
 }
 .sidebar-overflow .tab-content{
     background: #F6F7FB;
-    padding: 10px;
+    padding: 15px 10px 5px;
     box-shadow: none;
     border: none;
 }
@@ -56,5 +150,66 @@
     font-size: 16px;
     margin: 0 0 15px;
 }
-.sidebar-overflow{
+.detail-overinner label{
+    color: #2c3e50;
+    font-size: 14px;
+    margin: 0 0 5px;
+}
+.detail-overinner .form-control{
+    background: #f1f1f1;
+    border-color: #f1f1f1;
+}
+.sidebar-cart-body{
+    font-size: 14px;
+}
+.sidebar-cart-body ul,
+.sidebar-cart-body li{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.sidebar-cart-body li{
+    padding: 0 0 20px;
+    border-bottom: 1px solid #999;
+    margin: 0 0 20px;
+}
+.sidebar-cart-body li:last-child{
+    border-bottom: none;
+    margin-bottom: 0;
+}
+.sidebar-cart-body li h4{
+    font-weight: bold;
+    font-size: 17px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.sidebar-cart-body li h4 .btn{
+    margin-left: auto;
+    padding: 2px 6px;
+}
+.sidebar-cart-body li h5{
+    font-weight: bold;
+    font-size: 15px;
+    margin: 0 0 5px;
+}
+.sidebar-cart-body li p{
+    margin: 0 0 3px;
+}
+.side-subtotal{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 15px;
+}
+.side-subtotal .stotal{
+    margin-left: auto;
+}
+
+@media(max-width:767px){
+    .sidebar-overflow.open .sidebar-toogle{
+        left: auto;
+        right: 0;
+        top: 0;
+    }
 }
