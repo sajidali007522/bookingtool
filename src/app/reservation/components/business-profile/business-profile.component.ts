@@ -30,6 +30,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
   keyword= "lastDashFirst";
   timePickerkeyword="text";
   myForm= {}
+  resources=[]
   canceler;
 
   minDateFrom= new Date();
@@ -51,7 +52,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     searchId: '',
     bookedSegments: [],
     addableResourceTypes: [],
-    selectedTemplate: {},
+    selectedTemplate: {resources:[]},
   };
 
   constructor(
@@ -114,7 +115,32 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
         }
       })
   }
+  addResourceToTemplate () {
+    if(this.state.selectedResource == '') return
+    let temp = JSON.parse(JSON.stringify(this.state.selectedResource));
+    /*if(this.state.selectedTemplate['resources'].length > 0 ) {
+      this.state.selectedTemplate['resources'].filter(res => {
+        res['isOpen'] = false;
+      })
+    }*/
+    temp['BeginDate'] = new Date();
+    temp['EndDate'] = new Date();
+    temp['isOpen'] = true;
+    temp['errors'] = {'BeginDate': '', 'EndDate': ''}
+    this.state.selectedTemplate['resources'].push(temp)
+    // if(this.state.selectedTemplate['$resources'].length > 1) {
+    //   this.state.selectedResource = ''
+    // }
+    temp = {};
+    setTimeout(()=>{
+      let element = document.getElementById("accordion_"+(this.state.selectedTemplate['resources'].length-1));
+      console.log("accordion_"+(this.state.selectedTemplate['resources'].length-1), element)
+      element.scrollIntoView();
+      element.classList.add('shake')
+    }, 100)
 
+    //accordion_3
+  }
   loadCriteriaDefinitions(){
     if(this.state.loadingTemplate) return
     this.state.loadingTemplate = true
@@ -123,17 +149,8 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     })
       .subscribe(res=>{
         if(res['status'] == 200) {
-          this.state.selectedTemplate = res['data'];
-          if (this.state.selectedTemplate['resources'].length > 0) {
-            this.state.selectedTemplate['resources'][this.state.selectedTemplate['resources'].length - 1].isOpen = true;
-          }
-          /*if (this.state.selectedTemplate['isDynamic']) {
-            this.state.selectedTemplate['$resources'] = this.state.selectedTemplate['resources'];
-            if (this.state.selectedTemplate['$resources'].length == 1) {
-              this.state.selectedResource = this.state.selectedTemplate['$resources'][0]
-            }
-            this.state.selectedTemplate['resources'] = [];
-          }*/
+          this.resources.push(res['data']);
+          this.state.selectedTemplate['resources'].push(res['data']['resources'])
           this.setResourcesDate();
         }
         this.state.loadingTemplate = false;
