@@ -110,7 +110,7 @@
                 <div class="field-icon-wrap">
                   <span class="fa fa-refresh field-icon mt-secon" [ngClass]="{'fa-spin': state.loadingTemplate}"></span>
                   <select class="form-control" [(ngModel)]="form.resourceTypeID">
-                    <option>Select Resources</option>
+                    <option value="00000000-0000-0000-0000-000000000000">Select Resources</option>
                     <option value="{{resource.value}}" *ngFor="let resource of state.addableResourceTypes">{{resource.text}}</option>
                   </select>
                   <button class="btn btn-primary" (click)="loadCriteriaDefinitions()"> <span class="fa fa-plus"></span>add</button>
@@ -119,52 +119,49 @@
             </div>
           </div>
         </div>
-        <ng-container *ngIf="state.selectedTemplate" >
+        <ng-container *ngIf="resources.length > 0" >
           <div class="accordion accordion-sm custom-accordion text-left" id="accordionExample">
-            <div class="mb-3" id="accordion_{{i}}" *ngFor="let resource of state.selectedTemplate['resources']; let i = index">
+            <div class="mb-3" id="accordion_{{i}}" *ngFor="let resource of resources; let i = index">
               <div class="card-header" id="heading_{{i}}">
-                <h2 class="accordion-link" aria-expanded="false"
-                    [attr.data-toggle]="state.selectedTemplate['resources'].length > 1 ? 'collapse': ''"
-                    [attr.data-target]="state.selectedTemplate['resources'].length > 1 ? '#collaps-'+i : ''"
+                <h2 class="accordion-link has-delete-icon" aria-expanded="false"
+                    [attr.data-toggle]="resources.length > 1 ? 'collapse': ''"
+                    [attr.data-target]="resources.length > 1 ? '#collaps-'+i : ''"
                     [attr.aria-expanded]="'true'"
-                    [ngClass]="{
-                        'has-delete-icon': state.selectedTemplate['isDynamic'],
-                        'noDelIcon':!state.selectedTemplate['isDynamic']
-                        }">
-                  {{resource.resourceItems[0].text}}
-                  <a *ngIf="state.selectedTemplate['isDynamic']" href="javascript:void(0)" (click)="removeResource(i)" class="fa fa-trash-o remove-accordion"></a>
+                    >
+                  <span>{{resource.name}} - {{resource['resources'][0]['resourceItems'][0].text}}</span>
+                  <a href="javascript:void(0)" (click)="removeResource(i)" class="fa fa-trash-o remove-accordion"></a>
                 </h2>
               </div>
-              <div id="collaps-{{i}}" class="collapse show" [ngClass]="{'show1': resource.isOpen, 'table-loader': resource.processing}" >
+              <div id="collaps-{{i}}" class="collapse" [ngClass]="{'show': (resource['resources'][0]['isOpen'] || resources.length == 1), 'table-loader': resource['resources'][0].processing}" >
                 <div class="box box-lr">
                   <div class="row">
-                    <ng-container *ngIf="state.selectedTemplate['isDynamic'] || i == 0">
+                    <ng-container>
                       <div class="col-md-6">
                         <div class="field-wrap-outer">
-                          <label>{{resource['beginWord'] || 'Departure'}} Date<span class="" [ngClass]="{'text-danger': !resource['BeginDate']}">*</span></label>
+                          <label>{{resource['resources'][0]['beginWord'] || 'Departure'}} Date<span class="" [ngClass]="{'text-danger': !resource['resources'][0]['BeginDate']}">*</span></label>
 
-                          <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['errors']['BeginDate']&&resource['errors']['BeginDate'] != '' }">
+                          <div class="field-wrap" [ngClass]="{'is-invalid-wrap' : resource['resources'][0]['errors']['BeginDate']&&resource['resources'][0]['errors']['BeginDate'] != '' }">
                             <input type="text"
-                                   [(ngModel)]="resource['BeginDate']"
+                                   [(ngModel)]="resource['resources'][0]['BeginDate']"
                                    bsDatepicker
                                    [bsConfig]="bsConfig"
                                    (ngModelChange)="setDateTo(i); resetErrorState(i, 'BeginDate')"
                                    [minDate]="minDateFrom"
                                    [maxDate]="maxDateFrom"
-                                   placeholder="{{resource['beginWord'] || 'Departure'}} Date"
+                                   placeholder="{{resource['resources'][0]['beginWord'] || 'Departure'}} Date"
                                    name="departure_date"
                                    autocomplete="off"
                                    class="form-control">
                             <span class="fa fa-calendar-o"></span>
-                            <label class="error text-danger" *ngIf="resource['errors']['BeginDate']">{{resource['errors']['BeginDate']}}</label>
+                            <label class="error text-danger" *ngIf="resource['resources'][0]['errors']['BeginDate']">{{resource['resources'][0]['errors']['BeginDate']}}</label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6" *ngIf="resource.canSearchByTime">
+                      <div class="col-md-6" *ngIf="resource['resources'][0].canSearchByTime">
                         <div class="row">
                           <div class="col-md-12 col-12">
                             <div class="field-wrap-outer">
-                              <label>{{resource['beginWord'] || 'Departure'}} Time</label>
+                              <label>{{resource['resources'][0]['beginWord'] || 'Departure'}} Time</label>
                               <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
                                    [ngClass]="{
                                     'is-invalid-wrap' : false,
@@ -179,7 +176,7 @@
                                   [debounceTime]="400"
                                   [isLoading]="state.beginTimeProcessing"
                                   [minQueryLength]="1"
-                                  placeHolder="{{resource['beginWord'] || 'Departure'}} Time"
+                                  placeHolder="{{resource['resources'][0]['beginWord'] || 'Departure'}} Time"
                                   name="search"
                                 >
                                 </ng-autocomplete>
@@ -193,7 +190,7 @@
                                     </div>
                                   </a>
                                 </ng-template>
-                                <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
+                                <label class="error text-danger" *ngIf="resource['resources'][0]['errors']['BeginTime']">{{resource['resources'][0]['errors']['BeginTime']}}</label>
                               </div>
                             </div>
                           </div>
@@ -202,32 +199,32 @@
 
                       </div>
 
-                      <div class="col-md-6" *ngIf="resource.requiresEndDate">
+                      <div class="col-md-6" *ngIf="resource['resources'][0].requiresEndDate">
                         <div class="field-wrap-outer">
-                          <label>{{resource['endWord'] || 'Return'}} Date<span class="" [ngClass]="{'text-danger': !resource['EndDate']}">*</span></label>
+                          <label>{{resource['resources'][0]['endWord'] || 'Return'}} Date<span class="" [ngClass]="{'text-danger': !resource['resources'][0]['EndDate']}">*</span></label>
 
-                          <div class="field-wrap" [ngClass]="{'is-invalid-wrap' :  resource['errors']['EndDate'] && resource['errors']['EndDate'] != '' }">
+                          <div class="field-wrap" [ngClass]="{'is-invalid-wrap' :  resource['resources'][0]['errors']['EndDate'] && resource['resources'][0]['errors']['EndDate'] != '' }">
                             <input type="text"
-                                   [(ngModel)]="resource['EndDate']"
+                                   [(ngModel)]="resource['resources'][0]['EndDate']"
                                    bsDatepicker
                                    [minDate]="minDateFrom"
                                    [maxDate]="maxDateFrom"
                                    [bsConfig]="bsConfig"
                                    (ngModelChange)="setDateFrom(i); resetErrorState(i, 'EndDate')"
-                                   placeholder="{{resource['endWord'] || 'Return'}} Date"
+                                   placeholder="{{resource['resources'][0]['endWord'] || 'Return'}} Date"
                                    autocomplete="off"
                                    name="arrival_date"
                                    class="form-control">
                             <span class="fa fa-calendar-o"></span>
-                            <label class="error text-danger" *ngIf="resource['errors']['EndDate']">{{resource['errors']['EndDate']}}</label>
+                            <label class="error text-danger" *ngIf="resource['resources'][0]['errors']['EndDate']">{{resource['resources'][0]['errors']['EndDate']}}</label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6" *ngIf="resource.requiresEndDate && resource.canSearchByTime">
+                      <div class="col-md-6" *ngIf="resource['resources'][0].requiresEndDate && resource['resources'][0].canSearchByTime">
                         <div class="row">
                           <div class="col-md-12 col-12">
                             <div class="field-wrap-outer time-picker-wrap">
-                              <label>{{resource['endWord'] || 'Return'}} Time</label>
+                              <label>{{resource['resources'][0]['endWord'] || 'Return'}} Time</label>
                               <div class="field-wrap time-picker-wrap field-wrap-outer field-gray-wrap"
                                    [ngClass]="{
                                     'is-invalid-wrap' : false,
@@ -242,7 +239,7 @@
                                   [debounceTime]="400"
                                   [isLoading]="state.beginTimeProcessing"
                                   [minQueryLength]="1"
-                                  placeHolder="{{resource['endWord'] || 'Return'}} Time"
+                                  placeHolder="{{resource['resources'][0]['endWord'] || 'Return'}} Time"
                                   name="search"
                                 >
                                 </ng-autocomplete>
@@ -256,7 +253,7 @@
                                     </div>
                                   </a>
                                 </ng-template>
-                                <label class="error text-danger" *ngIf="resource['errors']['BeginTime']">{{resource['errors']['BeginTime']}}</label>
+                                <label class="error text-danger" *ngIf="resource['resources'][0]['errors']['BeginTime']">{{resource['resources'][0]['errors']['BeginTime']}}</label>
                               </div>
                             </div>
                           </div>
@@ -265,28 +262,23 @@
 
                       </div>
                     </ng-container>
-                    <!-- </div>
-                    <div class="row template-fields" > -->
-
-                    <ng-container>
-                      <ng-container *ngFor="let field of resource['searchFields']; let j = index">
-                        <div class="col-md-6 col-12" >
-
-                          <app-form-fields
-                            [field]="field"
-                            [definitionType]="1"
-                            [form]="myForm"
-                            [resourceType]="resource['resourceTypeID']"
-                            [index]="i"
-                            [fieldIndex]="j"
-                            [bookingID]="state.bookingID"
-                            (fieldBinding)="bindField($event)"
-                            [hasIcon] = resource.processing
-                          >
-                          </app-form-fields>
-                        </div>
-                      </ng-container>
-                      <ng-container class="col-md-6" *ngFor="let field of resource['resourceItems']; let k =index">
+                    <ng-container *ngFor="let field of resource['resources'][0]['searchFields']; let j = index">
+                      <div class="col-md-6 col-12" >
+                        <app-form-fields
+                          [field]="field"
+                          [definitionType]="1"
+                          [form]="myForm"
+                          [resourceType]="resource['resources'][0]['resourceTypeID']"
+                          [index]="i"
+                          [fieldIndex]="j"
+                          [bookingID]="state.bookingID"
+                          (fieldBinding)="bindBookingField($event)"
+                          [hasIcon] = "resource['resources'][0].processing"
+                        >
+                        </app-form-fields>
+                      </div>
+                    </ng-container>
+                    <ng-container class="col-md-6" *ngFor="let field of resource['resources'][0]['resourceItems']; let k =index">
                         <div class="col-md-12 col-12" *ngIf="field.isBlockable">
                           <label>{{field.text}}<span
                             [ngClass]="{'text-danger': field.isRequired && !field['model'].value}">{{field.isRequired ? '*' : ''}}</span></label>
@@ -310,10 +302,7 @@
                           </div>
                         </div>
                       </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="state.processing">
-                      <app-loader></app-loader>
-                    </ng-container>
+
                   </div>
                 </div>
               </div>

@@ -54,6 +54,9 @@ export class FormFieldsComponent implements OnInit {
     if(!this.field.isRequired && this.field['fieldDefinition']['results'].length<=0 && (this.fieldType != 'autocomplete' && this.fieldType != 'text')){
       this.field['visible'] = false
     }
+    if(!this.field['fieldDefinition']) {
+      this.field['fieldDefinition'] = {'results': [] }
+    }
 
     if(this.field.numeric) {
       this.field['model'] = '00000000-0000-0000-0000-000000000000'
