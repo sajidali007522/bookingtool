@@ -585,7 +585,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
           console.log(data);
           //     this.state.selectedTemplate['resources'][resourceIndex]['searching'] = false;
           this.resources[resIndex]['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID'] = data['data']['searchID'];
-          this.getSearchResults(fields, resource, resourceIndex, resourceItemIndex, data['data']['searchIndeces'][0], resourceTypeID);
+          this.getSearchResults(fields, resource, resourceIndex, resIndex, resourceItemIndex, data['data']['searchIndeces'][0], resourceTypeID);
 
         },
         err => {
@@ -594,10 +594,10 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
         });
   }
 
-  getSearchResults (bodyfields, resource, resourceIndex, resourceItemIndex, searchIndeces, resourceTypeID='00000000-0000-0000-0000-000000000000') {
-    this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = true;
+  getSearchResults (bodyfields, resource, resourceIndex, resIndex, resourceItemIndex, searchIndeces, resourceTypeID='00000000-0000-0000-0000-000000000000') {
+    this.resources[resIndex]['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = true;
     //this._http._get(`booking/${this.form.bookingID}/SearchResults/${this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID']}`,
-    this.resService.getSearchResults(this.state.bookingID, this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID'], searchIndeces,
+    this.resService.getSearchResults(this.state.bookingID, this.resources[resIndex]['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['searchID'], searchIndeces,
       {
         searchIndex:0,
         flattenValues:true,
@@ -609,14 +609,14 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     )
       .subscribe(data => {
           console.log(data);
-          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = false
+          this.resources[resIndex]['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = false
           //this.form['searchID'] = data['searchID'];
-          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['model'] = '';
-          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['results'] =  data['data']['results'];
+          this.resources[resIndex]['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['model'] = '';
+          this.resources[resIndex]['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['results'] =  data['data']['results'];
         },
         err => {
           this.state.loadingGroups=false;
-          this.state.selectedTemplate['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = false
+          this.resources[resIndex]['resources'][resourceIndex]['resourceItems'][resourceItemIndex]['processing'] = false
         }
       );
   }
