@@ -38,6 +38,7 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
 
   bsConfig: Partial<BsDatepickerConfig>;
   state={
+    isSearching: false,
     selectedResource: '',
     loadingGroups : false,
     isLoadingTraveler:false,
@@ -621,6 +622,111 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
       );
   }
 
+  startBookingSearch () {
+
+    let postBody = {
+      "sessionID": this.state.sessionID,
+      'bookingID': this.state.bookingID,
+      'resultsToBook': this.renderResources(),
+      'resourceIndex': null,
+      'resourceTypeID': null,
+      'requireInOrder': false,
+      'addItems': false
+    }
+
+    this.state.isSearching = true;
+    this.resService.makeBooking(this.state.bookingID, postBody['resultsToBook'], {'bookingID': this.state.bookingID, sessionID: this.state.sessionID, addToExisting: true})
+      //this._http._post("Booking/"+this.form.bookingID+"/Book", postBody['resultsToBook'], {'bookingID': this.form.bookingID})
+      .subscribe(data => {
+          this.state.isSearching =false;
+          //console.log(data)
+          if(data['status'] != 500) {
+            if (data['data']['allResourceBooked']) {
+              this.router.navigate(['/reservation/' + this.state.bookingID + '/search/00000000-0000-0000-0000-000000000000/' + this.state.sessionID]);
+            } else {
+              //this.router.navigate(['/reservation/' + this.state.bookingID + '/business-profile/' + this.state.sessionID]);
+            }
+          } else {
+            let err = data['message'].split('.');
+            this.toastr.error(err[0], 'Error!');
+          }
+        },
+        error => {
+          let err = error.split('.');
+          this.toastr.error(err[0], 'Error!');
+          console.log(error);
+          this.state.isSearching =false;
+          //this.state.errors = error;
+        });
+  }
+
+  renderResources(){
+    let resources=[];
+    if(this.resources.length > 0) {
+      for (let index = 0; index < this.resources.length; index++) {
+        let resource = this.resources[index]['resources'][0]
+        let resourceBody = {}
+        let departure;
+        let arrival;
+        if (this.resources[index]['resources'][0]['isDynamic']) {
+          departure = new Date(resource['BeginDate']);
+          arrival = new Date(resource['EndDate']);
+        } else {
+          departure = new Date(this.resources[index]['resources'][0]['BeginDate']);
+          arrival = new Date(this.resources[index]['resources'][0]['EndDate']);
+        }
+        //
+        let resourceItems = [];
+        if(this.resources[index]['resources'][0].resourceItems.length) {
+          this.resources[index]['resources'][0].resourceItems.filter(item => {
+            if(item.isBlockable || true){
+              resourceItems.push(item);
+            }
+          })
+        }
+        if(resourceItems.length>0){
+          let i = 0
+          this.resources[index]['resources'][0].resourceItems.filter(item => {
+            if(item.isBlockable || true) {
+              resources.push({
+                "resultID": (item.model?item.model.UniqueID : ''),
+                "searchID": (item['searchID'] || "00000000-0000-0000-0000-000000000000"),
+                "searchIndex": i,
+                "priceID": "",
+                "beginDate": departure.getFullYear() + '-' + (departure.getMonth() + 1) + "-" + departure.getDate(),
+                "endDate": arrival.getFullYear() + '-' + (arrival.getMonth() + 1) + "-" + arrival.getDate(),
+                "resourceTypeID": resource['resourceTypeID'],
+                "timePropertyID": resource['timePropertyID'],
+                "isReturn": (item['isReturn'] || false),
+                "selectedItems": this.renderResouceFields(resource),
+                "isDynamic": true,
+                "beginTime": "",
+                "endTime": "",
+              });
+              i++;
+            }
+          });
+        }
+      }
+    }
+    return resources;
+  }
+  renderResouceFields (resource) {
+    let fields = [];
+    console.log(resource.searchFields)
+    if(resource.searchFields.length > 0 ){
+      for(let index=0; index<resource.searchFields.length; index++){
+        let field = resource.searchFields[index];
+        fields.push({
+          "relation": field['fieldRelation'],
+          "selection": (typeof field['model'] == 'object' ? field['model']['value'] : field['model']),
+          "selectionText": (typeof field['model'] == 'object' ? field['model']['text'] : field['model']),
+          "type": (field['type'] || 0)
+        })
+      }
+    }
+    return fields;
+  }
 
 
 }
