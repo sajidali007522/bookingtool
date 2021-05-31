@@ -1,4 +1,5 @@
 <link type="text/css" rel="stylesheet" href="/assets/css/sidebar-overflow.css" />
+<link type="text/css" rel="stylesheet" href="/assets/css/banenr-placeholder.css" />
 
 <div class="reservation-detail-wrap" *ngIf="state.processing">
   <app-loader [className]="'loader-reservation-results loader-lg'"></app-loader>
@@ -174,6 +175,18 @@
                   <option value="LowestTime">Sort By: Time</option>
                   <option value="LowestPrice">Sort By: Price</option>
                 </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="banner-manage-reserve-wrap" style="display: none;">
+          <div class="banner-manage-reserve">
+            <div class="mng-title">
+              <h1>Reservations</h1>
+              <h2>No Record Found Please Change the Dates</h2>
+              <div class="mng-banner-info">
+                <p>You need to modify dates then related results should be appear according to specific search and after that can view more in detail. </p>
               </div>
             </div>
           </div>
@@ -419,34 +432,81 @@
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active" id="content-aa" role="tabpanel" aria-labelledby="content-aa">
         <div class="detail-overinner">
-          <h3>Add Room Tues, April 5 - Jan 10</h3>
 
-          <div class="mb-3">
-            <label>Date</label>
-            <div class="field-wrap">
-              <span class="fa fa-calendar-o"></span>
-              <input class="form-control" type="text" value="">
+          <div class="accordion custom-accordion" id="accordionExample">
+            <div class="mb-1">
+              <div class="card-header" id="headingOne">
+                <h2 aria-expanded="false" class="accordion-link" data-target="#collaps-1" data-toggle="collapse">Add Room Tues, April 5 - 10 Jan</h2>
+              </div>
+              <div class="collapse show" data-parent="#accordionExample" id="collaps-1">
+                <div class="box position-relative">
+                  <a href="#" class="btn btn-sm btn-danger remove-acc">Remove <span class="fa fa-remove"></span></a>
+                  <div class="mb-1">
+                    <label>Date</label>
+                    <div class="field-wrap">
+                      <span class="fa fa-calendar-o"></span>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label>End Date</label>
+                    <div class="field-wrap">
+                      <span class="fa fa-calendar-o"></span>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label>Site</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                  <div class="mb-3">
+                    <label>Room Type</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                  <div class="mb-3">
+                    <label>Contract</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-1">
+              <div class="card-header" id="headingTwo">
+                <h2 aria-expanded="false" class="accordion-link collapsed" data-target="#collaps-2" data-toggle="collapse">Add Flight Mon, March 20 - 15 Jully</h2>
+              </div>
+              <div class="collapse" data-parent="#accordionExample" id="collaps-2">
+                <div class="box">
+                  <div class="mb-1">
+                    <label>Date</label>
+                    <div class="field-wrap">
+                      <span class="fa fa-calendar-o"></span>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label>End Date</label>
+                    <div class="field-wrap">
+                      <span class="fa fa-calendar-o"></span>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label>Site</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                  <div class="mb-3">
+                    <label>Room Type</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                  <div class="mb-3">
+                    <label>Contract</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="mb-3">
-            <label>End Date</label>
-            <div class="field-wrap">
-              <span class="fa fa-calendar-o"></span>
-              <input class="form-control" type="text" value="">
-            </div>
-          </div>
-          <div class="mb-3">
-            <label>Site</label>
-            <input class="form-control" type="text" value="">
-          </div>
-          <div class="mb-3">
-            <label>Room Type</label>
-            <input class="form-control" type="text" value="">
-          </div>
-          <div class="mb-3">
-            <label>Contract</label>
-            <input class="form-control" type="text" value="">
-          </div>
+
           <input type="submit" class="btn btn-info btn-block" value="Add">
         </div>
       </div>
