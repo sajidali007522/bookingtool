@@ -143,7 +143,7 @@
             <div class="table-responsive table-housekeeping-wrap"
                  [ngClass]="{'table-loader': state.isLoadingRooms || state.isLoadingMoreRooms}"
             >
-              <ng-container *ngIf="isMobileDevice()">
+              <ng-container *ngIf="isMobileDevice() && data.length > 0">
                 <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
                      id="room_container"
                      (swipeleft)="nextPage()"
@@ -203,7 +203,7 @@
                 </tfoot>
               </table>
               </ng-container>
-              <ng-container *ngIf="!isMobileDevice()">
+              <ng-container *ngIf="!isMobileDevice() && data.length > 0">
                 <table class="table table-striped table-bordered row-border hover room-table jsmartable table-skin"
                        id="room_container"
                 >
@@ -260,6 +260,9 @@
                   </tr>
                   </tfoot> -->
                 </table>
+              </ng-container>
+              <ng-container *ngIf="data.length<=0">
+                <h4 class="text-center"> No Record Available</h4>
               </ng-container>
               <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
             </div>

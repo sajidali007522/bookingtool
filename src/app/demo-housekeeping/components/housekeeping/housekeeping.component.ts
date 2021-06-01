@@ -48,7 +48,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;
   @ViewChild(ModalComponent) modalComp: ModalComponent;
   @ViewChild(ConfirmModalComponent) confirmModalComp: ConfirmModalComponent;
-  data;
+  data=[];
   metaDataGroups = [];
   gridColumns=[];
   pageFilters= {
