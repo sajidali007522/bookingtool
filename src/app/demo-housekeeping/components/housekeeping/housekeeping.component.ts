@@ -869,7 +869,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.DHKService.saveRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/MassUpdate', {}, param)
       .subscribe(
         res => {
-          this.state.message = 'Room Data has been updated!!'
+          this.state.message = 'Room Data has been updated.'
           this.state.modalTitle = "Success!"
           if(typeof res['data'] != 'undefined') {
             res['data'].filter((row) => {
