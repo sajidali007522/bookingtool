@@ -155,11 +155,11 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   setDateTo (resourceIndex) {
     let beginDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate);
-    let endDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate);
+    this.state.selectedTemplate['resources'][resourceIndex]['EndDate'] = beginDate.getDate()+1
 
-    if(beginDate > endDate) {
-      this.state.selectedTemplate['resources'][resourceIndex].EndDate = this.state.selectedTemplate['resources'][resourceIndex].BeginDate;
-    }
+    /*if(beginDate > endDate) {
+      this.state.selectedTemplate['resources'][resourceIndex].EndDate = beginDate.setDate(1);
+    }*/
     if(this.state.selectedGroup['name'] == 'Templates'){
       this.loadFields(this.state.selectedTemplate['resources'][resourceIndex].searchFields, resourceIndex, -1)
     }
@@ -383,10 +383,10 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
       this.state.selectedTemplate['resources'][index]['BeginTimeFormat'] = ''
       //this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate']);
       //alert(name)
-      if(name == 'Round Trip'){
-        this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['EndDate'].getDate()+1)
+      //if(name == 'Round Trip'){
+        this.state.selectedTemplate['resources'][index]['EndDate'].setDate(this.state.selectedTemplate['resources'][index]['BeginDate'].getDate()+1)
         //alert(this.state.selectedTemplate['resources'][index]['EndDate'])
-      }
+      //}
       if(this.state.selectedGroup['name'] == 'Templates') {
         this.state.selectedTemplate['resources'][index]['definitions'] = this.state.selectedTemplate['resources'][index].searchFields
         this.loadFields(this.state.selectedTemplate['resources'][index].searchFields, index, -1)
