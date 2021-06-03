@@ -187,10 +187,10 @@
               <table class="table selection-table" *ngIf="state.gridFilter">
                 <thead>
                 <tr>
-                  <th (click)="resetFilterState(); setGridCell('00');resetFilters();" [ngClass]="{'active': this.state.gridCell == '00'}" ><h4>Show All</h4> {{state.gridFilter.totalResults}} Total Results</th>
+                  <th (click)="resetFilterState(); setGridCell('00', -1);resetFilters();" [ngClass]="{'active': this.state.gridCell == '00'}" ><h4>Show All</h4> {{state.gridFilter.totalResults}} Total Results</th>
                   <th *ngFor="let col of state.gridFilter.columns; let index=index;"
                       (click)="filterResultSetByGrid([], -1, index, true, col.resultCount);
-                                setGridCell('0'+(index+1));
+                                setGridCell('0'+(index+1), col.resultCount);
                                 setFilterStateByGrid(-1, index)"
                       [ngClass]="{
                       'active': this.state.gridCell == '0'+(index+1) || this.state.gridCell == '00',
@@ -206,7 +206,7 @@
 
                 <tr *ngFor="let row of state.gridFilter.rows; let index = index">
                   <td (click)="filterResultSetByGrid(row.items, index, -1, true, row.resultCount);
-                                setGridCell((index+1)+'0');
+                                setGridCell((index+1)+'0', row.resultCount);
                                 setFilterStateByGrid(index, -1);
                               "
                       [ngClass]="{
@@ -222,7 +222,7 @@
                   </td>
                   <td class="" *ngFor="let item of row.items; let i = index;"
                       (click)="filterResultSetByGrid(row.items, index, i, false, item.resultCount);
-                      setGridCell((index+1)+''+(i+1));
+                      setGridCell((index+1)+''+(i+1), item.resultCount);
                       setFilterStateByGrid(index, i);"
                       [ngClass]="{
                       'active': (this.state.gridCell == ((index+1)+''+(i+1)) || this.state.gridCell == (index+1)+'0' || this.state.gridCell == '0'+(i+1) || this.state.gridCell == '00' ),

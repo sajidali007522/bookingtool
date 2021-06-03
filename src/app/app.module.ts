@@ -30,6 +30,8 @@ import {HomeLayoutComponent} from "./components/home-layout/home-layout.componen
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
 import {DateParser} from "./_helpers/dateParser";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import { CallbackComponent } from './callback/callback.component';
+import { ServerLoginTestComponent } from './server-login-test/server-login-test.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
     LoginLayoutComponent,
     MainComponent,
     HomeComponent,
-    HomeLayoutComponent
+    HomeLayoutComponent,
+    CallbackComponent,
+    ServerLoginTestComponent
   ],
   imports: [
     BrowserModule,

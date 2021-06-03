@@ -445,7 +445,8 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     });
     return bookingChannels;
   }
-  setGridCell (cell){
+  setGridCell (cell, count){
+    if(!count) return;
     this.state.gridCell = cell;
   }
   filterResultSet ( item) {

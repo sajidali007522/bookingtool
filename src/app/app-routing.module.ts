@@ -12,6 +12,8 @@ import {AvailabilityComponent} from "./availability/components/availability/avai
 import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
 import {AuthGuard} from "./_helpers/auth.guard";
+import {CallbackComponent} from "./callback/callback.component";
+import {ServerLoginTestComponent} from "./server-login-test/server-login-test.component";
 
 const routes: Routes = [
   {
@@ -40,6 +42,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
+      { path: 'callback', component: CallbackComponent },
+      { path: 'server-login', component: ServerLoginTestComponent },
     ],
   },
   {
