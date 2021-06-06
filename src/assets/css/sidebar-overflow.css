@@ -67,7 +67,7 @@
 .close-x:after {transform: rotate(-45deg);}
 
 .sidebar-overflow-inner{
-    padding: 30px 20px;
+    padding: 30px 20px 5px;
     overflow-y: auto;
     height: calc(100vh - 56px);
 }
@@ -85,6 +85,13 @@
     font-size: 16px;
     font-weight: bold;
     margin: 0 0 5px;
+}
+.side-topform{
+    padding: 0 0 20px;
+}
+.side-topform label{
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 .field-wrap {
     position: relative;
@@ -162,7 +169,8 @@
     font-size: 20px;
 }
 .sidebar-overflow .box{
-    padding: 20px 14px 5px;
+    padding: 10px 14px 5px;
+    margin-bottom: 10px;
 }
 .remove-acc{
     position: absolute;
