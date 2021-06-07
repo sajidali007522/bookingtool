@@ -155,7 +155,9 @@ export class ReservationNewComponent implements OnInit,AfterViewInit {
 
   setDateTo (resourceIndex) {
     let beginDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].BeginDate);
-    this.state.selectedTemplate['resources'][resourceIndex]['EndDate'] = beginDate.getDate()+1
+    let endDate = new Date(this.state.selectedTemplate['resources'][resourceIndex].EndDate);
+    endDate.setDate(beginDate.getDate()+1);
+    this.state.selectedTemplate['resources'][resourceIndex]['EndDate'] = endDate
 
     /*if(beginDate > endDate) {
       this.state.selectedTemplate['resources'][resourceIndex].EndDate = beginDate.setDate(1);
