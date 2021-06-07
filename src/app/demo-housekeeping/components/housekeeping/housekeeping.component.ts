@@ -418,7 +418,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       roomIDs: roomId,
       originalValueIDs: (typeof roomRow['$'+this.capitalizeFirstLetter(key)+'Id'] == 'undefined' || '' == roomRow['$'+this.capitalizeFirstLetter(key)+'Id'] ? '00000000-0000-0000-0000-000000000000' : roomRow['$'+this.capitalizeFirstLetter(key)+'Id']),
       newValueID: roomRow[this.capitalizeFirstLetter(key)+'Id'],
-      updateTypeIDs: this.DHKService.updateTypeIds[key],
+      updateTypeID: this.DHKService.updateTypeIds[key],
     }
     delete roomRow.$type;
     this.DHKService.saveRoom('housekeeping/'+this.pageFilters.sites+'/Rooms/MassUpdate', {}, params)
