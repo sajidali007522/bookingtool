@@ -481,6 +481,24 @@ body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
   .tx-lg-modal p{
     line-height: 1.4;
   }
+  
+.nav-tabs.tabs-transparent{
+  justify-content: space-between;
+}
+.nav-tabs.tabs-transparent .nav-item{
+  flex: 1;
+}
+.nav-tabs.tabs-transparent a{
+  padding: 20px;
+  color: #111;
+  background: none;
+}
+.nav-tabs.tabs-transparent .nav-link.active{
+  color: #111;
+  background: #09425d;
+  background-image: linear-gradient(to bottom, #f3f4f6, #e8e9ed);
+}
+
 .custom-accordion-wrap{
   background: #fff;
 }
@@ -966,6 +984,89 @@ input[type="file"] {
   padding: 15px 25px 15px;
   margin: 0 0 25px;
 }
+.modal-secondary{
+}
+.modal-square .modal-content{
+  border: none;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+
+.fare-detail ul,
+.fare-detail li{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.fare-detail li{
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 10px;
+  margin: 0 0 10px;
+}
+.fare-detail li:last-child{
+  border-bottom: 2px solid #d4d4d4;
+  margin-bottom: 0;
+}
+.fare-desc{
+  display: flex;
+  flex-wrap: wrap;
+}
+.fare-left{
+  width: 120px;
+  font-weight: bold;
+}
+.fare-right{
+  width: calc(100% - 130px);
+  margin-left: auto;
+}
+.flight-right:after{
+  font: normal normal normal 16px/1 FontAwesome;
+  content: "\f072";
+  color: #17a2b8;
+  margin: 0 8px 0 15px;
+}
+.fr-bot-wrap{
+  display: flex;
+  flex-wrap: wrap;
+}
+.fr-bot-wrap ul,
+.fr-bot-wrap li{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.fr-bot-wrap ul{
+  width: 250px;
+  margin-left: auto;
+}
+.fr-bot-wrap li{
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+}
+.fr-bot-wrap li.grant-total{
+  background: #fcf4d9;
+  font-weight: bold;
+  border: none;
+}
+.terms-section{
+  font-size: 14px;
+}
+.terms-section h4{
+  font-size: 15px;
+  color: #616161;
+  font-weight: bold;
+  margin: 0 0 5px;
+  padding-top: 10px;
+}
+.terms-section p{
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+
 .plr-20{
   padding-left: 25px;
   padding-right: 25px;
