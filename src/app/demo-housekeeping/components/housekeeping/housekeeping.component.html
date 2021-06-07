@@ -262,7 +262,7 @@
                 </table>
               </ng-container>
               <ng-container *ngIf="data.length<=0">
-                <h4 class="text-center"> No Record Available</h4>
+                <h4 class="text-center">  No records Available </h4>
               </ng-container>
               <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
             </div>
@@ -381,7 +381,7 @@
       </div>
       <div class="modal-body">
         <div class="custom-accordion">
-          <h3 class="active"><a (click)="toggleFormState($event)" href="javascript:void(0)">Selected Item list Grid</a></h3>
+          <h3 class="active"><a (click)="toggleFormState($event)" href="javascript:void(0)">Selected Room<span *ngIf="state.massEdit.items.length>1">s</span></a></h3>
           <div class="custom-accordion-content exp">
             <div class="table-massedit-wrap table-responsive">
               <table class="table table-bordered room-table td-middle text-nowrap">
