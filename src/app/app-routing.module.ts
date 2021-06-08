@@ -22,11 +22,7 @@ const routes: Routes = [
   {
     path: 'reservation',
     component: SingleColumnLayoutComponent,
-    canActivate: [AuthGuard],
-    // children: [
-    //   { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
-    //   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
-    // ]
+    canActivate: [AuthGuardService],
     loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
   },
   // {
@@ -70,20 +66,14 @@ const routes: Routes = [
     path: 'housekeeping',
     component: SingleColumnLayoutComponent,
     canActivate: [AuthGuardService],
-    // children: [
-    //   { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
-    //   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
-    // ]
+
     loadChildren: () => import('./demo-housekeeping/demo-housekeeping.module').then(m => m.DemoHousekeepingModule)
   },
   {
     path: 'manage/reservation',
     component: SingleColumnLayoutComponent,
     canActivate: [AuthGuardService],
-    // children: [
-    //   { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
-    //   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
-    // ]
+
     loadChildren: () => import('./demo-manage-reservation/demo-manage-reservation.module').then(m => m.DemoManageReservationModule)
   },
   {
