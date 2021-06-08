@@ -32,6 +32,8 @@ import {DateParser} from "./_helpers/dateParser";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import { CallbackComponent } from './callback/callback.component';
 import { ServerLoginTestComponent } from './server-login-test/server-login-test.component';
+import { LoginComponent } from './auth/login/login.component';
+import { LogoutComponent } from './auth/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { ServerLoginTestComponent } from './server-login-test/server-login-test.
     HomeComponent,
     HomeLayoutComponent,
     CallbackComponent,
-    ServerLoginTestComponent
+    ServerLoginTestComponent,
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

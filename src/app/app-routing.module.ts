@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core'
 
 import { HomeComponent } from './components/home/home.component';
-import {LoginComponent} from "./authentication/login/login.component";
+//import {LoginComponent} from "./authentication/login/login.component";
+import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./authentication/register/register.component";
 import {ReservationComponent} from "./reservation/components/reservation/reservation.component";
 import {ResultListComponent} from "./reservation/components/result-list/result-list.component";
@@ -14,6 +15,8 @@ import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single
 import {AuthGuard} from "./_helpers/auth.guard";
 import {CallbackComponent} from "./callback/callback.component";
 import {ServerLoginTestComponent} from "./server-login-test/server-login-test.component";
+import {AuthGuardService} from "./_services/auth-guard.service";
+import {LogoutComponent} from "./auth/logout/logout.component";
 
 const routes: Routes = [
   {
@@ -44,9 +47,11 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'callback', component: CallbackComponent },
       { path: 'server-login', component: ServerLoginTestComponent },
+      { path: 'login', component: LoginComponent, canActivate: [AuthGuardService]},
+      { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService]}
     ],
   },
-  {
+  /*{
     path: 'auth',
     component: LoginLayoutComponent,
     children: [
@@ -54,17 +59,17 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent }
     ]
     //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
-  },
+  },*/
   {
     path: 'availability',
     component: SingleColumnLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuardService],
     loadChildren: () => import('./availability/availability.module').then(m => m.AvailabilityModule)
   },
   {
     path: 'housekeeping',
     component: SingleColumnLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuardService],
     // children: [
     //   { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
     //   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
@@ -74,7 +79,7 @@ const routes: Routes = [
   {
     path: 'manage/reservation',
     component: SingleColumnLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuardService],
     // children: [
     //   { path: '', component:ReservationComponent, canActivate: [AuthGuard]  }, // default route of the module
     //   { path: ":booking_id/search/:search_id", component:ResultListComponent, canActivate: [AuthGuard] },
@@ -83,13 +88,13 @@ const routes: Routes = [
   },
   {
     path: 'flight-setup',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuardService],
     component: SingleColumnLayoutComponent,
     loadChildren: () => import('./flight-setup/flight-setup.module').then(m => m.FlightSetupModule)
   },
   {
     path: 'user',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuardService],
     component: SingleColumnLayoutComponent,
     loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   },

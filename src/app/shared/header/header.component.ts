@@ -2,6 +2,8 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../_services/authentication.service";
 import {ConfigService} from "../../config.service";
+import {AuthService} from "../../_services/auth.service";
+
 
 @Component({
   selector: 'app-header',
@@ -18,17 +20,22 @@ export class HeaderComponent implements OnInit {
   page;
   constructor( private renderer: Renderer2,
                public router: Router,
-               private authenticationService: AuthenticationService,
+               private authService: AuthService,
                private appConfigService: ConfigService
   ) {
     this.custom_configs = this.appConfigService.ui_configs || {};
-    this.currentUser = this.authenticationService.currentUserValue;
+    this.currentUser = this.authService.getUser();
     this.page = this.router.url
-    console.log(this.page);
+    //console.log(this.page);
     //console.log(this.currentUser);
   }
 
+  displayGuestOptions() {
+    return !this.authService.isLoggedIn();
+  }
+
   ngOnInit(): void {
+    //console.log(this.authService.getUser())
     this.switchSkinColor();
     //this.switchContainerWidth();
     this.renderer.removeClass(document.body, 'menu-fullwidth');
@@ -94,8 +101,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['/auth/login']);
+    this.authService.startLogout()
+    //this.router.navigate(['/auth/login']);
   }
 
   haveSideBar () {

@@ -71,10 +71,12 @@
           <!-- <li><a href="javascript:;" (click)="setTheme($event, 'theme-light-primary')" [ngClass]="{'active':isLightTheme }" class="theme-light-primary">{{'theme_light_primary' | translate}}</a></li> -->
         </ul>
       </li>
-      <li class="" [ngClass]="{'has-dropdown': currentUser}">
-        <a *ngIf="!currentUser" routerLink="{{'/auth/login'}}">Login</a>
-        <a href="javascript:void(0)" *ngIf="currentUser" class="has-header-icon">{{currentUser['username']}} <i class="fa fa-user"></i> </a>
-        <ul *ngIf="currentUser" class="dropdown-menu-wrap">
+      <li class="" [ngClass]="{'has-dropdown': !displayGuestOptions()}">
+        <a *ngIf="displayGuestOptions()" routerLink="{{'/login'}}">Login</a>
+        <a href="javascript:void(0)" *ngIf="!displayGuestOptions()" class="has-header-icon">
+          {{'User'}} <i class="fa fa-user"></i>
+        </a>
+        <ul *ngIf="!displayGuestOptions()" class="dropdown-menu-wrap">
           <li><a routerLink="{{'/user/settings'}}"><i class="fa fa-gears"></i> <span>Settings</span></a></li>
           <li><a href="javascript:void(0);"><i class="fa fa-user"></i> <span>Profile</span></a></li>
           <li><a href="javascript:void(0);" (click)="logout()"><i class="fa fa-sign-in"></i> <span>Logout</span></a></li>
