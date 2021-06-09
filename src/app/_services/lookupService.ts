@@ -2,14 +2,21 @@ import { Injectable } from '@angular/core';
 import {HttpService} from "../http.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../auth.service";
+import {AuthService as SSOAuth} from "../_services/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LookupService {
   baseUrl = 'https://demo.innfinity.com/productsdemo/api3/'
-  constructor(private _http: HttpService,private http: HttpClient, private _auth:AuthService) { }
-
+  constructor(private _http: HttpService,private http: HttpClient, private _auth:AuthService,
+              private authService: SSOAuth) { }
+  private getHeaders() {
+    let headers = new HttpHeaders()
+      .set(this._auth.getAuthKey(), this._auth.getToken())
+      .set('Authorization', this.authService.getAuthorizationHeaderValue());
+    return headers;
+  }
   private hitLookup (lookup, params) {
     return this._http._get('lookup/'+lookup, params);
   }
@@ -42,7 +49,7 @@ export class LookupService {
     //console.log(bookingId, postBody, params)
     let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
     return this.http.post(`${this.baseUrl}booking/${bookingId}/SearchCriteriaOptions`, postBody, {
-      headers: headers,
+      headers: this.getHeaders(),
       params: params
     })
   }

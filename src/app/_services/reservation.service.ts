@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpService} from "../http.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../auth.service";
+import {AuthService as SSOAuth} from "../_services/auth.service";
 import {DateParser} from "../_helpers/dateParser";
 
 @Injectable({
@@ -16,51 +17,85 @@ export class ReservationService {
     private _http: HttpService,
     private http: HttpClient,
     private _auth:AuthService,
-    private dateParse: DateParser
+    private dateParse: DateParser,
+    private authService: SSOAuth
   ) { }
+  private getHeaders() {
+    let headers = new HttpHeaders()
+      .set(this._auth.getAuthKey(), this._auth.getToken())
+      .set('Authorization', this.authService.getAuthorizationHeaderValue());
+    return headers;
+  }
 
   public loadSingleResource (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/TemplateGroups`, );
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/TemplateGroups`,{
+      headers: this.getHeaders()
+    } );
   }
 
   public saveReservation (bookingId, body) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reporting`, body);
+    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reporting`, body, {
+      headers: this.getHeaders()
+    });
   }
 
   public getReservation (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reporting`);
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reporting`, {
+      headers: this.getHeaders()
+    });
   }
 
   public getReservSkeleton (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reserve`);
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reserve`, {
+      headers: this.getHeaders()
+    });
   }
 
   public bookProfile (bookingId, body) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body);
+    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body, {
+      headers: this.getHeaders()
+    });
   }
 
   public getProfiles(bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfiles`, {params:params});
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfiles`, {
+      params:params,
+      headers: this.getHeaders()
+    });
   }
 
   public setProfile(bookingId, params) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {},{params:params});
+    return this.http.post( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {},{
+      params:params,
+      headers: this.getHeaders()
+    });
   }
 
   public getProfile(bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {params:params});
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {
+      params:params,
+      headers: this.getHeaders()
+    });
   }
 
   public cloneBooking (bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Clone`, {params:params});
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/Clone`, {
+      params:params,
+      headers: this.getHeaders()
+    });
   }
 
   public isCloneAllBooking (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`);
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {
+      headers: this.getHeaders()
+    });
   }
 
   public cloneAllBooking (bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {params:params});
+    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {
+      params:params,
+      headers: this.getHeaders()
+    });
   }
 
   public renderSelectedItems (fields, type=0) {
