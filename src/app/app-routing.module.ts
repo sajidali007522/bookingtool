@@ -35,7 +35,7 @@ const routes: Routes = [
   //   // ],
   //   loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
   // },
-  {
+  /*{
     path: '',
     component: HomeLayoutComponent,
     children: [
@@ -46,7 +46,13 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent, canActivate: [AuthGuardService]},
       { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService]}
     ],
-  },
+  },*/
+  { path: '', redirectTo: 'housekeeping', pathMatch: 'full' },
+  { path: 'home', redirectTo: 'housekeeping', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuardService]},
+  { path: 'callback', component: CallbackComponent },
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService]},
+
   /*{
     path: 'auth',
     component: LoginLayoutComponent,
