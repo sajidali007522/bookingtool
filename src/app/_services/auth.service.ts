@@ -53,6 +53,17 @@ export class AuthService {
 
 export function getClientSettings(): UserManagerSettings {
   return {
+    client_id: "innfinity.angular.dev_innfinity_coddrule",
+    client_secret: "innfinity.angular.dev_innfinity_coddrule",
+    response_type: "code",
+    scope: "openid profile email upn innfinity.angular",
+    authority: "https://demo.innfinity.com/AngularDev/AuthPortal",
+    redirect_uri: "http://dev.innfinity.coddrule.com/#/callback",
+    post_logout_redirect_uri: "http://dev.innfinity.coddrule.com/#/home",
+    silent_redirect_uri: "http://dev.innfinity.coddrule.com/#/home",
+    automaticSilentRenew: true
+  };
+  /*return {
     client_id: "innfinity.angular.localhost4200",
     client_secret: "innfinity.angular.localhos4200",
     response_type: "code",
@@ -62,5 +73,5 @@ export function getClientSettings(): UserManagerSettings {
     post_logout_redirect_uri: "http://localhost:4200/#/home",
     silent_redirect_uri: "http://localhost:4200/#/home",
     automaticSilentRenew: true
-  };
+  };*/
 }
