@@ -2,28 +2,28 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core'
 
-import { HomeComponent } from './components/home/home.component';
+//import { HomeComponent } from './components/home/home.component';
 //import {LoginComponent} from "./authentication/login/login.component";
 import {LoginComponent} from "./auth/login/login.component";
-import {RegisterComponent} from "./authentication/register/register.component";
-import {ReservationComponent} from "./reservation/components/reservation/reservation.component";
-import {ResultListComponent} from "./reservation/components/result-list/result-list.component";
-import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
-import {AvailabilityComponent} from "./availability/components/availability/availability.component";
-import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
+//import {RegisterComponent} from "./authentication/register/register.component";
+//import {ReservationComponent} from "./reservation/components/reservation/reservation.component";
+//import {ResultListComponent} from "./reservation/components/result-list/result-list.component";
+//import {HomeLayoutComponent} from "./components/home-layout/home-layout.component";
+//import {AvailabilityComponent} from "./availability/components/availability/availability.component";
+//import {LoginLayoutComponent} from "./layouts/login/login-layout.component";
 import {SingleColumnLayoutComponent} from "./layouts/single-column-layout/single-column-layout.component";
-import {AuthGuard} from "./_helpers/auth.guard";
+//import {AuthGuard} from "./_helpers/auth.guard";
 import {CallbackComponent} from "./callback/callback.component";
-import {ServerLoginTestComponent} from "./server-login-test/server-login-test.component";
+//import {ServerLoginTestComponent} from "./server-login-test/server-login-test.component";
 import {AuthGuardService} from "./_services/auth-guard.service";
 import {LogoutComponent} from "./auth/logout/logout.component";
 
 const routes: Routes = [
   {
-    path: 'reservation',
-    component: SingleColumnLayoutComponent,
-    canActivate: [AuthGuardService],
-    loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
+    path: 'reservation', redirectTo: 'housekeeping', pathMatch: 'full'
+    //component: SingleColumnLayoutComponent,
+    //canActivate: [AuthGuardService],
+    //loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
   },
   // {
   //   path: 'house-keeping',
@@ -63,10 +63,10 @@ const routes: Routes = [
     //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },*/
   {
-    path: 'availability',
-    component: SingleColumnLayoutComponent,
-    canActivate: [AuthGuardService],
-    loadChildren: () => import('./availability/availability.module').then(m => m.AvailabilityModule)
+    path: 'availability', redirectTo: 'housekeeping', pathMatch: 'full'
+    //component: SingleColumnLayoutComponent,
+    //canActivate: [AuthGuardService],
+    //loadChildren: () => import('./availability/availability.module').then(m => m.AvailabilityModule)
   },
   {
     path: 'housekeeping',
@@ -76,23 +76,23 @@ const routes: Routes = [
     loadChildren: () => import('./demo-housekeeping/demo-housekeeping.module').then(m => m.DemoHousekeepingModule)
   },
   {
-    path: 'manage/reservation',
-    component: SingleColumnLayoutComponent,
-    canActivate: [AuthGuardService],
+    path: 'manage/reservation', redirectTo: 'housekeeping', pathMatch: 'full'
+    //component: SingleColumnLayoutComponent,
+    //canActivate: [AuthGuardService],
 
-    loadChildren: () => import('./demo-manage-reservation/demo-manage-reservation.module').then(m => m.DemoManageReservationModule)
+    //loadChildren: () => import('./demo-manage-reservation/demo-manage-reservation.module').then(m => m.DemoManageReservationModule)
   },
   {
-    path: 'flight-setup',
-    canActivate: [AuthGuardService],
-    component: SingleColumnLayoutComponent,
-    loadChildren: () => import('./flight-setup/flight-setup.module').then(m => m.FlightSetupModule)
+    path: 'flight-setup', redirectTo: 'housekeeping', pathMatch: 'full'
+    //canActivate: [AuthGuardService],
+    //component: SingleColumnLayoutComponent,
+    //loadChildren: () => import('./flight-setup/flight-setup.module').then(m => m.FlightSetupModule)
   },
   {
-    path: 'user',
-    canActivate: [AuthGuardService],
-    component: SingleColumnLayoutComponent,
-    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+    path: 'user', redirectTo: 'housekeeping', pathMatch: 'full'
+    //canActivate: [AuthGuardService],
+    //component: SingleColumnLayoutComponent,
+    //loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
