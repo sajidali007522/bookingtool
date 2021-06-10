@@ -29,22 +29,22 @@
         height: 100%;
     }
     .feature-airplane{
-        background: url(/assets/images/icon-airplane.png) center center no-repeat;
+        background: url(/Sodexo/innfinite2-worthydown/assets/images/icon-airplane.png) center center no-repeat;
         background-color: #09425d;
         background-size: 75% auto;
     }
     .feature-home{
-        background: url(/assets/images/icon-home.png) center center no-repeat;
+        background: url(/Sodexo/innfinite2-worthydown/assets/images/icon-home.png) center center no-repeat;
         background-color: #dd4b39;
         background-size: 65% auto;
     }
     .feature-industry{
-        background: url(/assets/images/icon-industry.png) center center no-repeat;
+        background: url(/Sodexo/innfinite2-worthydown/assets/images/icon-industry.png) center center no-repeat;
         background-color: #00a65a;
         background-size: 50% auto;
     }
     .feature-global{
-        background: url(/assets/images/icon-global.png) center center no-repeat;
+        background: url(/Sodexo/innfinite2-worthydown/assets/images/icon-global.png) center center no-repeat;
         background-color: #5bc0ed;
         background-size: 65% auto;
     }
@@ -83,20 +83,20 @@
     z-index: 1;
 }
 .service-photo{
-    background: url(/assets/images/home/photo.jpg) center center no-repeat;
+    background: url(/Sodexo/innfinite2-worthydown/assets/images/home/photo.jpg) center center no-repeat;
     background-size: cover;
     height: 470px;
 }
     .service-2{
-        background: url(/assets/images/home/photo2.jpg) center top no-repeat;
+        background: url(/Sodexo/innfinite2-worthydown/assets/images/home/photo2.jpg) center top no-repeat;
         background-size: cover;
     }
     .service-3{
-        background: url(/assets/images/home/photo3.jpg) center center no-repeat;
+        background: url(/Sodexo/innfinite2-worthydown/assets/images/home/photo3.jpg) center center no-repeat;
         background-size: cover;
     }
     .service-4{
-        background: url(/assets/images/home/photo4.jpg) center center no-repeat;
+        background: url(/Sodexo/innfinite2-worthydown/assets/images/home/photo4.jpg) center center no-repeat;
         background-size: cover;
     }
 .service-photo img{

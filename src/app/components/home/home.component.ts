@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    this.addJsToElement('/assets/js/home.js');
+    this.addJsToElement('/Sodexo/innfinite2-worthydown/assets/js/home.js');
   }
 
   addJsToElement(src: string): HTMLScriptElement {

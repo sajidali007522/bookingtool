@@ -53,16 +53,28 @@ export class AuthService {
 
 export function getClientSettings(): UserManagerSettings {
   return {
-    client_id: "innfinity.angular.dev_innfinity_coddrule",
-    client_secret: "innfinity.angular.dev_innfinity_coddrule",
+    client_id: "demo_innfinity_com_sodexo_innfinite2-worthydown",
+    client_secret: "demo_innfinity_com_sodexo_innfinite2-worthydown",
     response_type: "code",
     scope: "openid profile email upn innfinity.angular",
     authority: "https://demo.innfinity.com/AngularDev/AuthPortal",
-    redirect_uri: "http://dev.innfinity.coddrule.com/#/callback",
-    post_logout_redirect_uri: "http://dev.innfinity.coddrule.com/#/home",
-    silent_redirect_uri: "http://dev.innfinity.coddrule.com/#/home",
+    redirect_uri: "https://demo.innfinity.com/Sodexo/innfinite2-worthydown/#/callback",
+    post_logout_redirect_uri: "https://demo.innfinity.com/Sodexo/innfinite2-worthydown/#/home",
+    silent_redirect_uri: "https://demo.innfinity.com/Sodexo/innfinite2-worthydown/#/home",
     automaticSilentRenew: true
   };
+// export function getClientSettings(): UserManagerSettings {
+//   return {
+//     client_id: "innfinity.angular.dev_innfinity_coddrule",
+//     client_secret: "innfinity.angular.dev_innfinity_coddrule",
+//     response_type: "code",
+//     scope: "openid profile email upn innfinity.angular",
+//     authority: "https://demo.innfinity.com/AngularDev/AuthPortal",
+//     redirect_uri: "http://dev.innfinity.coddrule.com/#/callback",
+//     post_logout_redirect_uri: "http://dev.innfinity.coddrule.com/#/home",
+//     silent_redirect_uri: "http://dev.innfinity.coddrule.com/#/home",
+//     automaticSilentRenew: true
+//   };
   /*return {
     client_id: "innfinity.angular.localhost4200",
     client_secret: "innfinity.angular.localhos4200",
