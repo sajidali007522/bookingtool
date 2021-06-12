@@ -5,7 +5,7 @@ import {HttpService} from "../http.service";
   providedIn: 'root'
 })
 export class FlightSetupService {
-
+  private apiVersion= 'api2/'
   resourceTypes = <any>[]
   constructor(private _http: HttpService) { }
 

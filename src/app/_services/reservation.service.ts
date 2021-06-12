@@ -4,11 +4,13 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../auth.service";
 import {AuthService as SSOAuth} from "../_services/auth.service";
 import {DateParser} from "../_helpers/dateParser";
+import {ConfigService} from "../config.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationService {
+  private apiVersion = 'api3/';
   baseUrl = 'https://demo.innfinity.com/productsdemo/api3/'
   state = {
     errorMessages: []
@@ -18,7 +20,8 @@ export class ReservationService {
     private http: HttpClient,
     private _auth:AuthService,
     private dateParse: DateParser,
-    private authService: SSOAuth
+    private authService: SSOAuth,
+    private appConfigService: ConfigService
   ) { }
   private getHeaders() {
     let headers = new HttpHeaders()
@@ -28,71 +31,71 @@ export class ReservationService {
   }
 
   public loadSingleResource (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/TemplateGroups`,{
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/TemplateGroups`,{
       headers: this.getHeaders()
     } );
   }
 
   public saveReservation (bookingId, body) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reporting`, body, {
+    return this.http.post( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Reporting`, body, {
       headers: this.getHeaders()
     });
   }
 
   public getReservation (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reporting`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Reporting`, {
       headers: this.getHeaders()
     });
   }
 
   public getReservSkeleton (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reserve`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Reserve`, {
       headers: this.getHeaders()
     });
   }
 
   public bookProfile (bookingId, body) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body, {
+    return this.http.post( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Reserve`, body, {
       headers: this.getHeaders()
     });
   }
 
   public getProfiles(bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfiles`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/GuestProfiles`, {
       params:params,
       headers: this.getHeaders()
     });
   }
 
   public setProfile(bookingId, params) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {},{
+    return this.http.post( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/GuestProfile`, {},{
       params:params,
       headers: this.getHeaders()
     });
   }
 
   public getProfile(bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/GuestProfile`, {
       params:params,
       headers: this.getHeaders()
     });
   }
 
   public cloneBooking (bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Clone`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Clone`, {
       params:params,
       headers: this.getHeaders()
     });
   }
 
   public isCloneAllBooking (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/CloneAllBookings`, {
       headers: this.getHeaders()
     });
   }
 
   public cloneAllBooking (bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/CloneAllBookings`, {
       params:params,
       headers: this.getHeaders()
     });

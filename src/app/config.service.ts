@@ -28,7 +28,15 @@ export class ConfigService {
     if (!this.appConfig) {
       throw Error('Config file not loaded!');
     }
-    console.log(this.appConfig.ui_configs);
+    //console.log(this.appConfig.ui_configs);
     return typeof this.appConfig.ui_configs !== 'undefined' ? this.appConfig.ui_configs : {};
+  }
+
+  get sso_config(){
+    if (!this.appConfig) {
+      throw Error('Config file not loaded!');
+    }
+    console.log(this.appConfig.sso_config);
+    return typeof this.appConfig.sso_config !== 'undefined' ? this.appConfig.sso_config : {};
   }
 }

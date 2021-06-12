@@ -11,12 +11,14 @@ import {shareReplay} from "rxjs/operators";
   providedIn: 'root'
 })
 export class HttpService {
-
+  protected apiVersion= 'api2/';
   constructor(private http: HttpClient,
               private _auth:AuthService,
               private appConfigService: ConfigService,
               private authService: SSOAuth
-  ) {}
+  ) {
+
+  }
 
   private getHeaders() {
     let headers = new HttpHeaders()
@@ -27,7 +29,7 @@ export class HttpService {
 
   public _get(url, params={}) {
     //let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.get(this.appConfigService.apiBaseUrl+url, {
+    return this.http.get(this.appConfigService.apiBaseUrl+this.apiVersion+url, {
       params: params,
       headers: this.getHeaders()
     });
@@ -36,7 +38,7 @@ export class HttpService {
 
   public _post(url, body, params={}) {
     //let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.post(this.appConfigService.apiBaseUrl+url, body, {
+    return this.http.post(this.appConfigService.apiBaseUrl+this.apiVersion+url, body, {
       params: params,
       headers: this.getHeaders()
     });
@@ -45,7 +47,7 @@ export class HttpService {
 
   public _delete(url, params={}){
     //let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.delete(this.appConfigService.apiBaseUrl+url, {
+    return this.http.delete(this.appConfigService.apiBaseUrl+this.apiVersion+url, {
       params: params,
       headers: this.getHeaders()
     });
@@ -53,7 +55,7 @@ export class HttpService {
 
   public _patch(url, body={}, params={}){
     //let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.patch(this.appConfigService.apiBaseUrl+url, body, {
+    return this.http.patch(this.appConfigService.apiBaseUrl+this.apiVersion+url, body, {
       params: params,
       headers: this.getHeaders()
     });
@@ -61,7 +63,7 @@ export class HttpService {
 
   public _getApi (url, params={}) {
     //let headers = new HttpHeaders().set(this._auth.getAuthKey(),  this._auth.getToken());
-    return this.http.get(this.appConfigService.apiBaseUrl, {
+    return this.http.get(this.appConfigService.apiBaseUrl+this.apiVersion, {
       params: params,
       headers: this.getHeaders()
     });

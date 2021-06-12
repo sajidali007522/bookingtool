@@ -4,11 +4,13 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../auth.service";
 import {AuthService as SSOAuth} from "../_services/auth.service";
 import {DateParser} from "../_helpers/dateParser";
+import {ConfigService} from "../config.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationServiceV4 {
+  private apiVersion = 'api4/'
   baseUrl = 'https://demo.innfinity.com/productsdemo/api4/'
   state = {
     errorMessages: []
@@ -18,7 +20,8 @@ export class ReservationServiceV4 {
     private http: HttpClient,
     private _auth:AuthService,
     private dateParse: DateParser,
-    private authService: SSOAuth
+    private authService: SSOAuth,
+    private appConfigService: ConfigService
   ) { }
 
   private getHeaders() {
@@ -29,34 +32,34 @@ export class ReservationServiceV4 {
   }
 
   public startSession(){
-    return this.http.get( `${this.baseUrl}booking/SessionID`,{
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/SessionID`,{
       headers: this.getHeaders()
     } );
   }
 
   public startBooking(sessionId){
-    return this.http.get(`${this.baseUrl}Booking/Start`, {
+    return this.http.get(`${this.appConfigService.apiBaseUrl}${this.apiVersion}Booking/Start`, {
       headers: this.getHeaders(),
       params:{sessionID: sessionId}
     })
   }
 
   public assignBusinessRule(bookingId, body={}, params={}){
-    return this.http.post(`${this.baseUrl}booking/${bookingId}/RuleBag`, body, {
+    return this.http.post(`${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/RuleBag`, body, {
       headers: this.getHeaders(),
       params:params
     })
   }
 
   public getCriteriaDefinition (bookingID, params){
-    return this.http.get(`${this.baseUrl}booking/${bookingID}/SearchCriteriaDefinition`, {
+    return this.http.get(`${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/SearchCriteriaDefinition`, {
       headers: this.getHeaders(),
       params:params
     })
   }
 
   public setCriteriaDefinition (bookingID, body, params={}){
-    return this.http.patch(`${this.baseUrl}booking/${bookingID}/SearchCriteriaOptions`, body, {
+    return this.http.patch(`${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/SearchCriteriaOptions`, body, {
       headers: this.getHeaders(),
       params:params
     })
@@ -65,7 +68,7 @@ export class ReservationServiceV4 {
 
   ///api4/booking/{bookingID}/SearchCriteriaOption
   public setSearchCriteriaOption (bookingID, body, params={}){
-    return this.http.patch(`${this.baseUrl}booking/${bookingID}/SearchCriteriaOptions`, body, {
+    return this.http.patch(`${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/SearchCriteriaOptions`, body, {
       headers: this.getHeaders(),
       params:params
     })
@@ -73,56 +76,56 @@ export class ReservationServiceV4 {
 
   ////api4/booking/{bookingID}/ReserveOptions
   public getReserveOption (bookingID, body, params={}){
-    return this.http.patch(`${this.baseUrl}booking/${bookingID}/ReserveOptions`, body, {
+    return this.http.patch(`${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/ReserveOptions`, body, {
       headers: this.getHeaders(),
       params:params
     })
   }
 
   public makeBooking (bookingID, body, params){
-    return this.http.post(`${this.baseUrl}booking/${bookingID}/Book`, body, {
+    return this.http.post(`${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/Book`, body, {
       headers: this.getHeaders(),
       params:params
     })
   }
 
   public getBusinessProfileReporting(bookingID, params){
-    return this.http.get(`${this.baseUrl}booking/${bookingID}/Reporting`, {
+    return this.http.get(`${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/Reporting`, {
       headers: this.getHeaders(),
       params:params
     })
   }
 
   public reportingOptions (bookingID, body, params){
-    return this.http.patch(`${this.baseUrl}booking/${bookingID}/ReportingOptions`, body, {
+    return this.http.patch(`${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/ReportingOptions`, body, {
       headers: this.getHeaders(),
       params:params
     })
   }
 
   public makeSearch(bookingID, body, params){
-    return this.http.post(`${this.baseUrl}booking/${bookingID}/Search`, body, {
+    return this.http.post(`${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/Search`, body, {
       headers: this.getHeaders(),
       params:params
     })
   }
 
   public getSearchResults(bookingID, searchID, searchIndex=0, params={}) {
-    return this.http.get( `${this.baseUrl}booking/${bookingID}/Search/${searchID}/${searchIndex}`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/Search/${searchID}/${searchIndex}`, {
       headers: this.getHeaders(),
       params: params
     });
   }
 
   public getSearchStatus(bookingID, searchID, params={}) {
-    return this.http.get( `${this.baseUrl}booking/${bookingID}/Search/${searchID}`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/Search/${searchID}`, {
       headers: this.getHeaders(),
       params: params
     } );
   }
 
   public renderFilterGrid(bookingID, searchID, searchIndex, columnKey, rowKey, params={}) {
-    return this.http.get( `${this.baseUrl}booking/${bookingID}/SearchFilterGrid/${searchID}/${searchIndex}/${columnKey}/${rowKey}`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/SearchFilterGrid/${searchID}/${searchIndex}/${columnKey}/${rowKey}`, {
       headers: this.getHeaders(),
       params: params
     });
@@ -130,7 +133,7 @@ export class ReservationServiceV4 {
 
   public getSortFields(bookingID, searchID, searchIndex=0, params={}){
     ///api4/booking/{bookingID}/Search/{searchID}/{searchIndex}/SortFields
-    return this.http.get( `${this.baseUrl}booking/${bookingID}/Search/${searchID}/${searchIndex}/SortFields`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/Search/${searchID}/${searchIndex}/SortFields`, {
       headers: this.getHeaders(),
       params: params
     } );
@@ -138,7 +141,7 @@ export class ReservationServiceV4 {
 
   public getSearchCriteriaForResource (bookingID, resourceTypeID, params={}) {
     ///api4/booking/{bookingID}/SearchCriteriaDefinition/{resourceTypeID}
-    return this.http.get( `${this.baseUrl}booking/${bookingID}/SearchCriteriaDefinition/${resourceTypeID}`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/SearchCriteriaDefinition/${resourceTypeID}`, {
       headers: this.getHeaders(),
       params: params
     } );
@@ -146,28 +149,28 @@ export class ReservationServiceV4 {
 
   public bookResource (bookingID, body, params={}) {
     ///api4/booking/{bookingID}/SearchCriteriaDefinition/{resourceTypeID}
-    return this.http.post( `${this.baseUrl}booking/${bookingID}/Book`, body, {
+    return this.http.post( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingID}/Book`, body, {
       headers: this.getHeaders(),
       params: params
     } );
   }
 
   public getBookedSegments(bookingId, params={}){
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/BookedSegments`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/BookedSegments`, {
       headers: this.getHeaders(),
       params: params
     } );
   }
 
   public loadAddableResourceTypes(bookingId, params){
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/AddableResourceTypes`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/AddableResourceTypes`, {
       headers: this.getHeaders(),
       params: params
     } );
   }
 
   public loadCriteriaDefinitions(bookingId, resourceTypeID, params){
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/AddableResourceTypes/SearchCriteriaDefinition/${resourceTypeID}`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/AddableResourceTypes/SearchCriteriaDefinition/${resourceTypeID}`, {
       headers: this.getHeaders(),
       params: params
     } );
@@ -175,76 +178,76 @@ export class ReservationServiceV4 {
 
   //Old
   public loadSingleResource (bookingId, params={}) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/TemplateGroups`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/TemplateGroups`, {
       headers: this.getHeaders(),
       params: params
     } );
   }
 
   public saveReservation (bookingId, body, params={}) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reporting`, body, {
+    return this.http.post( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Reporting`, body, {
       headers: this.getHeaders(),
       params: params
     });
   }
 
   public getReservation (bookingId) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reporting`,{
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Reporting`,{
       headers: this.getHeaders()
     });
   }
 
   public getReservSkeleton (bookingId, params={}) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Reserve`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Reserve`, {
       headers: this.getHeaders(),
       params: params
     });
   }
 
   public bookProfile (bookingId, body, params={}) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/Reserve`, body, {
+    return this.http.post( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Reserve`, body, {
       headers: this.getHeaders(),
       params: params
     });
   }
 
   public getProfiles(bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfiles`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/GuestProfiles`, {
       headers: this.getHeaders(),
       params:params
     });
   }
 
   public setProfile(bookingId, params) {
-    return this.http.post( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {},{
+    return this.http.post( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/GuestProfile`, {},{
       headers: this.getHeaders(),
       params:params
     });
   }
 
   public getProfile(bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/GuestProfile`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/GuestProfile`, {
       headers: this.getHeaders(),
       params:params
     });
   }
 
   public cloneBooking (bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/Clone`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/Clone`, {
       headers: this.getHeaders(),
       params:params
     });
   }
 
   public isCloneAllBooking (bookingId, params = {}) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/CloneAllBookings`, {
       headers: this.getHeaders(),
       params: params
     });
   }
 
   public cloneAllBooking (bookingId, params) {
-    return this.http.get( `${this.baseUrl}booking/${bookingId}/CloneAllBookings`, {
+    return this.http.get( `${this.appConfigService.apiBaseUrl}${this.apiVersion}booking/${bookingId}/CloneAllBookings`, {
       headers: this.getHeaders(),
       params:params
     });
