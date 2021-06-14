@@ -268,7 +268,7 @@
               </ng-container>
               <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
             </div>
-            <ul *ngIf="isMobileDevice()" class="pagination justify-content-center">
+            <ul *ngIf="isMobileDevice() && data.length > 0" class="pagination justify-content-center">
               <li class="page-item page-prev">
                 <a class="page-link" href="javascript:void(0)" (click)="previousPage()" aria-label="Previous">
                   <span aria-hidden="true">&laquo;</span>
