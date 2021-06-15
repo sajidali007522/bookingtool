@@ -26,7 +26,7 @@ export class CallbackComponent implements OnInit {
     if(!this.error) {
       this.authService.completeAuthentication()
         .then(()=>{
-          this.router.navigate(['home'])
+          this.router.navigate([this.authService.getDefaultPage()])
         });
       console.log("no error")
     } else {

@@ -82,7 +82,7 @@ import { LogoutComponent } from './auth/logout/logout.component';
         };
       },
     },
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    //{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, deps: [ConfigService],multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig},
     //{ provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },

@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   userDevice;
   currentUser={};
   page;
+  navItems= [];
   constructor( private renderer: Renderer2,
                public router: Router,
                private authService: AuthService,
@@ -35,7 +36,9 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //console.log(this.authService.getUser())
+
+    this.navItems = this.authService.getModulePermissions();
+    console.log(this.authService.getModulePermissions())
     this.switchSkinColor();
     //this.switchContainerWidth();
     this.renderer.removeClass(document.body, 'menu-fullwidth');
@@ -110,6 +113,30 @@ export class HeaderComponent implements OnInit {
     let pageChunks = this.page.split("/");
     //console.log(pageChunks)
     return noSideBarPages.indexOf(pageChunks[1]) == -1
+  }
+
+  showHomePage(){
+    return this.authService.isLoggedIn() ? this.authService.getDefaultPage() == '/home' : this.appConfigService.global_permissions['show_home']
+  }
+
+  getMenuItems(){
+    return this.authService.isLoggedIn() ? this.authService.getModulePermissions() : [];
+  }
+
+  showLanguages() {
+    return this.authService.isLoggedIn() ? this.authService.getUser()['global_permissions']['multilingual'] : this.appConfigService.global_permissions['multilingual'];
+  }
+
+  showUserSettings() {
+    return this.authService.isLoggedIn() ? this.authService.getUser()['global_permissions']['user_settings'] : false
+  }
+
+  showUserProfile() {
+    return this.authService.isLoggedIn() ? this.authService.getUser()['global_permissions']['user_profile'] : false;
+  }
+
+  showThemeSwitch() {
+    return this.authService.isLoggedIn() ? this.authService.getUser()['global_permissions']['theme_switch'] : this.appConfigService.global_permissions['theme_switch'];
   }
 
 }

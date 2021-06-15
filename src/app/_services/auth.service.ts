@@ -14,7 +14,21 @@ export class AuthService {
   constructor(private appConfig: ConfigService) {
     this.manager.getUser().then(user => {
       this.user = user;
+      this.setHeaderPermissions();
     });
+  }
+  setHeaderPermissions() {
+    if(this.isLoggedIn()) {
+      let modules = this.appConfig.modules.filter((item) => {
+        if (item.isAllowed) {
+          return item;
+        }
+      });
+      console.log(modules)
+      this.user['modules'] = modules;
+      this.user['global_permissions'] = this.appConfig.global_permissions;
+      this.user['defaultPage'] = modules.length > 1 ? '/home' : modules[0].url;
+    }
   }
 
   isLoggedIn(): boolean {
@@ -44,12 +58,38 @@ export class AuthService {
 
   completeAuthentication(): Promise<void> {
     return this.manager.signinRedirectCallback().then(user => {
+      //this.user = user;
       this.user = user;
+      this.setHeaderPermissions();
     });
   }
-  getUser(){
+  getUser() {
     return this.user;
   }
+
+  getModulePermissions () {
+    //console.log(this.user)
+    if(!this.user) return [];
+    return this.user['modules'];
+  }
+
+  getDefaultPage(){
+    //console.log(this.isLoggedIn())
+    if(!this.isLoggedIn()) return '';
+    return this.user['defaultPage']
+  }
+
+  canAccessThePage(url){
+    let modules = this.getModulePermissions();
+    let isFound = modules.filter(item=>{
+      //console.log(item.url, url)
+      if(item.url == url){
+        return item;
+      }
+    })
+    return isFound.length > 0 ? true : false
+  }
+
 }
 
 export function getClientSettings(clientSettings): UserManagerSettings {

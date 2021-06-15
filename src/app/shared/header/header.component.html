@@ -8,47 +8,23 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" routerLink="{{'/home'}}"><span>Home</span></a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span>About</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="javascript:void(0)">Travel by Interest</a>
-              <a class="dropdown-item" href="javascript:void(0)">Travel by Region</a>
-              <a class="dropdown-item" href="javascript:void(0)">Travel by Price</a>
-              <a class="dropdown-item" href="javascript:void(0)">Last Minute Flights</a>
-              <a class="dropdown-item" href="javascript:void(0)">5 Star Hotels</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown">
+          <li *ngIf="showHomePage()" class="nav-item"><a class="nav-link" routerLink="{{'/home'}}"><span>Home</span></a></li>
+          <li class="nav-item dropdown" *ngIf="showHomePage() && navItems.length > 0">
             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span>Pages</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-<!--              <a class="dropdown-item" href="javascript:void(0)" routerLink="{{'/housekeeping/search-room'}}">Search Room</a>-->
-              <a class="dropdown-item" href="javascript:void(0)" routerLink="{{'/housekeeping'}}">Housekeeping</a>
-              <a class="dropdown-item" href="javascript:void(0)" routerLink="{{'/reservation'}}">Reservation</a>
-              <a class="dropdown-item" href="javascript:void(0)" routerLink="{{'/manage/reservation'}}">Manage Reservation</a>
-              <a class="dropdown-item" href="javascript:void(0)" routerLink="{{'/availability'}}">Availability</a>
-              <a class="dropdown-item" href="javascript:void(0)" routerLink="{{'/flight-setup'}}">Flight Setup</a>
+              <a *ngFor="let module of navItems" class="dropdown-item" href="javascript:void(0)" routerLink="{{module.url}}">{{module.title}}</a>
             </div>
           </li>
-          <!--<li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span>Target Blank Pages</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
 
-            </div>
-          </li>-->
         </ul>
       </div>
     </nav>
   </div>
   <div class="header-right">
     <ul class="d-flex flex-wrap">
-      <li class="has-dropdown">
+      <li class="has-dropdown" *ngIf="showLanguages()">
         <a href="javascript:void(0)" class="has-header-icon">Language <em class="flagicon flag-us"></em></a>
         <ul class="dropdown-menu-wrap">
           <li><a href="javascript:;" ><em class="flagicon flag-us"></em> <span>English</span></a></li>
@@ -56,7 +32,7 @@
           <li><a href="javascript:;" ><em class="flagicon flag-fr"></em> <span>French</span></a></li>
         </ul>
       </li>
-      <li class="has-dropdown">
+      <li class="has-dropdown" *ngIf="showThemeSwitch()">
         <a href="javascript:void(0)" class="has-header-icon">Theme <i class="fa fa-themeisle"></i> </a>
         <ul class="dropdown-menu-wrap">
           <li [ngClass]="{ 'active': 'theme-dark' == isLightTheme }">
@@ -77,8 +53,8 @@
           {{'User'}} <i class="fa fa-user"></i>
         </a>
         <ul *ngIf="!displayGuestOptions()" class="dropdown-menu-wrap">
-          <li><a routerLink="{{'/user/settings'}}"><i class="fa fa-gears"></i> <span>Settings</span></a></li>
-          <li><a href="javascript:void(0);"><i class="fa fa-user"></i> <span>Profile</span></a></li>
+          <li *ngIf="showUserSettings()"><a routerLink="{{'/user/settings'}}"><i class="fa fa-gears"></i> <span>Settings</span></a></li>
+          <li *ngIf="showUserProfile()"><a href="javascript:void(0);"><i class="fa fa-user"></i> <span>Profile</span></a></li>
           <li><a href="javascript:void(0);" (click)="logout()"><i class="fa fa-sign-in"></i> <span>Logout</span></a></li>
         </ul>
       </li>

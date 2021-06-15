@@ -32,11 +32,25 @@ export class ConfigService {
     return typeof this.appConfig.ui_configs !== 'undefined' ? this.appConfig.ui_configs : {};
   }
 
-  get sso_config(){
+  get sso_config() {
     if (!this.appConfig) {
       throw Error('Config file not loaded!');
     }
-    console.log(this.appConfig.sso_config);
+    //console.log(this.appConfig.sso_config);
     return typeof this.appConfig.sso_config !== 'undefined' ? this.appConfig.sso_config : {};
+  }
+
+  get modules() {
+    if (!this.appConfig) {
+      throw Error('Config file not loaded!');
+    }
+    return typeof this.appConfig.modules !== 'undefined' ? this.appConfig.modules : [];
+  }
+
+  get global_permissions(){
+    if (!this.appConfig) {
+      throw Error('Config file not loaded!');
+    }
+    return typeof this.appConfig.global_permissions !== 'undefined' ? this.appConfig.global_permissions : {};
   }
 }
