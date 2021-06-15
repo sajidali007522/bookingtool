@@ -9,7 +9,7 @@ import {ConfigService} from "../../../config.service";
 @Component({
   selector: 'app-travel',
   templateUrl: './travel.component.html',
-  styleUrls: ['./travel.component.css']
+  styleUrls: ['./travel.component.scss']
 })
 export class TravelComponent implements OnInit {
 

@@ -6,7 +6,7 @@ import {ToastrService} from "ngx-toastr";
 @Component({
   selector: 'app-callback',
   templateUrl: './callback.component.html',
-  styleUrls: ['./callback.component.css']
+  styleUrls: ['./callback.component.scss']
 })
 export class CallbackComponent implements OnInit {
 

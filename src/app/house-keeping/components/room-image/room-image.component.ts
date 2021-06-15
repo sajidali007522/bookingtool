@@ -7,7 +7,7 @@ import {ConfigService} from "../../../config.service";
 @Component({
   selector: 'app-room-image',
   templateUrl: './room-image.component.html',
-  styleUrls: ['./room-image.component.css']
+  styleUrls: ['./room-image.component.scss']
 })
 
 export class RoomImageComponent implements OnInit,OnChanges {

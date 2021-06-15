@@ -7,7 +7,7 @@ import 'hammerjs'
 @Component({
   selector: 'app-record-grid',
   templateUrl: './record-grid.component.html',
-  styleUrls: ['./record-grid.component.css']
+  styleUrls: ['./record-grid.component.scss']
 })
 export class RecordGridComponent implements OnInit,AfterViewInit {
 

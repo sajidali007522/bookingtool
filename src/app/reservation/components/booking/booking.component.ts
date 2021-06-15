@@ -13,7 +13,7 @@ import {ReservationServiceV4} from "../../../_services/reservation_v4.service";
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.css']
+  styleUrls: ['./booking.component.scss']
 })
 export class BookingComponent implements OnInit {
 

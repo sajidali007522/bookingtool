@@ -6,7 +6,7 @@ import {User} from "../../_models/user";
 @Component({
   selector: 'app-single-column-layout',
   templateUrl: './login-layout.component.html',
-  styleUrls: ['./login-layout.component.css']
+  styleUrls: ['./login-layout.component.scss']
 })
 export class LoginLayoutComponent implements OnInit {
   currentUser: User;

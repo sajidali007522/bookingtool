@@ -12,7 +12,7 @@ import {DateParser} from "../../../_helpers/dateParser";
 @Component({
   selector: 'app-result-list',
   templateUrl: './result-list.component.html',
-  styleUrls: ['./result-list.component.css']
+  styleUrls: ['./result-list.component.scss']
 })
 export class ResultListComponent implements OnInit,AfterViewInit {
   @ViewChild('policyListFilter') policyListFilter;

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-server-login-test',
   templateUrl: './server-login-test.component.html',
-  styleUrls: ['./server-login-test.component.css']
+  styleUrls: ['./server-login-test.component.scss']
 })
 export class ServerLoginTestComponent implements OnInit {
   private config = {

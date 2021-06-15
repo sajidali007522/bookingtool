@@ -8,7 +8,7 @@ import {DemoHousekeepingService} from "../../../_services/demo-housekeeping.serv
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
-  styleUrls: ['./room.component.css']
+  styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit,AfterViewInit {
   keyword='text';

@@ -11,7 +11,7 @@ import {ConfirmModalComponent} from "../../../shared/confirm-modal/confirm-modal
 @Component({
   selector: 'app-book-profile',
   templateUrl: './book-profile.component.html',
-  styleUrls: ['./book-profile.component.css']
+  styleUrls: ['./book-profile.component.scss']
 })
 export class BookProfileComponent implements OnInit,AfterViewInit, AfterViewChecked {
 

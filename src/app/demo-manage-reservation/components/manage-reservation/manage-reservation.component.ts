@@ -21,7 +21,7 @@ import * as $ from "jquery";
 @Component({
   selector: 'app-manage-reservation',
   templateUrl: './manage-reservation.component.html',
-  styleUrls: ['./manage-reservation.component.css']
+  styleUrls: ['./manage-reservation.component.scss']
 })
 export class ManageReservationComponent implements OnInit, OnDestroy, AfterViewInit {
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;

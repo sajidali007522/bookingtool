@@ -7,7 +7,7 @@ import 'hammerjs'
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
-  styleUrls: ['./rooms.component.css']
+  styleUrls: ['./rooms.component.scss']
 })
 export class RoomsComponent implements OnInit,AfterViewInit {
 

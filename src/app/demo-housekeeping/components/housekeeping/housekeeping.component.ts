@@ -42,7 +42,7 @@ import {ToastrService} from "ngx-toastr";
 @Component({
   selector: 'app-housekeeping',
   templateUrl: './housekeeping.component.html',
-  styleUrls: ['./housekeeping.component.css']
+  styleUrls: ['./housekeeping.component.scss']
 })
 export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;

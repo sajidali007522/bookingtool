@@ -87,35 +87,35 @@
         top: 5px;
     }
     .icon-price:after{
-        background: url(../images/reservation/icon-tag.png) no-repeat;
+        background: url(src/assets/images/reservation/icon-tag.png) no-repeat;
         width: 20px;
         height: 20px;
     }
     .icon-departure:after{
-        background: url(../images/reservation/icon-departure.png) no-repeat;
+        background: url(src/assets/images/reservation/icon-departure.png) no-repeat;
         width: 20px;
         height: 20px;
     }
     .icon-arrival:after{
-        background: url(../images/reservation/icon-arrival.png) no-repeat;
+        background: url(src/assets/images/reservation/icon-arrival.png) no-repeat;
         width: 20px;
         height: 20px;
     }
     .icon-time:after{
-        background: url(../images/reservation/icon-time.png) no-repeat;
+        background: url(src/assets/images/reservation/icon-time.png) no-repeat;
         width: 20px;
         height: 20px;
     }
     .icon-contractor:after{
         content: " ";
-        background: url(../images/icons/icon-contractor.png) no-repeat;
+        background: url(src/assets/images/icons/icon-contractor.png) no-repeat;
         background-size: 100% auto;
         width: 20px;
         height: 20px;
     }
     .icon-profile:after{
         content: " ";
-        background: url(../images/icons/icon-billing.png) no-repeat;
+        background: url(src/assets/images/icons/icon-billing.png) no-repeat;
         background-size: 100% auto;
         width: 20px;
         height: 20px;
@@ -123,7 +123,7 @@
     }
     .icon-lodge:after{
         content: " ";
-        background: url(../images/icons/icon-lodge.png) no-repeat;
+        background: url(src/assets/images/icons/icon-lodge.png) no-repeat;
         background-size: 100% auto;
         width: 14px;
         height: 26px;
@@ -131,21 +131,21 @@
     }
     .icon-site:after{
         content: " ";
-        background: url(../images/icons/icon-site.png) no-repeat;
+        background: url(src/assets/images/icons/icon-site.png) no-repeat;
         background-size: 100% auto;
         width: 20px;
         height: 20px;
     }
     .icon-resources:after{
         content: " ";
-        background: url(../images/icons/icon-resources.png) no-repeat;
+        background: url(src/assets/images/icons/icon-resources.png) no-repeat;
         background-size: 100% auto;
         width: 20px;
         height: 20px;
     }
     .icon-contact:after{
         content: " ";
-        background: url(../images/icons/icon-contact.png) no-repeat;
+        background: url(src/assets/images/icons/icon-contact.png) no-repeat;
         background-size: 100% auto;
         width: 20px;
         height: 20px;
@@ -203,7 +203,7 @@
     }
     .rev-datewrap:before{
         content: " ";
-        background: url(../images/icons/date.png) no-repeat;
+        background: url(src/assets/images/icons/date.png) no-repeat;
         background-size: 100% auto;
         width: 15px;
         height: 15px;
@@ -525,7 +525,7 @@
         display: inline-block;
         font-weight: normal;
         font-size: 12px;
-        background:#125D81  url(../images/reservation/icon-nonstop.svg) 95% center no-repeat;
+        background:#125D81  url(src/assets/images/reservation/icon-nonstop.svg) 95% center no-repeat;
         background-size: 38px auto;
         color:#fff;
         padding:7px 51px 6px 5px;
@@ -533,7 +533,7 @@
         margin-left: 10px;
     }
     .content-booking-left h3 .book-sm-info.multi-stop{
-        background:#125D81  url(../images/reservation/icon-multi-stop.svg) 95% center no-repeat;
+        background:#125D81  url(src/assets/images/reservation/icon-multi-stop.svg) 95% center no-repeat;
         background-size: 25px auto;
         padding-right: 35px;
     }
@@ -551,7 +551,7 @@
         flex-wrap: wrap;
     }
     .booking-time ul li{
-        background: url(../images/reservation/arrow-right.svg) right center no-repeat;
+        background: url(src/assets/images/reservation/arrow-right.svg) right center no-repeat;
         padding-right: 40px;
         margin-right: 20px;
     }
@@ -587,14 +587,14 @@
         border: 2px solid #cbcbcb;
         color: #212529;
         text-decoration: none;
-        background: url(../images/reservation/checkmark.png) 10px center no-repeat;
+        background: url(src/assets/images/reservation/checkmark.png) 10px center no-repeat;
         padding: 8px 20px 8px 40px;
         -moz-border-radius: 7px;
         -webkit-border-radius: 7px;
         border-radius: 7px;
     }
     .price-tickets li a.active{
-        background:#135d82 url(../images/reservation/checkmark-checked.png) 10px center no-repeat;
+        background:#135d82 url(src/assets/images/reservation/checkmark-checked.png) 10px center no-repeat;
         color: #fff;
         border-color: #135d82;
     }
@@ -617,7 +617,7 @@
         display: block;
         color: #212529;
         text-decoration: none;
-        background: url(../images/reservation/checkmark.png) 10px center no-repeat;
+        background: url(src/assets/images/reservation/checkmark.png) 10px center no-repeat;
         padding: 8px 20px 8px 40px;
         white-space: nowrap;
         position: relative;
@@ -627,7 +627,7 @@
         background:#135d82;
     }
     .table-price-tickets.table td.active a{
-        background:url(../images/reservation/checkmark-checked.png) 10px center no-repeat;
+        background:url(src/assets/images/reservation/checkmark-checked.png) 10px center no-repeat;
         color: #fff;
     }
     .table-price-tickets.table td.processing a:after{
@@ -644,7 +644,7 @@
         position: absolute;
         left: 50%;
         top: 50%;
-        background:url(../images/loading.gif) center center no-repeat;
+        background:url(src/assets/images/loading.gif) center center no-repeat;
         background-size: 30px auto;
         margin: -15px 0 0 -15px;
         width: 30px;
@@ -787,7 +787,7 @@
             top: 14px;
             width: 23px;
             height: 23px;
-            background: url(../images/icons/edit-mass.png) no-repeat;
+            background: url(src/assets/images/icons/edit-mass.png) no-repeat;
         }
         .btn-edit:before{
             content: " ";
@@ -796,7 +796,7 @@
             top: 14px;
             width: 22px;
             height: 22px;
-            background: url(../images/icons/edit.png) no-repeat;
+            background: url(src/assets/images/icons/edit.png) no-repeat;
         }
         .btn-save:before{
             content: " ";
@@ -805,7 +805,7 @@
             top: 14px;
             width: 22px;
             height: 22px;
-            background: url(../images/icons/save.png) no-repeat;
+            background: url(src/assets/images/icons/save.png) no-repeat;
         }
         .btn-ref:before{
             content: " ";
@@ -814,7 +814,7 @@
             top: 14px;
             width: 22px;
             height: 25px;
-            background: url(../images/icons/refresh.png) no-repeat;
+            background: url(src/assets/images/icons/refresh.png) no-repeat;
         }
 
 .full-btns{

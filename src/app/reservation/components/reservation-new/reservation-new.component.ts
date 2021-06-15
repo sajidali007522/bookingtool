@@ -14,7 +14,7 @@ import {ReservationServiceV4} from "../../../_services/reservation_v4.service";
 @Component({
   selector: 'app-reservation-new',
   templateUrl: './reservation-new.component.html',
-  styleUrls: ['./reservation-new.component.css']
+  styleUrls: ['./reservation-new.component.scss']
 })
 export class ReservationNewComponent implements OnInit,AfterViewInit {
   ruleBags = []

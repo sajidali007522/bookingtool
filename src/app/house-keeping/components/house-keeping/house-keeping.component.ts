@@ -37,7 +37,7 @@ const SHIFTS: Shift [] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-house-keeping',
   templateUrl: './house-keeping.component.html',
-  styleUrls: ['./house-keeping.component.css']
+  styleUrls: ['./house-keeping.component.scss']
 })
 export class HouseKeepingComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   //@ViewChild(RoomImageComponent) room-image:RoomImageComponent;

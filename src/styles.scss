@@ -1,14 +1,10 @@
-@import url('./assets/fonts/fonts.css');
-@import url('./assets/css/skin.css');
-@import url('./assets/css/skin-dark.css');
-@import url('./assets/css/skin-dark-primary.css');
+@import url('./assets/fonts/fonts.scss');
+@import url('./assets/css/skin.scss');
+@import url('./assets/css/skin-dark.scss');
+@import url('./assets/css/skin-dark-primary.scss');
 @import '~bootstrap/dist/css/bootstrap.min.css';
-/*@import '~angular-tree-component/dist/angular-tree-component.css';*/
-/*@import "~jsoneditor/dist/jsoneditor.min.css";*/
-
-@import url('./assets/css/availability.css');
-
-@import url('./assets/css/cart.css');
+@import url('./assets/css/availability.scss');
+@import url('./assets/css/cart.scss');
 /* using in Source selection page and business profile page */
 
 body{

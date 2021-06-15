@@ -4,7 +4,7 @@ import {LookupService} from "../../../_services/lookupService";
 @Component({
   selector: 'app-form-fields',
   templateUrl: './form-fields.component.html',
-  styleUrls: ['./form-fields.component.css']
+  styleUrls: ['./form-fields.component.scss']
 })
 export class FormFieldsComponent implements OnInit {
   @Input() field

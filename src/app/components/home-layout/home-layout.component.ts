@@ -6,7 +6,7 @@ import {AuthenticationService} from "../../_services/authentication.service";
 @Component({
   selector: 'app-main',
   templateUrl: './home-layout.component.html',
-  styleUrls: ['./home-layout.component.css']
+  styleUrls: ['./home-layout.component.scss']
 })
 export class HomeLayoutComponent implements OnInit {
   categories;
