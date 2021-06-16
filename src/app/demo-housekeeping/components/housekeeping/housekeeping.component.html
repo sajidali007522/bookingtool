@@ -245,7 +245,7 @@
                           <input style="position: initial" type="file"  (click)="resetFileObject($event, row.roomId)" id="file-upload_{{row.roomId}}" (change)="fileChangeEvent($event, row)" />
                         </div>
                         <span class="fa fa-spin fa-spinner color-skin" *ngIf="row.uploading"></span>
-                        <span class="fa fa-spin fa-spinner color-skin" *ngIf="row.$processing"></span>
+                        <span class="fa fa-spin fa-spinner color-skin"></span>
                         <a href="javascript:void(0)" *ngIf="!row.$processing" data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
                           <!--                <a href="javascript:void(0)"  data-toggle="modal" data-target="#imageCropModal" class="btn btn-info" routerLink="{{'/house-keeping/'+this.pageFilters.sites+'/room/'+row.roomId}}">-->
                           Images
@@ -263,8 +263,11 @@
                   </tfoot> -->
                 </table>
               </ng-container>
-              <ng-container *ngIf="!state.isLoadingMoreRooms && data.length<=0">
+              <ng-container *ngIf="!state.isLoadingRooms  && data.length<=0">
                 <h4 class="text-center"> {{'No records Available'}} </h4>
+              </ng-container>
+              <ng-container *ngIf="state.isLoadingRooms  && data.length<=0">
+                <h4 class="text-center" style="padding: 15px;"> {{'Loading...'}} </h4>
               </ng-container>
               <div *ngIf="state.pagination.totalRooms > 0 && !isMobileDevice()" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
             </div>
