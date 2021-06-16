@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import {AfterViewChecked, Component, OnInit, Renderer2} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../_services/authentication.service";
 import {ConfigService} from "../../config.service";
@@ -10,7 +10,7 @@ import {AuthService} from "../../_services/auth.service";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, AfterViewChecked {
   isLightTheme;
   isFullWidth;
   language;
@@ -34,11 +34,11 @@ export class HeaderComponent implements OnInit {
   displayGuestOptions() {
     return !this.authService.isLoggedIn();
   }
+  ngAfterViewChecked() {
+    this.navItems = this.authService.getModulePermissions();
+  }
 
   ngOnInit(): void {
-
-    this.navItems = this.authService.getModulePermissions();
-    console.log(this.authService.getModulePermissions())
     this.switchSkinColor();
     //this.switchContainerWidth();
     this.renderer.removeClass(document.body, 'menu-fullwidth');
