@@ -1,3 +1,4 @@
+@import './assets/configs/config.scss';
 @import url('./assets/fonts/fonts.scss');
 @import url('./assets/css/skin.scss');
 @import url('./assets/css/skin-dark.scss');
@@ -200,7 +201,7 @@ h3{
   padding: 0 0 0 15px;
 }
 .logo a{
-  background: url(/assets/images/logo.png) no-repeat;
+  background: url(#{$assetsPath}/images/logo.png) no-repeat;
   color: #fff;
   display: inline-block;
   padding-left: 65px;
@@ -318,15 +319,15 @@ h3{
   height: 35px;
 }
 .flag-us{
-  background: url(/assets/images/us.svg) no-repeat;
+  background: url(#{$assetsPath}/images/us.svg) no-repeat;
   background-size: 100% auto;
 }
 .flag-sn{
-  background: url(/assets/images/sn.svg) no-repeat;
+  background: url(#{$assetsPath}/images/sn.svg) no-repeat;
   background-size: 100% auto;
 }
 .flag-fr{
-  background: url(/assets/images/fr.jpg) no-repeat;
+  background: url(#{$assetsPath}/images/fr.jpg) no-repeat;
   background-size: 100% auto;
   height: 28px;
 }
@@ -939,7 +940,7 @@ input[type="file"] {
 }
   .modal-header .close {
     display: inline-block;
-    background: url(/assets/images/cancel-icon.png) no-repeat;
+    background: url(#{$assetsPath}/images/cancel-icon.png) no-repeat;
     background-size: 100% auto;
     width: 20px;
     height: 20px;
@@ -952,7 +953,7 @@ input[type="file"] {
   }
   .close-sm{
     display: inline-block;
-    background: url(/assets/images/cancel-icon.png) no-repeat;
+    background: url(#{$assetsPath}/images/cancel-icon.png) no-repeat;
     background-size: 100% auto;
     width: 15px;
     height: 15px;
@@ -1085,7 +1086,7 @@ input[type="file"] {
   line-height: inherit;
 }
 .user{
-  background: url(./assets/images/reservation/user.svg) no-repeat;
+  background: url(#{$assetsPath}/images/reservation/user.svg) no-repeat;
   background-size: 100% auto;
   width: 22px;
   height: 22px;
@@ -1128,7 +1129,7 @@ body .ng5-slider .ng5-slider-bubble{
 }
 
 .custom-select{
-  background: #135d82 url(/assets/images/arrow-down.png) 96% center no-repeat;
+  background: #135d82 url(#{$assetsPath}/images/arrow-down.png) 96% center no-repeat;
   border-color: #135d82;
   padding: 8px 30px 8px 20px;
   height: auto;
@@ -1136,7 +1137,7 @@ body .ng5-slider .ng5-slider-bubble{
   border-radius: 7px;
 }
 .globel-world-icon{
-  background:url(/assets/images/reservation/globel-icon.png) no-repeat;
+  background:url(#{$assetsPath}/images/reservation/globel-icon.png) no-repeat;
   background-size: 100% auto;
   width: 30px;
   height: 30px;
@@ -1175,7 +1176,7 @@ body.menu-fullwidth .reservation-content-area{
 }
 .table-loader:after{
   content: " ";
-  background: url(/assets/images/loading.gif) no-repeat;
+  background: url(#{$assetsPath}/images/loading.gif) no-repeat;
   background-size: 100% auto;
   position: absolute;
   left: 50%;
@@ -1186,7 +1187,7 @@ body.menu-fullwidth .reservation-content-area{
   z-index: 2;
 }
 .table-loader-bot{
-  background: url(/assets/images/loading.gif) no-repeat;
+  background: url(#{$assetsPath}/images/loading.gif) no-repeat;
   background-size: 100% auto;
   width: 50px;
   height: 50px;
