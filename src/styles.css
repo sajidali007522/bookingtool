@@ -1449,6 +1449,10 @@ body.menu-fullwidth .reservation-content-area{
       transform: translate3d(4px, 0, 0);
     }
   }
+.lb-nav a.lb-prev,
+.lb-nav a.lb-next{
+  opacity: 1;
+}
 .not-show{
   display: none;
 }
