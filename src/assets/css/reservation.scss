@@ -1,6 +1,6 @@
 body,
 .theme-dark-primary{
-    background: url(../images/login/banner-2.jpg) center top no-repeat;
+    background: url($assetsPath/images/login/banner-2.jpg) center top no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }
@@ -120,7 +120,7 @@ img{
     }
     .custom-title h2 span{
         display: inline-block;
-        background: url(../images/logo.png) no-repeat;
+        background: url($assetsPath/images/logo.png) no-repeat;
         background-size: 45px auto;
         padding-left: 60px;
         line-height: 48px;
@@ -328,7 +328,7 @@ img{
 .icon-flight-hotel,
 .template-group-flight{
     display: block;
-    background: url(../images/icons/icon-flight2.png) no-repeat;
+    background: url($assetsPath/images/icons/icon-flight2.png) no-repeat;
     background-size: 100% auto;
     width: 32px;
     height: 32px;
@@ -336,7 +336,7 @@ img{
 }
 .plane-icon{
     display: inline-block;
-    background: url(../images/reservation/flight.png) no-repeat;
+    background: url($assetsPath/images/reservation/flight.png) no-repeat;
     background-size: 100% auto;
     width: 32px;
     height: 32px;
@@ -344,7 +344,7 @@ img{
 .hotel-icon,
 .template-group-hotel{
     display: inline-block;
-    background: url(../images/reservation/hotel-icon.png) no-repeat;
+    background: url($assetsPath/images/reservation/hotel-icon.png) no-repeat;
     background-size: 100% auto;
     width: 32px;
     height: 32px;
@@ -352,7 +352,7 @@ img{
 .car-icon,
 .template-group-car{
     display: inline-block;
-    background: url(../images/reservation/car-icon.png) no-repeat;
+    background: url($assetsPath/images/reservation/car-icon.png) no-repeat;
     background-size: 100% auto;
     width: 32px;
     height: 32px;
@@ -360,35 +360,35 @@ img{
 .template-icon,
 .template-group-templates{
     display: inline-block;
-    background: url(../images/reservation/template-icon.png) no-repeat;
+    background: url($assetsPath/images/reservation/template-icon.png) no-repeat;
     background-size: 100% auto;
     width: 32px;
     height: 32px;
 }
     .flight-hotel{
         display: inline-block;
-        background: url(../images/reservation/flight-hotel.png) no-repeat;
+        background: url($assetsPath/images/reservation/flight-hotel.png) no-repeat;
         background-size: 100% auto;
         width: 55px;
         height: 45px;
     }
     .flight-car{
         display: inline-block;
-        background: url(../images/reservation/flight-car.png) no-repeat;
+        background: url($assetsPath/images/reservation/flight-car.png) no-repeat;
         background-size: 100% auto;
         width: 55px;
         height: 45px;
     }
     .flight-car-hotel{
         display: inline-block;
-        background: url(../images/reservation/flight-car-hotel.png) no-repeat;
+        background: url($assetsPath/images/reservation/flight-car-hotel.png) no-repeat;
         background-size: 100% auto;
         width: 80px;
         height: 45px;
     }
     .bundle-icon{
         display: inline-block;
-        background: url(../images/reservation/bundle.png) center center no-repeat;
+        background: url($assetsPath/images/reservation/bundle.png) center center no-repeat;
         background-size: 100% auto;
         width: 25px;
         height: 45px;
@@ -445,8 +445,8 @@ img{
             padding: 0 3px;
             margin: 0;
         }
-        .trip-radio-wrap .custom-control-input, 
-        .trip-radio-wrap .custom-control-label::after, 
+        .trip-radio-wrap .custom-control-input,
+        .trip-radio-wrap .custom-control-label::after,
         .trip-radio-wrap .custom-control-label::before{
             left: 50%;
             top: 8px;
