@@ -27,6 +27,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/ngx-lightbox/lightbox.css",
+              "src/assets/configs/config.scss",
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"
             ],
