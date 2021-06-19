@@ -27,7 +27,12 @@ export class AuthService {
       console.log(modules)
       this.user['modules'] = modules;
       this.user['global_permissions'] = this.appConfig.global_permissions;
-      this.user['defaultPage'] = modules.length > 1 ? '/home' : modules[0].url;
+      if(modules.length > 0 ){
+        this.user['defaultPage'] = modules[0].url;
+      }
+      if(this.appConfig.global_permissions['show_home']){
+        this.user['defaultPage'] = '/home'
+      }
     }
   }
 
@@ -73,9 +78,8 @@ export class AuthService {
     return this.user['modules'];
   }
 
-  getDefaultPage(){
-    //console.log(this.isLoggedIn())
-    if(!this.isLoggedIn()) return '';
+  getDefaultPage() {
+    if (!this.isLoggedIn()) return false;
     return this.user['defaultPage']
   }
 

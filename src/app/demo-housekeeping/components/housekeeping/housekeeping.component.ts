@@ -538,10 +538,19 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   fileChangeEvent(event: any, room:any): void {
-    console.log("aaaaaa");
+    //console.log("aaaaaa");
+    const size = event.srcElement.files[0].size;
+    console.log(size/1000/1000)
+    if(size/1000/1000>5){
+      this.state.message = "Image is too big, try with small size."
+      this.state.modalTitle = 'Error!'
+      this.state.isWrongFile = true;
+      this.openModal();
+      return;
+    }
     this.state.selectedRoom = room;
     this.imageChangedEvent = event;
-    console.log( event.files);
+
     this.state.roomImage.name = "Picture of "+room.roomNumber;
     this.state.roomImage.description = ''
     this.stripLength();

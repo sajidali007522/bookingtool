@@ -41,12 +41,12 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
-      { path: 'callback', component: CallbackComponent },
-      { path: 'server-login', component: ServerLoginTestComponent },
-      { path: 'login', component: LoginComponent, canActivate: [AuthGuardService]},
-      { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService]}
     ],
   },
+  { path: 'callback', component: CallbackComponent },
+  { path: 'server-login', component: ServerLoginTestComponent },
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuardService]},
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService]},
   /*{
     path: 'auth',
     component: LoginLayoutComponent,

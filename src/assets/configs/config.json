@@ -22,10 +22,10 @@
     "user_settings": false,
     "user_profile": false,
     "theme_switch": true,
-    "show_home": true
+    "show_home": false
   },
   "modules": [
-    {"title": "Availability", "url": "/availability", "isAllowed": true},
+    {"title": "Availability", "url": "/availability", "isAllowed": false},
     {"title": "Flight Setup", "url": "/flight-setup", "isAllowed": false},
     {"title": "HouseKeeping", "url": "/housekeeping", "isAllowed": true},
     {"title": "Reservation", "url": "/reservation", "isAllowed": false},

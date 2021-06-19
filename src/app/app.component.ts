@@ -11,15 +11,10 @@ import { User } from './_models/user';
 })
 export class AppComponent {
   title = 'booking-tool';
-  categories;
   loading;
 
-  currentUser: User;
-
-  constructor(public router: Router,
-              private authenticationService: AuthenticationService
+  constructor(public router: Router
   ) {
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     router.events.subscribe(event => {
       if(event instanceof NavigationStart) {
         this.loading = true;
