@@ -540,7 +540,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   fileChangeEvent(event: any, room:any): void {
     //console.log("aaaaaa");
     const size = event.srcElement.files[0].size;
-    console.log(size/1000/1000)
+    //console.log(size/1000/1000)
     if(size/1000/1000>5){
       this.state.message = "Image is too big, try with small size."
       this.state.modalTitle = 'Error!'
@@ -788,6 +788,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       flag++;
     }
     this.state.massEdit.lastIndex = -1;
+    $("#search-accordion").addClass('group-active')
     return;
 
   }
