@@ -213,6 +213,9 @@ h3{
   text-decoration: none;
   font-size: 22px;
 }
+.nav-wrap{
+  width: calc(100% - 250px);
+}
 .header-right{
   margin-left: auto;
 }
@@ -1524,12 +1527,31 @@ body.menu-fullwidth .reservation-content-area{
     background: none;
     box-shadow: none;
   }
+  .nav-wrap{
+    width: 100%;
+  }
   .header-wrap{
     display: block;
     padding: 0;
   }
-  .header-right{
+  .header-right > ul{
+    display: block !important;
+  }
+  .header-right > ul > li{
+    margin-left: 0;
+  }
+  .header-right > ul > li .has-header-icon{
+    font-size: 16px;
+  }
+  .header-right .has-dropdown > .dropdown-menu-wrap{
+    width: 100%;
+    position: static;
+  }
+  .header-right .has-dropdown > ul:before{
     display: none;
+  }
+  .header-right .dropdown-menu-wrap li a{
+    font-weight: normal;
   }
   .tx-lg-modal{
     padding: 0;
