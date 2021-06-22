@@ -302,7 +302,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
 
     this.ref.detectChanges();
     this.state.alertMessages = ''
-    this.state.pagination.pageSize = this.isMobileDevice() ? 1 : 25;
+    this.state.pagination.pageSize = this.isMobileDevice() ? 1 : this.state.pagination.pageSize;
     this.canceler = this.DHKService.loadRooms(this.pageFilters.sites, {metadataGroups:this.getMetaDataGroup()},{
       includeMetadata: this.state.loadMetaData,
       //featureId : this.pageFilters.features,
@@ -539,9 +539,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
 
   fileChangeEvent(event: any, room:any): void {
     //console.log("aaaaaa");
-    const size = event.srcElement.files[0].size;
+    const file = event.srcElement.files[0]
+    const size = file.size;
     //console.log(size/1000/1000)
-    if(size/1000/1000>5){
+    if(size/1000/1000>4){
       this.state.message = "Image is too big, try with small size."
       this.state.modalTitle = 'Error!'
       this.state.isWrongFile = true;

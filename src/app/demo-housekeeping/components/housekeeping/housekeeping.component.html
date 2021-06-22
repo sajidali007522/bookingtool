@@ -135,10 +135,13 @@
                   <h3>Room Status</h3>
                   <div class="results-show for-desktop">
                     <span>Show</span>
-                    <select class="form-control">
-                      <option>25</option>
-                      <option>50</option>
-                      <option>75</option>
+                    <select class="form-control" [(ngModel)]="state.pagination.pageSize" (ngModelChange)="loadRooms(false)">
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="250">250</option>
+                      <option value="500">500</option>
+                      <option value="1000">1000</option>
                     </select>
                   </div>
                 </div>
