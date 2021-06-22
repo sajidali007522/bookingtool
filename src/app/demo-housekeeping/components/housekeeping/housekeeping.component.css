@@ -87,6 +87,27 @@ td select.view-mode:active{
   line-height: 1;
   font-size: 12px;
 }
+.room-title-above{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.room-title-above h3{
+  margin:10px 20px 10px 0;
+}
+.results-show{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 14px;
+}
+.results-show .form-control{
+  width: 59px;
+  margin: 0 10px;
+  padding: 2px 9px;
+  height: auto;
+  font-size: 14px;
+}
 
 .dataTable td{
   position: relative;

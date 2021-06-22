@@ -10,6 +10,9 @@
           <span class="fa fa-spin fa-refresh" *ngIf="state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData"></span>
           Reset
         </a>
+        <a href="javascript:void(0)" class="btn btn-sm btn-success ml-auto for-desktop">
+          Select All
+        </a>
       </div>
 
       <div class="accordion-group group-active">
@@ -128,7 +131,17 @@
           <div class="box-header">
             <div class="row">
               <div class="col-5">
-                <h3>Room Status</h3>
+                <div class="room-title-above">
+                  <h3>Room Status</h3>
+                  <div class="results-show for-desktop">
+                    <span>Show</span>
+                    <select class="form-control">
+                      <option>25</option>
+                      <option>50</option>
+                      <option>75</option>
+                    </select>
+                  </div>
+                </div>
               </div>
               <div class="col-7">
                 <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>

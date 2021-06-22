@@ -253,9 +253,9 @@ h3{
   font-size: 15px;
   margin-left: 5px;
 }
-/* .header-right > ul > li:hover > .dropdown-menu-wrap{
+.header-right > ul > li:hover > .dropdown-menu-wrap{
   display: block;
-} */
+}
 .header-right > ul > li.has-dropdown{
   padding-right: 15px;
 }
