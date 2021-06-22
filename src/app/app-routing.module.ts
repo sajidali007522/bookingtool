@@ -88,6 +88,12 @@ const routes: Routes = [
     component: SingleColumnLayoutComponent,
     loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   },
+  {
+    path: 'reports',
+    canActivate: [AuthGuardService],
+    component: SingleColumnLayoutComponent,
+    loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
+  },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
 ];

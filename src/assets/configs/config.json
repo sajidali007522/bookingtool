@@ -29,6 +29,7 @@
     {"title": "Flight Setup", "url": "/flight-setup", "isAllowed": false},
     {"title": "HouseKeeping", "url": "/housekeeping", "isAllowed": true},
     {"title": "Reservation", "url": "/reservation", "isAllowed": false},
-    {"title": "Manage Reservation", "url": "/manage/reservation", "isAllowed": false}
+    {"title": "Manage Reservation", "url": "/manage/reservation", "isAllowed": false},
+    {"title": "Reports", "url": "/reports/housekeeping", "isAllowed": true}
   ]
 }
