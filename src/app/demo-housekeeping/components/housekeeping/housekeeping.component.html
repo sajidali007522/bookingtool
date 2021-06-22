@@ -10,8 +10,8 @@
           <span class="fa fa-spin fa-refresh" *ngIf="state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData"></span>
           Reset
         </a>
-        <a href="javascript:void(0)" class="btn btn-sm btn-success ml-auto for-desktop">
-          Select All
+        <a href="javascript:void(0)" class="btn btn-sm btn-success ml-auto for-desktop" (click)="toggleSelectAll()">
+          {{this.state.massEdit.items.length != this.data.length ? 'Select All' : 'Unselect all' }}
         </a>
       </div>
 

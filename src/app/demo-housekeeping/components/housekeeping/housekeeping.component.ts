@@ -943,5 +943,20 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
   }
 
+  toggleSelectAll(){
+    let selectAll = this.state.massEdit.items.length != this.data.length;
+    this.state.massEdit.indexes= [];
+    this.state.massEdit.items = [];
+
+    for(let index=0; index< this.data.length; index++) {
+      this.data[index]['isSelected'] = selectAll;
+      if(selectAll) {
+        this.state.massEdit.indexes.push(index)
+        this.state.massEdit.items.push(this.data[index])
+      }
+    }
+
+  }
+
 }
 
