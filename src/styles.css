@@ -344,6 +344,13 @@ h3{
 }
 /* Header end */
 
+.default-gap{
+  padding: 85px 25px 25px;
+}
+.plr-10{
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
 .popover{
   background-color:#5bc0ed;
   border-color: #5bc0ed;
