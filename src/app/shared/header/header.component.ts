@@ -36,6 +36,11 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   }
   ngAfterViewChecked() {
     this.navItems = this.authService.getModulePermissions();
+    $("body").click(function(e){
+      if(!$(e.target).is('.children-menu')) {
+        $('.header-wrap').find('.dropdown-menu-wrap').hide();
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -138,5 +143,20 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   showThemeSwitch() {
     return this.authService.isLoggedIn() ? this.authService.getUser()['global_permissions']['theme_switch'] : this.appConfigService.global_permissions['theme_switch'];
   }
+
+  toggleMenuBar($event) {
+    let isVisible = $($event.target).next('ul').is(":visible")
+
+    $($event.target).parents('.header-wrap').find('.dropdown-menu-wrap').hide();
+    if(isVisible){
+      $($event.target).next('ul').hide();
+    }
+    else {
+      $($event.target).next('ul').show();
+    }
+
+  }
+
+
 
 }

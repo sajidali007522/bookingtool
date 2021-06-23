@@ -11,7 +11,7 @@
           Reset
         </a>
         <a href="javascript:void(0)" class="btn btn-sm btn-success ml-auto for-desktop" (click)="toggleSelectAll()">
-          {{this.state.massEdit.items.length != this.data.length ? 'Select All' : 'Unselect all' }}
+          {{(this.data.length >0 && this.state.massEdit.items.length != this.data.length) ? 'Select All' : 'Unselect all' }}
         </a>
       </div>
 
