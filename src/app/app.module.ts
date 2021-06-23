@@ -34,6 +34,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { ServerLoginTestComponent } from './server-login-test/server-login-test.component';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './auth/logout/logout.component';
+import { BaseComponent } from './components/base/base.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { LogoutComponent } from './auth/logout/logout.component';
     CallbackComponent,
     ServerLoginTestComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    BaseComponent
   ],
   imports: [
     BrowserModule,

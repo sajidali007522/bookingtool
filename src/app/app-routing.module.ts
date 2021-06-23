@@ -17,6 +17,7 @@ import {CallbackComponent} from "./callback/callback.component";
 import {ServerLoginTestComponent} from "./server-login-test/server-login-test.component";
 import {AuthGuardService} from "./_services/auth-guard.service";
 import {LogoutComponent} from "./auth/logout/logout.component";
+import {BaseComponent} from "./components/base/base.component";
 
 const routes: Routes = [
   {
@@ -25,37 +26,19 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     loadChildren: () => import('./reservation/reservation.module').then(m => m.ReservationModule)
   },
-  // {
-  //   path: 'house-keeping',
-  //   component: HomeLayoutComponent,
-  //   canActivate: [AuthGuard],
-  //   // children: [
-  //   //   { path: '', component: HouseKeepingComponent },
-  //   //   { path: 'search-room', component: RoomComponent },
-  //   // ],
-  //   loadChildren: () => import('./house-keeping/house-keeping.module').then(m => m.HouseKeepingModule)
-  // },
+  { path: '', component: BaseComponent },
   {
-    path: '',
+    path: 'home',
     component: HomeLayoutComponent,
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
+      { path: '', component: HomeComponent },
     ],
   },
   { path: 'callback', component: CallbackComponent },
   { path: 'server-login', component: ServerLoginTestComponent },
   { path: 'login', component: LoginComponent, canActivate: [AuthGuardService]},
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService]},
-  /*{
-    path: 'auth',
-    component: LoginLayoutComponent,
-    children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent }
-    ]
-    //loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
-  },*/
+
   {
     path: 'availability',
     component: SingleColumnLayoutComponent,
