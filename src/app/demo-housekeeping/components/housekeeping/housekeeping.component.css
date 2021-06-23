@@ -156,6 +156,9 @@ tr.selected td { background: #fff0de;}
   .filter-hide-mobile{
     display: none;
   }
+  .room-title-above h3{
+    margin: 5px 0;
+  }
   .filters-parent{
     margin: 0 0 25px;
   }
