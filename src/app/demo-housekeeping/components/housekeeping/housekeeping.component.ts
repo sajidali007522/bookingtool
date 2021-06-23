@@ -543,7 +543,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     const size = file.size;
     //console.log(size/1000/1000)
     if(size/1000/1000>4){
-      this.state.message = "Image is too big, try with small size."
+      this.state.message = "Image upload size too large, Pleaes uplaod less then 5MB."
       this.state.modalTitle = 'Error!'
       this.state.isWrongFile = true;
       this.openModal();
