@@ -30,6 +30,6 @@
     {"title": "HouseKeeping", "url": "/housekeeping", "isAllowed": true},
     {"title": "Reservation", "url": "/reservation", "isAllowed": false},
     {"title": "Manage Reservation", "url": "/manage/reservation", "isAllowed": false},
-    {"title": "Reports", "url": "/reports/housekeeping", "isAllowed": true}
+    {"title": "Reports", "url": "/reports/Housekeeping", "isAllowed": true}
   ]
 }

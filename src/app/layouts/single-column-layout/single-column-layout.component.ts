@@ -24,6 +24,7 @@ export class SingleColumnLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //alert(this.router.url)
     //console.log(this.router.url,  this.authService.getDefaultPage()+'456');
     if(!this.authService.canAccessThePage(this.router.url)) {
       this.router.navigate([this.authService.getDefaultPage()])
@@ -38,13 +39,14 @@ export class SingleColumnLayoutComponent implements OnInit {
   checkRouterEvent(routerEvent): void {
     if (routerEvent instanceof NavigationStart) {
       this.loading = true;
-      //console.log(this.router.url)
+      console.log(this.router.url)
       console.log('navigation started');
     }
 
     if (routerEvent instanceof NavigationEnd ||
       routerEvent instanceof NavigationCancel ||
       routerEvent instanceof NavigationError) {
+      console.log(this.router.url)
       console.log('navigation end');
       this.loading = false;
     }

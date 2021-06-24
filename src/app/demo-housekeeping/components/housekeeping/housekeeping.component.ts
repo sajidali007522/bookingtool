@@ -294,6 +294,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     }
     this.loadRooms();
   }
+
   public loadRooms (append = false) {
     if(!this.state.isLoadingMoreRooms) {
       if(this.canceler) { this.canceler.unsubscribe(); }

@@ -1,0 +1,73 @@
+<link type="text/css" rel="stylesheet" href="/assets/css/reservation.css" />
+
+<div class="overlay-bg"></div>
+
+<div class="custom-section-wrap" [ngClass]="{'table-loader': state.loading}" >
+  <div class="custom-section">
+    <div class="custom-main template-outer">
+
+      <div class="custom-content tabs-content" id="content-1" style="display: block;">
+        <div class="">
+
+
+          <div class="accordion custom-accordion accordion-sm text-left" id="accordionExample">
+            <div class="mb-3">
+              <div class="card-header" id="headingOne">
+                <h2 class="accordion-link noDelIcon" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
+                  {{reportTemplate['displayName']}}
+                </h2>
+              </div>
+              <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
+                <div class="box box-lr">
+                  <div class="form-primary">
+                    <label>Report</label>
+                    <div class="field-wrap">
+                      <select class="form-control" [(ngModel)]="form.templateId">
+                        <option value="">Select</option>
+                        <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
+                      </select>
+                      <span [ngClass]="{'fa fa-spin fa-spinner': state.loading, 'globel-world-icon': !state.loading}"></span>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6" *ngFor="let field of reportTemplate['reportFields']">
+                        <label>{{field.label}}<span class="text-danger" [ngClass]="field.isRequired"></span></label>
+                        <div class="field-wrap">
+                          <select class="form-control no-icon" [(ngModel)]="field.model" *ngIf="field.lookupName">
+                            <option value="">Any</option>
+                            <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reservation-bot-btns d-flex">
+            <a href="javascript:void(0);" class="btn btn-danger">
+              Refresh
+            </a>
+            <button type="submit" class="btn btn-success ml-auto" >Export</button>
+
+            <div class="dropdown">
+              <button class="btn btn-info dropdown-toggle plr-10 ml-3" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Excel
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <a class="dropdown-item" href="#">Excel</a>
+                <a class="dropdown-item" href="#">Pdf</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -4,10 +4,11 @@ import { HousekeepingComponent } from './housekeeping/housekeeping.component';
 import {routing} from "./reports.routing";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModuleModule} from "../shared-module/shared-module.module";
+import { ManagerComponent } from './manager/manager.component';
 
 
 @NgModule({
-  declarations: [HousekeepingComponent],
+  declarations: [HousekeepingComponent, ManagerComponent],
   imports: [
     CommonModule,
     FormsModule,

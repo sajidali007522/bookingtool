@@ -21,7 +21,7 @@ export class LookupService {
       .set('Authorization', this.authService.getAuthorizationHeaderValue());
     return headers;
   }
-  private hitLookup (lookup, params) {
+  public hitLookup (lookup, params) {
     return this._http._get('lookup/'+lookup, params);
   }
 
