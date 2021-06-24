@@ -34,7 +34,7 @@
                         <label>{{field.label}}<span class="text-danger" [ngClass]="field.isRequired"></span></label>
                         <div class="field-wrap">
                           <select class="form-control no-icon" [(ngModel)]="field.model" *ngIf="field.lookupName">
-                            <option value="">Any</option>
+                            <option value="">Select</option>
                             <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
                           </select>
                         </div>

@@ -32,7 +32,7 @@ export class ManagerComponent implements OnInit {
   ) {
     this.route.params.subscribe(params => {
       this.state.manager = params['report_manager'];
-      this.loadReportTemplate('Housekeeping')
+      this.loadReportTemplate(this.state.manager.charAt(0).toUpperCase() + this.state.manager.slice(1))
     });
   }
 
@@ -43,8 +43,9 @@ export class ManagerComponent implements OnInit {
       .subscribe(res => {
           this.state.loading = false;
           this.reportTemplate = res['data'];
-          this.form.templateId = this.reportTemplate['reportTemplates'][0]['templateId'];
+          //this.form.templateId = this.reportTemplate['reportTemplates'][0]['templateId'];
           for(let index=0; index<res['data']['reportFields'].length; index++){
+            this.reportTemplate['reportFields'][index]['model'] = ''
             this.reportTemplate['reportFields'][index]['loading'] = true
             if(res['data']['reportFields'][index]['lookupName']) {
               this.lookupSer.hitLookup(res['data']['reportFields'][index]['lookupName'], {criteria: res['data']['reportFields'][index]['lookupCriteria']})
