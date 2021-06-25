@@ -29,14 +29,39 @@
                       <span [ngClass]="{'fa fa-spin fa-spinner': state.loading, 'globel-world-icon': !state.loading}"></span>
                     </div>
 
-                    <div class="row">
+                    <div class="row" id="report_fields">
+
                       <div class="col-md-6" *ngFor="let field of reportTemplate['reportFields']">
-                        <label>{{field.label}}<span class="text-danger" [ngClass]="field.isRequired"></span></label>
+                        <label>{{field.label}}<span class="text-danger" *ngIf="field.isRequired"></span></label>
                         <div class="field-wrap">
-                          <select class="form-control no-icon" [(ngModel)]="field.model" *ngIf="field.lookupName">
-                            <option value="">Select</option>
-                            <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
-                          </select>
+                          <ng-container *ngIf="field.fieldType == 0">
+                            <input type="text" class="form-control" [(ngModel)]="field.model" />
+                          </ng-container>
+                          <ng-container *ngIf="field.fieldType == 1"> <!--Date-->
+                            <input type="text"
+                                   [(ngModel)]="field.model"
+                                   bsDatepicker
+                                   [bsConfig]="bsConfig"
+                                   [minDate]="minDateFrom"
+                                   [maxDate]="maxDateFrom"
+                                   placeholder="{{field.label}}"
+                                   name="departure_date"
+                                   autocomplete="off"
+                                   class="form-control">
+                            <span class="fa fa-calendar-o"></span>
+                          </ng-container>
+                          <ng-container *ngIf="field.fieldType == 2">
+                            <input type="checkbox" [(ngModel)]="field.model" />
+                          </ng-container>
+                          <ng-container *ngIf="field.fieldType == 3 && field.lookupName && !field.minSearchCharacters">
+                            <select class="form-control no-icon" [(ngModel)]="field.model" *ngIf="field.lookupName">
+                              <option value="">Select</option>
+                              <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
+                            </select>
+                          </ng-container>
+                          <ng-container *ngIf="field.fieldType == 3 && field.lookupName && field.minSearchCharacters">
+                            <p>Autcomplete container</p>
+                          </ng-container>
                         </div>
                       </div>
                     </div>

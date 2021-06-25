@@ -5,6 +5,9 @@ import {routing} from "./reports.routing";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { ManagerComponent } from './manager/manager.component';
+import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import {TimepickerModule} from "ngx-bootstrap/timepicker";
+import {AutocompleteLibModule} from "angular-ng-autocomplete";
 
 
 @NgModule({
@@ -15,6 +18,9 @@ import { ManagerComponent } from './manager/manager.component';
     routing,
     ReactiveFormsModule,
     SharedModuleModule,
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
+    AutocompleteLibModule,
   ],
   providers:[
     {provide: LocationStrategy, useClass: HashLocationStrategy},
