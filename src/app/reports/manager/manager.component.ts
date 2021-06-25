@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, Renderer2} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnInit, Renderer2} from '@angular/core';
 import {AuthService} from "../../_services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
@@ -13,7 +13,7 @@ import {UserService} from "../../_services/user.service";
   templateUrl: './manager.component.html',
   styleUrls: ['./manager.component.css']
 })
-export class ManagerComponent implements OnInit {
+export class ManagerComponent implements OnInit, AfterViewChecked {
 
   bsConfig: Partial<BsDatepickerConfig>;
   minDateFrom= new Date();
@@ -22,12 +22,19 @@ export class ManagerComponent implements OnInit {
   error;
   reportTemplate= {}
   form ={
-    templateId:''
+    template:{},
+    exportType:{}
   }
   state={
     manager: '',
     loading: false,
-
+    exportTypes:[
+      {label: 'PDF', code: 0,},
+      {label: 'Excel', code: 1},
+      {label: 'CSV', code:  2},
+      {label: 'Word', code: 3},
+      {label: 'XML', code: 4}
+    ]
   }
   constructor(private authService: AuthService,
               private route: ActivatedRoute,
@@ -74,6 +81,11 @@ export class ManagerComponent implements OnInit {
             this.reportTemplate['reportFields'][index]['model'] = ''
             this.reportTemplate['reportFields'][index]['loading'] = true
           }
+          for (let index=0; index<this.state.exportTypes.length; index++){
+            if(this.reportTemplate['exportFileTypes'].indexOf(this.state.exportTypes[index].code) != -1){
+              this.state.exportTypes.splice(index, 1);
+            }
+          }
         },
         (error)=>{
           this.state.loading = false;
@@ -81,9 +93,61 @@ export class ManagerComponent implements OnInit {
       );
   }
 
+  setExportType(type) {
+    this.form.exportType=type;
+  }
 
+  exportReport(){
+    if(this.state.loading) return;
+    this.state.loading = true;
+    let body=this.preparePostBody();
+    this.reportService.exportReports(this.state.manager.charAt(0).toUpperCase() + this.state.manager.slice(1),body)
+      .subscribe(res => {
+          this.state.loading = false;
+        },
+        (error)=>{
+          this.state.loading = false;
+        }
+      );
+  }
+
+  preparePostBody() {
+    let body = {
+        "criteriaClass": this.reportTemplate['criteriaClass'],
+        "renderingClass": "string",
+        "reportName": this.form.template['name'],
+        "exportType": this.form.exportType['code'],
+        "reportFields": []
+    }
+      this.reportTemplate['reportFields'].filter(item=>{
+        body.reportFields.push(
+          {
+            "propertyName": item.property,
+            "value": item.model
+          })
+      })
+
+    return body;
+  }
+
+  toggleDropdown($event) {
+    let isVisible = $($event.target).next('.dropdown-menu').is(":visible")
+    if(isVisible){
+      $($event.target).next('.dropdown-menu').hide();
+    }
+    else {
+      $($event.target).next('.dropdown-menu').show();
+    }
+  }
 
   ngOnInit(): void {
+  }
+  ngAfterViewChecked() {
+    $("body").click(function(e){
+      if(!$(e.target).is('.exportOptions')) {
+        $(".dropdown-menu").hide()
+      }
+    })
   }
 
 }

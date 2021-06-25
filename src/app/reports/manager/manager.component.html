@@ -22,9 +22,9 @@
                   <div class="form-primary">
                     <label>Report</label>
                     <div class="field-wrap">
-                      <select class="form-control" [(ngModel)]="form.templateId">
-                        <option value="">Select</option>
-                        <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
+                      <select class="form-control" [(ngModel)]="form.template">
+                        <option>Select</option>
+                        <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template">{{template.name}}</option>
                       </select>
                       <span [ngClass]="{'fa fa-spin fa-spinner': state.loading, 'globel-world-icon': !state.loading}"></span>
                     </div>
@@ -34,10 +34,10 @@
                       <div class="col-md-6" *ngFor="let field of reportTemplate['reportFields']">
                         <label>{{field.label}}<span class="text-danger" *ngIf="field.isRequired"></span></label>
                         <div class="field-wrap">
-                          <ng-container *ngIf="field.fieldType == 0">
+                          <ng-container *ngIf="field.type == 0">
                             <input type="text" class="form-control" [(ngModel)]="field.model" />
                           </ng-container>
-                          <ng-container *ngIf="field.fieldType == 1"> <!--Date-->
+                          <ng-container *ngIf="field.type == 1"> <!--Date-->
                             <input type="text"
                                    [(ngModel)]="field.model"
                                    bsDatepicker
@@ -47,19 +47,19 @@
                                    placeholder="{{field.label}}"
                                    name="departure_date"
                                    autocomplete="off"
-                                   class="form-control">
+                                   class="form-control" />
                             <span class="fa fa-calendar-o"></span>
                           </ng-container>
-                          <ng-container *ngIf="field.fieldType == 2">
+                          <ng-container *ngIf="field.type == 2">
                             <input type="checkbox" [(ngModel)]="field.model" />
                           </ng-container>
-                          <ng-container *ngIf="field.fieldType == 3 && field.lookupName && !field.minSearchCharacters">
+                          <ng-container *ngIf="field.type == 3 && field.lookupName && !field.minSearchCharacters">
                             <select class="form-control no-icon" [(ngModel)]="field.model" *ngIf="field.lookupName">
                               <option value="">Select</option>
                               <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
                             </select>
                           </ng-container>
-                          <ng-container *ngIf="field.fieldType == 3 && field.lookupName && field.minSearchCharacters">
+                          <ng-container *ngIf="field.type == 3 && field.lookupName && field.minSearchCharacters">
                             <p>Autcomplete container</p>
                           </ng-container>
                         </div>
@@ -77,15 +77,14 @@
             <a href="javascript:void(0);" class="btn btn-danger">
               Refresh
             </a>
-            <button type="submit" class="btn btn-success ml-auto" >Export</button>
+            <button type="submit" class="btn btn-success ml-auto" (click)="exportReport()" >Export</button>
 
             <div class="dropdown">
-              <button class="btn btn-info dropdown-toggle plr-10 ml-3" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Excel
+              <button class="btn btn-info dropdown-toggle plr-10 ml-3 exportOptions" type="button" id="dropdownMenuButton1" (click)="toggleDropdown($event)">
+                {{this.form.exportType['label'] || 'Select'}}
               </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <a class="dropdown-item" href="#">Excel</a>
-                <a class="dropdown-item" href="#">Pdf</a>
+              <div class="dropdown-menu">
+                <a href="javascript:void(0);" (click)="setExportType(type)" class="dropdown-item" *ngFor="let type of state.exportTypes">{{type.label}}</a>
               </div>
             </div>
 

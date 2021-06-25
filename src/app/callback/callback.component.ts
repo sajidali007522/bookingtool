@@ -28,7 +28,14 @@ export class CallbackComponent implements OnInit {
     if(!this.error) {
       this.authService.completeAuthentication()
         .then(()=>{
-          this.router.navigate([this.authService.getDefaultPage()])
+          let url = window.localStorage.getItem('last_visited')
+          console.log(">>>>>>>>>>>>>>>>>>>", url)
+          if(url) {
+            this.router.navigate([url])
+          } else {
+            this.router.navigate([this.authService.getDefaultPage()])
+          }
+
         })
       console.log("no error")
     } else {

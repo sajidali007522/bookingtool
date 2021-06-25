@@ -36,4 +36,11 @@ export class ReportsService {
       params:params
     })
   }
+
+  public exportReports(reportManager, body, params={}){
+    return this.http.post(`${this.appConfigService.apiBaseUrl}${this.apiVersion}Reporting/${reportManager}`, body,{
+      headers: this.getHeaders(),
+      params:params
+    })
+  }
 }
