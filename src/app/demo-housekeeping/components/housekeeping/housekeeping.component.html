@@ -131,8 +131,10 @@
           <div class="box-header">
             <div class="row">
               <div class="col-5">
+                <h3>Room Status</h3>
+              </div>
+              <div class="col-7">
                 <div class="room-title-above">
-                  <h3>Room Status</h3>
                   <div class="results-show for-desktop">
                     <span>Show</span>
                     <select class="form-control" [(ngModel)]="state.pagination.pageSize" (ngModelChange)="loadRooms(false)">
@@ -144,10 +146,8 @@
                       <option value="1000">1000</option>
                     </select>
                   </div>
+                  <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
                 </div>
-              </div>
-              <div class="col-7">
-                <div *ngIf="state.pagination.totalRooms > 0" class="pagination-text text-right">Showing {{(state.pagination.pageNum*state.pagination.pageSize) > state.pagination.totalRooms ? state.pagination.totalRooms  : state.pagination.pageNum*state.pagination.pageSize }} of {{state.pagination.totalRooms}}</div>
               </div>
             </div>
 

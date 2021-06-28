@@ -91,9 +91,7 @@ td select.view-mode:active{
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-}
-.room-title-above h3{
-  margin:10px 20px 10px 0;
+  justify-content: flex-end;
 }
 .results-show{
   display: flex;
@@ -102,9 +100,9 @@ td select.view-mode:active{
   font-size: 14px;
 }
 .results-show .form-control{
-  width: 59px;
+  width: 68px;
   margin: 0 10px;
-  padding: 2px 9px;
+  padding: 2px 9px 2px 2px;
   height: auto;
   font-size: 14px;
 }
