@@ -406,6 +406,10 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
       $("tr."+group.key+"_"+item.key.split('-').join('_')).show()
     }*/
   }
+  public resetPageSize(){
+    this.state.pagination.pageNum = 1;
+    this.loadRooms(false);
+  }
   public checkAll (group) {
     group.items.filter(item => {
       item.isSelected = true
