@@ -260,6 +260,23 @@
         visibility: visible;
         opacity: 1;
     }
+
+.reservation-detail-wrap ::-webkit-scrollbar {
+width: 15px;
+}
+.reservation-detail-wrap ::-webkit-scrollbar-track {
+background: #f1f1f1; 
+}
+.reservation-detail-wrap ::-webkit-scrollbar-thumb {
+background: #c1c1c1; 
+min-height: 80px;
+}
+.reservation-detail-wrap ::-webkit-scrollbar-thumb:hover {
+background: #a8a8a8; 
+}
+           
+
+
 .reservation-content-area{
     width: calc(100% - 250px);
     max-height: 100vh;
