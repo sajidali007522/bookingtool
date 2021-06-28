@@ -10,7 +10,7 @@
           <span class="fa fa-spin fa-refresh" *ngIf="state.isLoadingRooms || state.isLoadingMoreRooms || state.loadMetaData"></span>
           Reset
         </a>
-        <a href="javascript:void(0)" class="btn btn-sm btn-success ml-auto for-desktop" (click)="toggleSelectAll()">
+        <a href="javascript:void(0)" class="btn btn-sm btn-success ml-auto for-desktop" (click)="toggleSelectAll()" *ngIf="data.length > 0">
           {{(this.data.length >0 && this.state.massEdit.items.length != this.data.length) ? 'Select All' : 'Unselect all' }}
         </a>
       </div>
@@ -135,9 +135,9 @@
               </div>
               <div class="col-7">
                 <div class="room-title-above">
-                  <div class="results-show for-desktop">
+                  <div class="results-show for-desktop"  *ngIf="data.length > 0">
                     <span>Show</span>
-                    <select class="form-control" [(ngModel)]="state.pagination.pageSize" (ngModelChange)="loadRooms(false)">
+                    <select class="form-control" [(ngModel)]="state.pagination.pageSize" (ngModelChange)="resetPageSize()">
                       <option value="25">25</option>
                       <option value="50">50</option>
                       <option value="100">100</option>
@@ -264,7 +264,7 @@
                         <span class="fa fa-spin fa-spinner color-skin" *ngIf="row.$processing"></span>
                         <a href="javascript:void(0)" data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
                           <!--                <a href="javascript:void(0)"  data-toggle="modal" data-target="#imageCropModal" class="btn btn-info" routerLink="{{'/house-keeping/'+this.pageFilters.sites+'/room/'+row.roomId}}">-->
-                          Images
+                          Images <span class="badge badge-success">{{row.images || 0}}</span>
                         </a>
                       </div>
                     </td>
