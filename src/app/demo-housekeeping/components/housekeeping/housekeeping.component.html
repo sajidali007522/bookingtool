@@ -264,7 +264,7 @@
                         <span class="fa fa-spin fa-spinner color-skin" *ngIf="row.$processing"></span>
                         <a href="javascript:void(0)" data-toggle="modal" data-target="#roomDetailModal" class="btn btn-info" (click)="setRoom(row)">
                           <!--                <a href="javascript:void(0)"  data-toggle="modal" data-target="#imageCropModal" class="btn btn-info" routerLink="{{'/house-keeping/'+this.pageFilters.sites+'/room/'+row.roomId}}">-->
-                          Images <span>({{row.images || 0}})</span>
+                          Images <span class="badge badge-success">{{row.images || 0}}</span>
                         </a>
                       </div>
                     </td>
