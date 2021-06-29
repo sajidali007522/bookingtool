@@ -229,6 +229,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.isLoading=true;
     this.ref.detectChanges();
     this.HKService.loadSiteconfig(this.pageFilters.sites, {featureId : this.pageFilters.features}).subscribe(data => {
+        this.state.massEdit.indexes= [];
+        this.state.massEdit.items = [];
         this.state.filterConfigs.shifts = [];
         this.state.filterConfigs.houseKeepers = data['housekeepers'];
         this.state.filterConfigs.features = data['features'];
@@ -292,6 +294,8 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     if(this.isMobileDevice()){
       this.closeFilterBar();
     }
+    this.state.massEdit.indexes= [];
+    this.state.massEdit.items = [];
     this.loadRooms();
   }
 
