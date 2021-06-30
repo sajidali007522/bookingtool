@@ -551,13 +551,13 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     const file = event.srcElement.files[0]
     const size = file.size;
     //console.log(size/1000/1000)
-    if(size/1000/1000>4){
+    /*if(size/1000/1000>4){
       this.state.message = "Image upload size too large, Pleaes uplaod less then 5MB."
       this.state.modalTitle = 'Error!'
       this.state.isWrongFile = true;
       this.openModal();
       return;
-    }
+    }*/
     this.state.selectedRoom = room;
     this.imageChangedEvent = event;
 
@@ -585,35 +585,55 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     this.state.isWrongFile = true;
     this.openModal();
   }
+  compressImage(src, newX, newY) {
+    return new Promise((res, rej) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        const elem = document.createElement('canvas');
+        elem.width = newX;
+        elem.height = newY;
+        const ctx = elem.getContext('2d');
+        ctx.drawImage(img, 0, 0, newX, newY);
+        const data = ctx.canvas.toDataURL();
+        res(data);
+      }
+      img.onerror = error => rej(error);
+    })
+  }
 
   doneWithCrop () {
-    let image = this.croppedImage.split(",");
-    this.state.selectedRoom['uploading']=true;
-    //this._http._post('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
-    this.DHKService.uploadRoomImage('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
-      {
-        value:  image[1]
-      },
-      {
-        imageName: this.state.roomImage.name,
-        imageDescription: this.state.roomImage.description
-      })
-      .subscribe((data )=> {
-          //this.router.navigate(['/house-keeping/'+this.pageFilters.sites+'/room/'+this.state.selectedRoom.roomId]);
-          console.log(data);
-          this.state.message = "Image has been attached"
-          this.state.modalTitle = "Success"
-          this.openModal()
-          this.state.selectedRoom['uploading']=false;
-          this.state.selectedRoom = {roomId: '', roomNumber: ''}
+    this.compressImage(this.croppedImage, 100, 100).then((compressed:any) => {
+      //this.resizedBase64 = compressed;
+      let image = compressed.split(",");
+      //let image = this.croppedImage.split(",");
+      this.state.selectedRoom['uploading'] = true;
+      //this._http._post('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
+      this.DHKService.uploadRoomImage('housekeeping/' + this.pageFilters.sites + '/RoomImage/' + this.state.selectedRoom.roomId,
+        {
+          value: image[1]
         },
-        (err) => {
-          this.state.message = "There has been an error, Please try Again"
-          this.state.modalTitle = "Error"
-          this.openModal()
-          this.state.selectedRoom['uploading']=false;
-          this.ref.detectChanges();
-        });
+        {
+          imageName: this.state.roomImage.name,
+          imageDescription: this.state.roomImage.description
+        })
+        .subscribe((data) => {
+            //this.router.navigate(['/house-keeping/'+this.pageFilters.sites+'/room/'+this.state.selectedRoom.roomId]);
+            console.log(data);
+            this.state.message = "Image has been attached"
+            this.state.modalTitle = "Success"
+            this.openModal()
+            this.state.selectedRoom['uploading'] = false;
+            this.state.selectedRoom = {roomId: '', roomNumber: ''}
+          },
+          (err) => {
+            this.state.message = "There has been an error, Please try Again"
+            this.state.modalTitle = "Error"
+            this.openModal()
+            this.state.selectedRoom['uploading'] = false;
+            this.ref.detectChanges();
+          });
+    });
 
   }
   closeRoomDetail(){
