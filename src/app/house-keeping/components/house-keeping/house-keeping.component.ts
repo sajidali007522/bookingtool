@@ -301,28 +301,50 @@ export class HouseKeepingComponent implements OnInit, AfterViewInit, AfterViewCh
     console.log("image loading failed")
   }
 
+  compressImage(src, newX, newY) {
+    return new Promise((res, rej) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        const elem = document.createElement('canvas');
+        elem.width = newX;
+        elem.height = newY;
+        const ctx = elem.getContext('2d');
+        ctx.drawImage(img, 0, 0, newX, newY);
+        const data = ctx.canvas.toDataURL();
+        res(data);
+      }
+      img.onerror = error => rej(error);
+    })
+  }
+
   doneWithCrop () {
-    let image = this.croppedImage.split(",");
-    this.state.selectedRoom['uploading']=true;
-    this._http._post('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
-      {
-        value:  image[1]
-      },
-      {
-        imageName: this.state.roomImage.name,
-        imageDescription: this.state.roomImage.description
-      })
-      .subscribe((data )=> {
-          //this.router.navigate(['/house-keeping/'+this.pageFilters.sites+'/room/'+this.state.selectedRoom.roomId]);
-          console.log(data);
-          this.state.selectedRoom['uploading']=false;
-          alert("image attached");
+    this.compressImage(this.croppedImage, 100, 100).then((compressed:any) => {
+      //this.resizedBase64 = compressed;
+      let image = compressed.split(",");
+      this.state.selectedRoom['uploading']=true;
+      this._http._post('housekeeping/'+this.pageFilters.sites+'/RoomImage/'+this.state.selectedRoom.roomId,
+        {
+          value:  image[1]
         },
-        (err) => {
-          this.state.selectedRoom['uploading']=false;
-          alert(err);
-          this.ref.detectChanges();
-        });
+        {
+          imageName: this.state.roomImage.name,
+          imageDescription: this.state.roomImage.description
+        })
+        .subscribe((data )=> {
+            //this.router.navigate(['/house-keeping/'+this.pageFilters.sites+'/room/'+this.state.selectedRoom.roomId]);
+            console.log(data);
+            this.state.selectedRoom['uploading']=false;
+            alert("image attached");
+          },
+          (err) => {
+            this.state.selectedRoom['uploading']=false;
+            alert(err);
+            this.ref.detectChanges();
+          });
+    })
+
+
 
   }
   closeRoomDetail(){
