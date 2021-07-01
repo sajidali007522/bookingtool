@@ -22,7 +22,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   error;
   reportTemplate= {}
   form ={
-    template:{},
+    template:'',
     exportType:{}
   }
   state={
@@ -112,18 +112,26 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   }
 
   preparePostBody() {
+
     let body = {
         "criteriaClass": this.reportTemplate['criteriaClass'],
-        "renderingClass": "string",
-        "reportName": this.form.template['name'],
+        "renderingClass": this.reportTemplate['renderingClass'],
         "exportType": this.form.exportType['code'],
-        "reportFields": []
+        "reportFields": [{
+          "propertyName": "ReportTemplateID",
+          "value": this.form.template
+        }]
     }
       this.reportTemplate['reportFields'].filter(item=>{
+        let model = item.model
+        if(item.property = 'BeginDate') {
+          let selectedDate = new Date(item.model);
+          model =  selectedDate.getFullYear() + '-' + (selectedDate.getMonth() + 1) + "-" + selectedDate.getDate()
+        }
         body.reportFields.push(
           {
             "propertyName": item.property,
-            "value": item.model
+            "value": model
           })
       })
 

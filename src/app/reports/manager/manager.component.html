@@ -23,8 +23,8 @@
                     <label>Report</label>
                     <div class="field-wrap">
                       <select class="form-control" [(ngModel)]="form.template">
-                        <option>Select</option>
-                        <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template">{{template.name}}</option>
+                        <option value="">Select</option>
+                        <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
                       </select>
                       <span [ngClass]="{'fa fa-spin fa-spinner': state.loading, 'globel-world-icon': !state.loading}"></span>
                     </div>
