@@ -104,6 +104,9 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     this.reportService.exportReports(this.state.manager.charAt(0).toUpperCase() + this.state.manager.slice(1),body)
       .subscribe(res => {
           this.state.loading = false;
+          if(res['success']){
+            window.open(res['data']['fileUrl'], '_blank');
+          }
         },
         (error)=>{
           this.state.loading = false;
@@ -124,7 +127,10 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     }
       this.reportTemplate['reportFields'].filter(item=>{
         let model = item.model
-        if(item.property = 'BeginDate') {
+        if(item.type == 2) {
+          model = item.model || false
+        }
+        if(item.property == 'BeginDate') {
           let selectedDate = new Date(item.model);
           model =  selectedDate.getFullYear() + '-' + (selectedDate.getMonth() + 1) + "-" + selectedDate.getDate()
         }
