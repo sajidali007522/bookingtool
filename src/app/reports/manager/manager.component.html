@@ -55,7 +55,7 @@
                           </ng-container>
                           <ng-container *ngIf="field.type == 3 && field.lookupName && !field.minSearchCharacters">
                             <select class="form-control no-icon" [(ngModel)]="field.model" *ngIf="field.lookupName">
-                              <option value="">Select</option>
+                              <option value="">Select {{field.label}}</option>
                               <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
                             </select>
                           </ng-container>
