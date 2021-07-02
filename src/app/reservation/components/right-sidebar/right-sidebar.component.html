@@ -1,0 +1,137 @@
+<div class="sidebar-overflow" [ngClass]="{'open': state.isSideBarOpen}">
+  <a href="javascript:void(0)" (click)="toggleSideBar()" class="sidebar-toogle">
+    <span class="fa fa-gear state-normal"></span>
+    <span class="close-x state-active"></span>
+  </a>
+  <div class="sidebar-overflow-inner">
+    <div class="sideov-title" *ngIf="page!= 'list'">
+      <h2>New Booking</h2>
+    </div>
+    <div class="side-topform" *ngIf="page!= 'list'">
+      <div class="mb-3 field-gray-wrap field-wrap">
+        <label>Add Traveler</label>
+        <div class="field-icon-wrap">
+          <span class="user field-icon mt-secon"></span><input class="form-control" placeholder="Search by last name, first name" type="text">
+        </div>
+      </div>
+      <div class="mb-3 field-gray-wrap field-wrap">
+        <label>Add / Replace</label>
+        <div class="field-icon-wrap">
+          <span class="fa fa-refresh field-icon mt-secon"></span><select class="form-control">
+          <option>Select Resources</option>
+        </select>
+        </div>
+      </div>
+      <input type="submit" class="btn btn-success btn-block" value="Add">
+    </div>
+
+
+    <nav>
+      <div class="nav nav-tabs" role="tablist">
+        <a class="nav-item nav-link active" data-toggle="tab" href="#content-aa" role="tab" aria-selected="true">Room</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#content-bb" role="tab" aria-selected="false">Selection</a>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="content-aa" role="tabpanel" aria-labelledby="content-aa">
+        <div class="detail-overinner">
+
+          <div class="accordion custom-accordion" id="accordionExample">
+            <div class="mb-1">
+              <div class="card-header" id="headingOne">
+                <h2 aria-expanded="false" class="accordion-link" data-target="#collaps-1" data-toggle="collapse">Add Room Tues, April 5 - 10 Jan</h2>
+              </div>
+              <div class="collapse show" data-parent="#accordionExample" id="collaps-1">
+                <div class="box position-relative">
+                  <a href="#" class="btn btn-sm btn-danger remove-acc">Remove <span class="fa fa-remove"></span></a>
+                  <div class="mb-1">
+                    <label>Date</label>
+                    <div class="field-wrap">
+                      <span class="fa fa-calendar-o"></span>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label>End Date</label>
+                    <div class="field-wrap">
+                      <span class="fa fa-calendar-o"></span>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label>Site</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                  <div class="mb-3">
+                    <label>Room Type</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                  <div class="mb-3">
+                    <label>Contract</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+
+                  <button data-target="#exampleModal2" data-toggle="modal" class="btn btn-primary btn-sm">Extra Info</button>
+
+                </div>
+              </div>
+            </div>
+            <div class="mb-1">
+              <div class="card-header" id="headingTwo">
+                <h2 aria-expanded="false" class="accordion-link collapsed" data-target="#collaps-2" data-toggle="collapse">Add Flight Mon, March 20 - 15 Jully</h2>
+              </div>
+              <div class="collapse" data-parent="#accordionExample" id="collaps-2">
+                <div class="box">
+                  <div class="mb-1">
+                    <label>Date</label>
+                    <div class="field-wrap">
+                      <span class="fa fa-calendar-o"></span>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label>End Date</label>
+                    <div class="field-wrap">
+                      <span class="fa fa-calendar-o"></span>
+                      <input class="form-control" type="text" value="">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label>Site</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                  <div class="mb-3">
+                    <label>Room Type</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                  <div class="mb-3">
+                    <label>Contract</label>
+                    <input class="form-control" type="text" value="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="content-bb" role="tabpanel" aria-labelledby="content-bb">
+        <div class="sidebar-cart-body">
+          <ul>
+            <li *ngFor="let item of cart; let index = index;">
+              <h4>{{item.cartPreview.provider}} <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="removeItemFromCart(item.cartPreview.UniqueID, index, item.priceID)">Remove</a></h4>
+              <h5>WS 115 {{dateParse.formatDateForCart(item.beginDate)}}</h5>
+              <p>{{userService.getSettingByProp('timeFormat') == '' ? dateParse.formatDateBy12HourTime(item.beginDate) : dateParse.parseDateToTime(item.beginDate)}} : {{item.from}}</p>
+              <p>{{userService.getSettingByProp('timeFormat') == '' ? dateParse.formatDateBy12HourTime(item.endDate) : dateParse.parseDateToTime(item.endDate)}} : {{item.to}}</p>
+              <div class="side-subtotal">
+                <span>Flex</span>
+                <strong class="stotal">${{item.price}}</strong>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- sidebar-overflow -->

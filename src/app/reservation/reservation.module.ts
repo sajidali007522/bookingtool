@@ -16,6 +16,7 @@ import {BookProfileComponent} from "./components/book-profile/book-profile.compo
 import { BookingComponent } from './components/booking/booking.component';
 import {ManageReservationComponent} from "./components/manage-reservation/manage-reservation.component";
 import {RecordGridComponent} from "./components/record-grid/record-grid.component";
+import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
 
 
 
@@ -28,7 +29,8 @@ import {RecordGridComponent} from "./components/record-grid/record-grid.componen
     BookProfileComponent,
     BookingComponent,
     ManageReservationComponent,
-    RecordGridComponent
+    RecordGridComponent,
+    RightSidebarComponent
   ],
   imports: [
     CommonModule,

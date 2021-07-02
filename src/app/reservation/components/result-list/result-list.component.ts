@@ -181,9 +181,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
 
     //this.getSortFields();
   }
-  toggleSideBar(){
-    this.state.isSideBarOpen = !this.state.isSideBarOpen;
-  }
+
   selectResource(resource, resourceIndex, itemIndex, searchIndex) {
     this.state.selectedResource= resource;
   }
