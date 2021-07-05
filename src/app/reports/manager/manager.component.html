@@ -32,7 +32,7 @@
                     <div class="row" id="report_fields">
 
                       <div class="col-md-6" *ngFor="let field of reportTemplate['reportFields']">
-                        <label>{{field.label}}<span class="text-danger" *ngIf="field.isRequired">*</span></label>
+                        <label> <span *ngIf="field.type != 2">{{field.label}}<span class="text-danger" *ngIf="field.isRequired">*</span></span>&nbsp;</label>
                         <div class="field-wrap">
                           <ng-container *ngIf="field.type == 0">
                             <input type="text" class="form-control" [(ngModel)]="field.model" />
@@ -51,7 +51,8 @@
                             <span class="fa fa-calendar-o"></span>
                           </ng-container>
                           <ng-container *ngIf="field.type == 2">
-                            <input type="checkbox" [(ngModel)]="field.model" />
+                            <label><input type="checkbox" [(ngModel)]="field.model" />&nbsp;{{field.label}}</label>
+
                           </ng-container>
                           <ng-container *ngIf="field.type == 3 && field.lookupName && !field.minSearchCharacters">
                             <select class="form-control no-icon" [(ngModel)]="field.model" *ngIf="field.lookupName">
