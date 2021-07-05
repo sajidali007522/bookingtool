@@ -65,7 +65,22 @@
                         </div>
                       </div>
                     </div>
+                    <div class="reservation-bot-btns d-flex">
+                      <a href="javascript:void(0);" class="btn btn-danger">
+                        Refresh
+                      </a>
+                      <button type="submit" class="btn btn-success ml-auto" (click)="exportReport()" >Export</button>
 
+                      <div class="dropdown">
+                        <button class="btn btn-info dropdown-toggle plr-10 ml-3 exportOptions" type="button" id="dropdownMenuButton1" (click)="toggleDropdown($event)">
+                          {{this.form.exportType['label'] || 'Select'}}
+                        </button>
+                        <div class="dropdown-menu">
+                          <a href="javascript:void(0);" (click)="setExportType(type)" class="dropdown-item" *ngFor="let type of state.exportTypes">{{type.label}}</a>
+                        </div>
+                      </div>
+
+                    </div>
                   </div>
 
                 </div>
@@ -73,22 +88,7 @@
             </div>
           </div>
 
-          <div class="reservation-bot-btns d-flex">
-            <a href="javascript:void(0);" class="btn btn-danger">
-              Refresh
-            </a>
-            <button type="submit" class="btn btn-success ml-auto" (click)="exportReport()" >Export</button>
 
-            <div class="dropdown">
-              <button class="btn btn-info dropdown-toggle plr-10 ml-3 exportOptions" type="button" id="dropdownMenuButton1" (click)="toggleDropdown($event)">
-                {{this.form.exportType['label'] || 'Select'}}
-              </button>
-              <div class="dropdown-menu">
-                <a href="javascript:void(0);" (click)="setExportType(type)" class="dropdown-item" *ngFor="let type of state.exportTypes">{{type.label}}</a>
-              </div>
-            </div>
-
-          </div>
         </div>
       </div>
 
