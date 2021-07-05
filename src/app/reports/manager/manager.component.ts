@@ -103,7 +103,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       this.toastr.error('Please select report type to continue.', 'Error!')
       return;
     }
-    if(this.form.exportType['code']>0){
+    if(this.form.exportType['code']<0){
       this.toastr.error('please select export file type.', 'Error!')
       return;
     }
@@ -122,6 +122,15 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       );
   }
 
+  validateForm(){
+    let validated=true;
+    this.reportTemplate['reportFields'].filter(item=>{
+      if(item.isRequired && item.model == ''){
+        validated=false;
+      }
+    }
+  }
+
   preparePostBody() {
 
     let body = {
@@ -137,6 +146,9 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
         let model = item.model
         if(item.type == 2) {
           model = item.model || false
+        }
+        if(!item.isRequired && item.model == ''){
+          model = item.nullValue
         }
         if(item.property == 'BeginDate') {
           let selectedDate = new Date(item.model);

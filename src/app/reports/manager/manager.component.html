@@ -32,7 +32,7 @@
                     <div class="row" id="report_fields">
 
                       <div class="col-md-6" *ngFor="let field of reportTemplate['reportFields']">
-                        <label>{{field.label}}<span class="text-danger" *ngIf="field.isRequired"></span></label>
+                        <label>{{field.label}}<span class="text-danger" *ngIf="field.isRequired">*</span></label>
                         <div class="field-wrap">
                           <ng-container *ngIf="field.type == 0">
                             <input type="text" class="form-control" [(ngModel)]="field.model" />
