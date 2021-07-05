@@ -73,12 +73,17 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
               if(res['data']['reportFields'][index]['lookupName'] && !res['data']['reportFields'][index].minSearchCharacters) {
                   this.lookupSer.hitLookup(res['data']['reportFields'][index]['lookupName'], {criteria: res['data']['reportFields'][index]['lookupCriteria']})
                     .subscribe(res => {
-                      this.reportTemplate['reportFields'][index]['model'] = ''
                       this.reportTemplate['reportFields'][index]['loading'] = false
                       this.reportTemplate['reportFields'][index]['options'] = res['data']['results'];
                     })
               }
-            this.reportTemplate['reportFields'][index]['model'] = ''
+            this.reportTemplate['reportFields'][index]['model'] = this.reportTemplate['reportFields'][index].nullValue || ''
+            if(this.reportTemplate['reportFields'][index].type == 1){
+              this.reportTemplate['reportFields'][index]['model'] = new Date()
+            }
+            if(this.reportTemplate['reportFields'][index].type == 2){
+              this.reportTemplate['reportFields'][index]['model'] = false
+            }
             this.reportTemplate['reportFields'][index]['loading'] = true
           }
           for (let index=0; index<this.state.exportTypes.length; index++){
@@ -107,6 +112,10 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       this.toastr.error('please select export file type.', 'Error!')
       return;
     }
+    if(!this.validateForm()){
+      this.toastr.error('please select All required field first.', 'Error!')
+      return;
+    }
     this.state.loading = true;
     let body=this.preparePostBody();
     this.reportService.exportReports(this.state.manager.charAt(0).toUpperCase() + this.state.manager.slice(1),body)
@@ -125,10 +134,11 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   validateForm(){
     let validated=true;
     this.reportTemplate['reportFields'].filter(item=>{
-      if(item.isRequired && item.model == ''){
+      if(item.isRequired && item.model == '') {
         validated=false;
       }
-    }
+    });
+    return validated
   }
 
   preparePostBody() {
@@ -154,11 +164,13 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
           let selectedDate = new Date(item.model);
           model =  selectedDate.getFullYear() + '-' + (selectedDate.getMonth() + 1) + "-" + selectedDate.getDate()
         }
-        body.reportFields.push(
-          {
-            "propertyName": item.property,
-            "value": model
-          })
+        if(model != false) {
+          body.reportFields.push(
+            {
+              "propertyName": item.property,
+              "value": model
+            })
+        }
       })
 
     return body;
