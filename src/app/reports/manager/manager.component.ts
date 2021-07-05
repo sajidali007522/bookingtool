@@ -23,7 +23,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   reportTemplate= {}
   form ={
     template:'',
-    exportType:{}
+    exportType:{ code: -1}
   }
   state={
     manager: '',
@@ -97,8 +97,16 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     this.form.exportType=type;
   }
 
-  exportReport(){
+  exportReport () {
     if(this.state.loading) return;
+    if(this.form.template == '') {
+      this.toastr.error('Please select report type to continue.', 'Error!')
+      return;
+    }
+    if(this.form.exportType['code']>0){
+      this.toastr.error('please select export file type.', 'Error!')
+      return;
+    }
     this.state.loading = true;
     let body=this.preparePostBody();
     this.reportService.exportReports(this.state.manager.charAt(0).toUpperCase() + this.state.manager.slice(1),body)
