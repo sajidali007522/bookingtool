@@ -273,7 +273,7 @@
                     <tbody>
                     <tr *ngFor="let channel of row.bookingChannels; let channelIndex=index">
                       <td *ngFor="let price of channel.prices; let priceIndex=index" (load)="setSelectedValued(index, channelIndex, priceIndex, (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID))" [ngClass]="{'active': (price.values2.$selected || (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID)), 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
-                        <a href="javascript:void(0)" class="selectMe" (click)="selectIt(row.values2, index, price, channel.prices)"
+                        <a href="javascript:void(0)" class="selectMe" (click)="selectIt(row, row.values2, index, price, channel.prices)"
                            *ngIf="price.values2.BasePrice"
                         >
                           <em>{{price.values2.GetFareNameShort}}</em>${{price.values2.TotalPrice}}
@@ -395,7 +395,7 @@
   </div>
 </div>
 
-<app-right-sidebar [cart]="state.cart" page="list"></app-right-sidebar>
+<app-right-sidebar [cart]="state.cart" [bookedSegments]="state.segments" page="list"></app-right-sidebar>
 
 
 <div class="modal modal-square fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

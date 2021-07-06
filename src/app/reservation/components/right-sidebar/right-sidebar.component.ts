@@ -11,6 +11,7 @@ export class RightSidebarComponent implements OnInit {
 
   @Input() cart=[];
   @Input() selectedIndece;
+  @Input() bookedSegments=[]
   @Input() page;
 
   state={

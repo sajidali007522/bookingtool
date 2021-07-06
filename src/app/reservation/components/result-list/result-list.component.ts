@@ -45,6 +45,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     grid_filter: '',
     processing: false,
     cart: [],
+    segments: [],
     metaDataGridOptions: [],
     bookingRows: [],
     gridFilter: {
@@ -270,9 +271,38 @@ export class ResultListComponent implements OnInit,AfterViewInit {
         });
   }
 
-  selectIt (bookRow, bookIndex, currentItem, priceArray) {
+  selectIt (bookRow, bookRowValues, bookIndex, currentItem, priceArray) {
+    //console.log(bookRow, bookRowValues, bookIndex, currentItem, priceArray)
     this.shakeIt(true);
+    let selection={
+      "beginDate": bookRow.values2.BeginDate,
+      "endDate": bookRow.values2.EndDate,
+      "resourceTypeID": "00000000-0000-0000-0000-000000000000",
+      "resourceName": bookRow.values2.ProviderName,
+      "providerLogoUrl": bookRow.values2.ProviderLogo,
+      "segments": [],
+      "segmentDisplayType": 0,
+      "bookingID": this.state.bookingID,
+      "priceID": currentItem.values2.UniqueID,
+      "totalPrice": currentItem.values2.TotalPrice,
+      "priceName": currentItem.values2.GetFareNameShort,
+      "uniqueID": bookRow.values2.UniqueID,
+      "isExchanging": true
+    }
+    for(let index=0; index < bookRow.tripDetails.length; index++){
+      selection.segments.push({
+        "beginDate": bookRow.tripDetails[index].values2.BeginDate,
+        "endDate": bookRow.tripDetails[index].values2.EndDate,
+        "identifier":  bookRow.tripDetails[index].values2.Identifier,
+        "from":  bookRow.tripDetails[index].values2.FromName,
+        "to": bookRow.tripDetails[index].values2.ToName,
+        "providerLogoUrl": bookRow.tripDetails[index].values2.ProviderLogo,
+        "isStopover": index == (bookRow.tripDetails.length-1)
+      })
+    }
 
+    this.state.segments.push(selection)
+    console.log(this.state.segments)
     let check = false
     let target = 0;
     this.state.cart.filter(item=>{
@@ -286,21 +316,22 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     let postBody = [];
     postBody.push({
       cartPreview: {
-        UniqueID: bookRow.UniqueID,
-        provider: bookRow.ProviderName,
-        providerLogo: bookRow.ProviderLogo.split('.png').join('_50.png'),
-        Date: this.getDateFromDateTime(bookRow.BeginDate),
-        From: this.formatDateIntoTime(bookRow.BeginDate) + ": " + bookRow.From,
-        To: this.formatDateIntoTime(bookRow.EndDate) + ": " + bookRow.To,
+        UniqueID: bookRowValues.UniqueID,
+        provider: bookRowValues.ProviderName,
+        providerLogo: bookRowValues.ProviderLogo.split('.png').join('_50.png'),
+        Date: this.getDateFromDateTime(bookRowValues.BeginDate),
+        From: this.formatDateIntoTime(bookRowValues.BeginDate) + ": " + bookRowValues.From,
+        To: this.formatDateIntoTime(bookRowValues.EndDate) + ": " + bookRowValues.To,
         Price: currentItem,
         searchIndece: this.state.selectedIndece
       },
-      "resultID": bookRow.UniqueID,
+      selection:selection,
+      "resultID": bookRowValues.UniqueID,
       "searchID": this.state.searchId,
       "searchIndex": this.state.searchIndeces[this.state.selectedIndece],
       "priceID": currentItem.values2.UniqueID,
-      "beginDate": this.parseDateIntoObject(bookRow.BeginDate).toDateString(),
-      "endDate": this.parseDateIntoObject(bookRow.EndDate).toDateString(),
+      "beginDate": this.parseDateIntoObject(bookRowValues.BeginDate).toDateString(),
+      "endDate": this.parseDateIntoObject(bookRowValues.EndDate).toDateString(),
       "resourceTypeID":  "00000000-0000-0000-0000-000000000000",//"ecf6f1a3-8867-40cc-8118-5defb120d5ee",
       "isReturn": false,
       "timePropertyID": "00000000-0000-0000-0000-000000000000",
