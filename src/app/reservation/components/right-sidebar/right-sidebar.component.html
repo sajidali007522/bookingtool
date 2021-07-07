@@ -8,7 +8,7 @@
       <h2>New Booking</h2>
     </div>
     <div class="side-topform" *ngIf="page != 'list'">
-      <div class="mb-3 field-gray-wrap field-wrap">
+      <!--<div class="mb-3 field-gray-wrap field-wrap">
         <label>Add Traveler</label>
         <div class="field-icon-wrap">
           <span class="user field-icon mt-secon"></span><input class="form-control" placeholder="Search by last name, first name" type="text">
@@ -22,7 +22,8 @@
         </select>
         </div>
       </div>
-      <input type="submit" class="btn btn-success btn-block" value="Add">
+      <input type="submit" class="btn btn-success btn-block" value="Add"> -->
+      <button class="btn btn-primary pull-right" data-target="#exampleModal" data-toggle="modal">Add/Replace</button>
     </div>
 
     <nav>
@@ -123,7 +124,7 @@
                 >
                   <h4>
                     <img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}
-                    <ng-container *ngIf="i==0">
+                    <ng-container *ngIf="i==0 && page == 'list'">
                       <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="removeItemFromCart(segmentIndex, segment)">Remove</a>
                       <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="reselectResource(segmentIndex, segment)">Replace</a>
                     </ng-container>
@@ -145,10 +146,10 @@
               <ng-container *ngIf="segment.resourceName == 'Room'">
                 <li>
                   <h4><img *ngIf="segment.providerLogoUrl" src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}
-
+                    <ng-container *ngIf="page == 'list'">
                       <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="removeItemFromCart(segmentIndex, segment)">Remove</a>
                       <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="reselectResource(segmentIndex, segment)">Replace</a>
-
+                    </ng-container>
                   </h4>
                   <h5>
                     <span>{{dateParse.formatDateForCart(segment.beginDate)}}</span>
