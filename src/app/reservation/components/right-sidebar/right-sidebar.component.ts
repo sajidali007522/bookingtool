@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DateParser} from "../../../_helpers/dateParser";
 import {UserService} from "../../../_services/user.service";
 
@@ -14,6 +14,9 @@ export class RightSidebarComponent implements OnInit {
   @Input() bookedSegments=[]
   @Input() page;
 
+  @Output() removeItem = new EventEmitter<string>();
+  @Output() replaceItem = new EventEmitter<string>();
+
   state={
     isSideBarOpen: false,
   }
@@ -27,10 +30,10 @@ export class RightSidebarComponent implements OnInit {
   toggleSideBar(){
     this.state.isSideBarOpen = !this.state.isSideBarOpen;
   }
-  removeItemFromCart(UniqueId, index, priceId) {
-
-    this.selectedIndece=this.cart[index].cartPreview.searchIndece;
-    this.cart.splice(index, 1);
-
+  removeItemFromCart(segmentIndex, segment) {
+    this.removeItem.emit(JSON.stringify({segment: segment, index:segmentIndex}))
+  }
+  reselectResource(segmentIndex, segment) {
+    this.replaceItem.emit(JSON.stringify({segment: segment, index:segmentIndex}))
   }
 }

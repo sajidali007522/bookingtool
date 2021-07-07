@@ -302,12 +302,13 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     }
 
     this.state.segments.push(selection)
-    console.log(this.state.segments)
+
     let check = false
     let target = 0;
     this.state.cart.filter(item=>{
       if(item.cartPreview.searchIndece == this.state.selectedIndece){
         this.state.cart.splice(target,1);
+        this.state.segments.splice(target,1);
       }
       target++
 
@@ -434,6 +435,29 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     }
   }
 
+  deleteItemFromSelection(event) {
+    event = JSON.parse(event);
+
+    let UniqueId = this.state.cart[event.index].cartPreview.UniqueID;
+    let index = event.index;
+    let priceId = this.state.cart[event.index].priceID
+    this.shakeIt(true);
+
+    this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
+    this.state.cart.splice(index, 1);
+    this.state.segments.splice(index, 1);
+    if(this.state.replacement.cartIndex == index){
+      this. state.replacement.priceId = '';
+      this. state.replacement.rowId = '';
+    }
+    this.getSearchResults();
+    /*if(this.state.cart.length == 0) {
+      this.toggleBookingContentArea(false);
+    }*/
+    this.shakeIt();
+    this.toggleBookingContentArea(false)
+  }
+
   removeItemFromCart(UniqueId, index, priceId) {
     this.shakeIt(true);
     /*this.state.bookingRows.filter(row => {
@@ -457,7 +481,21 @@ export class ResultListComponent implements OnInit,AfterViewInit {
   }
 
   reselectResource(uniqueId, index, priceId){
-    console.log(this.state.cart)
+
+    this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
+    this.state.replacement.cartIndex=index;
+    this.state.replacement.priceId =priceId;
+    this.state.replacement.rowId =uniqueId;
+    this.getSearchResults();
+    this.toggleBookingContentArea(false)
+  }
+
+  replaceItemFromSelection(event){
+    event = JSON.parse(event);
+    let uniqueId = this.state.cart[event.index].cartPreview.UniqueID;
+    let index = event.index;
+    let priceId = this.state.cart[event.index].priceID
+
     this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
     this.state.replacement.cartIndex=index;
     this.state.replacement.priceId =priceId;

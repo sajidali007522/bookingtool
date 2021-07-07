@@ -121,7 +121,14 @@
                 <li *ngFor="let seg of segment.segments; let i=index"
                     [ngClass]="{'isStopover': !seg.isStopover}"
                 >
-                  <h4><img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
+                  <h4>
+                    <img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}
+                    <ng-container *ngIf="i==0">
+                      <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="removeItemFromCart(segmentIndex, segment)">Remove</a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="reselectResource(segmentIndex, segment)">Replace</a>
+                    </ng-container>
+                  </h4>
+
                   <h5>
                     {{seg.identifier}}
                     <span>{{dateParse.formatDateForCart(seg.beginDate)}}</span>
@@ -137,7 +144,12 @@
               </ng-container>
               <ng-container *ngIf="segment.resourceName == 'Room'">
                 <li>
-                  <h4><img *ngIf="segment.providerLogoUrl" src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}</h4>
+                  <h4><img *ngIf="segment.providerLogoUrl" src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}
+
+                      <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="removeItemFromCart(segmentIndex, segment)">Remove</a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="reselectResource(segmentIndex, segment)">Replace</a>
+
+                  </h4>
                   <h5>
                     <span>{{dateParse.formatDateForCart(segment.beginDate)}}</span>
                     <span *ngIf="segment.beingDate<segment.endDate">{{dateParse.formatDateForCart(segment.endDate)}}</span>

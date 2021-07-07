@@ -330,7 +330,7 @@
             <p>{{item.From}}</p>
             <p>{{item.To}}</p>
             <div class="booking-subtotal">
-              <span>{{item.cartPreview.Price.values2.GetFareNameShort}}</span> <strong>{{item.cartPreview.Price.values2.TotalPrice}}</strong>
+              <span>{{item.cartPreview.Price.values2.GetFareNameShort}}</span> <strong>${{item.cartPreview.Price.values2.TotalPrice}}</strong>
             </div>
           </li>
 
@@ -395,7 +395,13 @@
   </div>
 </div>
 
-<app-right-sidebar [cart]="state.cart" [bookedSegments]="state.segments" page="list"></app-right-sidebar>
+<app-right-sidebar
+  [cart]="state.cart"
+  [bookedSegments]="state.segments"
+  page="list"
+  (removeItem)="deleteItemFromSelection($event)"
+  (replaceItem)="replaceItemFromSelection($event)"
+></app-right-sidebar>
 
 
 <div class="modal modal-square fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
