@@ -7,28 +7,17 @@
     <div class="sideov-title">
       <h2>New Booking</h2>
     </div>
+
     <div class="side-topform" *ngIf="page != 'list'">
-      <!--<div class="mb-3 field-gray-wrap field-wrap">
-        <label>Add Traveler</label>
-        <div class="field-icon-wrap">
-          <span class="user field-icon mt-secon"></span><input class="form-control" placeholder="Search by last name, first name" type="text">
-        </div>
+      <div class="mb-1">
+        <input type="text" class="form-control" placeholder="Add Traveler." />
       </div>
-      <div class="mb-3 field-gray-wrap field-wrap">
-        <label>Add / Replace</label>
-        <div class="field-icon-wrap">
-          <span class="fa fa-refresh field-icon mt-secon"></span><select class="form-control">
-          <option>Select Resources</option>
-        </select>
-        </div>
-      </div>
-      <input type="submit" class="btn btn-success btn-block" value="Add"> -->
     </div>
 
     <nav>
       <div class="nav nav-tabs" role="tablist">
         <a class="nav-item nav-link active" data-toggle="tab" href="#content-bb" role="tab" aria-selected="false" *ngIf="page != 'list'">Selection</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#content-aa" role="tab" aria-selected="true" *ngIf="page != 'list'">Add/Replace</a>
+        <a class="nav-item nav-link" href="javascript:void(0)" data-target="#exampleModal" data-toggle="modal" aria-selected="true" *ngIf="page != 'list'">Add/Replace</a>
       </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
