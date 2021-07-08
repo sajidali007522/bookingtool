@@ -13,18 +13,22 @@ export class RightSidebarComponent implements OnInit {
   @Input() selectedIndece;
   @Input() bookedSegments=[]
   @Input() page;
+  @Input() form;
+  @Input() state
 
   @Output() removeItem = new EventEmitter<string>();
   @Output() replaceItem = new EventEmitter<string>();
+  @Output() loadCriteriaDefinition= new EventEmitter<string>()
 
-  state={
-    isSideBarOpen: false,
-  }
+
   constructor(
     public dateParse: DateParser,
     public userService:UserService) { }
 
   ngOnInit(): void {
+    if(this.state){
+      this.state['isSideBarOpen'] = this.page == 'list' ? false : true;
+    }
   }
 
   toggleSideBar(){
@@ -36,4 +40,8 @@ export class RightSidebarComponent implements OnInit {
   reselectResource(segmentIndex, segment) {
     this.replaceItem.emit(JSON.stringify({segment: segment, index:segmentIndex}))
   }
+  loadCriteriaDefinitions () {
+    this.loadCriteriaDefinition.emit(JSON.stringify({form: this.form}))
+  }
+
 }

@@ -28,88 +28,21 @@
     <nav>
       <div class="nav nav-tabs" role="tablist">
         <a class="nav-item nav-link active" data-toggle="tab" href="#content-bb" role="tab" aria-selected="false" *ngIf="page != 'list'">Selection</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#content-aa" role="tab" aria-selected="true" *ngIf="page != 'list'">Room</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#content-aa" role="tab" aria-selected="true" *ngIf="page != 'list'">Add/Replace</a>
       </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade" id="content-aa" role="tabpanel" aria-labelledby="content-aa"  *ngIf="page != 'list'">
-        <div class="detail-overinner">
-
-          <div class="accordion custom-accordion" id="accordionExample">
-            <div class="mb-1">
-              <div class="card-header" id="headingOne">
-                <h2 aria-expanded="false" class="accordion-link" data-target="#collaps-1" data-toggle="collapse">Add Room Tues, April 5 - 10 Jan</h2>
-              </div>
-              <div class="collapse show" data-parent="#accordionExample" id="collaps-1">
-                <div class="box position-relative">
-                  <a href="#" class="btn btn-sm btn-danger remove-acc">Remove <span class="fa fa-remove"></span></a>
-                  <div class="mb-1">
-                    <label>Date</label>
-                    <div class="field-wrap">
-                      <span class="fa fa-calendar-o"></span>
-                      <input class="form-control" type="text" value="">
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label>End Date</label>
-                    <div class="field-wrap">
-                      <span class="fa fa-calendar-o"></span>
-                      <input class="form-control" type="text" value="">
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label>Site</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                  <div class="mb-3">
-                    <label>Room Type</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                  <div class="mb-3">
-                    <label>Contract</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-
-                  <button data-target="#exampleModal2" data-toggle="modal" class="btn btn-primary btn-sm">Extra Info</button>
-
-                </div>
-              </div>
-            </div>
-            <div class="mb-1">
-              <div class="card-header" id="headingTwo">
-                <h2 aria-expanded="false" class="accordion-link collapsed" data-target="#collaps-2" data-toggle="collapse">Add Flight Mon, March 20 - 15 Jully</h2>
-              </div>
-              <div class="collapse" data-parent="#accordionExample" id="collaps-2">
-                <div class="box">
-                  <div class="mb-1">
-                    <label>Date</label>
-                    <div class="field-wrap">
-                      <span class="fa fa-calendar-o"></span>
-                      <input class="form-control" type="text" value="">
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label>End Date</label>
-                    <div class="field-wrap">
-                      <span class="fa fa-calendar-o"></span>
-                      <input class="form-control" type="text" value="">
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label>Site</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                  <div class="mb-3">
-                    <label>Room Type</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                  <div class="mb-3">
-                    <label>Contract</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class="mb-1">
+          <button class="btn btn-primary pull-right" data-target="#exampleModal" data-toggle="modal">Add/Replace</button>
+        </div>
+        <div class="input-group mb-4">
+          <select class="form-control" [(ngModel)]="form.resourceTypeID">
+            <option value="00000000-0000-0000-0000-000000000000">Select Resources</option>
+            <option value="{{resource.value}}" *ngFor="let resource of state.addableResourceTypes">{{resource.text}}</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-success" (click)="loadCriteriaDefinitions()"> <span class="fa fa-plus"></span> Add</button>
           </div>
         </div>
       </div>
@@ -170,7 +103,6 @@
           </ul>
         </div>
       </div>
-      <button class="btn btn-primary pull-right" data-target="#exampleModal" data-toggle="modal">Add/Replace</button>
     </div>
 
   </div>

@@ -10,15 +10,15 @@ import {BookingComponent} from "./components/booking/booking.component";
 import {ManageReservationComponent} from "./components/manage-reservation/manage-reservation.component";
 import {AuthGuardService} from "../_services/auth-guard.service";
 
-const environment = 'local'
+
 export const routes: Routes = [
-  { path: '', component:ReservationNewComponent, canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)]  }, // default route of the module
-  { path: 'old', component:ReservationComponent, canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)]  }, // default route of the module
-  { path: 'manage', component:ManageReservationComponent, canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)]  }, // default route of the module
-  { path: ":booking_id/search/:resource_typeid/:session_id", component:ResultListComponent, canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)] },
-  { path: ":booking_id/business-profile/:session_id", component:BusinessProfileComponent, canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)] },
-  { path: ":booking_id/booking/:session_id", component:BookingComponent, canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)] },
-  { path: ":booking_id/book-profile", component:BookProfileComponent, canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)] },
+  { path: '', component:ReservationNewComponent, canActivate: [AuthGuardService]  }, // default route of the module
+  { path: 'old', component:ReservationComponent, canActivate: [AuthGuardService]  }, // default route of the module
+  { path: 'manage', component:ManageReservationComponent, canActivate: [AuthGuardService]  }, // default route of the module
+  { path: ":booking_id/search/:resource_typeid/:session_id", component:ResultListComponent, canActivate: [AuthGuardService] },
+  { path: ":booking_id/business-profile/:session_id", component:BusinessProfileComponent, canActivate: [AuthGuardService] },
+  { path: ":booking_id/booking/:session_id", component:BookingComponent, canActivate: [AuthGuardService] },
+  { path: ":booking_id/book-profile", component:BookProfileComponent, canActivate: [AuthGuardService] },
 ]
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes)

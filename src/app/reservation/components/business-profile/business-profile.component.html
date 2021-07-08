@@ -323,7 +323,7 @@
 </div>
 
 
-<div class="booking-article-bot" *ngIf="state.bookedSegments.length>0">
+<div class="booking-article-bot" *ngIf="state.bookedSegments.length>0 && false">
   <!-- <a href="javascript:void(0);" class="new-booking"><span></span></a> -->
   <a href="javascript:void(0);" *ngIf="!state.bookingContentArea" (click)="toggleBookingContentArea(true);" class="new-booking">
   </a>
@@ -385,5 +385,8 @@
 <app-right-sidebar
   [cart]="[]"
   [bookedSegments]="state.bookedSegments"
+  [form] = "form"
+  (loadCriteriaDefinition)="loadCriteriaDefinitions($event)"
+  [state] = "state"
   page="bf"
 ></app-right-sidebar>

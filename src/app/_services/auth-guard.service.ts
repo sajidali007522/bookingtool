@@ -13,9 +13,6 @@ export class AuthGuardService implements CanActivate {
               private appConfigService: ConfigService) { }
 
   canActivate(): boolean {
-    if(this.appConfigService.environment == 'local'){
-      return true;
-    }
     if (this.authService.isLoggedIn()) {
       return true;
     }

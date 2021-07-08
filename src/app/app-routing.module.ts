@@ -19,7 +19,7 @@ import {AuthGuardService} from "./_services/auth-guard.service";
 import {LogoutComponent} from "./auth/logout/logout.component";
 import {BaseComponent} from "./components/base/base.component";
 
-const environment = 'local'
+
 const routes: Routes = [
   {
     path: 'reservation',
@@ -37,44 +37,44 @@ const routes: Routes = [
   },
   { path: 'callback', component: CallbackComponent },
   { path: 'server-login', component: ServerLoginTestComponent },
-  { path: 'login', component: LoginComponent, canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)]},
-  { path: 'logout', component: LogoutComponent, canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)]},
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuardService]},
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService]},
 
   {
     path: 'availability',
     component: SingleColumnLayoutComponent,
-    canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)],
+    canActivate: [AuthGuardService],
     loadChildren: () => import('./availability/availability.module').then(m => m.AvailabilityModule)
   },
   {
     path: 'housekeeping',
     component: SingleColumnLayoutComponent,
-    canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)],
+    canActivate: [AuthGuardService],
 
     loadChildren: () => import('./demo-housekeeping/demo-housekeeping.module').then(m => m.DemoHousekeepingModule)
   },
   {
     path: 'manage/reservation',
     component: SingleColumnLayoutComponent,
-    canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)],
+    canActivate: [AuthGuardService],
 
     loadChildren: () => import('./demo-manage-reservation/demo-manage-reservation.module').then(m => m.DemoManageReservationModule)
   },
   {
     path: 'flight-setup',
-    canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)],
+    canActivate: [AuthGuardService],
     component: SingleColumnLayoutComponent,
     loadChildren: () => import('./flight-setup/flight-setup.module').then(m => m.FlightSetupModule)
   },
   {
     path: 'user',
-    canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)],
+    canActivate: [AuthGuardService],
     component: SingleColumnLayoutComponent,
     loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   },
   {
     path: 'reports',
-    canActivate: [(environment == 'local' ? AuthGuard: AuthGuardService)],
+    canActivate: [AuthGuardService],
     component: SingleColumnLayoutComponent,
     loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
   },

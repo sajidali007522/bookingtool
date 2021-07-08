@@ -142,7 +142,11 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
 
     //accordion_3
   }
-  loadCriteriaDefinitions(){
+  loadCriteriaDefinitions(event=''){
+    if(event){
+      event = JSON.parse(event)
+      this.form= event['form'];
+    }
     if(this.state.loadingTemplate) return
     this.state.loadingTemplate = true
     this.resService.loadCriteriaDefinitions(this.state.bookingID, this.form.resourceTypeID, {
