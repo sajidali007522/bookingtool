@@ -26,9 +26,7 @@ export class RightSidebarComponent implements OnInit {
     public userService:UserService) { }
 
   ngOnInit(): void {
-    if(this.state){
-      this.state['isSideBarOpen'] = this.page == 'list' ? false : true;
-    }
+    this.state['isSideBarOpen'] = this.page == 'list' ? false : true;
   }
 
   toggleSideBar(){
