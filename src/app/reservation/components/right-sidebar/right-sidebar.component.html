@@ -23,7 +23,6 @@
         </div>
       </div>
       <input type="submit" class="btn btn-success btn-block" value="Add"> -->
-      <button class="btn btn-primary pull-right" data-target="#exampleModal" data-toggle="modal">Add/Replace</button>
     </div>
 
     <nav>
@@ -122,13 +121,17 @@
                 <li *ngFor="let seg of segment.segments; let i=index"
                     [ngClass]="{'isStopover': !seg.isStopover}"
                 >
-                  <h4>
-                    <img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}
-                    <ng-container *ngIf="i==0 && page == 'list'">
-                      <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="removeItemFromCart(segmentIndex, segment)">Remove</a>
-                      <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="reselectResource(segmentIndex, segment)">Replace</a>
-                    </ng-container>
-                  </h4>
+                  <div class="side-title-wrap">
+                    <h4>
+                      <img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}
+                    </h4>
+                    <div class="side-title-btns">
+                      <ng-container *ngIf="i==0 && page == 'list'">
+                        <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="removeItemFromCart(segmentIndex, segment)">Remove</a>
+                        <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="reselectResource(segmentIndex, segment)">Replace</a>
+                      </ng-container>
+                    </div>
+                  </div>
 
                   <h5>
                     {{seg.identifier}}
@@ -167,6 +170,7 @@
           </ul>
         </div>
       </div>
+      <button class="btn btn-primary pull-right" data-target="#exampleModal" data-toggle="modal">Add/Replace</button>
     </div>
 
   </div>
