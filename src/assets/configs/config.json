@@ -22,7 +22,7 @@
     "user_settings": false,
     "user_profile": false,
     "theme_switch": true,
-    "show_home": false
+    "show_home": true
   },
   "modules": [
     {"title": "Availability", "url": "/availability", "isAllowed": true},
