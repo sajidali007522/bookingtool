@@ -21,6 +21,7 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { NgxBootstrapMultiselectModule } from 'ngx-bootstrap-multiselect';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import {SingleColumnLayoutComponent} from "../layouts/single-column-layout/single-column-layout.component";
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
@@ -49,6 +50,7 @@ export class MyHammerConfig extends HammerGestureConfig {
   ],
   providers:[
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-  ]
+  ],
+  bootstrap:[SingleColumnLayoutComponent]
 })
 export class DemoHousekeepingModule { }

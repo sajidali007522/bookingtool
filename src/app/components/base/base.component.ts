@@ -25,6 +25,10 @@ export class BaseComponent implements OnInit {
       //window.location.href = '/#'+this.authService.getDefaultPage()
       this.router.navigate([defaultPage])
     }
+    else if(this.configService.global_permissions['show_home'] && !defaultPage) {
+      //window.location.href = '/#'+this.authService.getDefaultPage()
+      window.location.href = '/#/login'
+    }
   }
 
 }

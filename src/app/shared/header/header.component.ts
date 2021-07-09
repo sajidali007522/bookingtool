@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnInit, Renderer2} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, OnInit, Renderer2} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../_services/authentication.service";
 import {ConfigService} from "../../config.service";
@@ -22,7 +22,8 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   constructor( private renderer: Renderer2,
                public router: Router,
                private authService: AuthService,
-               private appConfigService: ConfigService
+               private appConfigService: ConfigService,
+               private ref: ChangeDetectorRef,
   ) {
     this.custom_configs = this.appConfigService.ui_configs || {};
     this.currentUser = this.authService.getUser();
@@ -40,7 +41,8 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
       if(!$(e.target).is('.children-menu')) {
         $('.header-wrap').find('.dropdown-menu-wrap').hide();
       }
-    })
+    });
+    this.ref.detectChanges()
   }
 
   ngOnInit(): void {
@@ -129,19 +131,19 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   }
 
   showLanguages() {
-    return this.authService.isLoggedIn() ? this.authService.getUser()['global_permissions']['multilingual'] : this.appConfigService.global_permissions['multilingual'];
+    return this.authService.isLoggedIn() ? this.authService.getMultiLanguage() : this.appConfigService.global_permissions['multilingual'];
   }
 
   showUserSettings() {
-    return this.authService.isLoggedIn() ? this.authService.getUser()['global_permissions']['user_settings'] : false
+    return this.authService.isLoggedIn() ? this.authService.getUserSettings() : false
   }
 
   showUserProfile() {
-    return this.authService.isLoggedIn() ? this.authService.getUser()['global_permissions']['user_profile'] : false;
+    return this.authService.isLoggedIn() ? this.authService.userProfile() : false;
   }
 
   showThemeSwitch() {
-    return this.authService.isLoggedIn() ? this.authService.getUser()['global_permissions']['theme_switch'] : this.appConfigService.global_permissions['theme_switch'];
+    return this.authService.isLoggedIn() ? this.authService.themeSwitch() : this.appConfigService.global_permissions['theme_switch'];
   }
 
   toggleMenuBar($event) {

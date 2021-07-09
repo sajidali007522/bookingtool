@@ -19,7 +19,6 @@ import {AuthGuardService} from "./_services/auth-guard.service";
 import {LogoutComponent} from "./auth/logout/logout.component";
 import {BaseComponent} from "./components/base/base.component";
 
-
 const routes: Routes = [
   {
     path: 'reservation',
@@ -42,20 +41,20 @@ const routes: Routes = [
 
   {
     path: 'availability',
-    component: SingleColumnLayoutComponent,
+    //component: SingleColumnLayoutComponent,
     canActivate: [AuthGuardService],
     loadChildren: () => import('./availability/availability.module').then(m => m.AvailabilityModule)
   },
   {
     path: 'housekeeping',
-    component: SingleColumnLayoutComponent,
+    //component: SingleColumnLayoutComponent,
     canActivate: [AuthGuardService],
 
     loadChildren: () => import('./demo-housekeeping/demo-housekeeping.module').then(m => m.DemoHousekeepingModule)
   },
   {
     path: 'manage/reservation',
-    component: SingleColumnLayoutComponent,
+    //component: SingleColumnLayoutComponent,
     canActivate: [AuthGuardService],
 
     loadChildren: () => import('./demo-manage-reservation/demo-manage-reservation.module').then(m => m.DemoManageReservationModule)
@@ -63,19 +62,19 @@ const routes: Routes = [
   {
     path: 'flight-setup',
     canActivate: [AuthGuardService],
-    component: SingleColumnLayoutComponent,
+    //component: SingleColumnLayoutComponent,
     loadChildren: () => import('./flight-setup/flight-setup.module').then(m => m.FlightSetupModule)
   },
   {
     path: 'user',
     canActivate: [AuthGuardService],
-    component: SingleColumnLayoutComponent,
+    //component: SingleColumnLayoutComponent,
     loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   },
   {
     path: 'reports',
     canActivate: [AuthGuardService],
-    component: SingleColumnLayoutComponent,
+   // component: SingleColumnLayoutComponent,
     loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
   },
   // otherwise redirect to home

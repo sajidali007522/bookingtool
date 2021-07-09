@@ -5,6 +5,7 @@ import {ConfigService} from "../config.service";
 import {UserService} from "./user.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService as _AuthService} from "../auth.service";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -84,6 +85,22 @@ export class AuthService {
     //console.log(this.user)
     if(!this.user) return [];
     return this.user['modules'];
+  }
+
+  getMultiLanguage() {
+    return typeof this.user['global_permissions'] !="undefined" ? this.user['global_permissions']['multilingual'] : false;
+  }
+
+  getUserSettings() {
+    return typeof this.user['global_permissions'] != "undefined" ? this.user['global_permissions']['user_settings'] : false;
+  }
+
+  userProfile() {
+    return typeof this.user['global_permissions'] != "undefined" ? this.user['global_permissions']['user_profile'] : false;
+  }
+
+  themeSwitch() {
+    return typeof this.user['global_permissions'] != "undefined" ? this.user['global_permissions']['theme_switch'] : false;
   }
 
   getDefaultPage() {

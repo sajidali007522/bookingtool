@@ -26,9 +26,9 @@ export class SingleColumnLayoutComponent implements OnInit {
   ngOnInit(): void {
     //alert(this.router.url)
     //console.log(this.router.url,  this.authService.getDefaultPage()+'456');
-    if(!this.authService.canAccessThePage(this.router.url)) {
-      this.router.navigate([this.authService.getDefaultPage()])
-    }
+    // if(!this.authService.canAccessThePage(this.router.url)) {
+    //   this.router.navigate([this.authService.getDefaultPage()])
+    // }
   }
 
   logout() {

@@ -15,10 +15,10 @@
                [attr.role]="item.children.length > 0 ? 'button' : ''"
                [attr.aria-haspopup]="item.children.length > 0 ? true : ''"
                [attr.aria-expanded]="item.children.length > 0 ? false : ''"
-               routerLink="{{item.link}}"><span>{{item.label}}</span></a>
+               [routerLink]="[item.link.toLowerCase()]"><span>{{item.label}}</span></a>
 
             <div class="dropdown-menu" aria-labelledby="navbarDropdown1" *ngIf="item.children.length > 0">
-              <a *ngFor="let child of item.children" class="dropdown-item" href="javascript:void(0)" routerLink="{{child.link}}">
+              <a *ngFor="let child of item.children" class="dropdown-item" href="javascript:void(0)" [routerLink]="[child.link.toLowerCase()]">
                 {{child.label}}</a>
             </div>
           </li>

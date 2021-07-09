@@ -9,6 +9,7 @@ import {SharedModuleModule} from "../shared-module/shared-module.module";
 import { RoomsComponent } from './components/rooms/rooms.component';
 import { TravelComponent } from './components/travel/travel.component';
 import {PopoverModule} from "ngx-bootstrap/popover";
+import {SingleColumnLayoutComponent} from "../layouts/single-column-layout/single-column-layout.component";
 
 @NgModule({
   declarations: [AvailabilityComponent, RoomsComponent, TravelComponent],
@@ -22,6 +23,7 @@ import {PopoverModule} from "ngx-bootstrap/popover";
   ],
   providers:[
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-  ]
+  ],
+  bootstrap:[SingleColumnLayoutComponent]
 })
 export class AvailabilityModule { }

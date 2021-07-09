@@ -17,6 +17,7 @@ import { BookingComponent } from './components/booking/booking.component';
 import {ManageReservationComponent} from "./components/manage-reservation/manage-reservation.component";
 import {RecordGridComponent} from "./components/record-grid/record-grid.component";
 import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
+import {SingleColumnLayoutComponent} from "../layouts/single-column-layout/single-column-layout.component";
 
 
 
@@ -45,6 +46,7 @@ import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.
   ],
   providers:[
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-  ]
+  ],
+  bootstrap:[SingleColumnLayoutComponent]
 })
 export class ReservationModule { }
