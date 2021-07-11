@@ -7,6 +7,7 @@ import {ReportsService} from "../../_services/reports.service";
 import {LookupService} from "../../_services/lookupService";
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {UserService} from "../../_services/user.service";
+import * as $ from 'jquery';
 
 import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 
@@ -129,7 +130,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
               window.open(res['data']['fileUrl'], '_blank');
             } else {
               this.viewUrl = res['data']['fileUrl']
-              $(document).find("#myModal").css({'display':'block'});
+              $(document).find(".pdf-modal-trigger").trigger("click");//.css({'display':'block'});
             }
           }
         },
