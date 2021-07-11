@@ -26,6 +26,7 @@
                         <option value="">Select</option>
                         <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
                       </select>
+                      <label class="error text-danger" *ngIf="state.errors['template'] && form.template == ''">{{state.errors['template']}}</label>
                       <span [ngClass]="{'fa fa-spin fa-spinner': state.loading, 'globel-world-icon': !state.loading}"></span>
                     </div>
 
@@ -36,6 +37,7 @@
                         <div class="field-wrap">
                           <ng-container *ngIf="field.type == 0">
                             <input type="text" class="form-control" [(ngModel)]="field.model" />
+                            <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
                           </ng-container>
                           <ng-container *ngIf="field.type == 1"> <!--Date-->
                             <input type="text"
@@ -48,6 +50,7 @@
                                    name="departure_date"
                                    autocomplete="off"
                                    class="form-control" />
+                            <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
                             <span class="fa fa-calendar-o"></span>
                           </ng-container>
                           <ng-container *ngIf="field.type == 2">
@@ -59,6 +62,7 @@
                               <option value="{{field.nullValue}}">Select {{field.nullDescription}}</option>
                               <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
                             </select>
+                            <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
                           </ng-container>
                           <ng-container *ngIf="field.type == 3 && field.lookupName && field.minSearchCharacters">
                             <p>Autcomplete container</p>
@@ -67,11 +71,11 @@
                       </div>
                     </div>
                     <div class="reservation-bot-btns d-flex">
-                      <a href="javascript:void(0);" class="btn btn-danger">
+                      <a href="javascript:void(0);" class="btn btn-danger" (click)="exportReport(true)">
                         Refresh
                       </a>
                       <button type="submit" class="btn btn-success ml-auto" (click)="exportReport()" >Export</button>
-
+                      <label class="error text-danger" *ngIf="state.errors['code'] && (!form.exportType['code'] || form.exportType['code']<0)">{{state.errors['code']}}</label>
                       <div class="dropdown">
                         <button class="btn btn-info dropdown-toggle plr-10 ml-3 exportOptions" type="button" id="dropdownMenuButton1" (click)="toggleDropdown($event)">
                           {{this.form.exportType['label'] || 'Select'}}
@@ -91,6 +95,35 @@
 
 
         </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" [ngClass]="{'in show': viewUrl}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <ngx-extended-pdf-viewer
+          [src]="viewUrl"
+          [height]="'90vh'"
+          [useBrowserLocale]="true"
+          [textLayer]="true"
+          [showHandToolButton]="true">
+        </ngx-extended-pdf-viewer>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
 
     </div>

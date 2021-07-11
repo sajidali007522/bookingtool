@@ -8,6 +8,8 @@ import {LookupService} from "../../_services/lookupService";
 import {BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import {UserService} from "../../_services/user.service";
 
+import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
+
 @Component({
   selector: 'app-manager',
   templateUrl: './manager.component.html',
@@ -19,6 +21,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   minDateFrom= new Date();
   maxDateFrom= new Date();
   minDateTo: Date;
+  viewUrl;
   error;
   reportTemplate= {}
   form ={
@@ -28,6 +31,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   state={
     manager: '',
     loading: false,
+    errors: {},
     exportTypes:[
       {label: 'PDF', code: 0,},
       {label: 'Excel', code: 1},
@@ -91,6 +95,9 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
               this.state.exportTypes.splice(index, 1);
             }
           }
+          if(this.reportTemplate['reportTemplates'].length > 0) {
+            this.form.template = this.reportTemplate['reportTemplates'][0].templateID
+          }
         },
         (error)=>{
           this.state.loading = false;
@@ -102,16 +109,12 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     this.form.exportType=type;
   }
 
-  exportReport () {
+  exportReport (viewPdf=false) {
     if(this.state.loading) return;
-    if(this.form.template == '') {
-      this.toastr.error('Please select report type to continue.', 'Error!')
-      return;
+    if(viewPdf){
+      this.setExportType(0);
     }
-    if(this.form.exportType['code']<0){
-      this.toastr.error('please select export file type.', 'Error!')
-      return;
-    }
+
     if(!this.validateForm()){
       this.toastr.error('please select All required field first.', 'Error!')
       return;
@@ -122,7 +125,12 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       .subscribe(res => {
           this.state.loading = false;
           if(res['success']){
-            window.open(res['data']['fileUrl'], '_blank');
+            if(!viewPdf) {
+              window.open(res['data']['fileUrl'], '_blank');
+            } else {
+              this.viewUrl = res['data']['fileUrl']
+              $(document).find("#myModal").css({'display':'block'});
+            }
           }
         },
         (error)=>{
@@ -133,8 +141,21 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
 
   validateForm(){
     let validated=true;
+    this.state.errors={}
+    if(this.form.template == '') {
+      this.state.errors['template'] = 'Please select report type to continue.'
+      validated=false;
+      return;
+    }
+    if(this.form.exportType['code']<0){
+      this.state.errors['code'] = 'please select export file type.'
+      validated=false;
+      return;
+    }
     this.reportTemplate['reportFields'].filter(item=>{
+      item.error = ''
       if(item.isRequired && item.model == '') {
+        item.error= 'Field is required.'
         validated=false;
       }
     });
