@@ -64,6 +64,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       this.bsConfig['dateInputFormat'] = dateFormat;
     }
     this.maxDateFrom.setDate(5*365)
+    this.minDateFrom.setDate(-1*365)
     this.route.params.subscribe(params => {
       this.state.manager = params['report_manager'];
       this.loadReportTemplate(this.state.manager.charAt(0).toUpperCase() + this.state.manager.slice(1))
@@ -121,7 +122,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     }
 
     if(!this.validateForm()){
-      this.toastr.error('please select All required field first.', 'Error!')
+      //this.toastr.error('please select All required field first.', 'Error!')
       return;
     }
     this.state.loading = true;
