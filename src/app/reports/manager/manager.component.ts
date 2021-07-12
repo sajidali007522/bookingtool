@@ -24,7 +24,11 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   minDateTo: Date;
   viewUrl;
   error;
-  reportTemplate= {}
+  reportTemplate= {
+    reportTemplates: [],
+    reportFields: [],
+    displayName: 'N/A'
+  }
   form ={
     template:'',
     exportType:{ code: -1}

@@ -24,15 +24,13 @@
                     <div class="field-wrap">
                       <select class="form-control" [ngClass]="{'is-invalid': state.errors['template'] && form.template == ''}" [(ngModel)]="form.template">
                         <option value="">Select Report</option>
-                        <ng-container *ngIf="reportTemplate['reportTemplates']">
                           <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
-                        </ng-container>
                       </select>
                       <label class="error text-danger" *ngIf="state.errors['template'] && form.template == ''">{{state.errors['template']}}</label>
                       <span [ngClass]="{'fa fa-spin fa-spinner': state.loading, 'globel-world-icon': !state.loading}"></span>
                     </div>
 
-                    <div class="row" id="report_fields" *ngIf="reportTemplate['reportFields'] && reportTemplate['reportFields'].length > 0">?
+                    <div class="row" id="report_fields" *ngIf="reportTemplate['reportFields'] && reportTemplate['reportFields'].length > 0">
 
                       <div class="col-md-6" *ngFor="let field of reportTemplate['reportFields']">
                         <label> <span *ngIf="field.type != 2">{{field.label}}<span class="text-danger" *ngIf="field.isRequired">*</span></span>&nbsp;</label>
