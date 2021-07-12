@@ -14,7 +14,7 @@
             <div class="mb-3">
               <div class="card-header" id="headingOne">
                 <h2 class="accordion-link noDelIcon" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
-                  {{reportTemplate['displayName']}}
+                  {{reportTemplate ? reportTemplate['displayName'] : 'N/A'}}
                 </h2>
               </div>
               <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
@@ -23,20 +23,23 @@
                     <label>Report</label>
                     <div class="field-wrap">
                       <select class="form-control" [(ngModel)]="form.template">
-                        <option value="">Select</option>
-                        <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
+                        <option value="">Select Report</option>
+                        <ng-container *ngIf="reportTemplate['reportTemplates']">
+                          <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
+                        </ng-container>
                       </select>
                       <label class="error text-danger" *ngIf="state.errors['template'] && form.template == ''">{{state.errors['template']}}</label>
                       <span [ngClass]="{'fa fa-spin fa-spinner': state.loading, 'globel-world-icon': !state.loading}"></span>
                     </div>
 
-                    <div class="row" id="report_fields">
+                    <div class="row" id="report_fields" *ngIf="reportTemplate['reportFields'] && reportTemplate['reportFields'].length > 0">?
 
                       <div class="col-md-6" *ngFor="let field of reportTemplate['reportFields']">
                         <label> <span *ngIf="field.type != 2">{{field.label}}<span class="text-danger" *ngIf="field.isRequired">*</span></span>&nbsp;</label>
                         <div class="field-wrap">
                           <ng-container *ngIf="field.type == 0">
-                            <input type="text" class="form-control" [(ngModel)]="field.model" />
+                            <input type="text" class="form-control"
+                                   [ngClass]="{'ng-invalid': field.error}" [(ngModel)]="field.model" />
                             <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
                           </ng-container>
                           <ng-container *ngIf="field.type == 1"> <!--Date-->
@@ -49,7 +52,10 @@
                                    placeholder="{{field.label}}"
                                    name="departure_date"
                                    autocomplete="off"
-                                   class="form-control" />
+                                   class="form-control"
+                                   (blur)="setFieldData(field, $event)"
+                                   [ngClass]="{'ng-invalid': field.error}"
+                            />
                             <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
                             <span class="fa fa-calendar-o"></span>
                           </ng-container>
@@ -58,7 +64,9 @@
 
                           </ng-container>
                           <ng-container *ngIf="field.type == 3 && field.lookupName && !field.minSearchCharacters">
-                            <select class="form-control no-icon" [(ngModel)]="field.model" *ngIf="field.lookupName">
+                            <select class="form-control no-icon"
+                                    [ngClass]="{'ng-invalid': field.error}"
+                                    [(ngModel)]="field.model" *ngIf="field.lookupName">
                               <option value="{{field.nullValue}}">Select {{field.nullDescription}}</option>
                               <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
                             </select>

@@ -139,6 +139,11 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
         }
       );
   }
+  setFieldData(field, $event){
+    if($event.target.value == '') {
+      field.model = ''
+    }
+  }
 
   validateForm(){
     let validated=true;
