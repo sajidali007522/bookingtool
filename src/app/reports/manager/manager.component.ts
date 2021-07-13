@@ -109,6 +109,9 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
         },
         (error)=>{
           this.state.loading = false;
+        },
+        ()=>{
+          this.setModalTitle()
         }
       );
   }
@@ -243,5 +246,4 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       }
     });
   }
-
 }
