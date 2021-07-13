@@ -43,7 +43,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       {label: 'CSV', code:  2},
       {label: 'Word', code: 3},
       {label: 'XML', code: 4},
-      {label: 'PDF', code: 5}
+      {label: 'PDF', code: 0}
     ]
   }
   constructor(private authService: AuthService,
@@ -123,7 +123,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   exportReport (viewPdf=false) {
     if(this.state.loading) return;
     if(viewPdf){
-      this.setExportType({code:5});
+      this.setExportType({code:0});
     }
 
     if(!this.validateForm()){
@@ -168,7 +168,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       validated=false;
       return;
     }
-    if(this.form.exportType['code']<=0){
+    if(this.form.exportType['code']<0){
       this.state.errors['code'] = 'please select export file type.'
       validated=false;
       return;
