@@ -22,7 +22,7 @@
                   <div class="form-primary">
                     <label>Report<span class="text-danger">*</span> </label>
                     <div class="field-wrap">
-                      <select class="form-control" [ngClass]="{'is-invalid': state.errors['template'] && form.template == ''}" [(ngModel)]="form.template">
+                      <select class="form-control" [ngClass]="{'is-invalid': state.errors['template'] && form.template == ''}" [(ngModel)]="form.template" (ngModelChange)="setModalTitle()">
                         <option value="">Select Report</option>
                           <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
                       </select>
@@ -115,7 +115,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
+        <h4 class="modal-title">{{state.modalTitle }}</h4>
         <button type="button" class="close" data-dismiss="modal" (click)="viewUrl=''">×</button>
       </div>
 

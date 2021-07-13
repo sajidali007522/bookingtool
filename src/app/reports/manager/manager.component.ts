@@ -34,6 +34,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     exportType:{ code: -1}
   }
   state={
+    modalTitle: '',
     manager: '',
     loading: false,
     errors: {},
@@ -131,6 +132,11 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     this.reportService.exportReports(this.state.manager.charAt(0).toUpperCase() + this.state.manager.slice(1),body)
       .subscribe(res => {
           this.state.loading = false;
+          if (res['status'] == 500){
+            let mesg = res['message'].split(".");
+            this.toastr.error(mesg[0], "Error!")
+            return
+          }
           if(res['success']){
             if(!viewPdf) {
               window.open(res['data']['fileUrl'], '_blank');
@@ -228,6 +234,14 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
         $(".reservation-bot-btns").find(".dropdown-menu").hide()
       }
     })
+  }
+
+  setModalTitle(){
+    this.reportTemplate['reportTemplates'].filter(item=>{
+      if(item.templateID == this.form.template){
+        this.state.modalTitle = item.name
+      }
+    });
   }
 
 }
