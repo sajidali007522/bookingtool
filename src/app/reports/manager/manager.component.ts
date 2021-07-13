@@ -38,11 +38,11 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     loading: false,
     errors: {},
     exportTypes:[
-      {label: 'PDF', code: 0,},
       {label: 'Excel', code: 1},
       {label: 'CSV', code:  2},
       {label: 'Word', code: 3},
-      {label: 'XML', code: 4}
+      {label: 'XML', code: 4},
+      {label: 'PDF', code: 5}
     ]
   }
   constructor(private authService: AuthService,
@@ -63,8 +63,8 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     if(dateFormat){
       this.bsConfig['dateInputFormat'] = dateFormat;
     }
-    this.maxDateFrom.setDate(5*365)
-    this.minDateFrom.setDate(-1*365)
+    this.maxDateFrom.setDate(1*365)
+    this.minDateFrom.setDate(-10*365)
     this.route.params.subscribe(params => {
       this.state.manager = params['report_manager'];
       this.loadReportTemplate(this.state.manager.charAt(0).toUpperCase() + this.state.manager.slice(1))
@@ -97,7 +97,8 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
             this.reportTemplate['reportFields'][index]['loading'] = true
           }
           for (let index=0; index<this.state.exportTypes.length; index++){
-            if(this.reportTemplate['exportFileTypes'].indexOf(this.state.exportTypes[index].code) != -1){
+            console.log(this.reportTemplate['exportFileTypes'], this.state.exportTypes[index].code, this.reportTemplate['exportFileTypes'].indexOf(this.state.exportTypes[index].code))
+            if(this.reportTemplate['exportFileTypes'].indexOf(this.state.exportTypes[index].code) == -1){
               this.state.exportTypes.splice(index, 1);
             }
           }
@@ -118,7 +119,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   exportReport (viewPdf=false) {
     if(this.state.loading) return;
     if(viewPdf){
-      this.setExportType(0);
+      this.setExportType({code:5});
     }
 
     if(!this.validateForm()){
@@ -158,7 +159,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       validated=false;
       return;
     }
-    if(this.form.exportType['code']<0){
+    if(this.form.exportType['code']<=0){
       this.state.errors['code'] = 'please select export file type.'
       validated=false;
       return;
@@ -208,7 +209,8 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     return body;
   }
 
-  toggleDropdown($event) {
+  toggleExportDropdown($event) {
+
     let isVisible = $($event.target).next('.dropdown-menu').is(":visible")
     if(isVisible){
       $($event.target).next('.dropdown-menu').hide();
@@ -223,7 +225,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     $("body").click(function(e){
       if(!$(e.target).is('.exportOptions')) {
-        $(".dropdown-menu").hide()
+        $(".reservation-bot-btns").find(".dropdown-menu").hide()
       }
     })
   }
