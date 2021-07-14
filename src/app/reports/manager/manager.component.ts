@@ -122,16 +122,13 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
 
   exportReport (viewPdf=false) {
     if(this.state.loading) return;
-    if(viewPdf){
-      this.setExportType({code:5});
-    }
 
-    if(!this.validateForm()){
+    if(!this.validateForm(viewPdf)){
       //this.toastr.error('please select All required field first.', 'Error!')
       return;
     }
     this.state.loading = true;
-    let body=this.preparePostBody();
+    let body=this.preparePostBody(viewPdf);
     this.reportService.exportReports(this.state.manager.charAt(0).toUpperCase() + this.state.manager.slice(1),body)
       .subscribe(res => {
           this.state.loading = false;
@@ -160,7 +157,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  validateForm(){
+  validateForm(viewPdf){
     let validated=true;
     this.state.errors={}
     if(this.form.template == '') {
@@ -168,7 +165,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       validated=false;
       return;
     }
-    if(this.form.exportType['code']<=0){
+    if(this.form.exportType['code']<=0 && !viewPdf){
       this.state.errors['code'] = 'please select export file type.'
       validated=false;
       return;
@@ -183,12 +180,12 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     return validated
   }
 
-  preparePostBody() {
+  preparePostBody(viewPdf) {
 
     let body = {
         "criteriaClass": this.reportTemplate['criteriaClass'],
         "renderingClass": this.reportTemplate['renderingClass'],
-        "exportType": this.form.exportType['code'],
+        "exportType": !viewPdf ? this.form.exportType['code'] : 5,
         "reportFields": [{
           "propertyName": "ReportTemplateID",
           "value": this.form.template
