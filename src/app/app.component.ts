@@ -21,7 +21,9 @@ export class AppComponent {
         console.log("event started")
       }else if(event instanceof NavigationEnd) {
         this.loading = false;
-        if(['callback', 'server-login', 'login', 'logout'].indexOf(this.router.url) == -1) {
+        var urlChunks = this.router.url.substring(0, this.router.url.indexOf('?'))
+        var url = urlChunks.split('/')
+        if(['/callback', '/server-login', '/login', '/logout'].indexOf('/'+url[0]) == -1) {
           window.localStorage.setItem('last_visited', this.router.url)
         }
         console.log("event end")

@@ -1003,79 +1003,6 @@ input[type="file"] {
   border-radius: 0;
 }
 
-.fare-detail ul,
-.fare-detail li{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.fare-detail li{
-  border-bottom: 1px solid #ddd;
-  padding: 0 0 10px;
-  margin: 0 0 10px;
-}
-.fare-detail li:last-child{
-  border-bottom: 2px solid #d4d4d4;
-  margin-bottom: 0;
-}
-.fare-desc{
-  display: flex;
-  flex-wrap: wrap;
-}
-.fare-left{
-  width: 120px;
-  font-weight: bold;
-}
-.fare-right{
-  width: calc(100% - 130px);
-  margin-left: auto;
-}
-.flight-right:after{
-  font: normal normal normal 16px/1 FontAwesome;
-  content: "\f072";
-  color: #17a2b8;
-  margin: 0 8px 0 15px;
-}
-.fr-bot-wrap{
-  display: flex;
-  flex-wrap: wrap;
-}
-.fr-bot-wrap ul,
-.fr-bot-wrap li{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.fr-bot-wrap ul{
-  width: 250px;
-  margin-left: auto;
-}
-.fr-bot-wrap li{
-  display: flex;
-  flex-wrap: wrap;
-  border-bottom: 1px solid #ddd;
-  padding: 8px;
-}
-.fr-bot-wrap li.grant-total{
-  background: #fcf4d9;
-  font-weight: bold;
-  border: none;
-}
-.terms-section{
-  font-size: 14px;
-}
-.terms-section h4{
-  font-size: 15px;
-  color: #616161;
-  font-weight: bold;
-  margin: 0 0 5px;
-  padding-top: 10px;
-}
-.terms-section p{
-  line-height: 1.5;
-  margin: 0 0 10px;
-}
-
 
 .plr-20{
   padding-left: 25px;
@@ -1185,7 +1112,7 @@ body.menu-fullwidth .reservation-content-area{
   bottom: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 3;
 }
 .table-loader:after{
   content: " ";
@@ -1197,7 +1124,7 @@ body.menu-fullwidth .reservation-content-area{
   width: 80px;
   height: 80px;
   margin: -40px 0 0 -40px;
-  z-index: 2;
+  z-index: 3;
 }
 .table-loader-bot{
   background: url(/assets/images/loading.gif) no-repeat;
@@ -1463,6 +1390,9 @@ body.menu-fullwidth .reservation-content-area{
 .lb-nav a.lb-next{
   opacity: 1;
 }
+.pdf-viewer .zoom{
+  height: 600px !important;
+}
 .not-show{
   display: none;
 }
@@ -1709,6 +1639,9 @@ body.menu-fullwidth .reservation-content-area{
   .input-full-mobile .flex-automate{
       display: block;
       width: 100%;
+  }
+  .pdf-viewer .zoom{
+    height: 300px !important;
   }
 }
 

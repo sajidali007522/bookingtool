@@ -45,6 +45,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     grid_filter: '',
     processing: false,
     cart: [],
+    segments: [],
     metaDataGridOptions: [],
     bookingRows: [],
     gridFilter: {
@@ -181,9 +182,7 @@ export class ResultListComponent implements OnInit,AfterViewInit {
 
     //this.getSortFields();
   }
-  toggleSideBar(){
-    this.state.isSideBarOpen = !this.state.isSideBarOpen;
-  }
+
   selectResource(resource, resourceIndex, itemIndex, searchIndex) {
     this.state.selectedResource= resource;
   }
@@ -272,14 +271,44 @@ export class ResultListComponent implements OnInit,AfterViewInit {
         });
   }
 
-  selectIt (bookRow, bookIndex, currentItem, priceArray) {
+  selectIt (bookRow, bookRowValues, bookIndex, currentItem, priceArray) {
+    //console.log(bookRow, bookRowValues, bookIndex, currentItem, priceArray)
     this.shakeIt(true);
+    let selection={
+      "beginDate": bookRow.values2.BeginDate,
+      "endDate": bookRow.values2.EndDate,
+      "resourceTypeID": "00000000-0000-0000-0000-000000000000",
+      "resourceName": bookRow.values2.ProviderName,
+      "providerLogoUrl": bookRow.values2.ProviderLogo,
+      "segments": [],
+      "segmentDisplayType": 0,
+      "bookingID": this.state.bookingID,
+      "priceID": currentItem.values2.UniqueID,
+      "totalPrice": currentItem.values2.TotalPrice,
+      "priceName": currentItem.values2.GetFareNameShort,
+      "uniqueID": bookRow.values2.UniqueID,
+      "isExchanging": true
+    }
+    for(let index=0; index < bookRow.tripDetails.length; index++){
+      selection.segments.push({
+        "beginDate": bookRow.tripDetails[index].values2.BeginDate,
+        "endDate": bookRow.tripDetails[index].values2.EndDate,
+        "identifier":  bookRow.tripDetails[index].values2.Identifier,
+        "from":  bookRow.tripDetails[index].values2.FromName,
+        "to": bookRow.tripDetails[index].values2.ToName,
+        "providerLogoUrl": bookRow.tripDetails[index].values2.ProviderLogo,
+        "isStopover": index == (bookRow.tripDetails.length-1)
+      })
+    }
+
+    this.state.segments.push(selection)
 
     let check = false
     let target = 0;
     this.state.cart.filter(item=>{
       if(item.cartPreview.searchIndece == this.state.selectedIndece){
         this.state.cart.splice(target,1);
+        this.state.segments.splice(target,1);
       }
       target++
 
@@ -288,21 +317,22 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     let postBody = [];
     postBody.push({
       cartPreview: {
-        UniqueID: bookRow.UniqueID,
-        provider: bookRow.ProviderName,
-        providerLogo: bookRow.ProviderLogo.split('.png').join('_50.png'),
-        Date: this.getDateFromDateTime(bookRow.BeginDate),
-        From: this.formatDateIntoTime(bookRow.BeginDate) + ": " + bookRow.From,
-        To: this.formatDateIntoTime(bookRow.EndDate) + ": " + bookRow.To,
+        UniqueID: bookRowValues.UniqueID,
+        provider: bookRowValues.ProviderName,
+        providerLogo: bookRowValues.ProviderLogo.split('.png').join('_50.png'),
+        Date: this.getDateFromDateTime(bookRowValues.BeginDate),
+        From: this.formatDateIntoTime(bookRowValues.BeginDate) + ": " + bookRowValues.From,
+        To: this.formatDateIntoTime(bookRowValues.EndDate) + ": " + bookRowValues.To,
         Price: currentItem,
         searchIndece: this.state.selectedIndece
       },
-      "resultID": bookRow.UniqueID,
+      selection:selection,
+      "resultID": bookRowValues.UniqueID,
       "searchID": this.state.searchId,
       "searchIndex": this.state.searchIndeces[this.state.selectedIndece],
       "priceID": currentItem.values2.UniqueID,
-      "beginDate": this.parseDateIntoObject(bookRow.BeginDate).toDateString(),
-      "endDate": this.parseDateIntoObject(bookRow.EndDate).toDateString(),
+      "beginDate": this.parseDateIntoObject(bookRowValues.BeginDate).toDateString(),
+      "endDate": this.parseDateIntoObject(bookRowValues.EndDate).toDateString(),
       "resourceTypeID":  "00000000-0000-0000-0000-000000000000",//"ecf6f1a3-8867-40cc-8118-5defb120d5ee",
       "isReturn": false,
       "timePropertyID": "00000000-0000-0000-0000-000000000000",
@@ -405,6 +435,29 @@ export class ResultListComponent implements OnInit,AfterViewInit {
     }
   }
 
+  deleteItemFromSelection(event) {
+    event = JSON.parse(event);
+
+    let UniqueId = this.state.cart[event.index].cartPreview.UniqueID;
+    let index = event.index;
+    let priceId = this.state.cart[event.index].priceID
+    this.shakeIt(true);
+
+    this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
+    this.state.cart.splice(index, 1);
+    this.state.segments.splice(index, 1);
+    if(this.state.replacement.cartIndex == index){
+      this. state.replacement.priceId = '';
+      this. state.replacement.rowId = '';
+    }
+    this.getSearchResults();
+    /*if(this.state.cart.length == 0) {
+      this.toggleBookingContentArea(false);
+    }*/
+    this.shakeIt();
+    this.toggleBookingContentArea(false)
+  }
+
   removeItemFromCart(UniqueId, index, priceId) {
     this.shakeIt(true);
     /*this.state.bookingRows.filter(row => {
@@ -428,7 +481,21 @@ export class ResultListComponent implements OnInit,AfterViewInit {
   }
 
   reselectResource(uniqueId, index, priceId){
-    console.log(this.state.cart)
+
+    this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
+    this.state.replacement.cartIndex=index;
+    this.state.replacement.priceId =priceId;
+    this.state.replacement.rowId =uniqueId;
+    this.getSearchResults();
+    this.toggleBookingContentArea(false)
+  }
+
+  replaceItemFromSelection(event){
+    event = JSON.parse(event);
+    let uniqueId = this.state.cart[event.index].cartPreview.UniqueID;
+    let index = event.index;
+    let priceId = this.state.cart[event.index].priceID
+
     this.state.selectedIndece=this.state.cart[index].cartPreview.searchIndece;
     this.state.replacement.cartIndex=index;
     this.state.replacement.priceId =priceId;

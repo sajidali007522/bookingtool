@@ -87,7 +87,7 @@ export class RoomImageComponent implements OnInit, OnChanges, OnDestroy {
           // let minutes = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
           r.createDate = this.dateParser.parseDateStringToDate(r.createDate)
           //d.getFullYear()+"-"+month+"-"+day+" "+hours+":"+minutes;
-          r.src = this.getThumbnailUrl(r.urlPath, 1000);
+          r.src = r.urlPath;
           r.thumb = this.getThumbnailUrl(r.urlPath, 100)
           this.state.roomImages.push(r);
         });

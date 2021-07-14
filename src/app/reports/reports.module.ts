@@ -8,7 +8,7 @@ import { ManagerComponent } from './manager/manager.component';
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
-
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [HousekeepingComponent, ManagerComponent],
@@ -21,6 +21,7 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     AutocompleteLibModule,
+    NgxExtendedPdfViewerModule
   ],
   providers:[
     {provide: LocationStrategy, useClass: HashLocationStrategy},

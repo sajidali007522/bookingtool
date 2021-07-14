@@ -14,28 +14,31 @@
             <div class="mb-3">
               <div class="card-header" id="headingOne">
                 <h2 class="accordion-link noDelIcon" data-toggle="collapse" data-target="#collaps-1" aria-expanded="true">
-                  {{reportTemplate['displayName']}}
+                  {{reportTemplate ? reportTemplate['displayName'] : 'N/A'}}
                 </h2>
               </div>
               <div id="collaps-1" class="collapse show" data-parent="#accordionExample">
                 <div class="box box-lr">
                   <div class="form-primary">
-                    <label>Report</label>
+                    <label>Report<span class="text-danger">*</span> </label>
                     <div class="field-wrap">
-                      <select class="form-control" [(ngModel)]="form.template">
-                        <option>Select</option>
-                        <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template">{{template.name}}</option>
+                      <select class="form-control" [ngClass]="{'is-invalid': state.errors['template'] && form.template == ''}" [(ngModel)]="form.template" (ngModelChange)="setModalTitle()">
+                        <option value="">Select Report</option>
+                          <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
                       </select>
+                      <label class="error text-danger" *ngIf="state.errors['template'] && form.template == ''">{{state.errors['template']}}</label>
                       <span [ngClass]="{'fa fa-spin fa-spinner': state.loading, 'globel-world-icon': !state.loading}"></span>
                     </div>
 
-                    <div class="row" id="report_fields">
+                    <div class="row" id="report_fields" *ngIf="reportTemplate['reportFields'] && reportTemplate['reportFields'].length > 0">
 
                       <div class="col-md-6" *ngFor="let field of reportTemplate['reportFields']">
-                        <label>{{field.label}}<span class="text-danger" *ngIf="field.isRequired"></span></label>
+                        <label> <span *ngIf="field.type != 2">{{field.label}}<span class="text-danger" *ngIf="field.isRequired">*</span></span>&nbsp;</label>
                         <div class="field-wrap">
                           <ng-container *ngIf="field.type == 0">
-                            <input type="text" class="form-control" [(ngModel)]="field.model" />
+                            <input type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': field.error}" [(ngModel)]="field.model" />
+                            <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
                           </ng-container>
                           <ng-container *ngIf="field.type == 1"> <!--Date-->
                             <input type="text"
@@ -47,17 +50,25 @@
                                    placeholder="{{field.label}}"
                                    name="departure_date"
                                    autocomplete="off"
-                                   class="form-control" />
+                                   class="form-control"
+                                   (blur)="setFieldData(field, $event)"
+                                   [ngClass]="{'is-invalid': field.error}"
+                            />
+                            <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
                             <span class="fa fa-calendar-o"></span>
                           </ng-container>
                           <ng-container *ngIf="field.type == 2">
-                            <input type="checkbox" [(ngModel)]="field.model" />
+                            <label><input type="checkbox" [(ngModel)]="field.model" />&nbsp;{{field.label}}</label>
+
                           </ng-container>
                           <ng-container *ngIf="field.type == 3 && field.lookupName && !field.minSearchCharacters">
-                            <select class="form-control no-icon" [(ngModel)]="field.model" *ngIf="field.lookupName">
-                              <option value="">Select</option>
+                            <select class="form-control no-icon"
+                                    [ngClass]="{'is-invalid': field.error}"
+                                    [(ngModel)]="field.model" *ngIf="field.lookupName">
+                              <option value="{{field.nullValue}}">Select {{field.nullDescription}}</option>
                               <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
                             </select>
+                            <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
                           </ng-container>
                           <ng-container *ngIf="field.type == 3 && field.lookupName && field.minSearchCharacters">
                             <p>Autcomplete container</p>
@@ -65,7 +76,22 @@
                         </div>
                       </div>
                     </div>
+                    <div class="reservation-bot-btns d-flex">
+                      <a href="javascript:void(0);" class="btn btn-success ml-auto" (click)="exportReport(true)">
+                        Open File
+                      </a>
+                      <button type="button" [disabled]="this.form.exportType.code <=0" class="btn btn-success ml-4" (click)="exportReport()" >Export</button>
+                      <label class="error text-danger" *ngIf="state.errors['code'] && (!form.exportType['code'] || form.exportType['code']<=0)">{{state.errors['code']}}</label>
+                      <div class="dropdown">
+                        <button class="btn btn-info dropdown-toggle plr-10 ml-2 exportOptions" type="button" id="dropdownMenuButton1" (click)="toggleExportDropdown($event)">
+                          {{this.form.exportType['label'] || 'Select'}}
+                        </button>
+                        <div class="dropdown-menu">
+                          <a href="javascript:void(0);" (click)="setExportType(type)" class="dropdown-item" *ngFor="let type of state.exportTypes">{{type.label}}</a>
+                        </div>
+                      </div>
 
+                    </div>
                   </div>
 
                 </div>
@@ -73,23 +99,40 @@
             </div>
           </div>
 
-          <div class="reservation-bot-btns d-flex">
-            <a href="javascript:void(0);" class="btn btn-danger">
-              Refresh
-            </a>
-            <button type="submit" class="btn btn-success ml-auto" (click)="exportReport()" >Export</button>
 
-            <div class="dropdown">
-              <button class="btn btn-info dropdown-toggle plr-10 ml-3 exportOptions" type="button" id="dropdownMenuButton1" (click)="toggleDropdown($event)">
-                {{this.form.exportType['label'] || 'Select'}}
-              </button>
-              <div class="dropdown-menu">
-                <a href="javascript:void(0);" (click)="setExportType(type)" class="dropdown-item" *ngFor="let type of state.exportTypes">{{type.label}}</a>
-              </div>
-            </div>
-
-          </div>
         </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-primary pdf-modal-trigger" data-toggle="modal" data-target="#myModal" style="opacity: 0; position: absolute; z-index: -1">
+  Launch demo modal
+</button>
+<div class="modal modal fade pdf-viewer" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" [ngClass]="{'in show': viewUrl}">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">{{state.modalTitle }}</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="viewUrl=''">×</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <ngx-extended-pdf-viewer
+          [(src)]="viewUrl"
+          [height]="'90vh'"
+          [useBrowserLocale]="true"
+          [textLayer]="true"
+          [showHandToolButton]="true">
+        </ngx-extended-pdf-viewer>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"  (click)="viewUrl=''" data-dismiss="modal">Close</button>
       </div>
 
     </div>

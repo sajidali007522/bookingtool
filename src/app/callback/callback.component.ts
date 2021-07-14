@@ -26,10 +26,9 @@ export class CallbackComponent implements OnInit {
 
   ngOnInit(): void {
     if(!this.error) {
+      let url = window.localStorage.getItem('last_visited')
       this.authService.completeAuthentication()
         .then(()=>{
-          let url = window.localStorage.getItem('last_visited')
-          console.log(">>>>>>>>>>>>>>>>>>>", url)
           if(url) {
             this.router.navigate([url])
           } else {

@@ -1,5 +1,6 @@
 <link type="text/css" rel="stylesheet" href="/assets/css/sidebar-overflow.css" />
 <link type="text/css" rel="stylesheet" href="/assets/css/banenr-placeholder.css" />
+<link type="text/css" rel="stylesheet" href="/assets/css/seats.css" />
 
 <div class="reservation-detail-wrap" *ngIf="state.processing">
   <app-loader [className]="'loader-reservation-results loader-lg'"></app-loader>
@@ -272,7 +273,7 @@
                     <tbody>
                     <tr *ngFor="let channel of row.bookingChannels; let channelIndex=index">
                       <td *ngFor="let price of channel.prices; let priceIndex=index" (load)="setSelectedValued(index, channelIndex, priceIndex, (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID))" [ngClass]="{'active': (price.values2.$selected || (state.replacement.priceId == price.values2.UniqueID && state.replacement.rowId == row.values2.UniqueID)), 'hidden': !price.values2.TotalPrice, 'processing': price.$isProcessing}" id="price_{{makeValidEleId(price.values2.UniqueID)}}">
-                        <a href="javascript:void(0)" class="selectMe" (click)="selectIt(row.values2, index, price, channel.prices)"
+                        <a href="javascript:void(0)" class="selectMe" (click)="selectIt(row, row.values2, index, price, channel.prices)"
                            *ngIf="price.values2.BasePrice"
                         >
                           <em>{{price.values2.GetFareNameShort}}</em>${{price.values2.TotalPrice}}
@@ -329,7 +330,7 @@
             <p>{{item.From}}</p>
             <p>{{item.To}}</p>
             <div class="booking-subtotal">
-              <span>{{item.cartPreview.Price.values2.GetFareNameShort}}</span> <strong>{{item.cartPreview.Price.values2.TotalPrice}}</strong>
+              <span>{{item.cartPreview.Price.values2.GetFareNameShort}}</span> <strong>${{item.cartPreview.Price.values2.TotalPrice}}</strong>
             </div>
           </li>
 
@@ -394,167 +395,17 @@
   </div>
 </div>
 
+<app-right-sidebar
+  [cart]="state.cart"
+  [bookedSegments]="state.segments"
+  page="list"
+  (removeItem)="deleteItemFromSelection($event)"
+  (replaceItem)="replaceItemFromSelection($event)"
+></app-right-sidebar>
 
-
-<div class="sidebar-overflow" [ngClass]="{'open': state.isSideBarOpen}">
-  <a href="javascript:void(0)" (click)="toggleSideBar()" class="sidebar-toogle">
-    <span class="fa fa-gear state-normal"></span>
-    <span class="close-x state-active"></span>
-  </a>
-  <div class="sidebar-overflow-inner">
-    <div class="sideov-title">
-      <h2>New Booking</h2>
-    </div>
-    <div class="side-topform">
-      <div class="mb-3 field-gray-wrap field-wrap">
-        <label>Add Traveler</label>
-        <div class="field-icon-wrap">
-          <span class="user field-icon mt-secon"></span><input class="form-control" placeholder="Search by last name, first name" type="text">
-        </div>
-      </div>
-      <div class="mb-3 field-gray-wrap field-wrap">
-        <label>Add / Replace</label>
-        <div class="field-icon-wrap">
-          <span class="fa fa-refresh field-icon mt-secon"></span><select class="form-control">
-            <option>Select Resources</option>
-          </select>
-        </div>
-      </div>
-      <input type="submit" class="btn btn-success btn-block" value="Add">
-    </div>
-
-
-    <nav>
-      <div class="nav nav-tabs" role="tablist">
-        <a class="nav-item nav-link active" data-toggle="tab" href="#content-aa" role="tab" aria-selected="true">Room</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#content-bb" role="tab" aria-selected="false">Selection</a>
-      </div>
-    </nav>
-    <div class="tab-content" id="nav-tabContent">
-      <div class="tab-pane fade show active" id="content-aa" role="tabpanel" aria-labelledby="content-aa">
-        <div class="detail-overinner">
-
-          <div class="accordion custom-accordion" id="accordionExample">
-            <div class="mb-1">
-              <div class="card-header" id="headingOne">
-                <h2 aria-expanded="false" class="accordion-link" data-target="#collaps-1" data-toggle="collapse">Add Room Tues, April 5 - 10 Jan</h2>
-              </div>
-              <div class="collapse show" data-parent="#accordionExample" id="collaps-1">
-                <div class="box position-relative">
-                  <a href="#" class="btn btn-sm btn-danger remove-acc">Remove <span class="fa fa-remove"></span></a>
-                  <div class="mb-1">
-                    <label>Date</label>
-                    <div class="field-wrap">
-                      <span class="fa fa-calendar-o"></span>
-                      <input class="form-control" type="text" value="">
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label>End Date</label>
-                    <div class="field-wrap">
-                      <span class="fa fa-calendar-o"></span>
-                      <input class="form-control" type="text" value="">
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label>Site</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                  <div class="mb-3">
-                    <label>Room Type</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                  <div class="mb-3">
-                    <label>Contract</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-
-                  <button data-target="#exampleModal2" data-toggle="modal" class="btn btn-primary btn-sm">Extra Info</button>
-
-                </div>
-              </div>
-            </div>
-            <div class="mb-1">
-              <div class="card-header" id="headingTwo">
-                <h2 aria-expanded="false" class="accordion-link collapsed" data-target="#collaps-2" data-toggle="collapse">Add Flight Mon, March 20 - 15 Jully</h2>
-              </div>
-              <div class="collapse" data-parent="#accordionExample" id="collaps-2">
-                <div class="box">
-                  <div class="mb-1">
-                    <label>Date</label>
-                    <div class="field-wrap">
-                      <span class="fa fa-calendar-o"></span>
-                      <input class="form-control" type="text" value="">
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label>End Date</label>
-                    <div class="field-wrap">
-                      <span class="fa fa-calendar-o"></span>
-                      <input class="form-control" type="text" value="">
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label>Site</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                  <div class="mb-3">
-                    <label>Room Type</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                  <div class="mb-3">
-                    <label>Contract</label>
-                    <input class="form-control" type="text" value="">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="content-bb" role="tabpanel" aria-labelledby="content-bb">
-        <div class="sidebar-cart-body">
-          <ul>
-            <li>
-              <h4>Westjet <a href="#" class="btn btn-sm btn-info">Remove</a></h4>
-              <h5>WS 115 Aug 24</h5>
-              <p>08:00 AM: Calgary Intl. Airport</p>
-              <p>08:00 AM: Vancouver Intl. Airport</p>
-              <div class="side-subtotal">
-                <span>Flex</span>
-                <strong class="stotal">$326.35</strong>
-              </div>
-            </li>
-            <li>
-              <h4>Westjet <a href="#" class="btn btn-sm btn-info">Remove</a></h4>
-              <h5>WS 115 Aug 24</h5>
-              <p>08:00 AM: Calgary Intl. Airport</p>
-              <p>08:00 AM: Vancouver Intl. Airport</p>
-              <div class="side-subtotal">
-                <span>Flex</span>
-                <strong class="stotal">$326.35</strong>
-              </div>
-            </li>
-            <li>
-              <h4>Westjet <a href="#" class="btn btn-sm btn-info">Remove</a></h4>
-              <h5>WS 115 Aug 24</h5>
-              <p>08:00 AM: Calgary Intl. Airport</p>
-              <p>08:00 AM: Vancouver Intl. Airport</p>
-              <div class="side-subtotal">
-                <span>Flex</span>
-                <strong class="stotal">$326.35</strong>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div><!-- sidebar-overflow -->
 
 <div class="modal modal-square fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-body p-0">
         <ul class="nav nav-tabs tabs-transparent text-center" id="myTab" role="tablist">
@@ -656,7 +507,7 @@
                   *Special Emergency filterResultSet
                   *Subject To Change At Anytime
                 </p>
-                
+
                 <h4>Changes</h4>
                 <p>
                   Any Time
@@ -747,7 +598,7 @@
                   *Special Emergency filterResultSet
                   *Subject To Change At Anytime
                 </p>
-                
+
                 <h4>Changes</h4>
                 <p>
                   Any Time
@@ -842,7 +693,7 @@
                   *Special Emergency filterResultSet
                   *Subject To Change At Anytime
                 </p>
-                
+
                 <h4>Changes</h4>
                 <p>
                   Any Time
@@ -902,7 +753,7 @@
               </div>
             </div>
           </div><!-- content-3 -->
-          
+
           <div class="tab-pane fade" id="content-4" role="tabpanel">
             <div class="tabs-secondary">
               <ul>
@@ -913,7 +764,7 @@
             </div>
             <div class="secondary-content-wrap">
               <div class="seat-table-wrap">
-                <table class="table table-responsive table-hover">
+                <table class="table table-responsive table-bordered">
                   <tr>
                     <th></th>
                     <th>4</th>
@@ -936,109 +787,113 @@
                     <th></th>
                   </tr>
                   <tr>
-                    <td>D</td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-disable"><span class="fa fa-close"></span></a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td>D</td>
+                    <td><span class="min-36">D</span></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-booked"><span class="seat-number">10</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-selected"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><span class="min-36">D</span></td>
                   </tr>
                   <tr>
-                    <td>C</td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-disable"><span class="fa fa-close"></span></a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td>C</td>
+                    <td><span class="min-36">C</span></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-booked"><span class="seat-number">10</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-selected"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><span class="min-36">C</span></td>
+                  </tr>
+
+                  <tr class="no-bdr">
+                    <td colspan="19"></td>
                   </tr>
 
                   <tr>
-                    <td>B</td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-disable"><span class="fa fa-close"></span></a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td>B</td>
+                    <td><span class="min-36">B</span></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-booked"><span class="seat-number">10</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-selected"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><span class="min-36">B</span></td>
                   </tr>
                   <tr>
-                    <td>A</td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-link">16</a></td>
-                    <td><a href="#" class="seat-disable"><span class="fa fa-close"></span></a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td><a href="#" class="seat-link">10</a></td>
-                    <td>A</td>
+                    <td><span class="min-36">A</span></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-booked"><span class="seat-number">10</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><a href="#" class="seat-area seat-available"><span class="seat-number">16</span></a></td>
+                    <td><span class="min-36">A</span></td>
                   </tr>
                   <tr>
                     <td></td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                    <td>10</td>
-                    <td>11</td>
-                    <td>12</td>
-                    <td>13</td>
-                    <td>14</td>
-                    <td>15</td>
-                    <td>16</td>
-                    <td>17</td>
-                    <td>18</td>
-                    <td>19</td>
-                    <td>20</td>
+                    <td><strong>4</strong></td>
+                    <td><strong>5</strong></td>
+                    <td><strong>6</strong></td>
+                    <td><strong>7</strong></td>
+                    <td><strong>8</strong></td>
+                    <td><strong>9</strong></td>
+                    <td><strong>10</strong></td>
+                    <td><strong>11</strong></td>
+                    <td><strong>12</strong></td>
+                    <td><strong>13</strong></td>
+                    <td><strong>14</strong></td>
+                    <td><strong>15</strong></td>
+                    <td><strong>16</strong></td>
+                    <td><strong>17</strong></td>
+                    <td><strong>18</strong></td>
+                    <td><strong>19</strong></td>
+                    <td><strong>20</strong></td>
                     <td></td>
                   </tr>
                 </table>
@@ -1047,10 +902,9 @@
               <div class="seat-botdetail">
                 <h3>Seat Map Legend</h3>
                 <ul>
-                  <li><strong>Available</strong> <span class="clr-present seat-available"></span></li>
-                  <li><strong>Premium</strong> <span class="clr-present seat-premium"></span></li>
-                  <li><strong>Unavailable</strong> <span class="clr-present seat-unavailable"></span></li>
-                  <li><strong>Exit Row</strong> <span class="clr-present seat-exit"></span></li>
+                  <li><strong>Available</strong> <span class="seat-area seat-available"></span></li>
+                  <li><strong>Selected</strong> <span class="seat-area seat-selected"></span></li>
+                  <li><strong>Booked</strong> <span class="seat-area seat-booked"></span></li>
                 </ul>
               </div>
 

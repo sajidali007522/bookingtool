@@ -603,7 +603,7 @@ export class HousekeepingComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   doneWithCrop () {
-    this.compressImage(this.croppedImage, 100, 100).then((compressed:any) => {
+    this.compressImage(this.croppedImage, 500, 500).then((compressed:any) => {
       //this.resizedBase64 = compressed;
       let image = compressed.split(",");
       //let image = this.croppedImage.split(",");

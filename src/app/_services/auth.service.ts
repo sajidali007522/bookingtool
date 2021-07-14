@@ -2,16 +2,21 @@ import { Injectable } from '@angular/core';
 
 import { UserManager, UserManagerSettings, User } from 'oidc-client';
 import {ConfigService} from "../config.service";
+import {UserService} from "./user.service";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {AuthService as _AuthService} from "../auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private version='api4';
   private manager = new UserManager(getClientSettings(this.appConfig.sso_config));
   private user: User = null;
 
-  constructor(private appConfig: ConfigService) {
+  constructor(private appConfig: ConfigService, private userService: UserService, private http: HttpClient,
+              private _auth:_AuthService) {
     this.manager.getUser().then(user => {
       this.user = user;
       this.setHeaderPermissions();
@@ -19,20 +24,24 @@ export class AuthService {
   }
   setHeaderPermissions() {
     if(this.isLoggedIn()) {
-      let modules = this.appConfig.modules.filter((item) => {
-        if (item.isAllowed) {
-          return item;
-        }
+      let headers = new HttpHeaders()
+        .set(this._auth.getAuthKey(), this._auth.getToken())
+        .set('Authorization', this.getAuthorizationHeaderValue());
+      this.http.get(`${this.appConfig.apiBaseUrl}${this.version}/UserSettings/SiteMap`,{
+        headers: headers
+      })
+        .subscribe((res)=>{
+          if(res['status'] == 200) {
+            this.user['modules'] = res['data'];
+            if (res['data'].length > 0) {
+              this.user['defaultPage'] = res['data'][0].link;
+            }
+          }
+          this.user['global_permissions'] = this.appConfig.global_permissions;
+          if (this.appConfig.global_permissions['show_home']) {
+            this.user['defaultPage'] = '/home'
+          }
       });
-      console.log(modules)
-      this.user['modules'] = modules;
-      this.user['global_permissions'] = this.appConfig.global_permissions;
-      if(modules.length > 0 ){
-        this.user['defaultPage'] = modules[0].url;
-      }
-      if(this.appConfig.global_permissions['show_home']){
-        this.user['defaultPage'] = '/home'
-      }
     }
   }
 
@@ -76,6 +85,22 @@ export class AuthService {
     //console.log(this.user)
     if(!this.user) return [];
     return this.user['modules'];
+  }
+
+  getMultiLanguage() {
+    return typeof this.user['global_permissions'] !="undefined" ? this.user['global_permissions']['multilingual'] : false;
+  }
+
+  getUserSettings() {
+    return typeof this.user['global_permissions'] != "undefined" ? this.user['global_permissions']['user_settings'] : false;
+  }
+
+  userProfile() {
+    return typeof this.user['global_permissions'] != "undefined" ? this.user['global_permissions']['user_profile'] : false;
+  }
+
+  themeSwitch() {
+    return typeof this.user['global_permissions'] != "undefined" ? this.user['global_permissions']['theme_switch'] : false;
   }
 
   getDefaultPage() {

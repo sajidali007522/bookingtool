@@ -12,9 +12,10 @@
   padding: 0;
 }
 .navbar-light .navbar-nav .nav-link{
+  font-size: 15px;
   color: #fff;
   font-weight: 600;
-  padding: 0 12px;
+  padding: 0 9px;
   height: 60px;
   line-height: 58px;
 }
@@ -26,7 +27,6 @@
   position: absolute;
   right: 0;
   top: 50%;
-  margin-top: -2px;
 }
 .navbar-light .navbar-nav .nav-link span,
 .navbar-light .navbar-nav .nav-link em{
@@ -66,9 +66,9 @@
     padding-left: 10px;
   }
   .navbar-light .navbar-nav .nav-link{
-    padding-left: 5px;
-    padding-right: 5px;
-    font-size: 14px;
+    padding-left: 1px;
+    padding-right: 0;
+    font-size: 13px;
   }
 }
 @media(max-width:991px){

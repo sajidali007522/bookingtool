@@ -60,4 +60,11 @@ export class ConfigService {
     }
     return typeof this.appConfig.baseUrl !== 'undefined' ? this.appConfig.baseUrl : '/';
   }
+
+  get environment(){
+    if (!this.appConfig) {
+      throw Error('Config file not loaded!');
+    }
+    return typeof this.appConfig.environment !== 'undefined' ? this.appConfig.environment : 'local';
+  }
 }

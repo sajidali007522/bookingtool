@@ -1,0 +1,98 @@
+<div class="sidebar-overflow" [ngClass]="{'open': state.isSideBarOpen}"  *ngIf="bookedSegments.length > 0">
+  <a href="javascript:void(0)" (click)="toggleSideBar()" class="sidebar-toogle">
+    <span class="fa fa-gear state-normal"></span>
+    <span class="close-x state-active"></span>
+  </a>
+  <div class="sidebar-overflow-inner">
+    <div class="sideov-title">
+      <h2>New Booking</h2>
+    </div>
+
+    <div class="side-topform" *ngIf="page != 'list'">
+      <div class="mb-1">
+        <input type="text" class="form-control" placeholder="Add Traveler." />
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav nav-tabs" role="tablist">
+        <a class="nav-item nav-link active" data-toggle="tab" href="#content-bb" role="tab" aria-selected="false" *ngIf="page != 'list'">Selection</a>
+        <a class="nav-item nav-link" href="javascript:void(0)" data-target="#exampleModal" data-toggle="modal" aria-selected="true" *ngIf="page != 'list'">Add/Replace</a>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade" id="content-aa" role="tabpanel" aria-labelledby="content-aa"  *ngIf="page != 'list'">
+        <div class="mb-1">
+          <button class="btn btn-primary pull-right" data-target="#exampleModal" data-toggle="modal">Add/Replace</button>
+        </div>
+        <div class="input-group mb-4">
+          <select class="form-control" [(ngModel)]="form.resourceTypeID">
+            <option value="00000000-0000-0000-0000-000000000000">Select Resources</option>
+            <option value="{{resource.value}}" *ngFor="let resource of state.addableResourceTypes">{{resource.text}}</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-success" (click)="loadCriteriaDefinitions()"> <span class="fa fa-plus"></span> Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade show active" id="content-bb" role="tabpanel" aria-labelledby="content-bb">
+        <div class="sidebar-cart-body">
+          <ul>
+            <ng-container *ngFor="let segment of bookedSegments;let segmentIndex=index">
+              <ng-container *ngIf="segment.resourceName != 'Room'">
+                <li *ngFor="let seg of segment.segments; let i=index"
+                    [ngClass]="{'isStopover': !seg.isStopover}"
+                >
+                  <div class="side-title-wrap">
+                    <h4>
+                      <img src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}
+                    </h4>
+                    <div class="side-title-btns">
+                      <ng-container *ngIf="i==0 && page == 'list'">
+                        <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="removeItemFromCart(segmentIndex, segment)">Remove</a>
+                        <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="reselectResource(segmentIndex, segment)">Replace</a>
+                      </ng-container>
+                    </div>
+                  </div>
+
+                  <h5>
+                    {{seg.identifier}}
+                    <span>{{dateParse.formatDateForCart(seg.beginDate)}}</span>
+                    <span *ngIf="seg.beingDate<seg.endDate">{{dateParse.formatDateForCart(seg.endDate)}}</span>
+                  </h5>
+                  <p>{{userService.getSettingByProp('timeFormat') == '' ? dateParse.formatDateBy12HourTime(seg.beginDate) : dateParse.parseDateToTime(seg.beginDate)}} : {{seg.from}}</p>
+                  <p>{{userService.getSettingByProp('timeFormat') == '' ? dateParse.formatDateBy12HourTime(seg.endDate) : dateParse.parseDateToTime(seg.endDate)}} : {{seg.to}}</p>
+                  <div class="booking-subtotal" *ngIf="i==(segment.segments.length-1) && segment.totalPrice">
+                    <span>{{segment.priceName}}</span><strong>{{segment.totalPrice}}</strong>
+                  </div>
+                  <span *ngIf="!seg.isStopover">{{dateParse.calculateDifferenceInTime(seg.endDate, bookedSegments[segmentIndex].segments[(i+1)].beginDate)}}</span>
+                </li>
+              </ng-container>
+              <ng-container *ngIf="segment.resourceName == 'Room'">
+                <li>
+                  <h4><img *ngIf="segment.providerLogoUrl" src="{{segment.providerLogoUrl}}" width="20"/>{{segment.resourceName}}
+                    <ng-container *ngIf="page == 'list'">
+                      <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="removeItemFromCart(segmentIndex, segment)">Remove</a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="reselectResource(segmentIndex, segment)">Replace</a>
+                    </ng-container>
+                  </h4>
+                  <h5>
+                    <span>{{dateParse.formatDateForCart(segment.beginDate)}}</span>
+                    <span *ngIf="segment.beingDate<segment.endDate">{{dateParse.formatDateForCart(segment.endDate)}}</span>
+                  </h5>
+                  <p *ngFor="let field of segment.searchProperties">
+                    {{field.fieldName}} : {{field.selection}}
+                  </p>
+                  <div class="booking-subtotal" *ngIf="segment.totalPrice">
+                    <span>{{segment.priceName}}</span><strong>{{segment.totalPrice}}</strong>
+                  </div>
+                </li>
+              </ng-container>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- sidebar-overflow -->

@@ -1,4 +1,5 @@
 <link type="text/css" rel="stylesheet" href="/assets/css/reservation.css" />
+<link type="text/css" rel="stylesheet" href="/assets/css/sidebar-overflow.css" />
 
 <div class="overlay-bg"></div>
 
@@ -56,7 +57,7 @@
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New Booking</h5><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+        <h5 class="modal-title" id="exampleModalLabel">New Booking 2</h5><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body p-0">
         <div class="modal-topbar form-primary form-grey">
@@ -322,7 +323,7 @@
 </div>
 
 
-<div class="booking-article-bot" *ngIf="state.bookedSegments.length>0">
+<div class="booking-article-bot" *ngIf="state.bookedSegments.length>0 && false">
   <!-- <a href="javascript:void(0);" class="new-booking"><span></span></a> -->
   <a href="javascript:void(0);" *ngIf="!state.bookingContentArea" (click)="toggleBookingContentArea(true);" class="new-booking">
   </a>
@@ -380,3 +381,12 @@
     </div>
   </div>
 </div>
+
+<app-right-sidebar
+  [cart]="[]"
+  [bookedSegments]="state.bookedSegments"
+  [form] = "form"
+  (loadCriteriaDefinition)="loadCriteriaDefinitions($event)"
+  [state] = "state"
+  page="bf"
+></app-right-sidebar>

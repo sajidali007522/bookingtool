@@ -142,7 +142,11 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
 
     //accordion_3
   }
-  loadCriteriaDefinitions(){
+  loadCriteriaDefinitions(event=''){
+    if(event){
+      event = JSON.parse(event)
+      this.form= event['form'];
+    }
     if(this.state.loadingTemplate) return
     this.state.loadingTemplate = true
     this.resService.loadCriteriaDefinitions(this.state.bookingID, this.form.resourceTypeID, {
@@ -150,6 +154,11 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
     })
       .subscribe(res=>{
         if(res['status'] == 200) {
+          if(this.resources.length>0) {
+            for (let index = 0; index < this.resources.length; index++) {
+              this.resources[index]['isOpen'] = false;
+            }
+          }
           this.resources.push(res['data']);
           //this.state.selectedTemplate['resources'].push(res['data']['resources'])
           this.setResourcesDate((this.resources.length-1));
@@ -159,8 +168,10 @@ export class BusinessProfileComponent implements OnInit,AfterViewInit, AfterView
         err=>{
           this.state.loadingTemplate = false;
         },
-        ()=>{this.state.loadingTemplate = false}
-        )
+        ()=>{this.state.loadingTemplate = false
+          this.form.resourceTypeID = '00000000-0000-0000-0000-000000000000'
+        }
+      )
   }
   setProfile(){
     //​/api2​/booking​/{bookingID}​/Reporting

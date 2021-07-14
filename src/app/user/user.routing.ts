@@ -3,8 +3,7 @@ import { ModuleWithProviders } from '@angular/core'
 
 import {SettingsComponent} from "./components/settings/settings.component";
 import {AuthGuardService} from "../_services/auth-guard.service";
-
-
+import {AuthGuard} from "../_helpers/auth.guard";
 
 export const routes: Routes = [
   { path: 'settings', component:SettingsComponent, canActivate: [AuthGuardService]  }, // default route of the module

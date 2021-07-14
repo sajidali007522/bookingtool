@@ -9,12 +9,17 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li *ngIf="showHomePage()" class="nav-item"><a class="nav-link" routerLink="{{'/home'}}"><span>Home</span></a></li>
-          <li class="nav-item dropdown" *ngIf="(showHomePage() && navItems.length > 0) || navItems.length > 1">
-            <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span>Pages</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-              <a *ngFor="let module of navItems" class="dropdown-item" href="javascript:void(0)" routerLink="{{module.url}}">{{module.title}}</a>
+          <li class="nav-item" [ngClass]="{'dropdown': item.children.length > 0}" *ngFor="let item of navItems" >
+            <a href="javascript:void(0)" class="nav-link" [ngClass]="{'dropdown-toggle': item.children.length > 0 }"
+               [attr.data-toggle] = "item.children.length > 0 ? 'dropdown' : ''"
+               [attr.role]="item.children.length > 0 ? 'button' : ''"
+               [attr.aria-haspopup]="item.children.length > 0 ? true : ''"
+               [attr.aria-expanded]="item.children.length > 0 ? false : ''"
+               [routerLink]="[item.link.toLowerCase()]"><span>{{item.label}}</span></a>
+
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown1" *ngIf="item.children.length > 0">
+              <a *ngFor="let child of item.children" class="dropdown-item" href="javascript:void(0)" [routerLink]="[child.link.toLowerCase()]">
+                {{child.label}}</a>
             </div>
           </li>
         </ul>

@@ -22,14 +22,14 @@
     "user_settings": false,
     "user_profile": false,
     "theme_switch": true,
-    "show_home": false
+    "show_home": true
   },
   "modules": [
-    {"title": "Availability", "url": "/availability", "isAllowed": false},
-    {"title": "Flight Setup", "url": "/flight-setup", "isAllowed": false},
+    {"title": "Availability", "url": "/availability", "isAllowed": true},
+    {"title": "Flight Setup", "url": "/flight-setup", "isAllowed": true},
     {"title": "HouseKeeping", "url": "/housekeeping", "isAllowed": true},
-    {"title": "Reservation", "url": "/reservation", "isAllowed": false},
-    {"title": "Manage Reservation", "url": "/manage/reservation", "isAllowed": false},
+    {"title": "Reservation", "url": "/reservation", "isAllowed": true},
+    {"title": "Manage Reservation", "url": "/manage/reservation", "isAllowed": true},
     {"title": "Reports", "url": "/reports/Housekeeping", "isAllowed": true}
   ]
 }
