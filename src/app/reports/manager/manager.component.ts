@@ -168,7 +168,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       validated=false;
       return;
     }
-    if(this.form.exportType['code']<0){
+    if(this.form.exportType['code']<=0){
       this.state.errors['code'] = 'please select export file type.'
       validated=false;
       return;

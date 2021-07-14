@@ -80,8 +80,8 @@
                       <a href="javascript:void(0);" class="btn btn-danger ml-auto" (click)="exportReport(true)">
                         Open file
                       </a>
-                      <button type="button" [disabled]="this.form.exportType.code <0" class="btn btn-success ml-4" (click)="exportReport()" >Export</button>
-                      <label class="error text-danger" *ngIf="state.errors['code'] && (!form.exportType['code'] || form.exportType['code']<0)">{{state.errors['code']}}</label>
+                      <button type="button" [disabled]="this.form.exportType.code <=0" class="btn btn-success ml-4" (click)="exportReport()" >Export</button>
+                      <label class="error text-danger" *ngIf="state.errors['code'] && (!form.exportType['code'] || form.exportType['code']<=0)">{{state.errors['code']}}</label>
                       <div class="dropdown">
                         <button class="btn btn-info dropdown-toggle plr-10 ml-3 exportOptions" type="button" id="dropdownMenuButton1" (click)="toggleExportDropdown($event)">
                           {{this.form.exportType['label'] || 'Select'}}
