@@ -1390,6 +1390,9 @@ body.menu-fullwidth .reservation-content-area{
 .lb-nav a.lb-next{
   opacity: 1;
 }
+.pdf-viewer .zoom{
+  height: 600px !important;
+}
 .not-show{
   display: none;
 }
@@ -1636,6 +1639,9 @@ body.menu-fullwidth .reservation-content-area{
   .input-full-mobile .flex-automate{
       display: block;
       width: 100%;
+  }
+  .pdf-viewer .zoom{
+    height: 300px !important;
   }
 }
 
