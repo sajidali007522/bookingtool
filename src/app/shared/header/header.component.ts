@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     this.custom_configs = this.appConfigService.ui_configs || {};
     this.currentUser = this.authService.getUser();
     this.page = this.router.url
-    //console.log(this.page);
+    console.log(this.page);
     //console.log(this.currentUser);
   }
 
@@ -117,8 +117,8 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
 
   haveSideBar () {
     let noSideBarPages = ['home', 'reservation', 'flight-setup', 'business-profile', 'booking', 'reports']
-    let pageChunks = this.page.split("/");
-    console.log(pageChunks)
+    let pageChunks = this.router.url.split("/");
+    console.log(this.router.url, pageChunks)
     return noSideBarPages.indexOf(pageChunks[1]) == -1
   }
 
