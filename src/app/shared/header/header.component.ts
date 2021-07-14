@@ -116,9 +116,9 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   }
 
   haveSideBar () {
-    let noSideBarPages = ['home', 'reservation', 'flight-setup', 'business-profile', 'booking']
+    let noSideBarPages = ['home', 'reservation', 'flight-setup', 'business-profile', 'booking', 'reports']
     let pageChunks = this.page.split("/");
-    //console.log(pageChunks)
+    console.log(pageChunks)
     return noSideBarPages.indexOf(pageChunks[1]) == -1
   }
 
