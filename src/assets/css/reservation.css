@@ -403,6 +403,12 @@ img{
 .reservation-bot-btns .btn{
     padding: 8px 30px;
 }
+.reservation-bot-btns .btn:disabled{
+    background: #dddddd !important;
+    border-color: #dddddd;
+    color: #666;
+    cursor: not-allowed;
+}
 
 @media(max-width: 991px){
     .custom-section-wrap{
@@ -494,5 +500,16 @@ img{
     .accordion-sm .accordion-link .confirmed-msg{
         display: block;
         margin: 5px 0 0;
+    }
+    .reservation-bot-btns .btn{
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+    .field-wrap select.form-control,
+    .field-wrap option{
+        word-break: break-all;
+    }
+    .field-wrap option{
+        font-size: 12px;
     }
 }
