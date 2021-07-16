@@ -251,4 +251,13 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
       }
     });
   }
+
+  resetForm() {
+    this.form.template = ""
+    for(var index=0; index<this.reportTemplate['reportFields'].length; index++) {
+      this.reportTemplate['reportFields'][index]['model'] = this.reportTemplate['reportFields'][index]['nullValue']
+    }
+    this.viewUrl = ''
+    this.state.isModifiedForm = true;
+  }
 }
