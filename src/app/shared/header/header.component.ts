@@ -158,6 +158,14 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     }
 
   }
+  handleMenuBarOnCell($event) {
+    if(this.appConfigService['userDevice'] == 'mobile'){
+      if($($event.target).next('.dropdown-menu').length == 0) {
+        $($event.target).parents('.nav-wrap').find('.navbar-toggler').trigger('click')
+      }
+    }
+    return false
+  }
 
 
 
