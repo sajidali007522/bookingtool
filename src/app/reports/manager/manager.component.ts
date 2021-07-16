@@ -29,11 +29,13 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     reportFields: [],
     displayName: 'N/A'
   }
+  openModal=false;
   form ={
     template:'',
     exportType:{ code: -1}
   }
   state={
+    isModifiedForm: true,
     modalTitle: '',
     manager: '',
     loading: false,
@@ -121,6 +123,10 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   }
 
   exportReport (viewPdf=false) {
+    if(this.viewUrl && !this.state.isModifiedForm) {
+      this.openModal = true;
+      return;
+    }
     if(this.state.loading) return;
 
     if(!this.validateForm(viewPdf)){
@@ -141,8 +147,10 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
             if(!viewPdf) {
               window.open(res['data']['fileUrl'], '_blank');
             } else {
+              this.state.isModifiedForm = false;
+              this.openModal = true
               this.viewUrl = res['data']['fileUrl']
-              $(document).find(".pdf-modal-trigger").trigger("click");//.css({'display':'block'});
+              //$(document).find(".pdf-modal-trigger").trigger("click");//.css({'display':'block'});
             }
           }
         },

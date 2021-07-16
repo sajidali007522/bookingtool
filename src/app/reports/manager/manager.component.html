@@ -51,7 +51,7 @@
                                    name="departure_date"
                                    autocomplete="off"
                                    class="form-control"
-                                   (blur)="setFieldData(field, $event)"
+                                   (blur)="setFieldData(field, $event); state.isModifiedForm = false"
                                    [ngClass]="{'is-invalid': field.error}"
                             />
                             <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
@@ -64,7 +64,9 @@
                           <ng-container *ngIf="field.type == 3 && field.lookupName && !field.minSearchCharacters">
                             <select class="form-control no-icon"
                                     [ngClass]="{'is-invalid': field.error}"
-                                    [(ngModel)]="field.model" *ngIf="field.lookupName">
+                                    [(ngModel)]="field.model" *ngIf="field.lookupName"
+                                    (ngModelChange)="state.isModifiedForm=true"
+                            >
                               <option value="{{field.nullValue}}">Select {{field.nullDescription}}</option>
                               <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
                             </select>
@@ -106,17 +108,14 @@
     </div>
   </div>
 </div>
-<button type="button" class="btn btn-primary pdf-modal-trigger" data-toggle="modal" data-target="#myModal" style="opacity: 0; position: absolute; z-index: -1">
-  Launch demo modal
-</button>
-<div class="modal modal fade pdf-viewer" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" [ngClass]="{'in show': viewUrl}">
+<div class="modal modal fade pdf-viewer" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" [ngClass]="{'in show': openModal}" [ngStyle]="{'display': (openModal? 'block': 'none')}">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">{{state.modalTitle }}</h4>
-        <button type="button" class="close" data-dismiss="modal" (click)="viewUrl=''">×</button>
+        <button type="button" class="close" data-dismiss="modal" (click)="openModal=false">×</button>
       </div>
 
       <!-- Modal body -->
@@ -132,7 +131,7 @@
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger"  (click)="viewUrl=''" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger"  (click)="openModal=false" data-dismiss="modal">Close</button>
       </div>
 
     </div>
