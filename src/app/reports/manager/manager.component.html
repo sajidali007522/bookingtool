@@ -22,7 +22,9 @@
                   <div class="form-primary">
                     <label>Report<span class="text-danger">*</span> </label>
                     <div class="field-wrap">
-                      <select class="form-control" [ngClass]="{'is-invalid': state.errors['template'] && form.template == ''}" [(ngModel)]="form.template" (ngModelChange)="setModalTitle()">
+                      <select class="form-control" [ngClass]="{
+                        'is-invalid': state.errors['template'] && form.template == ''
+                        }" [(ngModel)]="form.template" (ngModelChange)="setModalTitle()">
                         <option value="">Select Report</option>
                           <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
                       </select>
@@ -37,8 +39,12 @@
                         <div class="field-wrap">
                           <ng-container *ngIf="field.type == 0">
                             <input type="text" class="form-control"
-                                   [ngClass]="{'is-invalid': field.error}" [(ngModel)]="field.model" />
+                                   [ngClass]="{
+                                   'is-invalid': field.error,
+                                    'has-icon': field.loading
+                                   }" [(ngModel)]="field.model" />
                             <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
+                            <span class="fa fa-spin fa-spinner" *ngIf="field.loading"></span>
                           </ng-container>
                           <ng-container *ngIf="field.type == 1"> <!--Date-->
                             <input type="text"
@@ -63,7 +69,8 @@
                           </ng-container>
                           <ng-container *ngIf="field.type == 3 && field.lookupName && !field.minSearchCharacters">
                             <select class="form-control no-icon"
-                                    [ngClass]="{'is-invalid': field.error}"
+                                    [ngClass]="{'is-invalid': field.error,
+                                    'has-icon': field.loading}"
                                     [(ngModel)]="field.model" *ngIf="field.lookupName"
                                     (ngModelChange)="state.isModifiedForm=true"
                             >
@@ -71,6 +78,7 @@
                               <option *ngFor="let item of field.options" [value]="item.value">{{item.text}}</option>
                             </select>
                             <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
+                            <span class="fa fa-spin fa-spinner" *ngIf="field.loading"></span>
                           </ng-container>
                           <ng-container *ngIf="field.type == 3 && field.lookupName && field.minSearchCharacters">
                             <p>Autcomplete container</p>

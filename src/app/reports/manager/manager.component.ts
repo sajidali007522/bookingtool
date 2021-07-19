@@ -84,6 +84,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
           //this.form.templateId = this.reportTemplate['reportTemplates'][0]['templateId'];
           for(let index=0; index<res['data']['reportFields'].length; index++){
               if(res['data']['reportFields'][index]['lookupName'] && !res['data']['reportFields'][index].minSearchCharacters) {
+                this.reportTemplate['reportFields'][index]['loading'] = true
                   this.lookupSer.hitLookup(res['data']['reportFields'][index]['lookupName'], {criteria: res['data']['reportFields'][index]['lookupCriteria']})
                     .subscribe(res => {
                       this.reportTemplate['reportFields'][index]['loading'] = false
