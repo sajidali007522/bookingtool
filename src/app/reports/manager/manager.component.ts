@@ -39,6 +39,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
     modalTitle: '',
     manager: '',
     loading: false,
+    viewPdf: false,
     errors: {},
     exportTypes:[
       {label: 'Excel', code: 1},
@@ -146,6 +147,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
           }
           if(res['success']){
             if(!viewPdf) {
+              this.state.viewPdf = false;
               //window.location.href = res['data']['fileUrl']; //, '_blank');
               var a = document.createElement('a');
               a.setAttribute('href', res['data']['fileUrl']);
@@ -159,6 +161,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
             } else {
               this.state.isModifiedForm = false;
               this.openModal = true
+              this.state.viewPdf = true;
               this.viewUrl = res['data']['fileUrl']
               //$(document).find(".pdf-modal-trigger").trigger("click");//.css({'display':'block'});
             }

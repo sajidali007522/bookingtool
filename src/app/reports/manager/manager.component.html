@@ -88,7 +88,7 @@
                       </div>
                     </div>
                     <div class="reservation-bot-btns d-flex">
-                      <p *ngIf="viewUrl && !openModal">
+                      <p *ngIf="viewUrl && !state.viewPdf">
                         if download has not started yet <a href="{{viewUrl}}" target="_blank">click here</a> to download it
                       </p>
                       <a href="javascript:void(0)" class="btn btn-default btn-danger" (click)="resetForm()">
