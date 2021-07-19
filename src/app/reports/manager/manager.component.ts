@@ -123,7 +123,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   }
 
   exportReport (viewPdf=false) {
-    if(this.viewUrl && !this.state.isModifiedForm) {
+    if(this.viewUrl && viewPdf && !this.state.isModifiedForm) {
       this.openModal = true;
       return;
     }
@@ -145,7 +145,16 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
           }
           if(res['success']){
             if(!viewPdf) {
-              window.open(res['data']['fileUrl'], '_blank');
+              //window.location.href = res['data']['fileUrl']; //, '_blank');
+              var a = document.createElement('a');
+              a.setAttribute('href', res['data']['fileUrl']);
+              a.setAttribute('target', "_blank");
+              a.setAttribute('download', res['data']['fileUrl']);
+
+              var aj = $(a);
+              aj.appendTo('body');
+              aj[0].click();
+              aj.remove();
             } else {
               this.state.isModifiedForm = false;
               this.openModal = true
@@ -255,7 +264,10 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   resetForm() {
     this.form.template = ""
     for(var index=0; index<this.reportTemplate['reportFields'].length; index++) {
-      this.reportTemplate['reportFields'][index]['model'] = this.reportTemplate['reportFields'][index]['nullValue']
+      this.reportTemplate['reportFields'][index]['model'] = this.reportTemplate['reportFields'][index]['nullValue'];
+      if(this.reportTemplate['reportFields'][index].type == 1) {
+        this.reportTemplate['reportFields'][index]['model'] = new Date()
+      }
     }
     this.viewUrl = ''
     this.state.isModifiedForm = true;
