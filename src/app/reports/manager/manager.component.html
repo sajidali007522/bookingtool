@@ -24,7 +24,7 @@
                     <div class="field-wrap">
                       <select class="form-control" [ngClass]="{
                         'is-invalid': state.errors['template'] && form.template == ''
-                        }" [(ngModel)]="form.template" (ngModelChange)="setModalTitle()">
+                        }" [(ngModel)]="form.template" (ngModelChange)="setModalTitle()" [disabled]="state.loading">
                         <option value="">Select Report</option>
                           <option *ngFor="let template of reportTemplate['reportTemplates']" [value]="template.templateID">{{template.name}}</option>
                       </select>
@@ -42,7 +42,7 @@
                                    [ngClass]="{
                                    'is-invalid': field.error,
                                     'has-icon': field.loading
-                                   }" [(ngModel)]="field.model" />
+                                   }" [(ngModel)]="field.model"  [disabled]="field.loading"/>
                             <label class="error text-danger" *ngIf="field.error">{{field.error}}</label>
                             <span class="fa fa-spin fa-spinner" *ngIf="field.loading"></span>
                           </ng-container>
@@ -71,6 +71,7 @@
                             <select class="form-control no-icon"
                                     [ngClass]="{'is-invalid': field.error,
                                     'has-icon': field.loading}"
+                                    [disabled]="field.loading"
                                     [(ngModel)]="field.model" *ngIf="field.lookupName"
                                     (ngModelChange)="state.isModifiedForm=true"
                             >
