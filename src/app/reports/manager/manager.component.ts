@@ -263,7 +263,7 @@ export class ManagerComponent implements OnInit, AfterViewChecked {
   }
 
   resetForm() {
-    this.form.template =  this.reportTemplate['reportTemplates']['templateID']
+    this.form.template =  this.reportTemplate['reportTemplates'][0]['templateID']
     for(var index=0; index<this.reportTemplate['reportFields'].length; index++) {
       this.reportTemplate['reportFields'][index]['model'] = this.reportTemplate['reportFields'][index]['nullValue'];
       if(this.reportTemplate['reportFields'][index].type == 1) {
