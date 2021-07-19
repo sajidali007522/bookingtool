@@ -87,13 +87,13 @@
                       </div>
                     </div>
                     <div class="reservation-bot-btns d-flex">
-                      <a href="javascript:void(0)" class="btn btn-default btn-primary" (click)="resetForm()">
+                      <a href="javascript:void(0)" class="btn btn-default btn-danger" (click)="resetForm()">
                         Reset
                       </a>
                       <a href="javascript:void(0);" class="btn btn-success ml-auto" (click)="exportReport(true)">
                         Open File
                       </a>
-                      <button type="button" [disabled]="this.form.exportType.code <=0" class="btn btn-success ml-4" (click)="exportReport()" >Export</button>
+                      <button type="button" [disabled]="this.form.exportType.code <=0" class="btn btn-success ml-2" (click)="exportReport()" >Export</button>
                       <label class="error text-danger" *ngIf="state.errors['code'] && (!form.exportType['code'] || form.exportType['code']<=0)">{{state.errors['code']}}</label>
                       <div class="dropdown">
                         <button class="btn btn-info dropdown-toggle plr-10 ml-2 exportOptions" type="button" id="dropdownMenuButton1" (click)="toggleExportDropdown($event)">
